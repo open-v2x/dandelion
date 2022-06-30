@@ -129,6 +129,7 @@ dmypy.json
 .pyre/
 
 # Dandelion
+.git
 etc/dandelion/dandelion.conf
 mypy-report/
 AUTHORS

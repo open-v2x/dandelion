@@ -1,0 +1,10 @@
+# The order of packages is significant, because pip processes them in the order
+# of appearance. Changing the order has an impact on the overall integration
+# process, which may cause wedges in the gate later.
+
+flake8>=4.0.1 # MIT
+isort>=5.10.1 # MIT
+black>=22.3.0 # MIT
+mypy>=0.961 # MIT
+lxml>=4.9.0 # BSD
+pytest>=7.1.2 # MIT
