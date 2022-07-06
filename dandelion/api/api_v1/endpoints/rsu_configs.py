@@ -67,18 +67,18 @@ def create(
             rsus.append(rus_in_db)
 
     try:
-        config_in_db = crud.rsu_config.create_rsu_config(db, obj_in=rsu_config_in, rsus=rsus)
+        rsu_config_in_db = crud.rsu_config.create_rsu_config(db, obj_in=rsu_config_in, rsus=rsus)
     except sql_exc.IntegrityError as ex:
         LOG.error(ex.args[0])
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=ex.args[0])
 
     # config down
-    data = config_in_db.mqtt_dict()
+    data = rsu_config_in_db.mqtt_dict()
     data["ack"] = False
     for rsu in rsus:
         config_down(data, rsu.rsu_esn)
 
-    return config_in_db.to_dict()
+    return rsu_config_in_db.to_dict()
 
 
 @router.delete(
@@ -227,4 +227,11 @@ def update(
     except (sql_exc.DataError, sql_exc.IntegrityError) as ex:
         LOG.error(ex.args[0])
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=ex.args[0])
+
+    # config down
+    data = new_rsu_config_in_db.mqtt_dict()
+    data["ack"] = False
+    for rsu in rsus:
+        config_down(data, rsu.rsu_esn)
+
     return new_rsu_config_in_db.to_dict()
