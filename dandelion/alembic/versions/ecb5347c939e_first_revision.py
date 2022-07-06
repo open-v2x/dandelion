@@ -17,9 +17,9 @@
 
 """first revision
 
-Revision ID: 2866653a5623
+Revision ID: ecb5347c939e
 Revises: 
-Create Date: 2022-07-05 15:56:30.701441
+Create Date: 2022-07-06 16:53:03.800611
 
 """
 
@@ -29,7 +29,7 @@ import sqlalchemy as sa
 from alembic import op
 
 # revision identifiers, used by Alembic.
-revision = '2866653a5623'
+revision = 'ecb5347c939e'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -108,7 +108,7 @@ def upgrade():
     sa.Column('rsu_id', sa.String(length=64), nullable=False),
     sa.Column('rsu_esn', sa.String(length=64), nullable=False),
     sa.Column('rsu_name', sa.String(length=64), nullable=False),
-    sa.Column('rsu_status', sa.String(length=64), nullable=False),
+    sa.Column('rsu_status', sa.String(length=4), nullable=False),
     sa.Column('version', sa.String(length=64), nullable=False),
     sa.Column('location', sa.JSON(), nullable=False),
     sa.Column('config', sa.JSON(), nullable=False),
@@ -208,7 +208,7 @@ def upgrade():
     sa.Column('rsu_ip', sa.String(length=64), nullable=False),
     sa.Column('rsu_name', sa.String(length=64), nullable=False),
     sa.Column('version', sa.String(length=64), nullable=False),
-    sa.Column('rsu_status', sa.Boolean(), nullable=False),
+    sa.Column('rsu_status', sa.String(length=4), nullable=False),
     sa.Column('location', sa.JSON(), nullable=False),
     sa.Column('config', sa.JSON(), nullable=False),
     sa.Column('online_status', sa.Boolean(), nullable=False),

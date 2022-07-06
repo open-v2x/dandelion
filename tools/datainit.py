@@ -96,7 +96,7 @@ def init_db() -> None:
     rsu1.rsu_name = "RSU01"
     rsu1.rsu_ip = "192.168.0.102"
     rsu1.version = "v1"
-    rsu1.rsu_status = True
+    rsu1.rsu_status = "正常"
     rsu1.online_status = False
     rsu1.location = {}
     rsu1.config = {}

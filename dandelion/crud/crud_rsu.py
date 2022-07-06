@@ -22,7 +22,7 @@ from sqlalchemy.orm import Session
 
 from dandelion.crud.base import CRUDBase
 from dandelion.crud.utils import get_mng_default
-from dandelion.models import RSU
+from dandelion.models import RSU, RSUTMP
 from dandelion.schemas import RSUCreate, RSUUpdate, RSUUpdateWithStatus, RSUUpdateWithVersion
 
 
@@ -57,12 +57,14 @@ class CRUDRSU(CRUDBase[RSU, RSUCreate, RSUUpdate]):
         db.refresh(db_obj)
         return db_obj
 
-    def create(self, db: Session, *, obj_in: RSUCreate) -> RSU:
+    def create_rsu(
+        self, db: Session, *, obj_in: RSUCreate, rsu_tmp_in_db: Optional[RSUTMP]
+    ) -> RSU:
         obj_in_data = jsonable_encoder(obj_in, by_alias=False)
-        obj_in_data["version"] = ""
-        obj_in_data["location"] = {}
-        obj_in_data["config"] = {}
-        obj_in_data["rsu_status"] = True
+        obj_in_data["version"] = "" if rsu_tmp_in_db is None else rsu_tmp_in_db.version
+        obj_in_data["location"] = {} if rsu_tmp_in_db is None else rsu_tmp_in_db.location
+        obj_in_data["config"] = {} if rsu_tmp_in_db is None else rsu_tmp_in_db.config
+        obj_in_data["rsu_status"] = "" if rsu_tmp_in_db is None else rsu_tmp_in_db.rsu_status
         obj_in_data["online_status"] = False
         obj_in_data["mng"] = get_mng_default()
         db_obj = self.model(**obj_in_data)
@@ -87,7 +89,7 @@ class CRUDRSU(CRUDBase[RSU, RSUCreate, RSUUpdate]):
         rsu_esn: Optional[str] = None,
         area_code: Optional[str] = None,
         online_status: Optional[bool] = None,
-        rsu_status: Optional[bool] = None,
+        rsu_status: Optional[str] = None,
     ) -> Tuple[int, List[RSU]]:
         query_ = db.query(self.model)
         if rsu_name is not None:

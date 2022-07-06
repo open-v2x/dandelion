@@ -48,7 +48,7 @@ class RSUBase(BaseModel):
     area_code: str = Field(..., alias="areaCode", description="Area Code")
     area_name: str = Field(..., alias="areaName", description="Area Name")
     address: str = Field(..., alias="address", description="Address")
-    rsu_status: bool = Field(..., alias="rsuStatus", description="RSU Status")
+    rsu_status: str = Field(..., alias="rsuStatus", description="RSU Status")
     online_status: bool = Field(..., alias="onlineStatus", description="Online Status")
     rsu_model_id: Optional[int] = Field(None, alias="rsuModelId", description="RSU Model ID")
     desc: Optional[str] = Field(None, alias="desc", description="Description")
@@ -81,7 +81,7 @@ class RSUUpdate(BaseModel):
     address: Optional[str] = Field(None, alias="address", description="Address")
     rsu_model_id: Optional[int] = Field(None, alias="rsuModelId", description="RSU Model ID")
     desc: Optional[str] = Field(None, alias="desc", description="Description")
-    rsu_status: Optional[bool] = Field(None, alias="rsuStatus", description="RSU Status")
+    rsu_status: Optional[str] = Field(None, alias="rsuStatus", description="RSU Status")
 
 
 class RSUUpdateWithVersion(BaseModel):

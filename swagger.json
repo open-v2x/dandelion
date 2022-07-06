@@ -4875,7 +4875,7 @@
                         "required": false,
                         "schema": {
                             "title": "Rsustatus",
-                            "type": "boolean",
+                            "type": "string",
                             "description": "Filter by rsuStatus"
                         },
                         "name": "rsuStatus",
@@ -6418,7 +6418,7 @@
                     },
                     "rsuStatus": {
                         "title": "Rsustatus",
-                        "type": "integer",
+                        "type": "string",
                         "description": "RSU Status"
                     },
                     "deliveryStatus": {
@@ -7014,7 +7014,7 @@
                     },
                     "rsuStatus": {
                         "title": "Rsustatus",
-                        "type": "boolean",
+                        "type": "string",
                         "description": "RSU Status"
                     },
                     "onlineStatus": {
@@ -7579,7 +7579,7 @@
                     },
                     "rsuStatus": {
                         "title": "Rsustatus",
-                        "type": "boolean",
+                        "type": "string",
                         "description": "RSU Status"
                     },
                     "onlineStatus": {
@@ -8289,7 +8289,7 @@
                     },
                     "rsuStatus": {
                         "title": "Rsustatus",
-                        "type": "boolean",
+                        "type": "string",
                         "description": "RSU Status"
                     }
                 }

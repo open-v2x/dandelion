@@ -59,7 +59,7 @@ class MapRSUsBase(MapRSUInDBBase):
     rsu_name: str = Field(..., alias="rsuName", description="RSU Name")
     rsu_sn: str = Field(..., alias="rsuSn", description="RSU SN")
     online_status: int = Field(..., alias="onlineStatus", description="Online Status")
-    rsu_status: int = Field(..., alias="rsuStatus", description="RSU Status")
+    rsu_status: str = Field(..., alias="rsuStatus", description="RSU Status")
     delivery_status: int = Field(..., alias="deliveryStatus", description="Delivery Status")
     create_time: datetime = Field(..., alias="createTime", description="Create Time")
 

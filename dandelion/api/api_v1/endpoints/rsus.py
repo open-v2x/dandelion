@@ -55,8 +55,10 @@ def create(
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> schemas.RSU:
+    rsu_tmp: Optional[models.RSUTMP] = None
     if rsu_in.tmp_id:
         try:
+            rsu_tmp = crud.rsu_tmp.get(db, rsu_in.tmp_id)
             crud.rsu_tmp.remove(db, id=rsu_in.tmp_id)
         except orm_exc.UnmappedInstanceError:
             raise HTTPException(
@@ -65,7 +67,7 @@ def create(
             )
     del rsu_in.tmp_id
     try:
-        rsu_in_db = crud.rsu.create(db, obj_in=rsu_in)
+        rsu_in_db = crud.rsu.create_rsu(db, obj_in=rsu_in, rsu_tmp_in_db=rsu_tmp)
     except sql_exc.IntegrityError as ex:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=ex.args[0])
     return rsu_in_db.to_all_dict()
@@ -99,7 +101,7 @@ def list(
     online_status: Optional[bool] = Query(
         None, alias="onlineStatus", description="Filter by onlineStatus"
     ),
-    rsu_status: Optional[bool] = Query(None, alias="rsuStatus", description="Filter by rsuStatus"),
+    rsu_status: Optional[str] = Query(None, alias="rsuStatus", description="Filter by rsuStatus"),
     page_num: int = Query(1, alias="pageNum", ge=1, description="Page number"),
     page_size: int = Query(10, alias="pageSize", ge=-1, description="Page size"),
     db: Session = Depends(deps.get_db),

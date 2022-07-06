@@ -76,6 +76,12 @@ clean:
 	rm -rf $(ROOT_DIR)/.venv
 	rm -rf $(ROOT_DIR)/test_report.html
 	rm -rf $(ROOT_DIR)/.tox
+	rm -rf $(ROOT_DIR)/ChangeLog
+	rm -rf $(ROOT_DIR)/AUTHORS
+	rm -rf $(ROOT_DIR)/mypy-report
+	rm -rf $(ROOT_DIR)/.mypy_cache
+	rm -rf $(ROOT_DIR)/dandelion.egg-info
+	find $(ROOT_DIR)/. -name '__pycache__'|xargs rm -rf
 
 db_revision:
 	$(shell [ -z "$(REV_MEG)" ] && printf '$(red)Missing required message, use "make db_revision REV_MEG=<some message>"$(no_color)')
