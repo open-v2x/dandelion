@@ -580,7 +580,7 @@
                         "required": false,
                         "schema": {
                             "title": "Pagenum",
-                            "exclusiveMinimum": 0.0,
+                            "minimum": 1.0,
                             "type": "integer",
                             "description": "Page number",
                             "default": 1
@@ -593,7 +593,7 @@
                         "required": false,
                         "schema": {
                             "title": "Pagesize",
-                            "exclusiveMinimum": 0.0,
+                            "minimum": 0.0,
                             "type": "integer",
                             "description": "Page size",
                             "default": 10
@@ -1228,7 +1228,7 @@
                         "required": false,
                         "schema": {
                             "title": "Pagenum",
-                            "exclusiveMinimum": 0.0,
+                            "minimum": 1.0,
                             "type": "integer",
                             "description": "Page number",
                             "default": 1
@@ -1241,7 +1241,7 @@
                         "required": false,
                         "schema": {
                             "title": "Pagesize",
-                            "exclusiveMinimum": 0.0,
+                            "minimum": 0.0,
                             "type": "integer",
                             "description": "Page size",
                             "default": 10
@@ -1527,7 +1527,7 @@
                         "required": false,
                         "schema": {
                             "title": "Pagenum",
-                            "exclusiveMinimum": 0.0,
+                            "minimum": 1.0,
                             "type": "integer",
                             "description": "Page number",
                             "default": 1
@@ -1540,7 +1540,7 @@
                         "required": false,
                         "schema": {
                             "title": "Pagesize",
-                            "exclusiveMinimum": 0.0,
+                            "minimum": 0.0,
                             "type": "integer",
                             "description": "Page size",
                             "default": 10
@@ -2047,7 +2047,7 @@
                         "required": false,
                         "schema": {
                             "title": "Pagenum",
-                            "exclusiveMinimum": 0.0,
+                            "minimum": 1.0,
                             "type": "integer",
                             "description": "Page number",
                             "default": 1
@@ -2060,7 +2060,7 @@
                         "required": false,
                         "schema": {
                             "title": "Pagesize",
-                            "exclusiveMinimum": 0.0,
+                            "minimum": 0.0,
                             "type": "integer",
                             "description": "Page size",
                             "default": 10
@@ -2435,7 +2435,7 @@
                         "required": false,
                         "schema": {
                             "title": "Pagenum",
-                            "exclusiveMinimum": 0.0,
+                            "minimum": 1.0,
                             "type": "integer",
                             "description": "Page number",
                             "default": 1
@@ -2448,7 +2448,7 @@
                         "required": false,
                         "schema": {
                             "title": "Pagesize",
-                            "exclusiveMinimum": 0.0,
+                            "minimum": 0.0,
                             "type": "integer",
                             "description": "Page size",
                             "default": 10
@@ -2965,7 +2965,7 @@
                         "required": false,
                         "schema": {
                             "title": "Pagenum",
-                            "exclusiveMinimum": 0.0,
+                            "minimum": 1.0,
                             "type": "integer",
                             "description": "Page number",
                             "default": 1
@@ -2978,7 +2978,7 @@
                         "required": false,
                         "schema": {
                             "title": "Pagesize",
-                            "exclusiveMinimum": 0.0,
+                            "minimum": 0.0,
                             "type": "integer",
                             "description": "Page size",
                             "default": 10
@@ -3071,7 +3071,7 @@
                         "required": false,
                         "schema": {
                             "title": "Pagenum",
-                            "exclusiveMinimum": 0.0,
+                            "minimum": 1.0,
                             "type": "integer",
                             "description": "Page number",
                             "default": 1
@@ -3084,7 +3084,7 @@
                         "required": false,
                         "schema": {
                             "title": "Pagesize",
-                            "exclusiveMinimum": 0.0,
+                            "minimum": 0.0,
                             "type": "integer",
                             "description": "Page size",
                             "default": 10
@@ -3177,7 +3177,7 @@
                         "required": false,
                         "schema": {
                             "title": "Pagenum",
-                            "exclusiveMinimum": 0.0,
+                            "minimum": 1.0,
                             "type": "integer",
                             "description": "Page number",
                             "default": 1
@@ -3190,7 +3190,7 @@
                         "required": false,
                         "schema": {
                             "title": "Pagesize",
-                            "exclusiveMinimum": 0.0,
+                            "minimum": 0.0,
                             "type": "integer",
                             "description": "Page size",
                             "default": 10
@@ -3596,7 +3596,7 @@
                         "required": false,
                         "schema": {
                             "title": "Pagenum",
-                            "exclusiveMinimum": 0.0,
+                            "minimum": 1.0,
                             "type": "integer",
                             "description": "Page number",
                             "default": 1
@@ -3609,7 +3609,7 @@
                         "required": false,
                         "schema": {
                             "title": "Pagesize",
-                            "exclusiveMinimum": 0.0,
+                            "minimum": 0.0,
                             "type": "integer",
                             "description": "Page size",
                             "default": 10
@@ -4037,7 +4037,7 @@
                         "required": false,
                         "schema": {
                             "title": "Pagenum",
-                            "exclusiveMinimum": 0.0,
+                            "minimum": 1.0,
                             "type": "integer",
                             "description": "Page number",
                             "default": 1
@@ -4050,7 +4050,7 @@
                         "required": false,
                         "schema": {
                             "title": "Pagesize",
-                            "exclusiveMinimum": 0.0,
+                            "minimum": 0.0,
                             "type": "integer",
                             "description": "Page size",
                             "default": 10
@@ -4456,7 +4456,7 @@
                         "required": false,
                         "schema": {
                             "title": "Pagenum",
-                            "exclusiveMinimum": 0.0,
+                            "minimum": 1.0,
                             "type": "integer",
                             "description": "Page number",
                             "default": 1
@@ -4469,7 +4469,7 @@
                         "required": false,
                         "schema": {
                             "title": "Pagesize",
-                            "exclusiveMinimum": 0.0,
+                            "minimum": 0.0,
                             "type": "integer",
                             "description": "Page size",
                             "default": 10
@@ -4736,7 +4736,7 @@
                         "required": false,
                         "schema": {
                             "title": "Pagenum",
-                            "exclusiveMinimum": 0.0,
+                            "minimum": 1.0,
                             "type": "integer",
                             "description": "Page number",
                             "default": 1
@@ -4749,7 +4749,7 @@
                         "required": false,
                         "schema": {
                             "title": "Pagesize",
-                            "exclusiveMinimum": 0.0,
+                            "minimum": 0.0,
                             "type": "integer",
                             "description": "Page size",
                             "default": 10
@@ -4886,7 +4886,7 @@
                         "required": false,
                         "schema": {
                             "title": "Pagenum",
-                            "exclusiveMinimum": 0.0,
+                            "minimum": 1.0,
                             "type": "integer",
                             "description": "Page number",
                             "default": 1
@@ -4899,7 +4899,7 @@
                         "required": false,
                         "schema": {
                             "title": "Pagesize",
-                            "exclusiveMinimum": 0.0,
+                            "minimum": -1.0,
                             "type": "integer",
                             "description": "Page size",
                             "default": 10

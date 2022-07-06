@@ -159,8 +159,8 @@ Get all RSULogs.
     },
 )
 def list(
-    page_num: int = Query(1, alias="pageNum", gt=0, description="Page number"),
-    page_size: int = Query(10, alias="pageSize", gt=0, description="Page size"),
+    page_num: int = Query(1, alias="pageNum", ge=1, description="Page number"),
+    page_size: int = Query(10, alias="pageSize", ge=0, description="Page size"),
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> schemas.RSULogs:

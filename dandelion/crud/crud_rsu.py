@@ -101,7 +101,9 @@ class CRUDRSU(CRUDBase[RSU, RSUCreate, RSUUpdate]):
         if rsu_status is not None:
             query_ = query_.filter(self.model.rsu_status == rsu_status)
         total = query_.count()
-        data = query_.offset(skip).limit(limit).all()
+        if limit != -1:
+            query_ = query_.offset(skip).limit(limit)
+        data = query_.all()
         return total, data
 
 

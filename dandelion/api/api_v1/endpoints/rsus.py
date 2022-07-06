@@ -100,8 +100,8 @@ def list(
         None, alias="onlineStatus", description="Filter by onlineStatus"
     ),
     rsu_status: Optional[bool] = Query(None, alias="rsuStatus", description="Filter by rsuStatus"),
-    page_num: int = Query(1, alias="pageNum", gt=0, description="Page number"),
-    page_size: int = Query(10, alias="pageSize", gt=0, description="Page size"),
+    page_num: int = Query(1, alias="pageNum", ge=1, description="Page number"),
+    page_size: int = Query(10, alias="pageSize", ge=-1, description="Page size"),
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> schemas.RSUs:
