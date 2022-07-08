@@ -133,3 +133,4 @@ etc/dandelion/dandelion.conf
 mypy-report/
 AUTHORS
 ChangeLog
+.vscode
