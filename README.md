@@ -1,6 +1,6 @@
-# dandelion
+# OpenV2X Device Management - APIServer
 
-OpenV2X Device Management - APIServer
+[![pep8](https://github.com/open-v2x/dandelion/actions/workflows/tox-pep8.yml/badge.svg?event=push)](https://github.com/open-v2x/dandelion/actions/workflows/tox-pep8.yml)
 
 ## Description
 
