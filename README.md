@@ -2,6 +2,9 @@
 
 [![pep8](https://github.com/open-v2x/dandelion/actions/workflows/tox-pep8.yml/badge.svg?event=push)](https://github.com/open-v2x/dandelion/actions/workflows/tox-pep8.yml)
 [![ci](https://github.com/open-v2x/dandelion/actions/workflows/ci.yml/badge.svg?event=push)](https://github.com/open-v2x/dandelion/actions/workflows/ci.yml)
+[![issue](https://img.shields.io/github/issues/open-v2x/dandelion)](https://github.com/open-v2x/dandelion/issues)
+[![star](https://img.shields.io/github/stars/open-v2x/dandelion)](#)
+[![license](https://img.shields.io/github/license/open-v2x/dandelion)](LICENSE)
 
 ## Description
 
@@ -18,6 +21,8 @@ make install
 ```
 
 ## Configuration
+
+**Sample:** [dandelion.conf.sample](./etc/dandelion/dandelion.conf.sample)
 
 ```bash
 cp etc/dandelion/dandelion.conf.example etc/dandelion/dandelion.conf
