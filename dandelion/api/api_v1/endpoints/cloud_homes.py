@@ -128,19 +128,12 @@ Push traffic situation.
 """,
     responses={
         status.HTTP_201_CREATED: {"model": schemas.RouteInfo, "description": "OK"},
-        status.HTTP_401_UNAUTHORIZED: {
-            "model": schemas.ErrorMessage,
-            "description": "Unauthorized",
-        },
-        status.HTTP_403_FORBIDDEN: {"model": schemas.ErrorMessage, "description": "Forbidden"},
-        status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
     },
 )
 def route_info_push(
     route_info_in: schemas.RouteInfoCreate = Body(..., description="Route Info"),
     *,
     redis_conn: Redis = Depends(deps.get_redis_conn),
-    current_user: models.User = Depends(deps.get_current_user),
 ) -> schemas.RouteInfo:
     rsu_esn = route_info_in.rsu_esn
     key = f"ROUTE_INFO_{rsu_esn}"

@@ -1157,36 +1157,6 @@
                             }
                         }
                     },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
                     "422": {
                         "description": "Validation Error",
                         "content": {
@@ -1197,12 +1167,7 @@
                             }
                         }
                     }
-                },
-                "security": [
-                    {
-                        "OAuth2PasswordBearer": []
-                    }
-                ]
+                }
             }
         },
         "/api/v1/maps/{map_id}/rsus": {
