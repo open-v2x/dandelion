@@ -36,6 +36,7 @@ from dandelion.api.api_v1.endpoints import (
     rsu_queries,
     rsu_tmps,
     rsus,
+    system_configs,
     users,
 )
 
@@ -75,3 +76,5 @@ api_router.include_router(rsu_queries.router, prefix="/rsu_queries", tags=["RSU 
 api_router.include_router(rsu_tmps.router, prefix="/rsu_tmps", tags=["RSU TMP"])
 
 api_router.include_router(rsus.router, prefix="/rsus", tags=["RSU"])
+
+api_router.include_router(system_configs.router, prefix="/system_configs", tags=["System Config"])

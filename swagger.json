@@ -5412,6 +5412,161 @@
                     }
                 ]
             }
+        },
+        "/api/v1/system_configs": {
+            "post": {
+                "tags": [
+                    "System Config"
+                ],
+                "summary": "Create",
+                "description": "\nGet detailed info of System Config.\n",
+                "operationId": "create_api_v1_system_configs_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SystemConfigCreate"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SystemConfig"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/system_configs/{system_config_id}": {
+            "get": {
+                "tags": [
+                    "System Config"
+                ],
+                "summary": "Get",
+                "description": "\nGet detailed info of System Config.\n",
+                "operationId": "get_api_v1_system_configs__system_config_id__get",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "System Config Id",
+                            "type": "integer"
+                        },
+                        "name": "system_config_id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SystemConfig"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            }
         }
     },
     "components": {
@@ -6121,6 +6276,38 @@
                             "$ref": "#/components/schemas/MNG"
                         },
                         "description": "Data"
+                    }
+                }
+            },
+            "MQTTConfig": {
+                "title": "MQTTConfig",
+                "required": [
+                    "host",
+                    "port",
+                    "username",
+                    "password"
+                ],
+                "type": "object",
+                "properties": {
+                    "host": {
+                        "title": "Host",
+                        "type": "string",
+                        "description": "MQTT Host"
+                    },
+                    "port": {
+                        "title": "Port",
+                        "type": "integer",
+                        "description": "MQTT Port"
+                    },
+                    "username": {
+                        "title": "Username",
+                        "type": "string",
+                        "description": "Username"
+                    },
+                    "password": {
+                        "title": "Password",
+                        "type": "string",
+                        "description": "Password"
                     }
                 }
             },
@@ -8722,6 +8909,54 @@
                 ],
                 "type": "string",
                 "description": "An enumeration."
+            },
+            "SystemConfig": {
+                "title": "SystemConfig",
+                "required": [
+                    "id"
+                ],
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "title": "Name",
+                        "type": "string",
+                        "description": "Site Name"
+                    },
+                    "mqtt_config": {
+                        "title": "Mqtt Config",
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/MQTTConfig"
+                            }
+                        ],
+                        "description": "MQTT Config"
+                    },
+                    "id": {
+                        "title": "Id",
+                        "type": "integer",
+                        "description": "Config ID"
+                    }
+                }
+            },
+            "SystemConfigCreate": {
+                "title": "SystemConfigCreate",
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "title": "Name",
+                        "type": "string",
+                        "description": "Site Name"
+                    },
+                    "mqtt_config": {
+                        "title": "Mqtt Config",
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/MQTTConfig"
+                            }
+                        ],
+                        "description": "MQTT Config"
+                    }
+                }
             },
             "Token": {
                 "title": "Token",

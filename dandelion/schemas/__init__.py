@@ -57,5 +57,6 @@ from .rsu_query_result import (
     RSUQueryResultUpdate,
 )
 from .rsu_tmp import RSUTMP, RSUTMPCreate, RSUTMPs, RSUTMPUpdate
+from .system_config import SystemConfig, SystemConfigCreate
 from .token import AccessToken, Token, TokenPayload
 from .user import User, UserCreate, UserUpdate
