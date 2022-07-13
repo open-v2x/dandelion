@@ -17,6 +17,7 @@ from __future__ import annotations
 from typing import Any
 
 from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 
 from dandelion import crud, models, schemas
@@ -66,3 +67,34 @@ def get(
     current_user: models.User = Depends(deps.get_current_user),
 ) -> schemas.User:
     return current_user
+
+
+@router.delete(
+    "/{user_id}",
+    status_code=status.HTTP_204_NO_CONTENT,
+    description="""
+Delete a User.
+""",
+    responses={
+        status.HTTP_204_NO_CONTENT: {"class": JSONResponse, "description": "No Content"},
+        status.HTTP_401_UNAUTHORIZED: {
+            "model": schemas.ErrorMessage,
+            "description": "Unauthorized",
+        },
+        status.HTTP_403_FORBIDDEN: {"model": schemas.ErrorMessage, "description": "Forbidden"},
+        status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
+    },
+    response_class=JSONResponse,
+)
+def delete(
+    user_id: int,
+    *,
+    db: Session = Depends(deps.get_db),
+    current_user: models.User = Depends(deps.get_current_user),
+) -> JSONResponse:
+    if not crud.user.get(db, id=user_id):
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail=f"User [id: {user_id}] not found"
+        )
+    crud.user.remove(db, id=user_id)
+    return JSONResponse(content=None, status_code=status.HTTP_204_NO_CONTENT)
