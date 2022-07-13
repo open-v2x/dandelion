@@ -68,7 +68,9 @@ class CRUDRSUConfig(CRUDBase[RSUConfig, RSUConfigCreate, RSUConfigUpdate]):
         if name is not None:
             query_ = query_.filter(self.model.name.like(f"{name}%"))
         total = query_.count()
-        data = query_.offset(skip).limit(limit).all()
+        if limit != -1:
+            query_ = query_.offset(skip).limit(limit)
+        data = query_.all()
         return total, data
 
 

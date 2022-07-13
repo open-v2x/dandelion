@@ -41,7 +41,9 @@ class CRUDRSUModel(CRUDBase[RSUModel, RSUModelCreate, RSUModelUpdate]):
         if manufacturer is not None:
             query_ = query_.filter(self.model.manufacturer.like(f"{manufacturer}%"))
         total = query_.count()
-        data = query_.offset(skip).limit(limit).all()
+        if limit != -1:
+            query_ = query_.offset(skip).limit(limit)
+        data = query_.all()
         return total, data
 
 

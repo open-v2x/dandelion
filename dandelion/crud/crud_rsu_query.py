@@ -35,7 +35,9 @@ class CRUDRSUQuery(CRUDBase[RSUQuery, RSUQueryCreate, RSUQueryUpdate]):
     ) -> Tuple[int, List[RSUQuery]]:
         query_ = db.query(self.model)
         total = query_.count()
-        data = query_.offset(skip).limit(limit).all()
+        if limit != -1:
+            query_ = query_.offset(skip).limit(limit)
+        data = query_.all()
         return total, data
 
     def create(self, db: Session, *, obj_in: RSUQueryCreate) -> RSUQuery:

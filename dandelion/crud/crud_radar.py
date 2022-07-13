@@ -53,7 +53,9 @@ class CRUDRadar(CRUDBase[Radar, RadarCreate, RadarUpdate]):
         if rsu_id is not None:
             query_ = query_.filter(self.model.rsu_id == rsu_id)
         total = query_.count()
-        data = query_.offset(skip).limit(limit).all()
+        if limit != -1:
+            query_ = query_.offset(skip).limit(limit)
+        data = query_.all()
         return total, data
 
 

@@ -38,7 +38,9 @@ class CRUDRSMParticipant(CRUDBase[Participants, RSMParticipantCreate, RSMPartici
         if ptc_type is not None:
             query_ = query_.filter(self.model.ptc_type == ptc_type)
         total = query_.count()
-        data = query_.offset(skip).limit(limit).all()
+        if limit != -1:
+            query_ = query_.offset(skip).limit(limit)
+        data = query_.all()
         return total, data
 
 

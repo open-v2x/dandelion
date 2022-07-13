@@ -41,7 +41,9 @@ class CRUDMapRSU(CRUDBase[MapRSU, MapRSUCreate, MapRSUUpdate]):
         if map_id is not None:
             query_ = query_.filter(self.model.map_id == map_id)
         total = query_.count()
-        data = query_.offset(skip).limit(limit).all()
+        if limit != -1:
+            query_ = query_.offset(skip).limit(limit)
+        data = query_.all()
         return total, data
 
 

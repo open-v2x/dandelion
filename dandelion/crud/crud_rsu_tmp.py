@@ -50,7 +50,9 @@ class CRUDRSUTMP(CRUDBase[RSUTMP, RSUTMPCreate, RSUTMPUpdate]):
         if rsu_esn is not None:
             query_ = query_.filter(self.model.rsu_esn == rsu_esn)
         total = query_.count()
-        data = query_.offset(skip).limit(limit).all()
+        if limit != -1:
+            query_ = query_.offset(skip).limit(limit)
+        data = query_.all()
         return total, data
 
 
