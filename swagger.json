@@ -229,13 +229,7 @@
                 ],
                 "responses": {
                     "204": {
-                        "description": "No Content",
-                        "class": {
-                            "__module__": "starlette.responses",
-                            "media_type": "application/json",
-                            "__init__": {},
-                            "render": {}
-                        }
+                        "description": "No Content"
                     },
                     "401": {
                         "description": "Unauthorized",
@@ -1006,13 +1000,7 @@
                 ],
                 "responses": {
                     "204": {
-                        "description": "No Content",
-                        "class": {
-                            "__module__": "starlette.responses",
-                            "media_type": "application/json",
-                            "__init__": {},
-                            "render": {}
-                        }
+                        "description": "No Content"
                     },
                     "401": {
                         "description": "Unauthorized",
@@ -1477,13 +1465,7 @@
                 ],
                 "responses": {
                     "204": {
-                        "description": "No Content",
-                        "class": {
-                            "__module__": "starlette.responses",
-                            "media_type": "application/json",
-                            "__init__": {},
-                            "render": {}
-                        }
+                        "description": "No Content"
                     },
                     "401": {
                         "description": "Unauthorized",
@@ -1918,13 +1900,7 @@
                 ],
                 "responses": {
                     "204": {
-                        "description": "No Content",
-                        "class": {
-                            "__module__": "starlette.responses",
-                            "media_type": "application/json",
-                            "__init__": {},
-                            "render": {}
-                        }
+                        "description": "No Content"
                     },
                     "401": {
                         "description": "Unauthorized",
@@ -2826,13 +2802,7 @@
                 ],
                 "responses": {
                     "204": {
-                        "description": "No Content",
-                        "class": {
-                            "__module__": "starlette.responses",
-                            "media_type": "application/json",
-                            "__init__": {},
-                            "render": {}
-                        }
+                        "description": "No Content"
                     },
                     "401": {
                         "description": "Unauthorized",
@@ -3568,13 +3538,7 @@
                 ],
                 "responses": {
                     "204": {
-                        "description": "No Content",
-                        "class": {
-                            "__module__": "starlette.responses",
-                            "media_type": "application/json",
-                            "__init__": {},
-                            "render": {}
-                        }
+                        "description": "No Content"
                     },
                     "401": {
                         "description": "Unauthorized",
@@ -3987,13 +3951,7 @@
                 ],
                 "responses": {
                     "204": {
-                        "description": "No Content",
-                        "class": {
-                            "__module__": "starlette.responses",
-                            "media_type": "application/json",
-                            "__init__": {},
-                            "render": {}
-                        }
+                        "description": "No Content"
                     },
                     "401": {
                         "description": "Unauthorized",
@@ -4428,13 +4386,7 @@
                 ],
                 "responses": {
                     "204": {
-                        "description": "No Content",
-                        "class": {
-                            "__module__": "starlette.responses",
-                            "media_type": "application/json",
-                            "__init__": {},
-                            "render": {}
-                        }
+                        "description": "No Content"
                     },
                     "401": {
                         "description": "Unauthorized",
@@ -5191,13 +5143,7 @@
                 ],
                 "responses": {
                     "204": {
-                        "description": "No Content",
-                        "class": {
-                            "__module__": "starlette.responses",
-                            "media_type": "application/json",
-                            "__init__": {},
-                            "render": {}
-                        }
+                        "description": "No Content"
                     },
                     "401": {
                         "description": "Unauthorized",

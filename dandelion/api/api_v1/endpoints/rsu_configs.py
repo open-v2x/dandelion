@@ -17,8 +17,7 @@ from __future__ import annotations
 from logging import LoggerAdapter
 from typing import List, Optional
 
-from fastapi import APIRouter, Depends, HTTPException, Query, status
-from fastapi.responses import JSONResponse
+from fastapi import APIRouter, Depends, HTTPException, Query, Response, status
 from oslo_log import log
 from sqlalchemy import exc as sql_exc
 from sqlalchemy.orm import Session
@@ -88,7 +87,6 @@ def create(
 Delete a RSUConfig.
 """,
     responses={
-        status.HTTP_204_NO_CONTENT: {"class": JSONResponse, "description": "No Content"},
         status.HTTP_401_UNAUTHORIZED: {
             "model": schemas.ErrorMessage,
             "description": "Unauthorized",
@@ -96,21 +94,22 @@ Delete a RSUConfig.
         status.HTTP_403_FORBIDDEN: {"model": schemas.ErrorMessage, "description": "Forbidden"},
         status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
     },
-    response_class=JSONResponse,
+    response_class=Response,
+    response_description="No Content",
 )
 def delete(
     rsu_config_id: int,
     *,
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
-) -> JSONResponse:
+) -> Response:
     if not crud.rsu_config.get(db, id=rsu_config_id):
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"RSUConfig [id: {rsu_config_id}] not found",
         )
     crud.rsu_config.remove(db, id=rsu_config_id)
-    return JSONResponse(content=None, status_code=status.HTTP_204_NO_CONTENT)
+    return Response(content=None, status_code=status.HTTP_204_NO_CONTENT)
 
 
 @router.get(
