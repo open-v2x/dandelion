@@ -35,7 +35,8 @@ class RSMRouterHandler(RouterHandler):
 
         rsms = Optional_util.none(data.get("content")).map(lambda v: v.get("rsms")).get()
         for rsm_ in rsms:
-            rsm = schemas.RSMCreate(refPos=rsm_.get("refPos"))
+            rsm = schemas.RSMCreate()
+            rsm.ref_pos = rsm_.get("refPos")
 
             ps = rsm_.get("participants")
             if not ps:
