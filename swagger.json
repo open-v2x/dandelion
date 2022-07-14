@@ -6714,7 +6714,7 @@
                     },
                     "onlineStatus": {
                         "title": "Onlinestatus",
-                        "type": "integer",
+                        "type": "boolean",
                         "description": "Online Status"
                     },
                     "rsuStatus": {
@@ -7457,6 +7457,11 @@
                         "type": "string",
                         "description": "RSU Status"
                     },
+                    "enabled": {
+                        "title": "Enabled",
+                        "type": "boolean",
+                        "description": "Enable RSU or not"
+                    },
                     "onlineStatus": {
                         "title": "Onlinestatus",
                         "type": "boolean",
@@ -8021,6 +8026,11 @@
                         "title": "Rsustatus",
                         "type": "string",
                         "description": "RSU Status"
+                    },
+                    "enabled": {
+                        "title": "Enabled",
+                        "type": "boolean",
+                        "description": "Enable RSU or not"
                     },
                     "onlineStatus": {
                         "title": "Onlinestatus",
@@ -8731,6 +8741,11 @@
                         "title": "Rsustatus",
                         "type": "string",
                         "description": "RSU Status"
+                    },
+                    "enabled": {
+                        "title": "Enabled",
+                        "type": "boolean",
+                        "description": "Enable RSU or not"
                     }
                 }
             },

@@ -29,6 +29,7 @@ class RSU(Base, DandelionBase):
     rsu_name = Column(String(64), index=True, nullable=False)
     version = Column(String(64), nullable=False)
     rsu_status = Column(String(4), index=True, nullable=False)
+    enabled = Column(Boolean, nullable=True, default=True)
     location = Column(JSON, nullable=False)
     config = Column(JSON, nullable=False)
     online_status = Column(Boolean, index=True, nullable=False, default=False)
@@ -55,6 +56,7 @@ class RSU(Base, DandelionBase):
             rsuIP=self.rsu_ip,
             version=self.version,
             rsuStatus=self.rsu_status,
+            enabled=self.enabled,
             onlineStatus=self.online_status,
             rsuModelId=self.rsu_model_id,
             areaCode=self.area_code,
