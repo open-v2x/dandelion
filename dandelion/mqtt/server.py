@@ -77,7 +77,7 @@ def _on_message(client: mqtt.Client, userdata: Any, msg: mqtt.MQTTMessage) -> No
     LOG.info(msg.payload.decode("utf-8"))
 
 
-def _on_disconnect(client: mqtt.Client, userdata: Any, flags: Any, rc: int) -> None:
+def _on_disconnect(client: mqtt.Client, userdata: Any, rc: int) -> None:
     LOG.error(f"MQTT Connection disconnected, rc: {rc}")
 
 

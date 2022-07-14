@@ -5696,6 +5696,223 @@
                     }
                 ]
             }
+        },
+        "/api/v1/edge_nodes": {
+            "get": {
+                "tags": [
+                    "Edge Node"
+                ],
+                "summary": "Get",
+                "description": "\nGet detailed info of Edge Nodes.\n",
+                "operationId": "get_api_v1_edge_nodes_get",
+                "parameters": [
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Name",
+                            "type": "string"
+                        },
+                        "name": "name",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Page number",
+                        "required": false,
+                        "schema": {
+                            "title": "Pagenum",
+                            "minimum": 1.0,
+                            "type": "integer",
+                            "description": "Page number",
+                            "default": 1
+                        },
+                        "name": "pageNum",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Page size",
+                        "required": false,
+                        "schema": {
+                            "title": "Pagesize",
+                            "minimum": -1.0,
+                            "type": "integer",
+                            "description": "Page size",
+                            "default": 10
+                        },
+                        "name": "pageSize",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EdgeNodes"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/edge_node_rsus": {
+            "get": {
+                "tags": [
+                    "Edge Node RSU"
+                ],
+                "summary": "Get",
+                "description": "\nGet detailed info of Edge Node RSUs.\n",
+                "operationId": "get_api_v1_edge_node_rsus_get",
+                "parameters": [
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Nodeid",
+                            "type": "integer"
+                        },
+                        "name": "nodeId",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Areacode",
+                            "type": "string"
+                        },
+                        "name": "areaCode",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Page number",
+                        "required": false,
+                        "schema": {
+                            "title": "Pagenum",
+                            "minimum": 1.0,
+                            "type": "integer",
+                            "description": "Page number",
+                            "default": 1
+                        },
+                        "name": "pageNum",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Page size",
+                        "required": false,
+                        "schema": {
+                            "title": "Pagesize",
+                            "minimum": -1.0,
+                            "type": "integer",
+                            "description": "Page size",
+                            "default": 10
+                        },
+                        "name": "pageSize",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EdgeNodeRSUs"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            }
         }
     },
     "components": {
@@ -6194,6 +6411,104 @@
                     }
                 }
             },
+            "EdgeNode": {
+                "title": "EdgeNode",
+                "required": [
+                    "id"
+                ],
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "title": "Name",
+                        "type": "string",
+                        "description": "Edge Node Name"
+                    },
+                    "id": {
+                        "title": "Id",
+                        "type": "integer",
+                        "description": "Edge Node ID"
+                    }
+                }
+            },
+            "EdgeNodeRSU": {
+                "title": "EdgeNodeRSU",
+                "required": [
+                    "id"
+                ],
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "title": "Name",
+                        "type": "string",
+                        "description": "RSU Name"
+                    },
+                    "esn": {
+                        "title": "Esn",
+                        "type": "string",
+                        "description": "RSU ESN"
+                    },
+                    "location": {
+                        "title": "Location",
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/Location"
+                            }
+                        ],
+                        "description": "Location"
+                    },
+                    "id": {
+                        "title": "Id",
+                        "type": "integer",
+                        "description": "RSU ID"
+                    }
+                }
+            },
+            "EdgeNodeRSUs": {
+                "title": "EdgeNodeRSUs",
+                "required": [
+                    "total",
+                    "data"
+                ],
+                "type": "object",
+                "properties": {
+                    "total": {
+                        "title": "Total",
+                        "type": "integer",
+                        "description": "Total"
+                    },
+                    "data": {
+                        "title": "Data",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/EdgeNodeRSU"
+                        },
+                        "description": "Data"
+                    }
+                }
+            },
+            "EdgeNodes": {
+                "title": "EdgeNodes",
+                "required": [
+                    "total",
+                    "data"
+                ],
+                "type": "object",
+                "properties": {
+                    "total": {
+                        "title": "Total",
+                        "type": "integer",
+                        "description": "Total"
+                    },
+                    "data": {
+                        "title": "Data",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/EdgeNode"
+                        },
+                        "description": "Data"
+                    }
+                }
+            },
             "ErrorMessage": {
                 "title": "ErrorMessage",
                 "required": [
@@ -6218,6 +6533,22 @@
                         "items": {
                             "$ref": "#/components/schemas/ValidationError"
                         }
+                    }
+                }
+            },
+            "Location": {
+                "title": "Location",
+                "type": "object",
+                "properties": {
+                    "lat": {
+                        "title": "Lat",
+                        "type": "number",
+                        "description": "Latitude"
+                    },
+                    "lon": {
+                        "title": "Lon",
+                        "type": "number",
+                        "description": "Longitude"
                     }
                 }
             },

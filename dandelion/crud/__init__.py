@@ -18,6 +18,8 @@ from .crud_area import area
 from .crud_camera import camera
 from .crud_city import city
 from .crud_country import country
+from .crud_edge_node import edge_node
+from .crud_edge_node_rsu import edge_node_rsu
 from .crud_map import map
 from .crud_map_rsu import map_rsu
 from .crud_mng import mng
@@ -62,4 +64,6 @@ __all__ = [
     "rsu_config_rsu",
     "system_config",
     "rsi_dnp",
+    "edge_node",
+    "edge_node_rsu",
 ]

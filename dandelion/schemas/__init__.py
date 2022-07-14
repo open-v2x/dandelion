@@ -21,6 +21,8 @@ from .camera import Camera, CameraCreate, Cameras, CameraUpdate
 from .city import City, CityCreate, CityUpdate
 from .cloud_home import OnlineRate, RouteInfo, RouteInfoCreate
 from .country import Country, CountryCreate, CountryUpdate
+from .edge_node import EdgeNodeCreate, EdgeNodes, EdgeNodeUpdate
+from .edge_node_rsu import EdgeNodeRSUCreate, EdgeNodeRSUs, EdgeNodeRSUUpdate, Location
 from .map import Map, MapCreate, Maps, MapUpdate
 from .map_rsu import MapRSU, MapRSUCreate, MapRSUs, MapRSUUpdate
 from .message import ErrorMessage, Message

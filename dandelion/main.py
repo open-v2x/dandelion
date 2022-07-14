@@ -27,7 +27,7 @@ from starlette.middleware.cors import CORSMiddleware
 from dandelion import constants, periodic_tasks, version
 from dandelion.api.api_v1.api import api_router
 from dandelion.db import redis_pool, session as db_session
-from dandelion.mqtt import server as mqtt_server
+from dandelion.mqtt import cloud_server as mqtt_cloud_server, server as mqtt_server
 
 CONF: cfg = cfg.CONF
 LOG: LoggerAdapter = log.getLogger(__name__)
@@ -61,6 +61,11 @@ def setup_db() -> None:
 
 
 @app.on_event("startup")
+def setup_cloud_mqtt() -> None:
+    mqtt_cloud_server.connect()
+
+
+@app.on_event("startup")
 def setup_redis() -> None:
     redis_pool.setup_redis()
 
@@ -82,6 +87,18 @@ def setup_app():
 @repeat_every(seconds=60)
 def update_rsu_online_status() -> None:
     periodic_tasks.update_rsu_online_status()
+
+
+@app.on_event("startup")
+@repeat_every(seconds=60)
+def delete_offline_edge() -> None:
+    periodic_tasks.delete_offline_edge()
+
+
+@app.on_event("startup")
+@repeat_every(seconds=15)
+def edge_heartbeat() -> None:
+    periodic_tasks.edge_heartbeat()
 
 
 # Shutdown

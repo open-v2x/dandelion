@@ -20,6 +20,8 @@ from .area import Area
 from .camera import Camera
 from .city import City
 from .country import Country
+from .edge import EdgeNode
+from .edge_rsu import EdgeNodeRSU
 from .map import Map
 from .map_rsu import MapRSU
 from .mng import MNG

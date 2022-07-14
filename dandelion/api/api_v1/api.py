@@ -22,6 +22,8 @@ from dandelion.api.api_v1.endpoints import (
     cities,
     cloud_homes,
     countries,
+    edge_node_rsus,
+    edge_nodes,
     login,
     map_rsus,
     maps,
@@ -81,3 +83,7 @@ api_router.include_router(rsus.router, prefix="/rsus", tags=["RSU"])
 api_router.include_router(system_configs.router, prefix="/system_configs", tags=["System Config"])
 
 api_router.include_router(rsi_dnps.router, prefix="/rsi_dnps", tags=["RSI DNP"])
+
+api_router.include_router(edge_nodes.router, prefix="/edge_nodes", tags=["Edge Node"])
+
+api_router.include_router(edge_node_rsus.router, prefix="/edge_node_rsus", tags=["Edge Node RSU"])

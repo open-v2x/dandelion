@@ -14,6 +14,7 @@
 
 from __future__ import annotations
 
+import json
 from logging import LoggerAdapter
 
 import redis
@@ -22,6 +23,7 @@ from sqlalchemy.orm import Session
 
 from dandelion import crud, schemas
 from dandelion.db import redis_pool, session
+from dandelion.mqtt import cloud_server as mqtt_cloud_server
 
 LOG: LoggerAdapter = log.getLogger(__name__)
 
@@ -42,3 +44,29 @@ def update_rsu_online_status() -> None:
             )
         except Exception as ex:
             LOG.warn(f"Failed to update RSU [rsu_esn: {rsu.rsu_esn}] online status: {ex}")
+
+
+def delete_offline_edge() -> None:
+    LOG.info("Deleting offline Edge...")
+    db: Session = session.DB_SESSION_LOCAL()
+    redis_conn: redis.Redis = redis_pool.REDIS_CONN
+
+    _, edges = crud.edge_node.get_multi_with_total(db)
+    LOG.debug(f"Found {len(edges)} online Edges")
+    for edge in edges:
+        if redis_conn.get(f"EDGE_ONLINE_{edge.id}"):
+            continue
+        try:
+            crud.edge_node_rsu.remove_by_node_id(db, edge_node_id=edge.id)
+            crud.edge_node.remove(db, id=edge.id)
+        except Exception as ex:
+            LOG.warn(f"Failed to delete Edge [id: {edge.id}]: {ex}")
+
+
+def edge_heartbeat() -> None:
+    LOG.info("Edge Heartbeat...")
+
+    client = mqtt_cloud_server.GET_MQTT_CLIENT()
+    edge_id = mqtt_cloud_server.GET_EDGE_ID()
+    if client and edge_id > 0:
+        client.publish(topic="V2X/EDGE/HB/UP", payload=json.dumps(dict(id=edge_id)), qos=0)
