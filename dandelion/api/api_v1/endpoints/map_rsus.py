@@ -82,7 +82,7 @@ def create(
                 "createTime": map_rsu.create_time,
             }
         )
-        map_down(map_in_db.name, map_in_db.data, "v1", rsu.rsu_esn)
+        map_down(map_rsu.id, map_in_db.name, map_in_db.data, "v1", rsu.rsu_esn)
 
     return schemas.MapRSU(**{"data": {"mapId": map_id, "rsus": map_rsus}})
 

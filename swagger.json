@@ -7843,6 +7843,11 @@
                         "title": "Config",
                         "type": "object",
                         "description": "Config"
+                    },
+                    "deliveryStatus": {
+                        "title": "Deliverystatus",
+                        "type": "integer",
+                        "description": "Delivery Status"
                     }
                 }
             },

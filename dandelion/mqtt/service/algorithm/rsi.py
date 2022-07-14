@@ -32,26 +32,27 @@ class RSIRouterHandler(RouterHandler):
     def handler(self, client: mqtt.MQTT_CLIENT, topic: str, data: Dict[str, Any]) -> None:
         db: Session = session.DB_SESSION_LOCAL()
 
-        rsi = data.get("rsi")
-        if not rsi:
-            LOG.warn(f"{topic} => rsi is None")
+        rsis = data.get("rsiDatas")
+        if not rsis:
+            LOG.warn(f"{topic} => RSIs is None")
             return None
         rsu = crud.rsu.get_first(db)
-        rsi_event_in = schemas.RSIEventCreate(
-            alertID=rsi.get("alertID"),
-            duration=rsi.get("duration"),
-            eventStatus=rsi.get("eventStatus"),
-            timeStamp=rsi.get("timeStamp"),
-            eventClass=rsi.get("eventClass"),
-            eventType=rsi.get("eventType"),
-            eventSource=rsi.get("eventSource"),
-            eventConfidence=rsi.get("eventConfidence"),
-            eventPosition=rsi.get("eventPosition"),
-            eventRadius=rsi.get("eventRadius"),
-            eventDescription=rsi.get("eventDescription"),
-            eventPriority=rsi.get("eventPriority"),
-            referencePaths=rsi.get("referencePaths"),
-            areaCode=rsi.get("areaCode"),
-        )
-        crud.rsi_event.create_rsi_event(db, obj_in=rsi_event_in, rsu=rsu)
-        LOG.info(f"{topic} => RSIEvent [alert_id: {rsi_event_in.alert_id}] created")
+        for rsi in rsis:
+            rsi_event_in = schemas.RSIEventCreate(
+                alertID=rsi.get("alertID"),
+                duration=rsi.get("duration"),
+                eventStatus=rsi.get("eventStatus"),
+                timeStamp=rsi.get("timeStamp"),
+                eventClass=rsi.get("eventClass"),
+                eventType=rsi.get("eventType"),
+                eventSource=rsi.get("eventSource"),
+                eventConfidence=rsi.get("eventConfidence"),
+                eventPosition=rsi.get("eventPosition"),
+                eventRadius=rsi.get("eventRadius"),
+                eventDescription=rsi.get("eventDescription"),
+                eventPriority=rsi.get("eventPriority"),
+                referencePaths=rsi.get("referencePaths"),
+                areaCode=rsu.area_code,
+            )
+            crud.rsi_event.create_rsi_event(db, obj_in=rsi_event_in, rsu=rsu)
+            LOG.info(f"{topic} => RSIEvent [alert_id: {rsi_event_in.alert_id}] created")

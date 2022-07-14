@@ -18,7 +18,18 @@ from sqlalchemy.orm import Session
 from dandelion import conf, constants, version
 from dandelion.core.security import get_password_hash
 from dandelion.db import session as db_session
-from dandelion.models import MNG, RSU, Area, City, Country, Province, RSUConfig, RSUConfigRSU, User
+from dandelion.models import (
+    MNG,
+    RSU,
+    Area,
+    City,
+    Country,
+    Province,
+    RSUConfig,
+    RSUConfigRSU,
+    SystemConfig,
+    User,
+)
 from dandelion.models.rsu_model import RSUModel
 
 CONF: cfg = conf.CONF
@@ -98,7 +109,7 @@ def init_db() -> None:
     rsu1.version = "v1"
     rsu1.rsu_status = "正常"
     rsu1.online_status = False
-    rsu1.location = {}
+    rsu1.location = {"lon": 118.840897, "lat": 31.88335}
     rsu1.config = {}
     rsu1.rsu_model_id = rsu_model1.id
     rsu1.area_code = "320115"
@@ -128,6 +139,11 @@ def init_db() -> None:
     config_rsu1.rsu = rsu1
     config_rsu1.rsu_config = config1
     session_.add(config_rsu1)
+
+    system_config = SystemConfig()
+    system_config.name = ""
+    system_config.mqtt_config = None
+    session_.add(system_config)
 
     session_.commit()
 

@@ -14,20 +14,44 @@
 
 from __future__ import annotations
 
-import logging
+import json
+from logging import LoggerAdapter
 from typing import Any, Dict, Optional
 
-from dandelion.mqtt import send_msg
+import paho.mqtt.client as mqtt
+from oslo_log import log
+from sqlalchemy.orm import Session
+
+from dandelion import crud
+from dandelion.db import session
+from dandelion.mqtt import server
+from dandelion.mqtt.service import RouterHandler
 from dandelion.mqtt.topic.map import v2x_rsu_map_down, v2x_rsu_map_down_all
 
-logger = logging.getLogger(__name__)
+LOG: LoggerAdapter = log.getLogger(__name__)
 
 
 def map_down(
-    map_slice: str, map_: Dict[str, Any], e_tag: str, rsu_esn: Optional[str] = None
+    id: str, map_slice: str, map_: Dict[str, Any], e_tag: str, rsu_esn: Optional[str] = None
 ) -> None:
-    data = dict(mapSlice=map_slice, map=map_, eTag=e_tag, ack=False)
+    data = dict(mapSlice=map_slice, map=map_, eTag=e_tag, ack=False, seqNum=f"{id}")
     topic = v2x_rsu_map_down_all()
     if rsu_esn is not None:
         topic = v2x_rsu_map_down(rsu_esn)
-    send_msg(topic, data)
+    client = server.GET_MQTT_CLIENT()
+    client.publish(topic=topic, payload=json.dumps(data), qos=0)
+
+
+class MapDownACKRouterHandler(RouterHandler):
+    def handler(self, client: mqtt.MQTT_CLIENT, topic: str, data: Dict[str, Any]) -> None:
+        db: Session = session.DB_SESSION_LOCAL()
+
+        _id = int(data.get("seqNum", 0))
+        if _id > 0:
+            map_rsu = crud.map_rsu.get(db, id=_id)
+            if map_rsu:
+                status = 1
+                if int(data.get("errorCode", -1)) != 0:
+                    status = 2
+                crud.map_rsu.update_status_by_id(db, id=_id, status=status)
+        LOG.info(f"{topic} => Map DOWN ACK [id: {_id}] created")

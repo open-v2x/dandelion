@@ -39,10 +39,19 @@ class RSUConfig(Base, DandelionBase):
         }
 
     def to_all_dict(self):
-        return {**self.to_dict(), **dict(rsus=[v.rsu.to_all_dict() for v in self.rsu_config_rsu])}
+        return {
+            **self.to_dict(),
+            **dict(
+                rsus=[
+                    {**v.rsu.to_all_dict(), **dict(deliveryStatus=v.status)}
+                    for v in self.rsu_config_rsu
+                ]
+            ),
+        }
 
     def mqtt_dict(self):
         return dict(
+            seqNum=self.id,
             bsmConfig=self.bsm,
             rsiConfig=self.rsi,
             spatConfig=self.spat,

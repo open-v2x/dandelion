@@ -27,8 +27,10 @@ from dandelion.mqtt.service import RouterHandler
 from dandelion.mqtt.service.algorithm.rsi import RSIRouterHandler
 from dandelion.mqtt.service.algorithm.rsi_dnp import RSIDNPRouterHandler
 from dandelion.mqtt.service.algorithm.rsm import RSMRouterHandler
+from dandelion.mqtt.service.map.map_down import MapDownACKRouterHandler
 from dandelion.mqtt.service.map.map_up import MapRouterHandler
 from dandelion.mqtt.service.rsu.rsu_base_info import RSUBaseINFORouterHandler
+from dandelion.mqtt.service.rsu.rsu_config import RSUConfigDownACKRouterHandler
 from dandelion.mqtt.service.rsu.rsu_heartbeat import RSUHeartbeatRouterHandler
 from dandelion.mqtt.service.rsu.rsu_info import RSUInfoRouterHandler
 from dandelion.mqtt.service.rsu.rsu_running_info import RSURunningInfoRouterHandler
@@ -41,6 +43,8 @@ topic_router: Dict[str, RouterHandler] = {
     "V2X/RSU/HB/UP": RSUHeartbeatRouterHandler(),
     "V2X/RSU/BaseINFO/UP": RSUBaseINFORouterHandler(),
     "V2X/RSU/RunningInfo/UP": RSURunningInfoRouterHandler(),
+    "V2X/RSU/+/MAP/DOWN/ACK": MapDownACKRouterHandler(),
+    "V2X/RSU/+/CONFIG/DOWN/ACK": RSUConfigDownACKRouterHandler(),
     "V2X/RSU/+/MAP/UP": MapRouterHandler(),
     "V2X/RSU/+/RSI/DOWN": RSIRouterHandler(),
     "V2X/RSU/+/DNP/DOWN": RSIDNPRouterHandler(),

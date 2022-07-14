@@ -46,5 +46,20 @@ class CRUDMapRSU(CRUDBase[MapRSU, MapRSUCreate, MapRSUUpdate]):
         data = query_.all()
         return total, data
 
+    def update_status_by_id(
+        self,
+        db: Session,
+        *,
+        id: int,
+        status: int,
+    ) -> Optional[MapRSU]:
+        map_rsu = self.get(db, id)
+        if map_rsu:
+            map_rsu.status = status
+            db.add(map_rsu)
+            db.commit()
+            db.refresh(map_rsu)
+        return map_rsu
+
 
 map_rsu = CRUDMapRSU(MapRSU)

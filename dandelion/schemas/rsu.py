@@ -108,6 +108,9 @@ class RSUInDBBase(RSUBase):
 # Additional properties to return via API
 class RSU(RSUInDBBase):
     config: Optional[Dict[str, Any]] = Field(None, alias="config", description="Config")
+    delivery_status: Optional[int] = Field(
+        None, alias="deliveryStatus", description="Delivery Status"
+    )
 
 
 class RSUDetail(RSUInDBBase):

@@ -73,7 +73,7 @@ def create(
 
     # config down
     data = rsu_config_in_db.mqtt_dict()
-    data["ack"] = False
+    data["ack"] = True
     for rsu in rsus:
         config_down(data, rsu.rsu_esn)
 

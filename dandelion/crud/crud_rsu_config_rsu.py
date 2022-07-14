@@ -14,6 +14,8 @@
 
 from __future__ import annotations
 
+from typing import Optional
+
 from sqlalchemy.orm import Session
 
 from dandelion.crud.base import CRUDBase
@@ -27,6 +29,21 @@ class CRUDRSUConfigRSU(CRUDBase[RSUConfigRSU, RSUConfigRSUCreate, RSUConfigRSUUp
     def remove_by_rsu_config_id(self, db: Session, *, rsu_config_id: int) -> None:
         db.query(self.model).filter(self.model.rsu_config_id == rsu_config_id).delete()
         db.commit()
+
+    def update_status_by_id(
+        self,
+        db: Session,
+        *,
+        id: int,
+        status: int,
+    ) -> Optional[RSUConfigRSU]:
+        config_rsu = self.get(db, id)
+        if config_rsu:
+            config_rsu.status = status
+            db.add(config_rsu)
+            db.commit()
+            db.refresh(config_rsu)
+        return config_rsu
 
 
 rsu_config_rsu = CRUDRSUConfigRSU(RSUConfigRSU)
