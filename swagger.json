@@ -5590,6 +5590,112 @@
                     }
                 ]
             }
+        },
+        "/api/v1/rsi_dnps": {
+            "get": {
+                "tags": [
+                    "RSI DNP"
+                ],
+                "summary": "List",
+                "description": "\nGet all RSI DNPs.\n",
+                "operationId": "list_api_v1_rsi_dnps_get",
+                "parameters": [
+                    {
+                        "description": "UseCase type",
+                        "required": false,
+                        "schema": {
+                            "title": "Info",
+                            "type": "integer",
+                            "description": "UseCase type"
+                        },
+                        "name": "info",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Page number",
+                        "required": false,
+                        "schema": {
+                            "title": "Pagenum",
+                            "minimum": 1.0,
+                            "type": "integer",
+                            "description": "Page number",
+                            "default": 1
+                        },
+                        "name": "pageNum",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Page size",
+                        "required": false,
+                        "schema": {
+                            "title": "Pagesize",
+                            "minimum": -1.0,
+                            "type": "integer",
+                            "description": "Page size",
+                            "default": 10
+                        },
+                        "name": "pageSize",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RSIDNPs"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            }
         }
     },
     "components": {
@@ -6065,6 +6171,26 @@
                         "title": "Children",
                         "type": "array",
                         "items": {}
+                    }
+                }
+            },
+            "DriveSuggestion": {
+                "title": "DriveSuggestion",
+                "required": [
+                    "suggestion",
+                    "lifeTime"
+                ],
+                "type": "object",
+                "properties": {
+                    "suggestion": {
+                        "title": "Suggestion",
+                        "type": "integer",
+                        "description": "Type of driving behavior"
+                    },
+                    "lifeTime": {
+                        "title": "Lifetime",
+                        "type": "integer",
+                        "description": "Life cycle"
                     }
                 }
             },
@@ -6738,6 +6864,36 @@
                     }
                 }
             },
+            "PathGuidance": {
+                "title": "PathGuidance",
+                "type": "object",
+                "properties": {
+                    "suggestion": {
+                        "title": "Suggestion",
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/REFPOS"
+                            }
+                        ],
+                        "description": "Location"
+                    },
+                    "speed": {
+                        "title": "Speed",
+                        "type": "integer",
+                        "description": "Speed"
+                    },
+                    "heading": {
+                        "title": "Heading",
+                        "type": "integer",
+                        "description": "Heading"
+                    },
+                    "estimatedTime": {
+                        "title": "Estimatedtime",
+                        "type": "integer",
+                        "description": "Estimated time"
+                    }
+                }
+            },
             "Province": {
                 "title": "Province",
                 "required": [
@@ -6758,6 +6914,32 @@
                     }
                 }
             },
+            "REFPOS": {
+                "title": "REFPOS",
+                "required": [
+                    "lon",
+                    "lat",
+                    "ele"
+                ],
+                "type": "object",
+                "properties": {
+                    "lon": {
+                        "title": "Lon",
+                        "type": "integer",
+                        "description": "Longitude"
+                    },
+                    "lat": {
+                        "title": "Lat",
+                        "type": "integer",
+                        "description": "Latitude"
+                    },
+                    "ele": {
+                        "title": "Ele",
+                        "type": "integer",
+                        "description": "Elevation"
+                    }
+                }
+            },
             "RSI": {
                 "title": "RSI",
                 "type": "object",
@@ -6772,6 +6954,89 @@
                             }
                         },
                         "description": "The upper filters of the RSI."
+                    }
+                }
+            },
+            "RSIDNP": {
+                "title": "RSIDNP",
+                "required": [
+                    "id"
+                ],
+                "type": "object",
+                "properties": {
+                    "msgID": {
+                        "title": "Msgid",
+                        "type": "string",
+                        "description": "MSG SN"
+                    },
+                    "secMark": {
+                        "title": "Secmark",
+                        "type": "integer",
+                        "description": "Millisecond time"
+                    },
+                    "refPos": {
+                        "title": "Refpos",
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/REFPOS"
+                            }
+                        ],
+                        "description": "3D coordinates"
+                    },
+                    "vehID": {
+                        "title": "Vehid",
+                        "type": "string",
+                        "description": "Target ID"
+                    },
+                    "driveSuggestion": {
+                        "title": "Drivesuggestion",
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/DriveSuggestion"
+                            }
+                        ],
+                        "description": "Driving advice"
+                    },
+                    "pathGuidance": {
+                        "title": "Pathguidance",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/PathGuidance"
+                        },
+                        "description": "Route plan"
+                    },
+                    "info": {
+                        "title": "Info",
+                        "type": "integer",
+                        "description": "UseCase type"
+                    },
+                    "id": {
+                        "title": "Id",
+                        "type": "integer",
+                        "description": "DNP ID"
+                    }
+                }
+            },
+            "RSIDNPs": {
+                "title": "RSIDNPs",
+                "required": [
+                    "total",
+                    "data"
+                ],
+                "type": "object",
+                "properties": {
+                    "total": {
+                        "title": "Total",
+                        "type": "integer",
+                        "description": "Total"
+                    },
+                    "data": {
+                        "title": "Data",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/RSIDNP"
+                        },
+                        "description": "Data"
                     }
                 }
             },

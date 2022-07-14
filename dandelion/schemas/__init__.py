@@ -27,6 +27,7 @@ from .message import ErrorMessage, Message
 from .mng import MNG, MNGCopy, MNGCreate, MNGs, MNGUpdate
 from .province import Province, ProvinceCreate, ProvinceUpdate
 from .radar import Radar, RadarCreate, Radars, RadarUpdate
+from .rsi_dnp import RSIDNPCreate, RSIDNPs
 from .rsi_event import RSIEvent, RSIEventCreate, RSIEvents, RSIEventUpdate
 from .rsm import RSM, RSMCreate, RSMs, RSMUpdate
 from .rsm_participant import (
@@ -57,6 +58,6 @@ from .rsu_query_result import (
     RSUQueryResultUpdate,
 )
 from .rsu_tmp import RSUTMP, RSUTMPCreate, RSUTMPs, RSUTMPUpdate
-from .system_config import SystemConfig, SystemConfigCreate
+from .system_config import MQTTConfig, SystemConfig, SystemConfigCreate
 from .token import AccessToken, Token, TokenPayload
 from .user import User, UserCreate, UserUpdate

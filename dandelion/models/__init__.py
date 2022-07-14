@@ -25,6 +25,7 @@ from .map_rsu import MapRSU
 from .mng import MNG
 from .province import Province
 from .radar import Radar
+from .rsi_dnp import RSIDNP
 from .rsi_event import RSIEvent
 from .rsm import RSM
 from .rsm_participants import Participants

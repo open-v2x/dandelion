@@ -25,6 +25,7 @@ from oslo_log import log
 from dandelion import conf
 from dandelion.mqtt.service import RouterHandler
 from dandelion.mqtt.service.algorithm.rsi import RSIRouterHandler
+from dandelion.mqtt.service.algorithm.rsi_dnp import RSIDNPRouterHandler
 from dandelion.mqtt.service.algorithm.rsm import RSMRouterHandler
 from dandelion.mqtt.service.map.map_up import MapRouterHandler
 from dandelion.mqtt.service.rsu.rsu_base_info import RSUBaseINFORouterHandler
@@ -41,8 +42,9 @@ topic_router: Dict[str, RouterHandler] = {
     "V2X/RSU/BaseINFO/UP": RSUBaseINFORouterHandler(),
     "V2X/RSU/RunningInfo/UP": RSURunningInfoRouterHandler(),
     "V2X/RSU/+/MAP/UP": MapRouterHandler(),
-    "V2X/DEVICE/+/RSI/UP": RSIRouterHandler(),
-    "V2X/DEVICE/+/RSM_STRUCTURE": RSMRouterHandler(),
+    "V2X/RSU/+/RSI/DOWN": RSIRouterHandler(),
+    "V2X/RSU/+/DNP/DOWN": RSIDNPRouterHandler(),
+    "V2X/RSU/+/RSM/DOWN": RSMRouterHandler(),
 }
 MQTT_CLIENT: mqtt.Client = None
 GET_MQTT_CLIENT: Callable[[], mqtt.Client]

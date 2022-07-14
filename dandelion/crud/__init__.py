@@ -23,6 +23,7 @@ from .crud_map_rsu import map_rsu
 from .crud_mng import mng
 from .crud_province import province
 from .crud_radar import radar
+from .crud_rsi_dnp import rsi_dnp
 from .crud_rsi_event import rsi_event
 from .crud_rsm import rsm
 from .crud_rsm_participant import rsm_participant
@@ -60,4 +61,5 @@ __all__ = [
     "rsm",
     "rsu_config_rsu",
     "system_config",
+    "rsi_dnp",
 ]

@@ -28,6 +28,7 @@ from dandelion.api.api_v1.endpoints import (
     mngs,
     provinces,
     radars,
+    rsi_dnps,
     rsi_events,
     rsm_participants,
     rsu_configs,
@@ -78,3 +79,5 @@ api_router.include_router(rsu_tmps.router, prefix="/rsu_tmps", tags=["RSU TMP"])
 api_router.include_router(rsus.router, prefix="/rsus", tags=["RSU"])
 
 api_router.include_router(system_configs.router, prefix="/system_configs", tags=["System Config"])
+
+api_router.include_router(rsi_dnps.router, prefix="/rsi_dnps", tags=["RSI DNP"])
