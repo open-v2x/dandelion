@@ -26,5 +26,10 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
+          platforms: linux/amd64,linux/arm64
           push: true
           tags: openv2x/dandelion:latest
+          build-args: |
+            GIT_BRANCH=${{ github.ref_name }}
+            REPO_URL=https://github.com/open-v2x/dandelion
+            GIT_COMMIT=${{ github.sha }}
