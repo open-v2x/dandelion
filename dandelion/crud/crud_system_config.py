@@ -14,13 +14,24 @@
 
 from __future__ import annotations
 
+from typing import Any
+
+from sqlalchemy.orm import Session
+
 from dandelion.crud.base import CRUDBase
 from dandelion.models import SystemConfig
 from dandelion.schemas import SystemConfigCreate
 
 
 class CRUDSystemConfig(CRUDBase[SystemConfig, SystemConfigCreate, SystemConfigCreate]):
-    """"""
+    def update_node_id(self, db: Session, *, _id: int, node_id: int) -> Any:
+        _system_config: SystemConfig = db.query(self.model).filter(self.model.id == _id).first()
+        if _system_config:
+            _system_config.node_id = node_id
+            db.add(_system_config)
+            db.commit()
+            db.refresh(_system_config)
+        return _system_config
 
 
 system_config = CRUDSystemConfig(SystemConfig)

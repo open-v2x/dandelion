@@ -35,6 +35,10 @@ class SystemConfigCreate(SystemConfigBase):
     """"""
 
 
+class SystemConfigUpdateNodeId(BaseModel):
+    node_id: int = Field(..., alias="nodeID", description="Edge Node ID")
+
+
 class SystemConfigInDBBase(SystemConfigBase):
     id: int = Field(..., alias="id", description="Config ID")
 

@@ -26,7 +26,8 @@ from sqlalchemy.orm import Session
 
 from dandelion import conf, crud
 from dandelion.mqtt.service import RouterHandler
-from dandelion.mqtt.service.cloud.edge_forward import EdgeForwardRouterHandler
+
+# from dandelion.mqtt.service.cloud.edge_forward import EdgeForwardRouterHandler
 from dandelion.mqtt.service.cloud.edge_hb import EdgeHBRouterHandler
 from dandelion.mqtt.service.cloud.edge_info import EdgeInfoRouterHandler
 from dandelion.mqtt.service.cloud.edge_info_ack import EdgeInfoACKRouterHandler
@@ -39,11 +40,11 @@ topic_router: Dict[str, RouterHandler] = {
     "V2X/EDGE/INFO/UP": EdgeInfoRouterHandler(),
     "V2X/EDGE/HB/UP": EdgeHBRouterHandler(),
     "V2X/EDGE/RSU/UP": EdgeRSURouterHandler(),
-    "V2X/DEVICE/+/PARTICIPANT": EdgeForwardRouterHandler(),
-    "V2X/DEVICE/+/APPLICATION/CW": EdgeForwardRouterHandler(),
-    "V2X/DEVICE/+/APPLICATION/CLC": EdgeForwardRouterHandler(),
-    "V2X/DEVICE/+/APPLICATION/DNP": EdgeForwardRouterHandler(),
-    "V2X/DEVICE/+/APPLICATION/SDS": EdgeForwardRouterHandler(),
+    # "V2X/DEVICE/+/PARTICIPANT": EdgeForwardRouterHandler(),
+    # "V2X/DEVICE/+/APPLICATION/CW": EdgeForwardRouterHandler(),
+    # "V2X/DEVICE/+/APPLICATION/CLC": EdgeForwardRouterHandler(),
+    # "V2X/DEVICE/+/APPLICATION/DNP": EdgeForwardRouterHandler(),
+    # "V2X/DEVICE/+/APPLICATION/SDS": EdgeForwardRouterHandler(),
 }
 MQTT_CLIENT: mqtt.Client = None
 GET_MQTT_CLIENT: Callable[[], mqtt.Client]

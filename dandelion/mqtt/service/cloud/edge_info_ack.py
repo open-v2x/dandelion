@@ -36,6 +36,8 @@ class EdgeInfoACKRouterHandler(RouterHandler):
         node_id = int(data.get("id", 0))
         SET_EDGE_ID(node_id)
         db: Session = session.DB_SESSION_LOCAL()
+        crud.system_config.update_node_id(db, _id=1, node_id=node_id)
+
         _, rsus = crud.rsu.get_multi_with_total(db)
         node_rsus: List[dict] = []
         for rsu in rsus:

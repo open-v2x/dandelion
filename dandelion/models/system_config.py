@@ -14,7 +14,7 @@
 
 from __future__ import annotations
 
-from sqlalchemy import JSON, Column, String
+from sqlalchemy import JSON, Column, Integer, String
 
 from dandelion.db.base_class import Base, DandelionBase
 
@@ -23,7 +23,12 @@ class SystemConfig(Base, DandelionBase):
     __tablename__ = "system_config"
 
     name = Column(String(length=255), nullable=True, default="")
+    node_id = Column(Integer, nullable=True, default=0)
     mqtt_config = Column(JSON, nullable=True)
 
     def __repr__(self) -> str:
-        return f"<SystemConfig(name='{self.name}', " f"mqtt_config='{self.mqtt_config}'>"
+        return (
+            f"<SystemConfig(name='{self.name}', "
+            f"node_id='{self.node_id}', "
+            f"mqtt_config='{self.mqtt_config}'>"
+        )
