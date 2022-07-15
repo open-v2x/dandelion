@@ -6,104 +6,138 @@
 [![star](https://img.shields.io/github/stars/open-v2x/dandelion)](#)
 [![license](https://img.shields.io/github/license/open-v2x/dandelion)](LICENSE)
 
-## Description
+## Table of contents
 
-TODO
-
-## Features
-
-TODO
-
-## Installation
-
-```bash
-make install
-```
+- [OpenV2X Device Management - APIServer](#openv2x-device-management---apiserver)
+  - [Table of contents](#table-of-contents)
+  - [Configuration](#configuration)
+  - [Build && Run (Linux)](#build--run-linux)
+  - [Local Development (Linux)](#local-development-linux)
+    - [Run server](#run-server)
+    - [Alembic (Database Migration)](#alembic-database-migration)
+    - [Genereate the latest swagger file](#genereate-the-latest-swagger-file)
+    - [Generate the latest sample config file](#generate-the-latest-sample-config-file)
+    - [Code Format && Style Check](#code-format--style-check)
 
 ## Configuration
 
-**Sample:** [dandelion.conf.sample](./etc/dandelion/dandelion.conf.sample)
+- **Sample File:** [dandelion.conf.sample](./etc/dandelion/dandelion.conf.sample)
 
-```bash
-cp etc/dandelion/dandelion.conf.example etc/dandelion/dandelion.conf
-```
+- First of all, you need to copy the configuration file from sample.
 
-Generally, you should change the following values:
+    ```bash
+    cp etc/dandelion/dandelion.conf.example etc/dandelion/dandelion.conf
+    ```
 
-[DEFAULT]
-- debug
-- log_file
-- log_dir
+- Generally, you should change the following values:
 
-[cors]
-- origins
+    ```yaml
+    [DEFAULT]
+    debug: true
+    log_file: dandelion.log
+    log_dir: /var/log/dandelion
 
-[database]
-- connection
+    [cors]
+    origins: *
 
-[mqtt]
-- host
-- port
-- username
-- password
+    [database]
+    connection: mysql+pymysql://dandelion:dandelion@127.0.0.1:3306/dandelion
 
-[redis]
-- connection
+    [mqtt]
+    host: 127.0.0.1
+    port: 1883
+    username: root
+    password: 123456
 
-[token]
-- expire_seconds
+    [redis]
+    connection: redis://root:123456@127.0.0.1:6379?db=0&socket_timeout=60&retry_on_timeout=yes
 
-```bash
-mkdir -p /etc/dandelion
-DANDELION_PATH=`pwd`
-cd /etc/dandelion
-ln -s ${DANDELION_PATH}/etc/dandelion/dandelion.conf dandelion.conf
-```
+    [token]
+    expire_seconds: 604800
+    ```
 
-## Build && Run
+- At last, you can link the `etc/dandelion/dandelion.conf` to the `/etc/dandelion/dandelion.conf` file.
 
-Build docker image.
+    ```bash
+    mkdir -p /etc/dandelion
+    DANDELION_PATH=`pwd`
+    cd /etc/dandelion
+    ln -s ${DANDELION_PATH}/etc/dandelion/dandelion.conf dandelion.conf
+    ```
 
-```bash
-make build
-```
+## Build && Run (Linux)
 
-Run as container.
+- Build docker image.
 
-```bash
-mkdir -p /var/log/dandelion
-docker run -d --name dandelion_bootstrap -e KOLLA_BOOTSTRAP="" -v /etc/dandelion/dandelion.conf:/etc/dandelion/dandelion.conf --net=host dandelion:latest
-docker rm dandelion_bootstrap
-docker run -d --name dandelion --restart=always -v /etc/dandelion/dandelion.conf:/etc/dandelion/dandelion.conf -v /var/log/dandelion:/var/log/dandelion --net=host dandelion:latest
-```
+    ```bash
+    RELEASE_VERSION=`git rev-parse --short HEAD`_`date -u +%Y-%m-%dT%H:%M:%S%z`
+    GIT_BRANCH=`git rev-parse --abbrev-ref HEAD`
+    GIT_COMMIT=`git rev-parse --verify HEAD`
+    docker build --no-cache --pull --force-rm --build-arg RELEASE_VERSION=${RELEASE_VERSION} --build-arg GIT_BRANCH=${GIT_BRANCH} --build-arg GIT_COMMIT=${GIT_COMMIT} -f Dockerfile -t dandelion:latest .
+    ```
 
-## Local Development
+- Run dandelion service as container.
+
+    ```bash
+    mkdir -p /var/log/dandelion
+    docker run -d --name dandelion_bootstrap -e KOLLA_BOOTSTRAP="" -v /etc/dandelion/dandelion.conf:/etc/dandelion/dandelion.conf --net=host dandelion:latest
+    docker rm dandelion_bootstrap
+    docker run -d --name dandelion --restart=always -v /etc/dandelion/dandelion.conf:/etc/dandelion/dandelion.conf -v /var/log/dandelion:/var/log/dandelion --net=host dandelion:latest
+    ```
+
+## Local Development (Linux)
 
 ### Run server
 
-At last, you can run the server.
+- Before you run the dandelion server, you need to follow the [Configuration](#configuration) section.
 
-```bash
-make server
-```
+    ```bash
+    tox -e venv
+    source .tox/venv/bin/activate
+    uvicorn --reload --reload-dir dandelion --port 28300 --log-level debug dandelion.main:app --host 0.0.0.0
+    ```
 
-You can visit the OpenAPI document at `http://127.0.0.1:28300/docs`
+- You can visit the OpenAPI swagger document at `http://127.0.0.1:28300/docs`
+
+### Alembic (Database Migration)
+
+- Generate the migration script.
+
+    ```bash
+    tox -e venv
+    source .tox/venv/bin/activate
+    alembic revision --autogenerate -m "xxxx"
+    ```
+
+- Run the migration script and update the database.
+
+    ```bash
+    tox -e venv
+    source .tox/venv/bin/activate
+    alembic upgrade head
+    ```
 
 ### Genereate the latest swagger file
 
-```bash
-make swagger
-```
+- Generate the latest swagger file.
+
+    ```bash
+    tox -e genswagger
+    ```
 
 ### Generate the latest sample config file
 
-```bash
-make config
-```
+- Generate the latest sample config file.
 
-## Code Format && Style
+    ```bash
+    tox -e genconfig
+    ```
 
-```bash
-make fmt
-make lint
-```
+### Code Format && Style Check
+
+- Code format and style check.
+
+    ```bash
+    tox -e pep8-format
+    tox -e pep8
+    ```
