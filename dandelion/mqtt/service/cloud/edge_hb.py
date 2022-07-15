@@ -30,5 +30,5 @@ LOG: LoggerAdapter = log.getLogger(__name__)
 class EdgeHBRouterHandler(RouterHandler):
     def handler(self, client: mqtt.MQTT_CLIENT, topic: str, data: Dict[str, Any]) -> None:
         redis_conn: redis.Redis = redis_pool.REDIS_CONN
-        redis_conn.set(f"EDGE_ONLINE_{data.get('id')}", 1, ex=15)
+        redis_conn.set(f"EDGE_ONLINE_{data.get('id')}", 1, ex=30)
         LOG.info(f"{topic} => Edge HB")

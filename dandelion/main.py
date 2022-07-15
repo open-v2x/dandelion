@@ -96,7 +96,7 @@ def delete_offline_edge() -> None:
 
 
 @app.on_event("startup")
-@repeat_every(seconds=15)
+@repeat_every(seconds=10)
 def edge_heartbeat() -> None:
     periodic_tasks.edge_heartbeat()
 
