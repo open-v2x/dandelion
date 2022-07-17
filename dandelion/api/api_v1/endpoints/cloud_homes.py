@@ -145,7 +145,7 @@ def route_info_push(
         redis_conn.hset(key, "pedestrianTotal", route_info_in.pedestrian_total)
     if route_info_in.congestion:
         redis_conn.hset(key, "congestion", route_info_in.congestion)
-    redis_conn.expire(name=key, time=60, gt=True)
+    redis_conn.expire(name=key, time=60)
     return schemas.RouteInfo(
         vehicleTotal=route_info_in.vehicle_total,
         averageSpeed=route_info_in.average_speed,
