@@ -13,8 +13,8 @@ SQLAlchemy>=1.4.37 # MIT
 uvicorn>=0.17.6 # BSD
 gunicorn>=20.1.0 # MIT
 paho-mqtt>=1.6.1 # OSI-Approved
-redis>=4.3.3 # MIT
-types-redis>=4.2.7 # Apache-2.0
+redis==4.3.4 # MIT
+types-redis==4.3.4 # Apache-2.0
 python-jose>=3.3.0 # MIT
 passlib>=1.7.4 # BSD
 python-multipart>=0.0.5 # Apache-2.0
