@@ -14,7 +14,7 @@
 
 from __future__ import annotations
 
-from sqlalchemy import JSON, Boolean, Column, ForeignKey, Integer, String
+from sqlalchemy import JSON, Boolean, Column, Float, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
 from dandelion.db.base_class import Base, DandelionBase
@@ -40,6 +40,13 @@ class RSU(Base, DandelionBase):
     )
     desc = Column(String(255), nullable=True, default="")
     log_id = Column(Integer, ForeignKey("rsu_log.id"))
+
+    bias_x = Column(Float, nullable=True, default=0.0)
+    bias_y = Column(Float, nullable=True, default=0.0)
+    rotation = Column(Float, nullable=True, default=0.0)
+    reverse = Column(Boolean, nullable=True, default=False)
+    scale = Column(Float, nullable=True, default=0.0)
+    lane_info = Column(JSON, nullable=True)
 
     cameras = relationship("Camera", backref="rsu")
     radars = relationship("Radar", backref="rsu")

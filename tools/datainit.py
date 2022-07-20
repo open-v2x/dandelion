@@ -115,16 +115,103 @@ def init_db() -> None:
     rsu1.area_code = "320115"
     rsu1.address = "江宁交叉路口"
     rsu1.desc = ""
+    rsu1.bias_x = 0.0
+    rsu1.bias_y = 0.0
+    rsu1.rotation = 0.0
+    rsu1.reverse = False
+    rsu1.scale = 0.09
+    rsu1.lane_info = {
+        1: -1,
+        2: 1,
+        3: 1,
+        4: -1,
+        5: -1,
+        6: -1,
+        7: -1,
+        8: 1,
+        9: 1,
+        10: 1,
+        11: 1,
+        12: 1,
+        13: 1,
+        14: -1,
+        15: -1,
+        16: 1,
+        17: 1,
+        18: 1,
+        19: 1,
+        20: -1,
+        21: -1,
+        22: -1,
+        23: -1,
+        24: -1,
+    }
 
-    mng = MNG()
-    mng.heartbeat_rate = 0
-    mng.running_info_rate = 0
-    mng.log_level = "NOLog"
-    mng.reboot = "not_reboot"
-    mng.address_change = dict(cssUrl="", time=0)
-    mng.extend_config = ""
-    rsu1.mng = mng
+    mng1 = MNG()
+    mng1.heartbeat_rate = 0
+    mng1.running_info_rate = 0
+    mng1.log_level = "NOLog"
+    mng1.reboot = "not_reboot"
+    mng1.address_change = dict(cssUrl="", time=0)
+    mng1.extend_config = ""
+    rsu1.mng = mng1
     session_.add(rsu1)
+
+    rsu2 = RSU()
+    rsu2.rsu_id = "8361"
+    rsu2.rsu_esn = "R329329"
+    rsu2.rsu_name = "RSU02"
+    rsu2.rsu_ip = "192.168.0.103"
+    rsu2.version = "v1"
+    rsu2.rsu_status = "正常"
+    rsu2.online_status = False
+    rsu2.location = {"lon": 118.862336, "lat": 31.929900}
+    rsu2.config = {}
+    rsu2.rsu_model_id = rsu_model1.id
+    rsu2.area_code = "320115"
+    rsu2.address = "江宁交叉路口"
+    rsu2.desc = ""
+    rsu2.bias_x = 74.67
+    rsu2.bias_y = 78.91
+    rsu2.rotation = 2.0
+    rsu2.reverse = True
+    rsu2.scale = 0.09
+    rsu2.lane_info = {
+        1: -1,
+        2: 1,
+        3: 1,
+        4: -1,
+        5: -1,
+        6: -1,
+        7: -1,
+        8: 1,
+        9: 1,
+        10: 1,
+        11: 1,
+        12: 1,
+        13: 1,
+        14: -1,
+        15: -1,
+        16: 1,
+        17: 1,
+        18: 1,
+        19: 1,
+        20: -1,
+        21: -1,
+        22: -1,
+        23: -1,
+        24: -1,
+    }
+
+    mng2 = MNG()
+    mng2.heartbeat_rate = 0
+    mng2.running_info_rate = 0
+    mng2.log_level = "NOLog"
+    mng2.reboot = "not_reboot"
+    mng2.address_change = dict(cssUrl="", time=0)
+    mng2.extend_config = ""
+    rsu2.mng = mng2
+    session_.add(rsu2)
 
     config1 = RSUConfig()
     config1.name = "测试01"
