@@ -15,6 +15,7 @@
 from __future__ import annotations
 
 from logging import LoggerAdapter
+from typing import Dict
 
 from oslo_config import cfg
 from oslo_log import log
@@ -36,7 +37,10 @@ def setup_db() -> None:
             connect_args={"check_same_thread": False},
         )
     else:
-        engine = create_engine(CONF.database.connection, pool_pre_ping=True)
+        engine_cfg: Dict[str, int] = {}
+        engine_cfg["pool_size"] = CONF.database.max_pool_size
+        engine_cfg["max_overflow"] = CONF.database.max_overflow
+        engine = create_engine(CONF.database.connection, pool_pre_ping=True, **engine_cfg)
 
     global DB_SESSION_LOCAL
     DB_SESSION_LOCAL = sessionmaker(autocommit=False, autoflush=False, bind=engine)

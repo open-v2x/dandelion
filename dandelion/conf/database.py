@@ -32,6 +32,21 @@ database_opts = [
 Connection of database.
 """,
     ),
+    cfg.IntOpt(
+        "max_pool_size",
+        default=50,
+        help="""
+Maximum number of SQL connections to keep open in a pool.
+Setting a value of 0 indicates no limit.
+""",
+    ),
+    cfg.IntOpt(
+        "max_overflow",
+        default=1000,
+        help="""
+If set, use this value for max_overflow with sqlalchemy.
+""",
+    ),
 ]
 
 

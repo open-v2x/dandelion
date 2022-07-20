@@ -1,25 +1,6 @@
 [DEFAULT]
 
 #
-# From oslo.config
-#
-
-# Path to a config file to use. Multiple config files can be specified, with values in later files
-# taking precedence. Defaults to %(default)s. This option must be set from the command-line
-# (unknown value)
-#config_file = ['~/.project/project.conf', '~/project.conf', '/etc/project/project.conf', '/etc/project.conf']
-
-# Path to a config directory to pull `*.conf` files from. This file set is sorted, so as to provide
-# a predictable parse order if individual options are over-ridden. The set is parsed after the
-# file(s) specified via previous --config-file, arguments hence over-ridden options in the
-# directory take precedence. This option must be set from the command-line (list value)
-#config_dir = ~/.project/project.conf.d/,~/project.conf.d/,/etc/project/project.conf.d/,/etc/project.conf.d/
-
-# Lists configuration groups that provide more details for accessing configuration settings from
-# locations other than local files (list value)
-#config_source =
-
-#
 # From oslo.log
 #
 
@@ -185,6 +166,17 @@
 #  (string value)
 #connection = sqlite:////tmp/dandelion.db
 
+#
+# Maximum number of SQL connections to keep open in a pool.
+# Setting a value of 0 indicates no limit.
+#  (integer value)
+#max_pool_size = 50
+
+#
+# If set, use this value for max_overflow with sqlalchemy.
+#  (integer value)
+#max_overflow = 1000
+
 
 [mqtt]
 #
@@ -233,63 +225,6 @@
 # "redis://<user>:<password>@<ip>:<port>?sentinel=<sentinel>&sentinel_fallback=<ip>:<port>&sentinel_fallback=<ip>:<port>&db=0&socket_timeout=60&retry_on_timeout=yes"
 #  (string value)
 #connection = <None>
-
-
-[sample_remote_file_source]
-# Example of using a remote_file source
-#
-# remote_file: A backend driver for remote files served through http[s].
-#
-# Required options:
-#   - uri: URI containing the file location.
-#
-# Non-required options:
-#   - ca_path: The path to a CA_BUNDLE file or directory with
-#              certificates of trusted CAs.
-#
-#   - client_cert: Client side certificate, as a single file path
-#                  containing either the certificate only or the
-#                  private key and the certificate.
-#
-#   - client_key: Client side private key, in case client_cert is
-#                 specified but does not includes the private key.
-
-#
-# From oslo.config
-#
-
-# The name of the driver that can load this configuration source (string value)
-#
-# This option has a sample default set, which means that
-# its actual default value may vary from the one documented
-# below.
-#driver = remote_file
-
-# Required option with the URI of the extra configuration file's location (uri value)
-#
-# This option has a sample default set, which means that
-# its actual default value may vary from the one documented
-# below.
-#uri = https://example.com/my-configuration.ini
-
-# The path to a CA_BUNDLE file or directory with certificates of trusted CAs (string value)
-#
-# This option has a sample default set, which means that
-# its actual default value may vary from the one documented
-# below.
-#ca_path = /etc/ca-certificates
-
-# Client side certificate, as a single file path containing either the certificate only or the
-# private key and the certificate (string value)
-#
-# This option has a sample default set, which means that
-# its actual default value may vary from the one documented
-# below.
-#client_cert = /etc/ca-certificates/service-client-keystore
-
-# Client side private key, in case client_cert is specified but does not includes the private key
-# (string value)
-#client_key = <None>
 
 
 [token]
