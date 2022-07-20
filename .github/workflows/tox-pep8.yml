@@ -3,7 +3,7 @@ name: pep8
 on:
   push:
     branches:
-      - master
+      - albany
   pull_request:
     types: [opened, synchronize]
 
