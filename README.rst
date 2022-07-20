@@ -4,11 +4,12 @@ OpenV2X Device Management - APIServer
 
 |pep8| |ci| |issue| |star| |license|
 
+English \| `简体中文 <./README-zh_CN.rst>`__
+
 Table of contents
 -----------------
 
--  `OpenV2X Device Management -
-   APIServer <#openv2x-device-management---apiserver>`__
+-  `OpenV2X Device Management - APIServer <#openv2x-device-management---apiserver>`__
 
    -  `Table of contents <#table-of-contents>`__
    -  `Configuration <#configuration>`__
@@ -95,8 +96,7 @@ Local Development (Linux)
 Run server
 ~~~~~~~~~~
 
--  Before you run the dandelion server, you need to follow the
-   `Configuration <#configuration>`__ section.
+-  Before you run the dandelion server, you need to follow the `Configuration <#configuration>`__ section.
 
    .. code:: bash
 
@@ -104,8 +104,7 @@ Run server
       source .tox/venv/bin/activate
       uvicorn --reload --reload-dir dandelion --port 28300 --log-level debug dandelion.main:app --host 0.0.0.0
 
--  You can visit the OpenAPI swagger document at
-   ``http://127.0.0.1:28300/docs``
+-  You can visit the OpenAPI swagger document at ``http://127.0.0.1:28300/docs``
 
 Alembic (Database Migration)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~

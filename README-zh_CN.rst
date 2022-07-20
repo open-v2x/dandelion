@@ -4,6 +4,8 @@ OpenV2X 设备管理 - APIServer
 
 |pep8| |ci| |issue| |star| |license|
 
+`English <./README.rst>`__ \| 简体中文
+
 目录
 ----
 
@@ -102,8 +104,7 @@ OpenV2X 设备管理 - APIServer
       source .tox/venv/bin/activate
       uvicorn --reload --reload-dir dandelion --port 28300 --log-level debug dandelion.main:app --host 0.0.0.0
 
--  你可以在 ``http://127.0.0.1:28300/docs`` 地址访问 OpenAPI swagger
-   文档。
+-  你可以在 ``http://127.0.0.1:28300/docs`` 地址访问 OpenAPI swagger 文档。
 
 Alembic (数据库迁移)
 ~~~~~~~~~~~~~~~~~~~~
