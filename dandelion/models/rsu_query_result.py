@@ -45,4 +45,6 @@ class RSUQueryResult(Base, DandelionBase):
         }
 
     def rsu_dict(self):
-        return dict(rsuId=self.rsu.id, rsuName=self.rsu.rsu_name, rsuEsn=self.rsu.rsu_esn)
+        return dict(
+            rsuId=self.rsu.id, rsuName=self.rsu.rsu_name, rsuEsn=self.rsu.rsu_esn, data=self.data
+        )

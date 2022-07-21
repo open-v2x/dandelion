@@ -14,25 +14,15 @@
 
 from __future__ import annotations
 
-import json
-import time
-
-from dandelion.mqtt import server
-from dandelion.mqtt.topic.query import info_query
+from dandelion.crud.base import CRUDBase
+from dandelion.models import RSUQueryResultData
+from dandelion.schemas import RSUQueryResultDataCreate
 
 
-def down_query(
-    rsu_id: str, rsu_esn: str, version: str, id: int, info_id: int, interval: int
-) -> None:
-    data = dict(
-        rsuId=rsu_id,
-        rsuEsn=rsu_esn,
-        timestamp=int(time.time()),
-        protocolVersion=version,
-        infoId=info_id,
-        interval=interval,
-        ack=True,
-        seqNum=f"{id}",
-    )
-    client = server.GET_MQTT_CLIENT()
-    client.publish(topic=info_query(), payload=json.dumps(data), qos=0)
+class CRUDRSUQueryResultData(
+    CRUDBase[RSUQueryResultData, RSUQueryResultDataCreate, RSUQueryResultDataCreate]
+):
+    """"""
+
+
+rsu_query_result_data = CRUDRSUQueryResultData(RSUQueryResultData)

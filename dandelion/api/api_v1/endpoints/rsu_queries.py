@@ -22,6 +22,7 @@ from sqlalchemy.orm import Session
 
 from dandelion import crud, models, schemas
 from dandelion.api import deps
+from dandelion.mqtt.service.query import down_query
 
 router = APIRouter()
 LOG: LoggerAdapter = log.getLogger(__name__)
@@ -51,18 +52,25 @@ def create(
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> schemas.RSUQuery:
+    rsu_query_in_db = crud.rsu_query.create(db, obj_in=rsu_query_in)
     for rsu_id in rsu_query_in.rsus:
-        rus_in_db = crud.rsu.get(db, id=rsu_id)
-        if not rus_in_db:
+        rus = crud.rsu.get(db, id=rsu_id)
+        if not rus:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail=f"RSU [id: {rsu_id}] not found",
             )
 
-    rsu_query_in_db = crud.rsu_query.create(db, obj_in=rsu_query_in)
-    for rsu_id in rsu_query_in.rsus:
-        crud.rsu_query_result.create(
+        rsu_query_result = crud.rsu_query_result.create(
             db, obj_in=schemas.RSUQueryResultCreate(query_id=rsu_query_in_db.id, rsu_id=rsu_id)
+        )
+        down_query(
+            rus.rsu_id,
+            rus.rsu_esn,
+            rus.version,
+            rsu_query_result.id,
+            rsu_query_in.query_type,
+            rsu_query_in.time_type,
         )
     return rsu_query_in_db.to_dict()
 
