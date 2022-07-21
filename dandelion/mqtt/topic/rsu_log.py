@@ -16,12 +16,12 @@ from __future__ import annotations
 
 
 def v2x_rsu_log_conf_down_all():
-    return "V2X/RSU/LOG/UP"
+    return "V2X/RSU/Log/UP"
 
 
 def v2x_rsu_log_conf_down(rsu_esn):
-    return f"V2X/RSU/{rsu_esn}/LOG/UP"
+    return f"V2X/RSU/{rsu_esn}/Log/UP"
 
 
 def v2x_rsu_log_conf_down_ack(rsu_esn):
-    return f"V2X/RSU/{rsu_esn}/LOG/UP/ACK"
+    return f"V2X/RSU/{rsu_esn}/Log/UP/ACK"
