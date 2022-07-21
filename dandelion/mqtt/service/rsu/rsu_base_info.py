@@ -38,7 +38,9 @@ class RSUBaseINFORouterHandler(RouterHandler):
         base_info.version = data.get("protocolVersion")
         base_info.rsu_status = data.get("rsuStatus")
         base_info.location = data.get("location")
-        base_info.area_code = data.get("regionId")
+        area_code = data.get("regionId")
+        if area_code:
+            base_info.area_code = area_code
         base_info.imei = data.get("imei")
         base_info.icc_id = data.get("iccid")
         base_info.communication_type = data.get("communicationType")
