@@ -15,7 +15,7 @@
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 from pydantic import BaseModel, Field
 
@@ -51,7 +51,7 @@ class RSMParticipant(RSMParticipantInDBBase):
     sec_mark: int = Field(..., alias="secMark", description="Sec mark")
     lon: int = Field(..., alias="lon", description="Lon")
     lat: int = Field(..., alias="lat", description="Lat")
-    accuracy: str = Field(..., alias="accuracy", description="Accuracy")
+    accuracy: Optional[str] = Field(None, alias="accuracy", description="Accuracy")
     speed: int = Field(..., alias="speed", description="Speed")
     heading: int = Field(..., alias="heading", description="Heading")
     size: Dict[str, int] = Field(..., alias="size", description="Size")
