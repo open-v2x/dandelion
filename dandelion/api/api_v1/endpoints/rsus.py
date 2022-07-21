@@ -14,11 +14,13 @@
 
 from __future__ import annotations
 
+import json
 from logging import LoggerAdapter
 from typing import Any, Dict, List, Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Query, Response, status
 from oslo_log import log
+from redis import Redis
 from sqlalchemy import exc as sql_exc
 from sqlalchemy.orm import Session, exc as orm_exc
 
@@ -141,6 +143,7 @@ def get(
     rsu_id: int,
     *,
     db: Session = Depends(deps.get_db),
+    redis_conn: Redis = Depends(deps.get_redis_conn),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> schemas.RSUDetail:
     rsu_in_db = crud.rsu.get(db, id=rsu_id)
@@ -152,7 +155,21 @@ def get(
     result = rsu_in_db.to_info_dict()
     rsu_config_rsus: List[models.RSUConfigRSU] = result["config"]
     result["config"] = [rsu_config_rsu.to_dict() for rsu_config_rsu in rsu_config_rsus]
-
+    key = f"RSU_RUNNING_INFO_{rsu_in_db.rsu_esn}"
+    result["runningInfo"] = dict(
+        cpu=Optional_util.none(redis_conn.hget(key, "cpu"))
+        .map(lambda v: json.loads(v))
+        .orElse({}),
+        mem=Optional_util.none(redis_conn.hget(key, "mem"))
+        .map(lambda v: json.loads(v))
+        .orElse({}),
+        disk=Optional_util.none(redis_conn.hget(key, "disk"))
+        .map(lambda v: json.loads(v))
+        .orElse({}),
+        net=Optional_util.none(redis_conn.hget(key, "net"))
+        .map(lambda v: json.loads(v))
+        .orElse({}),
+    )
     return result
 
 
