@@ -8460,6 +8460,11 @@
                         "title": "Depart",
                         "type": "string",
                         "description": "Organization"
+                    },
+                    "runningInfo": {
+                        "title": "Runninginfo",
+                        "type": "object",
+                        "description": "RSU Running Info"
                     }
                 }
             },

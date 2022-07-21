@@ -14,12 +14,14 @@
 
 from __future__ import annotations
 
+import json
 from logging import LoggerAdapter
 from typing import Any, Dict
 
 import paho.mqtt.client as mqtt
 from oslo_log import log
 
+from dandelion.api.deps import get_redis_conn
 from dandelion.mqtt.service import RouterHandler
 
 LOG: LoggerAdapter = log.getLogger(__name__)
@@ -27,4 +29,13 @@ LOG: LoggerAdapter = log.getLogger(__name__)
 
 class RSURunningInfoRouterHandler(RouterHandler):
     def handler(self, client: mqtt.MQTT_CLIENT, topic: str, data: Dict[str, Any]) -> None:
-        LOG.warn(f"{topic} => Not implemented yet")
+        LOG.info(f"{topic} => Not implemented yet")
+        redis_conn = get_redis_conn()
+        rsu_esn = data.get("rsuEsn")
+        if rsu_esn:
+            key = f"RSU_RUNNING_INFO_{rsu_esn}"
+            redis_conn.hset(key, "cpu", json.dumps(data.get("cpu", {})))
+            redis_conn.hset(key, "mem", json.dumps(data.get("mem", {})))
+            redis_conn.hset(key, "disk", json.dumps(data.get("disk", {})))
+            redis_conn.hset(key, "net", json.dumps(data.get("net", {})))
+            redis_conn.expire(name=key, time=60 * 60 * 24)

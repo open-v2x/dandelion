@@ -157,6 +157,9 @@ class RSUDetail(RSUInDBBase):
         None, alias="hardwareVersion", description="Hardware Version"
     )
     depart: Optional[str] = Field(None, alias="depart", description="Organization")
+    running_info: Optional[Dict[str, Any]] = Field(
+        None, alias="runningInfo", description="RSU Running Info"
+    )
 
 
 class RSUs(BaseModel):
