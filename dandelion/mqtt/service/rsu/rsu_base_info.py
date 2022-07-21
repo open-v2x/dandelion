@@ -19,7 +19,10 @@ from typing import Any, Dict
 
 import paho.mqtt.client as mqtt
 from oslo_log import log
+from sqlalchemy.orm import Session
 
+from dandelion import crud, schemas
+from dandelion.db import session
 from dandelion.mqtt.service import RouterHandler
 
 LOG: LoggerAdapter = log.getLogger(__name__)
@@ -27,4 +30,25 @@ LOG: LoggerAdapter = log.getLogger(__name__)
 
 class RSUBaseINFORouterHandler(RouterHandler):
     def handler(self, client: mqtt.MQTT_CLIENT, topic: str, data: Dict[str, Any]) -> None:
-        LOG.warn(f"{topic} => Not implemented yet")
+        esn = data.get("rsuEsn")
+        if not esn:
+            return
+        base_info = schemas.RSUUpdateWithBaseInfo()
+        base_info.rsu_id = data.get("rsuId")
+        base_info.version = data.get("protocolVersion")
+        base_info.rsu_status = data.get("rsuStatus")
+        base_info.location = data.get("location")
+        base_info.area_code = data.get("regionId")
+        base_info.imei = data.get("imei")
+        base_info.icc_id = data.get("iccid")
+        base_info.communication_type = data.get("communicationType")
+        base_info.running_communication_type = data.get("RunningCommunicationType")
+        base_info.transprotocal = data.get("transprotocal")
+        base_info.software_version = data.get("SoftwareVersion")
+        base_info.hardware_version = data.get("hardwareVersion")
+        base_info.depart = data.get("depart")
+        db: Session = session.DB_SESSION_LOCAL()
+        rsu = crud.rsu.get_by_rsu_esn(db, rsu_esn=esn)
+        if rsu:
+            crud.rsu.update_with_base_info(db, db_obj=rsu, obj_in=base_info)
+        LOG.info(f"{topic} => Processed RSU Base Info successfully")

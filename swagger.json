@@ -7592,7 +7592,6 @@
                     "secMark",
                     "lon",
                     "lat",
-                    "accuracy",
                     "speed",
                     "heading",
                     "size",
@@ -8421,6 +8420,46 @@
                             "$ref": "#/components/schemas/RSUConfigRSUInRSU"
                         },
                         "description": "RSU Config RSU"
+                    },
+                    "imei": {
+                        "title": "Imei",
+                        "type": "string",
+                        "description": "IMEI"
+                    },
+                    "iccID": {
+                        "title": "Iccid",
+                        "type": "string",
+                        "description": "ICC ID"
+                    },
+                    "communicationType": {
+                        "title": "Communicationtype",
+                        "type": "string",
+                        "description": "Communication Type"
+                    },
+                    "runningCommunicationType": {
+                        "title": "Runningcommunicationtype",
+                        "type": "string",
+                        "description": "Running Communication Type"
+                    },
+                    "transprotocal": {
+                        "title": "Transprotocal",
+                        "type": "string",
+                        "description": "RSU Transprotocal"
+                    },
+                    "softwareVersion": {
+                        "title": "Softwareversion",
+                        "type": "string",
+                        "description": "Software Version"
+                    },
+                    "hardwareVersion": {
+                        "title": "Hardwareversion",
+                        "type": "string",
+                        "description": "Hardware Version"
+                    },
+                    "depart": {
+                        "title": "Depart",
+                        "type": "string",
+                        "description": "Organization"
                     }
                 }
             },

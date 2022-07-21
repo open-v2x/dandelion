@@ -41,6 +41,15 @@ class RSU(Base, DandelionBase):
     desc = Column(String(255), nullable=True, default="")
     log_id = Column(Integer, ForeignKey("rsu_log.id"))
 
+    imei = Column(String(64), nullable=True)
+    icc_id = Column(String(64), nullable=True)
+    communication_type = Column(String(64), nullable=True)
+    running_communication_type = Column(String(64), nullable=True)
+    transprotocal = Column(String(64), nullable=True)
+    software_version = Column(String(64), nullable=True)
+    hardware_version = Column(String(64), nullable=True)
+    depart = Column(String(64), nullable=True)
+
     bias_x = Column(Float, nullable=True, default=0.0)
     bias_y = Column(Float, nullable=True, default=0.0)
     rotation = Column(Float, nullable=True, default=0.0)
@@ -75,11 +84,23 @@ class RSU(Base, DandelionBase):
             updateTime=self.update_time,
         )
 
+    def to_base_dict(self):
+        return dict(
+            imei=self.imei,
+            iccID=self.icc_id,
+            communicationType=self.communication_type,
+            runningCommunicationType=self.running_communication_type,
+            transprotocal=self.transprotocal,
+            softwareVersion=self.software_version,
+            hardwareVersion=self.hardware_version,
+            depart=self.depart,
+        )
+
     def to_all_dict(self):
         return {**self.to_dict(), **self.area.to_all()}
 
     def to_info_dict(self):
-        return {**self.to_all_dict(), "config": self.rsu_config_rsu}
+        return {**self.to_all_dict(), **self.to_base_dict(), "config": self.rsu_config_rsu}
 
     def mqtt_dict(self):
         return dict(

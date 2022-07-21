@@ -98,6 +98,30 @@ class RSUUpdateWithStatus(RSUUpdate):
     online_status: Optional[bool] = Field(None, alias="onlineStatus", description="Status")
 
 
+class RSUUpdateWithBaseInfo(BaseModel):
+    rsu_id: Optional[str] = Field(None, alias="rsuId", description="RSU ID")
+    version: Optional[str] = Field(None, alias="version", description="Version")
+    location: Optional[RSULocation] = Field(None, alias="location", description="Location")
+    area_code: Optional[str] = Field(None, alias="regionId", description="RSU Area Code")
+    rsu_status: Optional[str] = Field(None, alias="rsuStatus", description="RSU Status")
+    imei: Optional[str] = Field(None, alias="imei", description="RSU IMEI")
+    icc_id: Optional[str] = Field(None, alias="iccId", description="RSU ICC ID")
+    communication_type: Optional[str] = Field(
+        None, alias="communicationType", description="Communication Type"
+    )
+    running_communication_type: Optional[str] = Field(
+        None, alias="runningCommunicationType", description="Running Communication Type"
+    )
+    transprotocal: Optional[str] = Field(None, alias="transprotocal", description="Transprotocal")
+    software_version: Optional[str] = Field(
+        None, alias="softwareVersion", description="Software Version"
+    )
+    hardware_version: Optional[str] = Field(
+        None, alias="hardwareVersion", description="Hardware Version"
+    )
+    depart: Optional[str] = Field(None, alias="depart", description="Organization")
+
+
 class RSUInDBBase(RSUBase):
     id: int = Field(..., alias="id", description="RSU ID")
 
@@ -115,6 +139,24 @@ class RSU(RSUInDBBase):
 
 class RSUDetail(RSUInDBBase):
     config: List[RSUConfigRSUInRSU] = Field(..., alias="config", description="RSU Config RSU")
+    imei: Optional[str] = Field(None, alias="imei", description="IMEI")
+    icc_id: Optional[str] = Field(None, alias="iccID", description="ICC ID")
+    communication_type: Optional[str] = Field(
+        None, alias="communicationType", description="Communication Type"
+    )
+    running_communication_type: Optional[str] = Field(
+        None, alias="runningCommunicationType", description="Running Communication Type"
+    )
+    transprotocal: Optional[str] = Field(
+        None, alias="transprotocal", description="RSU Transprotocal"
+    )
+    software_version: Optional[str] = Field(
+        None, alias="softwareVersion", description="Software Version"
+    )
+    hardware_version: Optional[str] = Field(
+        None, alias="hardwareVersion", description="Hardware Version"
+    )
+    depart: Optional[str] = Field(None, alias="depart", description="Organization")
 
 
 class RSUs(BaseModel):
