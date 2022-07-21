@@ -60,6 +60,7 @@ from .rsu_query_result import (
     RSUQueryResults,
     RSUQueryResultUpdate,
 )
+from .rsu_query_result_data import RSUQueryResultData, RSUQueryResultDataCreate
 from .rsu_tmp import RSUTMP, RSUTMPCreate, RSUTMPs, RSUTMPUpdate
 from .system_config import MQTTConfig, SystemConfig, SystemConfigCreate
 from .token import AccessToken, Token, TokenPayload

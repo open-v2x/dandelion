@@ -37,7 +37,7 @@ class RSIEventCreate(BaseModel):
     event_confidence: Optional[float] = Field(
         None, alias="eventConfidence", description="Event confidence"
     )
-    event_position: Optional[str] = Field(
+    event_position: Optional[Dict[str, Any]] = Field(
         None, alias="eventPosition", description="Event position"
     )
     event_radius: Optional[float] = Field(None, alias="eventRadius", description="Event radius")

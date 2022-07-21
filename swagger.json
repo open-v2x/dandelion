@@ -8517,6 +8517,11 @@
                         "title": "Rsuname",
                         "type": "string",
                         "description": "RSU name"
+                    },
+                    "data": {
+                        "title": "Data",
+                        "type": "object",
+                        "description": "Query Data"
                     }
                 }
             },

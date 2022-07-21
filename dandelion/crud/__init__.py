@@ -36,6 +36,7 @@ from .crud_rsu_log import rsu_log
 from .crud_rsu_model import rsu_model
 from .crud_rsu_query import rsu_query
 from .crud_rsu_query_result import rsu_query_result
+from .crud_rsu_query_result_data import rsu_query_result_data
 from .crud_rsu_tmp import rsu_tmp
 from .crud_system_config import system_config
 from .crud_user import user
@@ -66,4 +67,5 @@ __all__ = [
     "rsi_dnp",
     "edge_node",
     "edge_node_rsu",
+    "rsu_query_result_data",
 ]

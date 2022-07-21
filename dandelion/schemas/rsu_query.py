@@ -24,6 +24,7 @@ class RSUInRSUQuery(BaseModel):
     rsu_id: int = Field(..., alias="rsuId", description="The ID of the RSU")
     rsu_esn: str = Field(..., alias="rsuEsn", description="RSU ESN")
     rsu_name: str = Field(..., alias="rsuName", description="RSU name")
+    data: Optional[Dict[str, Any]] = Field(None, alias="data", description="Query Data")
 
 
 # Shared properties
