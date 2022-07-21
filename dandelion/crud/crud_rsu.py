@@ -23,7 +23,13 @@ from sqlalchemy.orm import Session
 from dandelion.crud.base import CRUDBase
 from dandelion.crud.utils import get_mng_default
 from dandelion.models import RSU, RSUTMP
-from dandelion.schemas import RSUCreate, RSUUpdate, RSUUpdateWithStatus, RSUUpdateWithVersion
+from dandelion.schemas import (
+    RSUCreate,
+    RSUUpdate,
+    RSUUpdateWithBaseInfo,
+    RSUUpdateWithStatus,
+    RSUUpdateWithVersion,
+)
 
 
 class CRUDRSU(CRUDBase[RSU, RSUCreate, RSUUpdate]):
@@ -45,6 +51,20 @@ class CRUDRSU(CRUDBase[RSU, RSUCreate, RSUUpdate]):
 
     def update_with_version(
         self, db: Session, *, db_obj: RSU, obj_in: RSUUpdateWithVersion
+    ) -> RSU:
+        obj_data = jsonable_encoder(db_obj, by_alias=False)
+        update_data = obj_in.dict(exclude_unset=True)
+        for field in obj_data:
+            if field in update_data:
+                setattr(db_obj, field, update_data[field])
+        db_obj.update_time = datetime.utcnow()
+        db.add(db_obj)
+        db.commit()
+        db.refresh(db_obj)
+        return db_obj
+
+    def update_with_base_info(
+        self, db: Session, *, db_obj: RSU, obj_in: RSUUpdateWithBaseInfo
     ) -> RSU:
         obj_data = jsonable_encoder(db_obj, by_alias=False)
         update_data = obj_in.dict(exclude_unset=True)

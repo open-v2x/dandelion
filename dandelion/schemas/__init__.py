@@ -45,6 +45,7 @@ from .rsu import (
     RSULocation,
     RSUs,
     RSUUpdate,
+    RSUUpdateWithBaseInfo,
     RSUUpdateWithStatus,
     RSUUpdateWithVersion,
 )
