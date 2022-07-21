@@ -107,7 +107,7 @@ def init_db() -> None:
     rsu1.rsu_name = "RSU01"
     rsu1.rsu_ip = "192.168.0.102"
     rsu1.version = "v1"
-    rsu1.rsu_status = "正常"
+    rsu1.rsu_status = "Normal"
     rsu1.online_status = False
     rsu1.location = {"lon": 118.840897, "lat": 31.88335}
     rsu1.config = {}
@@ -163,7 +163,7 @@ def init_db() -> None:
     rsu2.rsu_name = "RSU02"
     rsu2.rsu_ip = "192.168.0.103"
     rsu2.version = "v1"
-    rsu2.rsu_status = "正常"
+    rsu2.rsu_status = "Normal"
     rsu2.online_status = False
     rsu2.location = {"lon": 118.862336, "lat": 31.929900}
     rsu2.config = {}
