@@ -35,7 +35,7 @@ class MapRSUBase(BaseModel):
 
 # Properties to receive via API on creation
 class MapRSUCreate(BaseModel):
-    rsus: List[str] = Field(..., alias="rsus", description="RSU ESN")
+    rsus: List[int] = Field(..., alias="rsus", description="RSU ID")
 
 
 # Properties to receive via API on update

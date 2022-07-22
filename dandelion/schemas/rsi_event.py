@@ -87,13 +87,19 @@ class RSIEvent(RSIEventInDBBase):
     timestamp: str = Field(..., alias="timestamp", description="Timestamp")
     event_source: str = Field(..., alias="eventSource", description="Event source")
     event_confidence: float = Field(..., alias="eventConfidence", description="Event confidence")
-    event_position: Dict[str, Any] = Field(
-        ..., alias="eventPosition", description="Event position"
+    event_position: Optional[Dict[str, Any]] = Field(
+        None, alias="eventPosition", description="Event position"
     )
-    event_radius: float = Field(..., alias="eventRadius", description="Event radius")
-    event_description: str = Field(..., alias="eventDescription", description="Event description")
-    event_priority: int = Field(..., alias="eventPriority", description="Event priority")
-    reference_paths: str = Field(..., alias="referencePaths", description="Reference paths")
+    event_radius: Optional[float] = Field(None, alias="eventRadius", description="Event radius")
+    event_description: Optional[str] = Field(
+        None, alias="eventDescription", description="Event description"
+    )
+    event_priority: Optional[int] = Field(
+        None, alias="eventPriority", description="Event priority"
+    )
+    reference_paths: Optional[str] = Field(
+        None, alias="referencePaths", description="Reference paths"
+    )
 
 
 class RSIEvents(BaseModel):

@@ -14,15 +14,15 @@
 
 from __future__ import annotations
 
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
 from pydantic import BaseModel, Field
 
 
 # Shared properties
 class RSUQueryResultDataBase(BaseModel):
-    result_id: int = Field(..., description="Result ID")
-    data: Dict[str, Any] = Field(..., description="Result Data")
+    result_id: Optional[int] = Field(None, description="Result ID")
+    data: Optional[Dict[str, Any]] = Field(None, description="Result Data")
 
 
 # Properties to receive via API on creation

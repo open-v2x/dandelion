@@ -46,7 +46,7 @@ Get all RSM.
     },
 )
 def list(
-    ptc_type: Optional[int] = Query(None, alias="ptcType", description="Filter by ptcType"),
+    ptc_type: Optional[str] = Query(None, alias="ptcType", description="Filter by ptcType"),
     page_num: int = Query(1, alias="pageNum", ge=1, description="Page number"),
     page_size: int = Query(10, alias="pageSize", ge=-1, description="Page size"),
     db: Session = Depends(deps.get_db),

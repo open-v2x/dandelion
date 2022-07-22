@@ -3072,7 +3072,7 @@
                         "required": false,
                         "schema": {
                             "title": "Ptctype",
-                            "type": "integer",
+                            "type": "string",
                             "description": "Filter by ptcType"
                         },
                         "name": "ptcType",
@@ -6986,9 +6986,9 @@
                         "title": "Rsus",
                         "type": "array",
                         "items": {
-                            "type": "string"
+                            "type": "integer"
                         },
-                        "description": "RSU ESN"
+                        "description": "RSU ID"
                     }
                 }
             },
@@ -7394,12 +7394,7 @@
                     "eventStatus",
                     "timestamp",
                     "eventSource",
-                    "eventConfidence",
-                    "eventPosition",
-                    "eventRadius",
-                    "eventDescription",
-                    "eventPriority",
-                    "referencePaths"
+                    "eventConfidence"
                 ],
                 "type": "object",
                 "properties": {
@@ -7993,45 +7988,6 @@
                     }
                 }
             },
-            "RSUConfigRSUInRSU": {
-                "title": "RSUConfigRSUInRSU",
-                "required": [
-                    "id",
-                    "status",
-                    "rsu_id",
-                    "rsu_config_id",
-                    "create_time"
-                ],
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "title": "Id",
-                        "type": "integer",
-                        "description": "ID"
-                    },
-                    "status": {
-                        "title": "Status",
-                        "type": "boolean",
-                        "description": "Status"
-                    },
-                    "rsu_id": {
-                        "title": "Rsu Id",
-                        "type": "integer",
-                        "description": "RSU ID"
-                    },
-                    "rsu_config_id": {
-                        "title": "Rsu Config Id",
-                        "type": "integer",
-                        "description": "RSU Config ID"
-                    },
-                    "create_time": {
-                        "title": "Create Time",
-                        "type": "string",
-                        "description": "Create Time",
-                        "format": "date-time"
-                    }
-                }
-            },
             "RSUConfigUpdate": {
                 "title": "RSUConfigUpdate",
                 "required": [
@@ -8287,8 +8243,7 @@
                     "onlineStatus",
                     "createTime",
                     "updateTime",
-                    "id",
-                    "config"
+                    "id"
                 ],
                 "type": "object",
                 "properties": {
@@ -8417,7 +8372,7 @@
                         "title": "Config",
                         "type": "array",
                         "items": {
-                            "$ref": "#/components/schemas/RSUConfigRSUInRSU"
+                            "type": "object"
                         },
                         "description": "RSU Config RSU"
                     },
@@ -8496,11 +8451,6 @@
             },
             "RSUInRSUQuery": {
                 "title": "RSUInRSUQuery",
-                "required": [
-                    "rsuId",
-                    "rsuEsn",
-                    "rsuName"
-                ],
                 "type": "object",
                 "properties": {
                     "rsuId": {
@@ -8520,7 +8470,6 @@
                     },
                     "data": {
                         "title": "Data",
-                        "type": "object",
                         "description": "Query Data"
                     }
                 }
@@ -8878,8 +8827,7 @@
                     "id",
                     "queryType",
                     "timeType",
-                    "createTime",
-                    "rsus"
+                    "createTime"
                 ],
                 "type": "object",
                 "properties": {
@@ -8949,64 +8897,7 @@
                 "properties": {
                     "data": {
                         "title": "Data",
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/RSUQueryDetailBase"
-                        },
                         "description": "RSU Query Detail"
-                    }
-                }
-            },
-            "RSUQueryDetailBase": {
-                "title": "RSUQueryDetailBase",
-                "required": [
-                    "rsuName",
-                    "rsuEsn",
-                    "queryType",
-                    "timeType",
-                    "createTime",
-                    "data"
-                ],
-                "type": "object",
-                "properties": {
-                    "rsuId": {
-                        "title": "Rsuid",
-                        "type": "integer",
-                        "description": "The ID of the RSU"
-                    },
-                    "rsuName": {
-                        "title": "Rsuname",
-                        "type": "string",
-                        "description": "RSU name"
-                    },
-                    "rsuEsn": {
-                        "title": "Rsuesn",
-                        "type": "string",
-                        "description": "RSU ESN"
-                    },
-                    "queryType": {
-                        "title": "Querytype",
-                        "type": "integer",
-                        "description": "Query Type"
-                    },
-                    "timeType": {
-                        "title": "Timetype",
-                        "type": "integer",
-                        "description": "Time Type"
-                    },
-                    "createTime": {
-                        "title": "Createtime",
-                        "type": "string",
-                        "description": "Create Time",
-                        "format": "date-time"
-                    },
-                    "data": {
-                        "title": "Data",
-                        "type": "array",
-                        "items": {
-                            "type": "object"
-                        },
-                        "description": "Data"
                     }
                 }
             },

@@ -15,7 +15,7 @@
 from __future__ import annotations
 
 from logging import LoggerAdapter
-from typing import List, Optional
+from typing import Dict, List, Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Query, Response, status
 from oslo_log import log
@@ -55,15 +55,18 @@ def create(
     current_user: models.User = Depends(deps.get_current_user),
 ) -> schemas.RSUConfig:
     rsus: List[models.RSU] = []
+    rsu_dict: Dict[int, str] = dict()
     if rsu_config_in.rsus:
         for rsu_id in rsu_config_in.rsus:
-            rus_in_db = crud.rsu.get(db, id=rsu_id)
-            if not rus_in_db:
+            rsu_in_db = crud.rsu.get(db, id=rsu_id)
+            if not rsu_in_db:
                 raise HTTPException(
                     status_code=status.HTTP_404_NOT_FOUND,
                     detail=f"RSU [id: {rsu_id}] not found",
                 )
-            rsus.append(rus_in_db)
+            crud.rsu_config_rsu.remove_by_rsu_id(db, rsu_id=rsu_id)
+            rsu_dict[rsu_in_db.id] = rsu_in_db.rsu_esn
+            rsus.append(rsu_in_db)
 
     try:
         rsu_config_in_db = crud.rsu_config.create_rsu_config(db, obj_in=rsu_config_in, rsus=rsus)
@@ -74,8 +77,9 @@ def create(
     # config down
     data = rsu_config_in_db.mqtt_dict()
     data["ack"] = True
-    for rsu in rsus:
-        config_down(data, rsu.rsu_esn)
+    for rsu in rsu_config_in_db.rsus:
+        data["seqNum"] = f"{rsu.id}"
+        config_down(data, rsu_dict.get(rsu.rsu_id))
 
     return rsu_config_in_db.to_dict()
 

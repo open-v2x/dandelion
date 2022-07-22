@@ -72,7 +72,9 @@ def create(
 
     map_rsus: List[Dict[str, Union[int, str, datetime, bool]]] = []
     for rsu in rsus:
-        _map_rsu = models.MapRSU(map_id=map_id, rsu_id=rsu.id)
+        _map_rsu = models.MapRSU()
+        _map_rsu.map_id = map_id
+        _map_rsu.rsu_id = rsu.id
         map_rsu = crud.map_rsu.create(db, obj_in=_map_rsu)
         map_rsus.append(
             {

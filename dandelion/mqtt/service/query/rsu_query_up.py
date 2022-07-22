@@ -31,17 +31,17 @@ LOG: LoggerAdapter = log.getLogger(__name__)
 class RSUQueryUPRouterHandler(RouterHandler):
     def handler(self, client: mqtt.MQTT_CLIENT, topic: str, data: Dict[str, Any]) -> None:
         db: Session = session.DB_SESSION_LOCAL()
-        esn = data.get("resEsn")
+        esn = data.get("rsuEsn")
         if not esn:
             return
         result_data = schemas.RSUQueryResultDataCreate()
         result_data.result_id = int(data.get("seqNum", 0))
         info_type = data.get("Infotype", -1)
         if info_type == 0:
-            result_data.data = data.get("InfoValue", {}).get("runningInfo", {})
+            result_data.data = data.get("InfoValue", {})
         elif info_type == 1:
             result_data.data = data.get("InfoValue", {})
         elif info_type == 2:
             result_data.data = data.get("InfoValue", {})
-        crud.rsu_query_result_data.create(db, obj_in=result_data)
+        crud.rsu_query_result_data.create_result_data(db, obj_in=result_data)
         LOG.info(f"{topic} => RSUQueryResponse created")

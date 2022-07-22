@@ -21,10 +21,10 @@ from pydantic import BaseModel, Field
 
 
 class RSUInRSUQuery(BaseModel):
-    rsu_id: int = Field(..., alias="rsuId", description="The ID of the RSU")
-    rsu_esn: str = Field(..., alias="rsuEsn", description="RSU ESN")
-    rsu_name: str = Field(..., alias="rsuName", description="RSU name")
-    data: Optional[Dict[str, Any]] = Field(None, alias="data", description="Query Data")
+    rsu_id: Optional[int] = Field(None, alias="rsuId", description="The ID of the RSU")
+    rsu_esn: Optional[str] = Field(None, alias="rsuEsn", description="RSU ESN")
+    rsu_name: Optional[str] = Field(None, alias="rsuName", description="RSU name")
+    data: Optional[Any] = Field(None, alias="data", description="Query Data")
 
 
 # Shared properties
@@ -62,9 +62,7 @@ class RSUQueryDetailBase(BaseModel):
 
 
 class RSUQueryDetail(BaseModel):
-    data: Optional[List[RSUQueryDetailBase]] = Field(
-        None, alias="data", description="RSU Query Detail"
-    )
+    data: Optional[Any] = Field(None, alias="data", description="RSU Query Detail")
 
 
 # Additional properties to return via API
@@ -72,7 +70,7 @@ class RSUQuery(RSUQueryInDBBase):
     query_type: int = Field(..., alias="queryType", description="Query Type")
     time_type: int = Field(..., alias="timeType", description="Time Type")
     create_time: datetime = Field(..., alias="createTime", description="Create Time")
-    rsus: List[RSUInRSUQuery] = Field(..., alias="rsus", description="RSUs")
+    rsus: Optional[List[RSUInRSUQuery]] = Field(None, alias="rsus", description="RSUs")
 
 
 class RSUQueries(BaseModel):
