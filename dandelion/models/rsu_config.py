@@ -51,7 +51,6 @@ class RSUConfig(Base, DandelionBase):
 
     def mqtt_dict(self):
         return dict(
-            seqNum=f"{self.id}",
             bsmConfig=self.bsm,
             rsiConfig=self.rsi,
             spatConfig=self.spat,

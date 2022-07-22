@@ -18,6 +18,7 @@ from sqlalchemy import Column, ForeignKey, Integer
 from sqlalchemy.orm import relationship
 
 from dandelion.db.base_class import Base, DandelionBase
+from dandelion.util import Optional
 
 
 class RSUConfigRSU(Base, DandelionBase):
@@ -39,9 +40,15 @@ class RSUConfigRSU(Base, DandelionBase):
             id=self.id,
             rsu_id=self.rsu_id,
             rsu_config_id=self.rsu_config_id,
+            rsu_config=Optional.none(self.rsu_config)
+            .map(lambda config: config.to_dict())
+            .orElse({}),
             status=self.status,
             create_time=self.create_time,
         )
+
+    def to_config_dict(self):
+        return Optional.none(self.rsu_config).map(lambda config: config.to_dict()).orElse({})
 
     @staticmethod
     def create(rsu, rsu_config):

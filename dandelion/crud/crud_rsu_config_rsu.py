@@ -30,6 +30,10 @@ class CRUDRSUConfigRSU(CRUDBase[RSUConfigRSU, RSUConfigRSUCreate, RSUConfigRSUUp
         db.query(self.model).filter(self.model.rsu_config_id == rsu_config_id).delete()
         db.commit()
 
+    def remove_by_rsu_id(self, db: Session, *, rsu_id: int) -> None:
+        db.query(self.model).filter(self.model.rsu_id == rsu_id).delete()
+        db.commit()
+
     def update_status_by_id(
         self,
         db: Session,

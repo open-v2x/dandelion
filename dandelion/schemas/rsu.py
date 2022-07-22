@@ -138,7 +138,9 @@ class RSU(RSUInDBBase):
 
 
 class RSUDetail(RSUInDBBase):
-    config: List[RSUConfigRSUInRSU] = Field(..., alias="config", description="RSU Config RSU")
+    config: Optional[List[Dict[str, Any]]] = Field(
+        None, alias="config", description="RSU Config RSU"
+    )
     imei: Optional[str] = Field(None, alias="imei", description="IMEI")
     icc_id: Optional[str] = Field(None, alias="iccID", description="ICC ID")
     communication_type: Optional[str] = Field(

@@ -202,12 +202,8 @@ def update(
     new_map_in.address = map_in.address
     new_map_in.desc = map_in.desc
     if map_in.data:
-        new_map_in.lng = (
-            Optional_util.none(map_in.data.get("refPos")).map(lambda v: v.get("lon")).orElse(0),
-        )
-        new_map_in.lat = (
-            Optional_util.none(map_in.data.get("refPos")).map(lambda v: v.get("lat")).orElse(0),
-        )
+        new_map_in.lng = map_in.data.get("refPos", {}).get("lon", 0.0)
+        new_map_in.lat = map_in.data.get("refPos", {}).get("lat", 0.0)
 
     try:
         new_map_in_db = crud.map.update(db, db_obj=map_in_db, obj_in=new_map_in.__dict__)

@@ -26,4 +26,4 @@ class RSUQueryResultData(Base, DandelionBase):
     data = Column(JSON, nullable=True)
 
     def __repr__(self) -> str:
-        return f"<RSUQueryResultData(id='{self.id}')>"
+        return f"<RSUQueryResultData(id='{self.id}', data='{self.data}')>"

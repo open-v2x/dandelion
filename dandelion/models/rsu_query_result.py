@@ -32,7 +32,9 @@ class RSUQueryResult(Base, DandelionBase):
         return f"<RSUQueryResult(id='{self.id}')>"
 
     def to_all_dict(self):
-        return {**self.to_dict(), **dict(data=[v.data for v in self.data])}
+        return {
+            **self.to_dict(),
+        }
 
     def to_dict(self):
         return {
@@ -45,6 +47,15 @@ class RSUQueryResult(Base, DandelionBase):
         }
 
     def rsu_dict(self):
-        return dict(
-            rsuId=self.rsu.id, rsuName=self.rsu.rsu_name, rsuEsn=self.rsu.rsu_esn, data=self.data
-        )
+        data = dict()
+        if self.rsu:
+            data = dict(
+                rsuId=self.rsu.id,
+                rsuName=self.rsu.rsu_name,
+                rsuEsn=self.rsu.rsu_esn,
+            )
+        if self.data and len(self.data) > 0:
+            d = self.data[0]
+            if d:
+                data["data"] = d.data
+        return data

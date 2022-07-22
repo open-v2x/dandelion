@@ -15,8 +15,8 @@
 from __future__ import annotations
 
 
-def info_query():
-    return "V2X/RSU/INFOQuery"
+def info_query(esn):
+    return f"V2X/RSU/{esn}/INFOQuery"
 
 
 def info_query_response():

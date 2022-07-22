@@ -154,7 +154,7 @@ def get(
         )
     result = rsu_in_db.to_info_dict()
     rsu_config_rsus: List[models.RSUConfigRSU] = result["config"]
-    result["config"] = [rsu_config_rsu.to_dict() for rsu_config_rsu in rsu_config_rsus]
+    result["config"] = [rsu_config_rsu.to_config_dict() for rsu_config_rsu in rsu_config_rsus]
     key = f"RSU_RUNNING_INFO_{rsu_in_db.rsu_esn}"
     result["runningInfo"] = dict(
         cpu=Optional_util.none(redis_conn.hget(key, "cpu"))

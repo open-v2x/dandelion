@@ -14,6 +14,9 @@
 
 from __future__ import annotations
 
+from fastapi.encoders import jsonable_encoder
+from sqlalchemy.orm import Session
+
 from dandelion.crud.base import CRUDBase
 from dandelion.models import RSUQueryResultData
 from dandelion.schemas import RSUQueryResultDataCreate
@@ -23,6 +26,16 @@ class CRUDRSUQueryResultData(
     CRUDBase[RSUQueryResultData, RSUQueryResultDataCreate, RSUQueryResultDataCreate]
 ):
     """"""
+
+    def create_result_data(
+        self, db: Session, *, obj_in: RSUQueryResultDataCreate
+    ) -> RSUQueryResultData:
+        obj_in_data = jsonable_encoder(obj_in, by_alias=False)
+        db_obj = self.model(**obj_in_data)
+        db.add(db_obj)
+        db.commit()
+        db.refresh(db_obj)
+        return db_obj
 
 
 rsu_query_result_data = CRUDRSUQueryResultData(RSUQueryResultData)

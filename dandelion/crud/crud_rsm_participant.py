@@ -32,7 +32,7 @@ class CRUDRSMParticipant(CRUDBase[Participants, RSMParticipantCreate, RSMPartici
         *,
         skip: int = 0,
         limit: int = 10,
-        ptc_type: Optional[int] = None,
+        ptc_type: Optional[str] = None,
     ) -> Tuple[int, List[Participants]]:
         query_ = db.query(self.model)
         if ptc_type is not None:
