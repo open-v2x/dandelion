@@ -28,7 +28,7 @@ class RSU(Base, DandelionBase):
     rsu_ip = Column(String(64), nullable=False)
     rsu_name = Column(String(64), index=True, nullable=False)
     version = Column(String(64), nullable=False)
-    rsu_status = Column(String(32), index=True, nullable=False)
+    rsu_status = Column(String(4), index=True, nullable=False)
     enabled = Column(Boolean, nullable=True, default=True)
     location = Column(JSON, nullable=False)
     config = Column(JSON, nullable=False)
