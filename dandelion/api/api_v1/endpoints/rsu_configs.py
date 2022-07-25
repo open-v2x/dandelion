@@ -235,6 +235,7 @@ def update(
     data = new_rsu_config_in_db.mqtt_dict()
     data["ack"] = False
     for rsu in rsus:
+        data["seqNum"] = f"{rsu.id}"
         config_down(data, rsu.rsu_esn)
 
     return new_rsu_config_in_db.to_dict()
