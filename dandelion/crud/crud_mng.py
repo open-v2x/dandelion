@@ -43,5 +43,8 @@ class CRUDMNG(CRUDBase[MNG, MNGCreate, MNGUpdate]):
     def get_by_rsu_id(self, db: Session, *, rsu_id: int) -> Optional[MNG]:
         return db.query(MNG).filter(MNG.rsu_id == rsu_id).first()
 
+    def remove_by_rsu_id(self, db: Session, *, rsu_id: int):
+        db.query(MNG).filter(MNG.rsu_id == rsu_id).delete()
+
 
 mng = CRUDMNG(MNG)
