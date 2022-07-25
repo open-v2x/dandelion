@@ -25,7 +25,7 @@ class RSUTMP(Base, DandelionBase):
     rsu_id = Column(String(64), nullable=False)
     rsu_esn = Column(String(64), nullable=False, index=True, unique=True)
     rsu_name = Column(String(64), nullable=False, index=True)
-    rsu_status = Column(String(4), nullable=False)
+    rsu_status = Column(String(32), nullable=False)
     version = Column(String(64), nullable=False)
     location = Column(JSON, nullable=False)
     config = Column(JSON, nullable=False)
