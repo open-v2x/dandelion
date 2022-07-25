@@ -17,6 +17,7 @@ from __future__ import annotations
 from typing import List, Optional, Tuple
 
 from fastapi.encoders import jsonable_encoder
+from sqlalchemy import desc
 from sqlalchemy.orm import Session
 
 from dandelion.crud.base import CRUDBase
@@ -45,6 +46,7 @@ class CRUDRSIDNP(CRUDBase[RSIDNP, RSIDNPCreate, RSIDNPCreate]):
         if info is not None:
             query_ = query_.filter(self.model.info == info)
         total = query_.count()
+        query_ = query_.order_by(desc(self.model.id))
         if limit != -1:
             query_ = query_.offset(skip).limit(limit)
         data = query_.all()
