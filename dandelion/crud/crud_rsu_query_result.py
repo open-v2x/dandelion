@@ -14,6 +14,10 @@
 
 from __future__ import annotations
 
+from typing import List
+
+from sqlalchemy.orm import Session
+
 from dandelion.crud.base import CRUDBase
 from dandelion.models import RSUQueryResult
 from dandelion.schemas import RSUQueryResultCreate, RSUQueryResultUpdate
@@ -21,6 +25,9 @@ from dandelion.schemas import RSUQueryResultCreate, RSUQueryResultUpdate
 
 class CRUDRSUQueryResult(CRUDBase[RSUQueryResult, RSUQueryResultCreate, RSUQueryResultUpdate]):
     """"""
+
+    def get_multi_by_rsu_id(self, db: Session, *, rsu_id: int) -> List[int]:
+        return db.query(RSUQueryResult.id).filter(RSUQueryResult.rsu_id == rsu_id).all()
 
 
 rsu_query_result = CRUDRSUQueryResult(RSUQueryResult)

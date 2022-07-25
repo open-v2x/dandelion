@@ -237,6 +237,11 @@ def delete(
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail=f"RSU [id: {rsu_id}] not found"
         )
+    results = crud.rsu_query_result.get_multi_by_rsu_id(db, rsu_id=rsu_id)
+    for result_id in results:
+        crud.rsu_query_result_data.remove_by_result_id(db, result_id=result_id)
+        crud.rsu_query_result.remove(db, id=result_id)
+    crud.mng.remove_by_rsu_id(db, rsu_id=rsu_id)
     crud.rsu.remove(db, id=rsu_id)
     return Response(content=None, status_code=status.HTTP_204_NO_CONTENT)
 

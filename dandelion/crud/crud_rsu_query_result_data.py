@@ -37,5 +37,8 @@ class CRUDRSUQueryResultData(
         db.refresh(db_obj)
         return db_obj
 
+    def remove_by_result_id(self, db: Session, *, result_id: int):
+        db.query(self.model).filter(self.model.result_id == result_id).delete()
+
 
 rsu_query_result_data = CRUDRSUQueryResultData(RSUQueryResultData)
