@@ -5596,9 +5596,9 @@
                 "tags": [
                     "RSI DNP"
                 ],
-                "summary": "List",
+                "summary": "List Rsi Dnps",
                 "description": "\nGet all RSI DNPs.\n",
-                "operationId": "list_api_v1_rsi_dnps_get",
+                "operationId": "list_rsi_dnps_api_v1_rsi_dnps_get",
                 "parameters": [
                     {
                         "description": "UseCase type",
@@ -5645,6 +5645,335 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/RSIDNPs"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/rsi_cwms": {
+            "get": {
+                "tags": [
+                    "RSI CWM"
+                ],
+                "summary": "List Rsi Cwms",
+                "description": "\nGet all RSI CWMs.\n",
+                "operationId": "list_rsi_cwms_api_v1_rsi_cwms_get",
+                "parameters": [
+                    {
+                        "description": "Event Type",
+                        "required": false,
+                        "schema": {
+                            "title": "Eventtype",
+                            "type": "integer",
+                            "description": "Event Type"
+                        },
+                        "name": "eventType",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Collision Type",
+                        "required": false,
+                        "schema": {
+                            "title": "Collisiontype",
+                            "type": "integer",
+                            "description": "Collision Type"
+                        },
+                        "name": "collisionType",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Page number",
+                        "required": false,
+                        "schema": {
+                            "title": "Pagenum",
+                            "minimum": 1.0,
+                            "type": "integer",
+                            "description": "Page number",
+                            "default": 1
+                        },
+                        "name": "pageNum",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Page size",
+                        "required": false,
+                        "schema": {
+                            "title": "Pagesize",
+                            "minimum": -1.0,
+                            "type": "integer",
+                            "description": "Page size",
+                            "default": 10
+                        },
+                        "name": "pageSize",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RSICWMs"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/rsi_clcs": {
+            "get": {
+                "tags": [
+                    "RSI CLC"
+                ],
+                "summary": "List Rsi Clcs",
+                "description": "\nGet all RSI CLCs.\n",
+                "operationId": "list_rsi_clcs_api_v1_rsi_clcs_get",
+                "parameters": [
+                    {
+                        "description": "UseCase type",
+                        "required": false,
+                        "schema": {
+                            "title": "Info",
+                            "type": "integer",
+                            "description": "UseCase type"
+                        },
+                        "name": "info",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Page number",
+                        "required": false,
+                        "schema": {
+                            "title": "Pagenum",
+                            "minimum": 1.0,
+                            "type": "integer",
+                            "description": "Page number",
+                            "default": 1
+                        },
+                        "name": "pageNum",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Page size",
+                        "required": false,
+                        "schema": {
+                            "title": "Pagesize",
+                            "minimum": -1.0,
+                            "type": "integer",
+                            "description": "Page size",
+                            "default": 10
+                        },
+                        "name": "pageSize",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RSICLCs"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/rsi_sdss": {
+            "get": {
+                "tags": [
+                    "RSI SDS"
+                ],
+                "summary": "List Sdss",
+                "description": "\nGet all RSI SDSs.\n",
+                "operationId": "list_sdss_api_v1_rsi_sdss_get",
+                "parameters": [
+                    {
+                        "description": "Equipment Type",
+                        "required": false,
+                        "schema": {
+                            "title": "Equipmenttype",
+                            "type": "integer",
+                            "description": "Equipment Type"
+                        },
+                        "name": "equipmentType",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Page number",
+                        "required": false,
+                        "schema": {
+                            "title": "Pagenum",
+                            "minimum": 1.0,
+                            "type": "integer",
+                            "description": "Page number",
+                            "default": 1
+                        },
+                        "name": "pageNum",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Page size",
+                        "required": false,
+                        "schema": {
+                            "title": "Pagesize",
+                            "minimum": -1.0,
+                            "type": "integer",
+                            "description": "Page size",
+                            "default": 10
+                        },
+                        "name": "pageSize",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RSISDSs"
                                 }
                             }
                         }
@@ -6391,26 +6720,6 @@
                     }
                 }
             },
-            "DriveSuggestion": {
-                "title": "DriveSuggestion",
-                "required": [
-                    "suggestion",
-                    "lifeTime"
-                ],
-                "type": "object",
-                "properties": {
-                    "suggestion": {
-                        "title": "Suggestion",
-                        "type": "integer",
-                        "description": "Type of driving behavior"
-                    },
-                    "lifeTime": {
-                        "title": "Lifetime",
-                        "type": "integer",
-                        "description": "Life cycle"
-                    }
-                }
-            },
             "EdgeNode": {
                 "title": "EdgeNode",
                 "required": [
@@ -6533,6 +6842,32 @@
                         "items": {
                             "$ref": "#/components/schemas/ValidationError"
                         }
+                    }
+                }
+            },
+            "KinematicsInfo": {
+                "title": "KinematicsInfo",
+                "required": [
+                    "speed",
+                    "accelerate",
+                    "angularSpeed"
+                ],
+                "type": "object",
+                "properties": {
+                    "speed": {
+                        "title": "Speed",
+                        "type": "number",
+                        "description": "Speed"
+                    },
+                    "accelerate": {
+                        "title": "Accelerate",
+                        "type": "number",
+                        "description": "Accelerate"
+                    },
+                    "angularSpeed": {
+                        "title": "Angularspeed",
+                        "type": "integer",
+                        "description": "Angular Speed"
                     }
                 }
             },
@@ -7203,7 +7538,7 @@
                         "title": "Suggestion",
                         "allOf": [
                             {
-                                "$ref": "#/components/schemas/REFPOS"
+                                "$ref": "#/components/schemas/dandelion__schemas__rsi_dnp__REFPOS"
                             }
                         ],
                         "description": "Location"
@@ -7245,32 +7580,6 @@
                     }
                 }
             },
-            "REFPOS": {
-                "title": "REFPOS",
-                "required": [
-                    "lon",
-                    "lat",
-                    "ele"
-                ],
-                "type": "object",
-                "properties": {
-                    "lon": {
-                        "title": "Lon",
-                        "type": "integer",
-                        "description": "Longitude"
-                    },
-                    "lat": {
-                        "title": "Lat",
-                        "type": "integer",
-                        "description": "Latitude"
-                    },
-                    "ele": {
-                        "title": "Ele",
-                        "type": "integer",
-                        "description": "Elevation"
-                    }
-                }
-            },
             "RSI": {
                 "title": "RSI",
                 "type": "object",
@@ -7288,8 +7597,8 @@
                     }
                 }
             },
-            "RSIDNP": {
-                "title": "RSIDNP",
+            "RSICLC": {
+                "title": "RSICLC",
                 "required": [
                     "id"
                 ],
@@ -7298,21 +7607,21 @@
                     "msgID": {
                         "title": "Msgid",
                         "type": "string",
-                        "description": "MSG SN"
+                        "description": "MSG ID"
                     },
                     "secMark": {
                         "title": "Secmark",
                         "type": "integer",
-                        "description": "Millisecond time"
+                        "description": "SEC Mark"
                     },
                     "refPos": {
                         "title": "Refpos",
                         "allOf": [
                             {
-                                "$ref": "#/components/schemas/REFPOS"
+                                "$ref": "#/components/schemas/dandelion__schemas__rsi_clc__REFPOS"
                             }
                         ],
-                        "description": "3D coordinates"
+                        "description": "3D Coordinates"
                     },
                     "vehID": {
                         "title": "Vehid",
@@ -7323,10 +7632,232 @@
                         "title": "Drivesuggestion",
                         "allOf": [
                             {
-                                "$ref": "#/components/schemas/DriveSuggestion"
+                                "$ref": "#/components/schemas/dandelion__schemas__rsi_clc__DriveSuggestion"
                             }
                         ],
-                        "description": "Driving advice"
+                        "description": "Drive Suggestion"
+                    },
+                    "info": {
+                        "title": "Info",
+                        "type": "integer",
+                        "description": "Info Type"
+                    },
+                    "id": {
+                        "title": "Id",
+                        "type": "integer",
+                        "description": "CLC ID"
+                    }
+                }
+            },
+            "RSICLCs": {
+                "title": "RSICLCs",
+                "required": [
+                    "total",
+                    "data"
+                ],
+                "type": "object",
+                "properties": {
+                    "total": {
+                        "title": "Total",
+                        "type": "integer",
+                        "description": "Total"
+                    },
+                    "data": {
+                        "title": "Data",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/RSICLC"
+                        },
+                        "description": "Data"
+                    }
+                }
+            },
+            "RSICWM": {
+                "title": "RSICWM",
+                "required": [
+                    "id"
+                ],
+                "type": "object",
+                "properties": {
+                    "sensorPos": {
+                        "title": "Sensorpos",
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/dandelion__schemas__rsi_cwm__Position"
+                            }
+                        ],
+                        "description": "Sensor Position"
+                    },
+                    "eventType": {
+                        "title": "Eventtype",
+                        "type": "integer",
+                        "description": "Event Type"
+                    },
+                    "collisionType": {
+                        "title": "Collisiontype",
+                        "type": "integer",
+                        "description": "Collision Type"
+                    },
+                    "secMark": {
+                        "title": "Secmark",
+                        "type": "integer",
+                        "description": "Millisecond Time"
+                    },
+                    "egoId": {
+                        "title": "Egoid",
+                        "type": "string",
+                        "description": "EGO ID"
+                    },
+                    "egoPos": {
+                        "title": "Egopos",
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/dandelion__schemas__rsi_cwm__Position"
+                            }
+                        ],
+                        "description": "EGO Position"
+                    },
+                    "egoHeading": {
+                        "title": "Egoheading",
+                        "type": "integer",
+                        "description": "EGO Heading"
+                    },
+                    "egoRadius": {
+                        "title": "Egoradius",
+                        "type": "number",
+                        "description": "EGO Radius"
+                    },
+                    "egoLength": {
+                        "title": "Egolength",
+                        "type": "number",
+                        "description": "EGO Length"
+                    },
+                    "egoWidth": {
+                        "title": "Egowidth",
+                        "type": "number",
+                        "description": "EGO Width"
+                    },
+                    "egoKinematicsInfo": {
+                        "title": "Egokinematicsinfo",
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/KinematicsInfo"
+                            }
+                        ],
+                        "description": "EGO KinematicsInfo"
+                    },
+                    "otherId": {
+                        "title": "Otherid",
+                        "type": "string",
+                        "description": "Other ID"
+                    },
+                    "otherPos": {
+                        "title": "Otherpos",
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/dandelion__schemas__rsi_cwm__Position"
+                            }
+                        ],
+                        "description": "Other Position"
+                    },
+                    "otherHeading": {
+                        "title": "Otherheading",
+                        "type": "integer",
+                        "description": "Other Heading"
+                    },
+                    "otherRadius": {
+                        "title": "Otherradius",
+                        "type": "number",
+                        "description": "Other Radius"
+                    },
+                    "otherLength": {
+                        "title": "Otherlength",
+                        "type": "number",
+                        "description": "Other Length"
+                    },
+                    "otherWidth": {
+                        "title": "Otherwidth",
+                        "type": "number",
+                        "description": "Other Width"
+                    },
+                    "otherKinematicsInfo": {
+                        "title": "Otherkinematicsinfo",
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/KinematicsInfo"
+                            }
+                        ],
+                        "description": "Other KinematicsInfo"
+                    },
+                    "id": {
+                        "title": "Id",
+                        "type": "integer",
+                        "description": "CWM ID"
+                    }
+                }
+            },
+            "RSICWMs": {
+                "title": "RSICWMs",
+                "required": [
+                    "total",
+                    "data"
+                ],
+                "type": "object",
+                "properties": {
+                    "total": {
+                        "title": "Total",
+                        "type": "integer",
+                        "description": "Total"
+                    },
+                    "data": {
+                        "title": "Data",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/RSICWM"
+                        },
+                        "description": "Data"
+                    }
+                }
+            },
+            "RSIDNP": {
+                "title": "RSIDNP",
+                "required": [
+                    "id"
+                ],
+                "type": "object",
+                "properties": {
+                    "msgID": {
+                        "title": "Msgid",
+                        "type": "string",
+                        "description": "MSG ID"
+                    },
+                    "secMark": {
+                        "title": "Secmark",
+                        "type": "integer",
+                        "description": "Millisecond time"
+                    },
+                    "refPos": {
+                        "title": "Refpos",
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/dandelion__schemas__rsi_dnp__REFPOS"
+                            }
+                        ],
+                        "description": "3D Coordinates"
+                    },
+                    "vehID": {
+                        "title": "Vehid",
+                        "type": "string",
+                        "description": "Target ID"
+                    },
+                    "driveSuggestion": {
+                        "title": "Drivesuggestion",
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/dandelion__schemas__rsi_dnp__DriveSuggestion"
+                            }
+                        ],
+                        "description": "Drive Suggestion"
                     },
                     "pathGuidance": {
                         "title": "Pathguidance",
@@ -7334,12 +7865,12 @@
                         "items": {
                             "$ref": "#/components/schemas/PathGuidance"
                         },
-                        "description": "Route plan"
+                        "description": "Path Guidance"
                     },
                     "info": {
                         "title": "Info",
                         "type": "integer",
-                        "description": "UseCase type"
+                        "description": "Info Type"
                     },
                     "id": {
                         "title": "Id",
@@ -7549,6 +8080,81 @@
                         "type": "array",
                         "items": {
                             "$ref": "#/components/schemas/RSIEvent"
+                        },
+                        "description": "Data"
+                    }
+                }
+            },
+            "RSISDS": {
+                "title": "RSISDS",
+                "required": [
+                    "id"
+                ],
+                "type": "object",
+                "properties": {
+                    "msgID": {
+                        "title": "Msgid",
+                        "type": "string",
+                        "description": "MSG ID"
+                    },
+                    "equipmentType": {
+                        "title": "Equipmenttype",
+                        "type": "integer",
+                        "description": "Equipment Type"
+                    },
+                    "sensorPos": {
+                        "title": "Sensorpos",
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/dandelion__schemas__rsi_sds__Position"
+                            }
+                        ],
+                        "description": "Sensor Position"
+                    },
+                    "secMark": {
+                        "title": "Secmark",
+                        "type": "integer",
+                        "description": "SEC Mark"
+                    },
+                    "egoID": {
+                        "title": "Egoid",
+                        "type": "string",
+                        "description": "EGO ID"
+                    },
+                    "egoPos": {
+                        "title": "Egopos",
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/dandelion__schemas__rsi_sds__Position"
+                            }
+                        ],
+                        "description": "EGO Position"
+                    },
+                    "id": {
+                        "title": "Id",
+                        "type": "integer",
+                        "description": "SDS ID"
+                    }
+                }
+            },
+            "RSISDSs": {
+                "title": "RSISDSs",
+                "required": [
+                    "total",
+                    "data"
+                ],
+                "type": "object",
+                "properties": {
+                    "total": {
+                        "title": "Total",
+                        "type": "integer",
+                        "description": "Total"
+                    },
+                    "data": {
+                        "title": "Data",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/RSISDS"
                         },
                         "description": "Data"
                     }
@@ -9647,6 +10253,146 @@
                     "type": {
                         "title": "Error Type",
                         "type": "string"
+                    }
+                }
+            },
+            "dandelion__schemas__rsi_clc__DriveSuggestion": {
+                "title": "DriveSuggestion",
+                "required": [
+                    "suggestion",
+                    "lifeTime"
+                ],
+                "type": "object",
+                "properties": {
+                    "suggestion": {
+                        "title": "Suggestion",
+                        "type": "integer",
+                        "description": "Suggestion"
+                    },
+                    "lifeTime": {
+                        "title": "Lifetime",
+                        "type": "integer",
+                        "description": "Life Time"
+                    }
+                }
+            },
+            "dandelion__schemas__rsi_clc__REFPOS": {
+                "title": "REFPOS",
+                "required": [
+                    "lon",
+                    "lat"
+                ],
+                "type": "object",
+                "properties": {
+                    "lon": {
+                        "title": "Lon",
+                        "type": "integer",
+                        "description": "Longitude"
+                    },
+                    "lat": {
+                        "title": "Lat",
+                        "type": "integer",
+                        "description": "Latitude"
+                    },
+                    "ele": {
+                        "title": "Ele",
+                        "type": "integer",
+                        "description": "Elevation"
+                    }
+                }
+            },
+            "dandelion__schemas__rsi_cwm__Position": {
+                "title": "Position",
+                "required": [
+                    "lon",
+                    "lat"
+                ],
+                "type": "object",
+                "properties": {
+                    "lon": {
+                        "title": "Lon",
+                        "type": "integer",
+                        "description": "Longitude"
+                    },
+                    "lat": {
+                        "title": "Lat",
+                        "type": "integer",
+                        "description": "Latitude"
+                    },
+                    "ele": {
+                        "title": "Ele",
+                        "type": "integer",
+                        "description": "Elevation"
+                    }
+                }
+            },
+            "dandelion__schemas__rsi_dnp__DriveSuggestion": {
+                "title": "DriveSuggestion",
+                "required": [
+                    "suggestion",
+                    "lifeTime"
+                ],
+                "type": "object",
+                "properties": {
+                    "suggestion": {
+                        "title": "Suggestion",
+                        "type": "integer",
+                        "description": "Suggestion"
+                    },
+                    "lifeTime": {
+                        "title": "Lifetime",
+                        "type": "integer",
+                        "description": "Life Time"
+                    }
+                }
+            },
+            "dandelion__schemas__rsi_dnp__REFPOS": {
+                "title": "REFPOS",
+                "required": [
+                    "lon",
+                    "lat"
+                ],
+                "type": "object",
+                "properties": {
+                    "lon": {
+                        "title": "Lon",
+                        "type": "integer",
+                        "description": "Longitude"
+                    },
+                    "lat": {
+                        "title": "Lat",
+                        "type": "integer",
+                        "description": "Latitude"
+                    },
+                    "ele": {
+                        "title": "Ele",
+                        "type": "integer",
+                        "description": "Elevation"
+                    }
+                }
+            },
+            "dandelion__schemas__rsi_sds__Position": {
+                "title": "Position",
+                "required": [
+                    "lon",
+                    "lat"
+                ],
+                "type": "object",
+                "properties": {
+                    "lon": {
+                        "title": "Lon",
+                        "type": "integer",
+                        "description": "Longitude"
+                    },
+                    "lat": {
+                        "title": "Lat",
+                        "type": "integer",
+                        "description": "Latitude"
+                    },
+                    "ele": {
+                        "title": "Ele",
+                        "type": "integer",
+                        "description": "Elevation"
                     }
                 }
             }

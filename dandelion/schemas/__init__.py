@@ -29,8 +29,11 @@ from .message import ErrorMessage, Message
 from .mng import MNG, MNGCopy, MNGCreate, MNGs, MNGUpdate
 from .province import Province, ProvinceCreate, ProvinceUpdate
 from .radar import Radar, RadarCreate, Radars, RadarUpdate
+from .rsi_clc import RSICLCCreate, RSICLCs
+from .rsi_cwm import RSICWMCreate, RSICWMs
 from .rsi_dnp import RSIDNPCreate, RSIDNPs
 from .rsi_event import RSIEvent, RSIEventCreate, RSIEvents, RSIEventUpdate
+from .rsi_sds import RSISDSCreate, RSISDSs
 from .rsm import RSM, RSMCreate, RSMs, RSMUpdate
 from .rsm_participant import (
     RSMParticipant,

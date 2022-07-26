@@ -27,13 +27,13 @@ router = APIRouter()
 
 @router.get(
     "",
-    response_model=schemas.RSIDNPs,
+    response_model=schemas.RSICWMs,
     status_code=status.HTTP_200_OK,
     description="""
-Get all RSI DNPs.
+Get all RSI CWMs.
 """,
     responses={
-        status.HTTP_200_OK: {"model": schemas.RSIDNPs, "description": "OK"},
+        status.HTTP_200_OK: {"model": schemas.RSICWMs, "description": "OK"},
         status.HTTP_401_UNAUTHORIZED: {
             "model": schemas.ErrorMessage,
             "description": "Unauthorized",
@@ -42,18 +42,22 @@ Get all RSI DNPs.
         status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
     },
 )
-def list_rsi_dnps(
-    info: Optional[int] = Query(None, alias="info", description="UseCase type"),
+def list_rsi_cwms(
+    event_type: Optional[int] = Query(None, alias="eventType", description="Event Type"),
+    collision_type: Optional[int] = Query(
+        None, alias="collisionType", description="Collision Type"
+    ),
     page_num: int = Query(1, alias="pageNum", ge=1, description="Page number"),
     page_size: int = Query(10, alias="pageSize", ge=-1, description="Page size"),
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
-) -> schemas.RSIDNPs:
+) -> schemas.RSICWMs:
     skip = page_size * (page_num - 1)
-    total, data = crud.rsi_dnp.get_multi_with_total(
+    total, data = crud.rsi_cwm.get_multi_with_total(
         db,
         skip=skip,
         limit=page_size,
-        info=info,
+        event_type=event_type,
+        collision_type=collision_type,
     )
-    return schemas.RSIDNPs(total=total, data=[dnp.to_all_dict() for dnp in data])
+    return schemas.RSICWMs(total=total, data=[cwm.to_all_dict() for cwm in data])
