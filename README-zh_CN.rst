@@ -6,20 +6,23 @@ OpenV2X 设备管理 - APIServer
 
 `English <./README.rst>`__ \| 简体中文
 
+.. _`Table of contents`:
 目录
 ----
 
 -  `OpenV2X 设备管理 - APIServer <#openv2x-设备管理---apiserver>`__
 
-   -  `目录 <#目录>`__
-   -  `配置 <#配置>`__
-   -  `构建 && 运行 (Linux) <#构建--运行-linux>`__
-   -  `本地开发 (Linux) <#本地开发-linux>`__
+   -  `目录 <#table-of-contents>`__
+   -  `配置 <#configuration>`__
+   -  `构建 && 运行 (Linux) <#build-run-linux>`__
+   -  `本地开发 (Linux) <#local-development-linux>`__
 
-      -  `运行服务 <#运行服务>`__
-      -  `Alembic (数据库迁移) <#alembic-数据库迁移>`__
-      -  `Tox 工具 <#tox-工具>`__
+      -  `运行服务 <#run-server>`__
+      -  `Alembic (数据库迁移) <#alembic-database-migration>`__
+      -  `Tox 工具 <#tox-tools>`__
+      -  `注意 <#notice>`__
 
+.. _`Configuration`:
 配置
 ----
 
@@ -69,6 +72,7 @@ OpenV2X 设备管理 - APIServer
       cd /etc/dandelion
       ln -s ${DANDELION_PATH}/etc/dandelion/dandelion.conf dandelion.conf
 
+.. _`Build && Run (Linux)`:
 构建 && 运行 (Linux)
 --------------------
 
@@ -90,9 +94,11 @@ OpenV2X 设备管理 - APIServer
       docker rm dandelion_bootstrap
       docker run -d --name dandelion --restart=always -v /etc/dandelion/dandelion.conf:/etc/dandelion/dandelion.conf -v /var/log/dandelion:/var/log/dandelion --net=host dandelion:latest
 
+.. _`Local Development (Linux)`:
 本地开发 (Linux)
 ----------------
 
+.. _`Run server`:
 运行服务
 ~~~~~~~~
 
@@ -106,6 +112,7 @@ OpenV2X 设备管理 - APIServer
 
 -  你可以在 ``http://127.0.0.1:28300/docs`` 地址访问 OpenAPI swagger 文档。
 
+.. _`Alembic (Database Migration)`:
 Alembic (数据库迁移)
 ~~~~~~~~~~~~~~~~~~~~
 
@@ -125,6 +132,7 @@ Alembic (数据库迁移)
       source .tox/venv/bin/activate
       alembic upgrade head
 
+.. _`Tox Tools`:
 Tox 工具
 ~~~~~~~~
 
@@ -147,6 +155,12 @@ Tox 工具
       tox -e pep8-format
       tox -e pep8
 
+.. _`Notice`:
+注意
+~~~~
+
+- 在创建 PR 之前，请执行 `dprint fmt`_ 来格式化 Markdown 文件。
+
 .. |pep8| image:: https://github.com/open-v2x/dandelion/actions/workflows/tox-pep8.yml/badge.svg?event=push
    :target: https://github.com/open-v2x/dandelion/actions/workflows/tox-pep8.yml
 .. |ci| image:: https://github.com/open-v2x/dandelion/actions/workflows/ci.yml/badge.svg?event=push
@@ -157,3 +171,4 @@ Tox 工具
    :target: #
 .. |license| image:: https://img.shields.io/github/license/open-v2x/dandelion
    :target: LICENSE
+.. _`dprint fmt`: https://dprint.dev/
