@@ -13,12 +13,13 @@ Table of contents
 
    -  `Table of contents <#table-of-contents>`__
    -  `Configuration <#configuration>`__
-   -  `Build && Run (Linux) <#build--run-linux>`__
+   -  `Build && Run (Linux) <#build-run-linux>`__
    -  `Local Development (Linux) <#local-development-linux>`__
 
       -  `Run server <#run-server>`__
       -  `Alembic (Database Migration) <#alembic-database-migration>`__
       -  `Tox Tools <#tox-tools>`__
+      -  `Notice <#notice>`__
 
 Configuration
 -------------
@@ -147,6 +148,11 @@ Tox Tools
       tox -e pep8-format
       tox -e pep8
 
+Notice
+~~~~~~
+
+- Please run `dprint fmt`_ to format markdown files before creating PR.
+
 .. |pep8| image:: https://github.com/open-v2x/dandelion/actions/workflows/tox-pep8.yml/badge.svg?event=push
    :target: https://github.com/open-v2x/dandelion/actions/workflows/tox-pep8.yml
 .. |ci| image:: https://github.com/open-v2x/dandelion/actions/workflows/ci.yml/badge.svg?event=push
@@ -157,3 +163,4 @@ Tox Tools
    :target: #
 .. |license| image:: https://img.shields.io/github/license/open-v2x/dandelion
    :target: LICENSE
+.. _`dprint fmt`: https://dprint.dev/
