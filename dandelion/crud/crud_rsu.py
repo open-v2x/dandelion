@@ -110,6 +110,7 @@ class CRUDRSU(CRUDBase[RSU, RSUCreate, RSUUpdate]):
         area_code: Optional[str] = None,
         online_status: Optional[bool] = None,
         rsu_status: Optional[str] = None,
+        enabled: Optional[bool] = None,
     ) -> Tuple[int, List[RSU]]:
         query_ = db.query(self.model)
         if rsu_name is not None:
@@ -122,6 +123,8 @@ class CRUDRSU(CRUDBase[RSU, RSUCreate, RSUUpdate]):
             query_ = query_.filter(self.model.online_status == online_status)
         if rsu_status is not None:
             query_ = query_.filter(self.model.rsu_status == rsu_status)
+        if enabled is not None:
+            query_ = query_.filter(self.model.enabled == enabled)
         total = query_.count()
         if limit != -1:
             query_ = query_.offset(skip).limit(limit)
