@@ -109,7 +109,7 @@ def init_db() -> None:
     rsu1.version = "v1"
     rsu1.rsu_status = "Normal"
     rsu1.online_status = False
-    rsu1.location = {"lon": 118.840897, "lat": 31.88335}
+    rsu1.location = {"lon": 118.8213963998263, "lat": 31.934846637757847}
     rsu1.config = {}
     rsu1.rsu_model_id = rsu_model1.id
     rsu1.area_code = "320115"

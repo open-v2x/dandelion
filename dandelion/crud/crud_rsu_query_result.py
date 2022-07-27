@@ -26,8 +26,8 @@ from dandelion.schemas import RSUQueryResultCreate, RSUQueryResultUpdate
 class CRUDRSUQueryResult(CRUDBase[RSUQueryResult, RSUQueryResultCreate, RSUQueryResultUpdate]):
     """"""
 
-    def get_multi_by_rsu_id(self, db: Session, *, rsu_id: int) -> List[int]:
-        return db.query(RSUQueryResult.id).filter(RSUQueryResult.rsu_id == rsu_id).all()
+    def get_multi_by_rsu_id(self, db: Session, *, rsu_id: int) -> List[RSUQueryResult]:
+        return db.query(RSUQueryResult).filter(RSUQueryResult.rsu_id == rsu_id).all()
 
 
 rsu_query_result = CRUDRSUQueryResult(RSUQueryResult)
