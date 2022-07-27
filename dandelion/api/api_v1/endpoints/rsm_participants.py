@@ -32,8 +32,9 @@ LOG: LoggerAdapter = log.getLogger(__name__)
     "",
     response_model=schemas.RSMParticipants,
     status_code=status.HTTP_200_OK,
+    summary="List RSMs",
     description="""
-Get all RSM.
+Get all RSMs.
 """,
     responses={
         status.HTTP_200_OK: {"model": schemas.RSMParticipants, "description": "OK"},
@@ -45,7 +46,7 @@ Get all RSM.
         status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
     },
 )
-def list(
+def get_all(
     ptc_type: Optional[str] = Query(None, alias="ptcType", description="Filter by ptcType"),
     page_num: int = Query(1, alias="pageNum", ge=1, description="Page number"),
     page_size: int = Query(10, alias="pageSize", ge=-1, description="Page size"),

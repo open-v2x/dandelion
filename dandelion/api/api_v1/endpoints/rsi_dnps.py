@@ -29,6 +29,7 @@ router = APIRouter()
     "",
     response_model=schemas.RSIDNPs,
     status_code=status.HTTP_200_OK,
+    summary="List RSI DNPs",
     description="""
 Get all RSI DNPs.
 """,
@@ -42,7 +43,7 @@ Get all RSI DNPs.
         status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
     },
 )
-def list_rsi_dnps(
+def get_all(
     info: Optional[int] = Query(None, alias="info", description="UseCase type"),
     page_num: int = Query(1, alias="pageNum", ge=1, description="Page number"),
     page_size: int = Query(10, alias="pageSize", ge=-1, description="Page size"),

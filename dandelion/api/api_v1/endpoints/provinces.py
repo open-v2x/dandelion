@@ -32,6 +32,7 @@ LOG: LoggerAdapter = log.getLogger(__name__)
     "",
     response_model=List[schemas.Province],
     status_code=status.HTTP_200_OK,
+    summary="List Provinces",
     description="""
 Search province by country.
 """,
@@ -45,7 +46,7 @@ Search province by country.
         status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
     },
 )
-def list(
+def get_all(
     country_code: str = Query(..., description="Filter by countryCode", alias="countryCode"),
     *,
     db: Session = Depends(deps.get_db),

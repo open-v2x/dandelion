@@ -136,6 +136,7 @@ def get(
     "",
     response_model=schemas.Maps,
     status_code=status.HTTP_200_OK,
+    summary="List Maps",
     description="""
 Get all Maps.
 """,
@@ -149,7 +150,7 @@ Get all Maps.
         status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
     },
 )
-def list(
+def get_all(
     name: Optional[str] = Query(
         None, alias="name", description="Filter by map name. Fuzzy prefix query is supported"
     ),

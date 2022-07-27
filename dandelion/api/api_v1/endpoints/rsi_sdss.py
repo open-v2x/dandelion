@@ -29,6 +29,7 @@ router = APIRouter()
     "",
     response_model=schemas.RSISDSs,
     status_code=status.HTTP_200_OK,
+    summary="List RSI SDSs",
     description="""
 Get all RSI SDSs.
 """,
@@ -42,7 +43,7 @@ Get all RSI SDSs.
         status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
     },
 )
-def list_sdss(
+def get_all(
     equipment_type: Optional[int] = Query(
         None, alias="equipmentType", description="Equipment Type"
     ),

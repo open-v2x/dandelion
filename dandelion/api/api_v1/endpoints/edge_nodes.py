@@ -27,8 +27,9 @@ router = APIRouter()
     "",
     response_model=schemas.EdgeNodes,
     status_code=status.HTTP_200_OK,
+    summary="List Edge Nodes",
     description="""
-Get detailed info of Edge Nodes.
+Get all Edge Nodes.
 """,
     responses={
         status.HTTP_200_OK: {"model": schemas.EdgeNodes, "description": "OK"},
@@ -40,7 +41,7 @@ Get detailed info of Edge Nodes.
         status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
     },
 )
-def get(
+def get_all(
     name: str = Query(None, alias="name", description=""),
     page_num: int = Query(1, alias="pageNum", ge=1, description="Page number"),
     page_size: int = Query(10, alias="pageSize", ge=-1, description="Page size"),

@@ -29,6 +29,7 @@ router = APIRouter()
     "",
     response_model=schemas.RSICWMs,
     status_code=status.HTTP_200_OK,
+    summary="List RSI CWMs",
     description="""
 Get all RSI CWMs.
 """,
@@ -42,7 +43,7 @@ Get all RSI CWMs.
         status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
     },
 )
-def list_rsi_cwms(
+def get_all(
     event_type: Optional[int] = Query(None, alias="eventType", description="Event Type"),
     collision_type: Optional[int] = Query(
         None, alias="collisionType", description="Collision Type"

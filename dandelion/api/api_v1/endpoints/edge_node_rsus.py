@@ -27,8 +27,9 @@ router = APIRouter()
     "",
     response_model=schemas.EdgeNodeRSUs,
     status_code=status.HTTP_200_OK,
+    summary="List Edge Node RSUs",
     description="""
-Get detailed info of Edge Node RSUs.
+Get all Edge Node RSUs.
 """,
     responses={
         status.HTTP_200_OK: {"model": schemas.EdgeNodeRSUs, "description": "OK"},
@@ -40,7 +41,7 @@ Get detailed info of Edge Node RSUs.
         status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
     },
 )
-def get(
+def get_all(
     node_id: int = Query(None, alias="nodeId", description=""),
     area_code: str = Query(None, alias="areaCode", description=""),
     page_num: int = Query(1, alias="pageNum", ge=1, description="Page number"),

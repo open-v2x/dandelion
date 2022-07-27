@@ -35,6 +35,7 @@ LOG: LoggerAdapter = log.getLogger(__name__)
     "",
     response_model=schemas.MNGs,
     status_code=status.HTTP_200_OK,
+    summary="List MNGs",
     description="""
 Get all MNGs.
 """,
@@ -48,7 +49,7 @@ Get all MNGs.
         status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
     },
 )
-def list(
+def get_all(
     rsu_name: Optional[str] = Query(
         None, alias="rsuName", description="Filter by rsuName. Fuzzy prefix query is supported"
     ),

@@ -144,6 +144,7 @@ def get(
     "",
     response_model=schemas.RSULogs,
     status_code=status.HTTP_200_OK,
+    summary="List RSU Logs",
     description="""
 Get all RSULogs.
 """,
@@ -157,7 +158,7 @@ Get all RSULogs.
         status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
     },
 )
-def list(
+def get_all(
     page_num: int = Query(1, alias="pageNum", ge=1, description="Page number"),
     page_size: int = Query(10, alias="pageSize", ge=-1, description="Page size"),
     db: Session = Depends(deps.get_db),

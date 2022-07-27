@@ -78,6 +78,7 @@ def create(
     "",
     response_model=schemas.RSUs,
     status_code=status.HTTP_200_OK,
+    summary="List RSUs",
     description="""
 Get all RSUs.
 """,
@@ -91,7 +92,7 @@ Get all RSUs.
         status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
     },
 )
-def list(
+def get_all(
     rsu_name: Optional[str] = Query(
         None, alias="rsuName", description="Filter by rsuName. Fuzzy prefix query is supported"
     ),

@@ -32,8 +32,9 @@ LOG: LoggerAdapter = log.getLogger(__name__)
     "",
     response_model=List[schemas.Country],
     status_code=status.HTTP_200_OK,
+    summary="List Countries",
     description="""
-Get all countries list.
+Get all countries.
 """,
     responses={
         status.HTTP_200_OK: {"model": List[schemas.Country], "description": "OK"},
@@ -45,7 +46,7 @@ Get all countries list.
         status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
     },
 )
-def list(
+def get_all(
     cascade: Optional[bool] = Query(
         None, alias="cascade", description="Cascade to list all countries."
     ),
