@@ -4865,6 +4865,17 @@
                         "in": "query"
                     },
                     {
+                        "description": "Filter by enabled",
+                        "required": false,
+                        "schema": {
+                            "title": "Enabled",
+                            "type": "boolean",
+                            "description": "Filter by enabled"
+                        },
+                        "name": "enabled",
+                        "in": "query"
+                    },
+                    {
                         "description": "Filter by rsuStatus",
                         "required": false,
                         "schema": {

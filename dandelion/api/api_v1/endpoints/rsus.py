@@ -102,6 +102,7 @@ def list(
     online_status: Optional[bool] = Query(
         None, alias="onlineStatus", description="Filter by onlineStatus"
     ),
+    enabled: Optional[bool] = Query(None, alias="enabled", description="Filter by enabled"),
     rsu_status: Optional[str] = Query(None, alias="rsuStatus", description="Filter by rsuStatus"),
     page_num: int = Query(1, alias="pageNum", ge=1, description="Page number"),
     page_size: int = Query(10, alias="pageSize", ge=-1, description="Page size"),
@@ -118,6 +119,7 @@ def list(
         area_code=area_code,
         online_status=online_status,
         rsu_status=rsu_status,
+        enabled=enabled,
     )
     return schemas.RSUs(total=total, data=[rsu.to_all_dict() for rsu in data])
 
