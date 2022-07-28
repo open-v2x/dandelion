@@ -63,6 +63,7 @@ def get(
     "",
     response_model=schemas.RSIEvents,
     status_code=status.HTTP_200_OK,
+    summary="List RSI Events",
     description="""
 Get all RSI Events.
 """,
@@ -76,7 +77,7 @@ Get all RSI Events.
         status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
     },
 )
-def list(
+def get_all(
     event_type: Optional[int] = Query(None, alias="eventType", description="Filter by eventType"),
     area_code: Optional[str] = Query(None, alias="areaCode", description="Filter by areaCode"),
     address: Optional[str] = Query(

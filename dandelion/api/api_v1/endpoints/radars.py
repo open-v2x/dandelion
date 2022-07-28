@@ -123,6 +123,7 @@ def get(
     "",
     response_model=schemas.Radars,
     status_code=status.HTTP_200_OK,
+    summary="List Radars",
     description="""
 Get all Radars.
 """,
@@ -136,7 +137,7 @@ Get all Radars.
         status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
     },
 )
-def list(
+def get_all(
     sn: Optional[str] = Query(
         None, alias="sn", description="Filter by radar sn. Fuzzy prefix query is supported"
     ),

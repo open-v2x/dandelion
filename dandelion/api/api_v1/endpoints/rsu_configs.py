@@ -152,6 +152,7 @@ def get(
     "",
     response_model=schemas.RSUConfigs,
     status_code=status.HTTP_200_OK,
+    summary="List RSU Configs",
     description="""
 Get all RSUConfigs.
 """,
@@ -165,7 +166,7 @@ Get all RSUConfigs.
         status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
     },
 )
-def list(
+def get_all(
     name: Optional[str] = Query(
         None, alias="name", description="Filter by name. Fuzzy prefix query is supported"
     ),

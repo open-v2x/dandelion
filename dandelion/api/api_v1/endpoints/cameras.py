@@ -127,6 +127,7 @@ def get(
     "",
     response_model=schemas.Cameras,
     status_code=status.HTTP_200_OK,
+    summary="List Cameras",
     description="""
 Get all Cameras.
 """,
@@ -140,7 +141,7 @@ Get all Cameras.
         status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
     },
 )
-def list(
+def get_all(
     sn: Optional[str] = Query(
         None, alias="sn", description="Filter by camera sn. Fuzzy prefix query is supported"
     ),

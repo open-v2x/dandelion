@@ -32,6 +32,7 @@ LOG: LoggerAdapter = log.getLogger(__name__)
     "",
     response_model=List[schemas.Area],
     status_code=status.HTTP_200_OK,
+    summary="List Areas",
     description="""
 Search area by city.
 """,
@@ -45,7 +46,7 @@ Search area by city.
         status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
     },
 )
-def list(
+def get_all(
     city_code: str = Query(..., description="Filter by cityCode", alias="cityCode"),
     *,
     db: Session = Depends(deps.get_db),

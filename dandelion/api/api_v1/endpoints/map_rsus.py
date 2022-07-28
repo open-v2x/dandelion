@@ -129,6 +129,7 @@ def delete(
     "/{map_id}/rsus",
     response_model=schemas.MapRSUs,
     status_code=status.HTTP_200_OK,
+    summary="List Map RSUs",
     description="""
 Get all Map RSUs.
 """,
@@ -142,7 +143,7 @@ Get all Map RSUs.
         status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
     },
 )
-def list(
+def get_all(
     map_id: Optional[int] = Query(None, alias="mapId", description="Filter by mapId"),
     page_num: int = Query(1, alias="pageNum", ge=1, description="Page number"),
     page_size: int = Query(10, alias="pageSize", ge=-1, description="Page size"),

@@ -284,9 +284,9 @@
                 "tags": [
                     "Area"
                 ],
-                "summary": "List",
-                "description": "\nGet all countries list.\n",
-                "operationId": "list_api_v1_countries_get",
+                "summary": "List Countries",
+                "description": "\nGet all countries.\n",
+                "operationId": "get_all_api_v1_countries_get",
                 "parameters": [
                     {
                         "description": "Cascade to list all countries.",
@@ -306,7 +306,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "title": "Response 200 List Api V1 Countries Get",
+                                    "title": "Response 200 Get All Api V1 Countries Get",
                                     "type": "array",
                                     "items": {
                                         "$ref": "#/components/schemas/Country"
@@ -368,9 +368,9 @@
                 "tags": [
                     "Area"
                 ],
-                "summary": "List",
+                "summary": "List Provinces",
                 "description": "\nSearch province by country.\n",
-                "operationId": "list_api_v1_provinces_get",
+                "operationId": "get_all_api_v1_provinces_get",
                 "parameters": [
                     {
                         "description": "Filter by countryCode",
@@ -390,7 +390,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "title": "Response 200 List Api V1 Provinces Get",
+                                    "title": "Response 200 Get All Api V1 Provinces Get",
                                     "type": "array",
                                     "items": {
                                         "$ref": "#/components/schemas/Province"
@@ -452,9 +452,9 @@
                 "tags": [
                     "Area"
                 ],
-                "summary": "List",
+                "summary": "List Cities",
                 "description": "\nSearch city by province.\n",
-                "operationId": "list_api_v1_cities_get",
+                "operationId": "get_all_api_v1_cities_get",
                 "parameters": [
                     {
                         "description": "Filter by provinceCode",
@@ -474,7 +474,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "title": "Response 200 List Api V1 Cities Get",
+                                    "title": "Response 200 Get All Api V1 Cities Get",
                                     "type": "array",
                                     "items": {
                                         "$ref": "#/components/schemas/City"
@@ -536,9 +536,9 @@
                 "tags": [
                     "Area"
                 ],
-                "summary": "List",
+                "summary": "List Areas",
                 "description": "\nSearch area by city.\n",
-                "operationId": "list_api_v1_areas_get",
+                "operationId": "get_all_api_v1_areas_get",
                 "parameters": [
                     {
                         "description": "Filter by cityCode",
@@ -558,7 +558,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "title": "Response 200 List Api V1 Areas Get",
+                                    "title": "Response 200 Get All Api V1 Areas Get",
                                     "type": "array",
                                     "items": {
                                         "$ref": "#/components/schemas/Area"
@@ -620,9 +620,9 @@
                 "tags": [
                     "Camera"
                 ],
-                "summary": "List",
+                "summary": "List Cameras",
                 "description": "\nGet all Cameras.\n",
-                "operationId": "list_api_v1_cameras_get",
+                "operationId": "get_all_api_v1_cameras_get",
                 "parameters": [
                     {
                         "description": "Filter by camera sn. Fuzzy prefix query is supported",
@@ -1240,9 +1240,9 @@
                 "tags": [
                     "Map"
                 ],
-                "summary": "List",
+                "summary": "List Map RSUs",
                 "description": "\nGet all Map RSUs.\n",
-                "operationId": "list_api_v1_maps__map_id__rsus_get",
+                "operationId": "get_all_api_v1_maps__map_id__rsus_get",
                 "parameters": [
                     {
                         "required": true,
@@ -1520,9 +1520,9 @@
                 "tags": [
                     "Map"
                 ],
-                "summary": "List",
+                "summary": "List Maps",
                 "description": "\nGet all Maps.\n",
-                "operationId": "list_api_v1_maps_get",
+                "operationId": "get_all_api_v1_maps_get",
                 "parameters": [
                     {
                         "description": "Filter by map name. Fuzzy prefix query is supported",
@@ -2034,9 +2034,9 @@
                 "tags": [
                     "MNG"
                 ],
-                "summary": "List",
+                "summary": "List MNGs",
                 "description": "\nGet all MNGs.\n",
-                "operationId": "list_api_v1_mngs_get",
+                "operationId": "get_all_api_v1_mngs_get",
                 "parameters": [
                     {
                         "description": "Filter by rsuName. Fuzzy prefix query is supported",
@@ -2411,9 +2411,9 @@
                 "tags": [
                     "Radar"
                 ],
-                "summary": "List",
+                "summary": "List Radars",
                 "description": "\nGet all Radars.\n",
-                "operationId": "list_api_v1_radars_get",
+                "operationId": "get_all_api_v1_radars_get",
                 "parameters": [
                     {
                         "description": "Filter by radar sn. Fuzzy prefix query is supported",
@@ -2935,9 +2935,9 @@
                 "tags": [
                     "Event"
                 ],
-                "summary": "List",
+                "summary": "List RSI Events",
                 "description": "\nGet all RSI Events.\n",
-                "operationId": "list_api_v1_events_get",
+                "operationId": "get_all_api_v1_events_get",
                 "parameters": [
                     {
                         "description": "Filter by eventType",
@@ -3063,9 +3063,9 @@
                 "tags": [
                     "RSM"
                 ],
-                "summary": "List",
-                "description": "\nGet all RSM.\n",
-                "operationId": "list_api_v1_rsms_get",
+                "summary": "List RSMs",
+                "description": "\nGet all RSMs.\n",
+                "operationId": "get_all_api_v1_rsms_get",
                 "parameters": [
                     {
                         "description": "Filter by ptcType",
@@ -3169,9 +3169,9 @@
                 "tags": [
                     "RSU Config"
                 ],
-                "summary": "List",
+                "summary": "List RSU Configs",
                 "description": "\nGet all RSUConfigs.\n",
-                "operationId": "list_api_v1_rsu_configs_get",
+                "operationId": "get_all_api_v1_rsu_configs_get",
                 "parameters": [
                     {
                         "description": "Filter by name. Fuzzy prefix query is supported",
@@ -3593,9 +3593,9 @@
                 "tags": [
                     "RSU Log"
                 ],
-                "summary": "List",
+                "summary": "List RSU Logs",
                 "description": "\nGet all RSULogs.\n",
-                "operationId": "list_api_v1_rsu_logs_get",
+                "operationId": "get_all_api_v1_rsu_logs_get",
                 "parameters": [
                     {
                         "description": "Page number",
@@ -4006,9 +4006,9 @@
                 "tags": [
                     "RSU Model"
                 ],
-                "summary": "List",
+                "summary": "List RSU Models",
                 "description": "\nGet all RSU Models.\n",
-                "operationId": "list_api_v1_rsu_models_get",
+                "operationId": "get_all_api_v1_rsu_models_get",
                 "parameters": [
                     {
                         "description": "Filter by name. Fuzzy prefix query is supported",
@@ -4441,9 +4441,9 @@
                 "tags": [
                     "RSU Query"
                 ],
-                "summary": "List",
+                "summary": "List RSU Queries",
                 "description": "\nGet all RSUQueries.\n",
-                "operationId": "list_api_v1_rsu_queries_get",
+                "operationId": "get_all_api_v1_rsu_queries_get",
                 "parameters": [
                     {
                         "description": "Page number",
@@ -4699,9 +4699,9 @@
                 "tags": [
                     "RSU TMP"
                 ],
-                "summary": "List",
+                "summary": "List TMP RSUs",
                 "description": "\nGet all TMP RSUs.\n",
-                "operationId": "list_api_v1_rsu_tmps_get",
+                "operationId": "get_all_api_v1_rsu_tmps_get",
                 "parameters": [
                     {
                         "description": "Filter by rsuName. Fuzzy prefix query is supported",
@@ -4816,9 +4816,9 @@
                 "tags": [
                     "RSU"
                 ],
-                "summary": "List",
+                "summary": "List RSUs",
                 "description": "\nGet all RSUs.\n",
-                "operationId": "list_api_v1_rsus_get",
+                "operationId": "get_all_api_v1_rsus_get",
                 "parameters": [
                     {
                         "description": "Filter by rsuName. Fuzzy prefix query is supported",
@@ -5607,9 +5607,9 @@
                 "tags": [
                     "RSI DNP"
                 ],
-                "summary": "List Rsi Dnps",
+                "summary": "List RSI DNPs",
                 "description": "\nGet all RSI DNPs.\n",
-                "operationId": "list_rsi_dnps_api_v1_rsi_dnps_get",
+                "operationId": "get_all_api_v1_rsi_dnps_get",
                 "parameters": [
                     {
                         "description": "UseCase type",
@@ -5713,9 +5713,9 @@
                 "tags": [
                     "RSI CWM"
                 ],
-                "summary": "List Rsi Cwms",
+                "summary": "List RSI CWMs",
                 "description": "\nGet all RSI CWMs.\n",
-                "operationId": "list_rsi_cwms_api_v1_rsi_cwms_get",
+                "operationId": "get_all_api_v1_rsi_cwms_get",
                 "parameters": [
                     {
                         "description": "Event Type",
@@ -5830,9 +5830,9 @@
                 "tags": [
                     "RSI CLC"
                 ],
-                "summary": "List Rsi Clcs",
+                "summary": "List RSI CLCs",
                 "description": "\nGet all RSI CLCs.\n",
-                "operationId": "list_rsi_clcs_api_v1_rsi_clcs_get",
+                "operationId": "get_all_api_v1_rsi_clcs_get",
                 "parameters": [
                     {
                         "description": "UseCase type",
@@ -5936,9 +5936,9 @@
                 "tags": [
                     "RSI SDS"
                 ],
-                "summary": "List Sdss",
+                "summary": "List RSI SDSs",
                 "description": "\nGet all RSI SDSs.\n",
-                "operationId": "list_sdss_api_v1_rsi_sdss_get",
+                "operationId": "get_all_api_v1_rsi_sdss_get",
                 "parameters": [
                     {
                         "description": "Equipment Type",
@@ -6042,9 +6042,9 @@
                 "tags": [
                     "Edge Node"
                 ],
-                "summary": "Get",
-                "description": "\nGet detailed info of Edge Nodes.\n",
-                "operationId": "get_api_v1_edge_nodes_get",
+                "summary": "List Edge Nodes",
+                "description": "\nGet all Edge Nodes.\n",
+                "operationId": "get_all_api_v1_edge_nodes_get",
                 "parameters": [
                     {
                         "required": false,
@@ -6146,9 +6146,9 @@
                 "tags": [
                     "Edge Node RSU"
                 ],
-                "summary": "Get",
-                "description": "\nGet detailed info of Edge Node RSUs.\n",
-                "operationId": "get_api_v1_edge_node_rsus_get",
+                "summary": "List Edge Node RSUs",
+                "description": "\nGet all Edge Node RSUs.\n",
+                "operationId": "get_all_api_v1_edge_node_rsus_get",
                 "parameters": [
                     {
                         "required": false,
