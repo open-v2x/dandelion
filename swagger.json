@@ -647,6 +647,28 @@
                         "in": "query"
                     },
                     {
+                        "description": "Filter by RSU ID",
+                        "required": false,
+                        "schema": {
+                            "title": "Rsuid",
+                            "type": "integer",
+                            "description": "Filter by RSU ID"
+                        },
+                        "name": "rsuId",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Filter by camera area code",
+                        "required": false,
+                        "schema": {
+                            "title": "Areacode",
+                            "type": "string",
+                            "description": "Filter by camera area code"
+                        },
+                        "name": "areaCode",
+                        "in": "query"
+                    },
+                    {
                         "description": "Page number",
                         "required": false,
                         "schema": {
@@ -2446,6 +2468,17 @@
                             "description": "Filter by rsuId"
                         },
                         "name": "rsuId",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Filter by camera area code",
+                        "required": false,
+                        "schema": {
+                            "title": "Areacode",
+                            "type": "string",
+                            "description": "Filter by camera area code"
+                        },
+                        "name": "areaCode",
                         "in": "query"
                     },
                     {
