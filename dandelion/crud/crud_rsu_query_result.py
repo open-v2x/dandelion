@@ -29,5 +29,8 @@ class CRUDRSUQueryResult(CRUDBase[RSUQueryResult, RSUQueryResultCreate, RSUQuery
     def get_multi_by_rsu_id(self, db: Session, *, rsu_id: int) -> List[RSUQueryResult]:
         return db.query(RSUQueryResult).filter(RSUQueryResult.rsu_id == rsu_id).all()
 
+    def get_multi_by_query_id(self, db: Session, *, query_id: int) -> List[RSUQueryResult]:
+        return db.query(RSUQueryResult).filter(RSUQueryResult.query_id == query_id).all()
+
 
 rsu_query_result = CRUDRSUQueryResult(RSUQueryResult)
