@@ -4479,6 +4479,17 @@
                 "operationId": "list_api_v1_rsu_queries_get",
                 "parameters": [
                     {
+                        "description": "Filter by rsuId",
+                        "required": false,
+                        "schema": {
+                            "title": "Rsuid",
+                            "type": "integer",
+                            "description": "Filter by rsuId"
+                        },
+                        "name": "rsuId",
+                        "in": "query"
+                    },
+                    {
                         "description": "Page number",
                         "required": false,
                         "schema": {
@@ -4678,6 +4689,77 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/rsu_queries/{query_id}": {
+            "delete": {
+                "tags": [
+                    "RSU Query"
+                ],
+                "summary": "Delete",
+                "description": "\nDelete a RSU Query.\n",
+                "operationId": "delete_api_v1_rsu_queries__query_id__delete",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Query Id",
+                            "type": "integer"
+                        },
+                        "name": "query_id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
                     },
                     "401": {
                         "description": "Unauthorized",

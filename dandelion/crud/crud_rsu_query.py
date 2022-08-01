@@ -14,12 +14,13 @@
 
 from __future__ import annotations
 
-from typing import List, Tuple
+from typing import List, Optional, Tuple
 
+from sqlalchemy import desc
 from sqlalchemy.orm import Session
 
 from dandelion.crud.base import CRUDBase
-from dandelion.models import RSUQuery
+from dandelion.models import RSUQuery, RSUQueryResult
 from dandelion.schemas import RSUQueryCreate, RSUQueryUpdate
 
 
@@ -32,9 +33,15 @@ class CRUDRSUQuery(CRUDBase[RSUQuery, RSUQueryCreate, RSUQueryUpdate]):
         *,
         skip: int = 0,
         limit: int = 10,
+        rsu_id: Optional[int] = None,
     ) -> Tuple[int, List[RSUQuery]]:
-        query_ = db.query(self.model)
+        query_ = db.query(self.model).join(
+            RSUQueryResult, RSUQueryResult.query_id == self.model.id
+        )
+        if rsu_id is not None:
+            query_ = query_.filter(RSUQueryResult.rsu_id == rsu_id)
         total = query_.count()
+        query_ = query_.order_by(desc(self.model.id))
         if limit != -1:
             query_ = query_.offset(skip).limit(limit)
         data = query_.all()
