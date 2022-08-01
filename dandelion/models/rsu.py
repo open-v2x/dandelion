@@ -75,6 +75,7 @@ class RSU(Base, DandelionBase):
             enabled=self.enabled,
             onlineStatus=self.online_status,
             rsuModelId=self.rsu_model_id,
+            rsuModelName=self.rsu_model.name if self.rsu_model else "",
             areaCode=self.area_code,
             address=self.address,
             desc=self.desc,

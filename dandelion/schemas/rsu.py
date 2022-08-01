@@ -138,6 +138,7 @@ class RSU(RSUInDBBase):
 
 
 class RSUDetail(RSUInDBBase):
+    rsu_model_name: Optional[str] = Field(None, alias="rsuModelName", description="RSU Model Name")
     config: Optional[List[Dict[str, Any]]] = Field(
         None, alias="config", description="RSU Config RSU"
     )
