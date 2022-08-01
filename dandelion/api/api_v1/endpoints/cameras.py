@@ -148,6 +148,10 @@ def get_all(
     name: Optional[str] = Query(
         None, alias="name", description="Filter by camera name. Fuzzy prefix query is supported"
     ),
+    rsu_id: Optional[int] = Query(None, alias="rsuId", description="Filter by RSU ID"),
+    area_code: Optional[str] = Query(
+        None, alias="areaCode", description="Filter by camera area code"
+    ),
     page_num: int = Query(1, alias="pageNum", ge=1, description="Page number"),
     page_size: int = Query(10, alias="pageSize", ge=-1, description="Page size"),
     db: Session = Depends(deps.get_db),
@@ -155,7 +159,7 @@ def get_all(
 ) -> schemas.Cameras:
     skip = page_size * (page_num - 1)
     total, data = crud.camera.get_multi_with_total(
-        db, skip=skip, limit=page_size, sn=sn, name=name
+        db, skip=skip, limit=page_size, sn=sn, name=name, rsu_id=rsu_id, area_code=area_code
     )
     return schemas.Cameras(total=total, data=[camera.to_dict() for camera in data])
 
