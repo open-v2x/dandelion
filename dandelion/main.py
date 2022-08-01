@@ -18,10 +18,14 @@ import time
 import uuid
 from logging import LoggerAdapter
 
+from apscheduler.executors.pool import ThreadPoolExecutor
+from apscheduler.jobstores.memory import MemoryJobStore
+from apscheduler.schedulers.background import BackgroundScheduler
 from fastapi import FastAPI, Request
 from fastapi_utils.tasks import repeat_every
 from oslo_config import cfg
 from oslo_log import log
+from pytz import utc
 from starlette.middleware.cors import CORSMiddleware
 
 from dandelion import constants, periodic_tasks, version
@@ -81,6 +85,18 @@ def setup_app():
             allow_methods=["*"],
             allow_headers=["*"],
         )
+
+
+@app.on_event("startup")
+def setup_rsu_running():
+    job_stores = {"default": MemoryJobStore()}
+    executors = {"default": ThreadPoolExecutor(5)}
+    job_defaults = {"coalesce": False, "max_instances": 3}
+    scheduler = BackgroundScheduler(
+        jobstores=job_stores, executors=executors, job_defaults=job_defaults, timezone=utc
+    )
+    scheduler.add_job(periodic_tasks.rsu_info, trigger="cron", minute="00,10,20,30,40,50")
+    scheduler.start()
 
 
 @app.on_event("startup")

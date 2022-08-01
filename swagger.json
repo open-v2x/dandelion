@@ -5562,6 +5562,84 @@
                 ]
             }
         },
+        "/api/v1/rsus/{rsu_id}/running": {
+            "get": {
+                "tags": [
+                    "RSU"
+                ],
+                "summary": "Get Running",
+                "description": "\nGet a RSU Running Info.\n",
+                "operationId": "get_running_api_v1_rsus__rsu_id__running_get",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Rsu Id",
+                            "type": "integer"
+                        },
+                        "name": "rsu_id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RSURunning"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            }
+        },
         "/api/v1/system_configs": {
             "post": {
                 "tags": [
@@ -9638,6 +9716,44 @@
                     }
                 }
             },
+            "RSURunning": {
+                "title": "RSURunning",
+                "type": "object",
+                "properties": {
+                    "cpu": {
+                        "title": "Cpu",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/RunningCPU"
+                        },
+                        "description": "CPU Info"
+                    },
+                    "mem": {
+                        "title": "Mem",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/RunningMEM"
+                        },
+                        "description": "MEM Info"
+                    },
+                    "disk": {
+                        "title": "Disk",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/RunningDisk"
+                        },
+                        "description": "Disk Info"
+                    },
+                    "net": {
+                        "title": "Net",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/RunningNet"
+                        },
+                        "description": "NET Info"
+                    }
+                }
+            },
             "RSUTMP": {
                 "title": "RSUTMP",
                 "required": [
@@ -10192,6 +10308,90 @@
                         "type": "string",
                         "description": "Congestion",
                         "default": "Unknown"
+                    }
+                }
+            },
+            "RunningCPU": {
+                "title": "RunningCPU",
+                "type": "object",
+                "properties": {
+                    "time": {
+                        "title": "Time",
+                        "type": "string",
+                        "description": "time"
+                    },
+                    "uti": {
+                        "title": "Uti",
+                        "type": "integer",
+                        "description": "CPU UTI"
+                    },
+                    "load": {
+                        "title": "Load",
+                        "type": "number",
+                        "description": "CPU Load"
+                    }
+                }
+            },
+            "RunningDisk": {
+                "title": "RunningDisk",
+                "type": "object",
+                "properties": {
+                    "time": {
+                        "title": "Time",
+                        "type": "string",
+                        "description": "time"
+                    },
+                    "rxByte": {
+                        "title": "Rxbyte",
+                        "type": "number",
+                        "description": "Disk RXByte"
+                    },
+                    "wxByte": {
+                        "title": "Wxbyte",
+                        "type": "number",
+                        "description": "Disk WXByte"
+                    }
+                }
+            },
+            "RunningMEM": {
+                "title": "RunningMEM",
+                "type": "object",
+                "properties": {
+                    "time": {
+                        "title": "Time",
+                        "type": "string",
+                        "description": "time"
+                    },
+                    "total": {
+                        "title": "Total",
+                        "type": "number",
+                        "description": "MEM Total"
+                    },
+                    "used": {
+                        "title": "Used",
+                        "type": "number",
+                        "description": "MEM Used"
+                    }
+                }
+            },
+            "RunningNet": {
+                "title": "RunningNet",
+                "type": "object",
+                "properties": {
+                    "time": {
+                        "title": "Time",
+                        "type": "string",
+                        "description": "time"
+                    },
+                    "read": {
+                        "title": "Read",
+                        "type": "number",
+                        "description": "Net Read"
+                    },
+                    "write": {
+                        "title": "Write",
+                        "type": "number",
+                        "description": "Net Write"
                     }
                 }
             },
