@@ -15,8 +15,9 @@
 from __future__ import annotations
 
 from logging import LoggerAdapter
+from typing import Optional
 
-from fastapi import APIRouter, Depends, HTTPException, Query, status
+from fastapi import APIRouter, Depends, HTTPException, Query, Response, status
 from oslo_log import log
 from sqlalchemy.orm import Session
 
@@ -126,11 +127,49 @@ Get all RSUQueries.
     },
 )
 def get_all(
+    rsu_id: Optional[int] = Query(None, alias="rsuId", description="Filter by rsuId"),
     page_num: int = Query(1, alias="pageNum", ge=1, description="Page number"),
     page_size: int = Query(10, alias="pageSize", ge=-1, description="Page size"),
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> schemas.RSUQueries:
     skip = page_size * (page_num - 1)
-    total, data = crud.rsu_query.get_multi_with_total(db, skip=skip, limit=page_size)
+    total, data = crud.rsu_query.get_multi_with_total(
+        db, skip=skip, limit=page_size, rsu_id=rsu_id
+    )
     return schemas.RSUQueries(total=total, data=[rsu_query.to_dict() for rsu_query in data])
+
+
+@router.delete(
+    "/{query_id}",
+    status_code=status.HTTP_204_NO_CONTENT,
+    description="""
+Delete a RSU Query.
+""",
+    responses={
+        status.HTTP_401_UNAUTHORIZED: {
+            "model": schemas.ErrorMessage,
+            "description": "Unauthorized",
+        },
+        status.HTTP_403_FORBIDDEN: {"model": schemas.ErrorMessage, "description": "Forbidden"},
+        status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
+    },
+    response_class=Response,
+    response_description="No Content",
+)
+def delete(
+    query_id: int,
+    *,
+    db: Session = Depends(deps.get_db),
+    current_user: models.User = Depends(deps.get_current_user),
+) -> Response:
+    if not crud.rsu_query.get(db, id=query_id):
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail=f"RSUQuery [id: {query_id}] not found"
+        )
+    results = crud.rsu_query_result.get_multi_by_query_id(db, query_id=query_id)
+    for result in results:
+        crud.rsu_query_result_data.remove_by_result_id(db, result_id=result.id)
+        crud.rsu_query_result.remove(db, id=result.id)
+    crud.rsu_query.remove(db, id=query_id)
+    return Response(content=None, status_code=status.HTTP_204_NO_CONTENT)
