@@ -2968,9 +2968,9 @@
                 "tags": [
                     "Event"
                 ],
-                "summary": "List",
+                "summary": "List RSI Events",
                 "description": "\nGet all RSI Events.\n",
-                "operationId": "list_api_v1_events_get",
+                "operationId": "get_all_api_v1_events_get",
                 "parameters": [
                     {
                         "description": "Filter by eventType",
@@ -3003,6 +3003,21 @@
                             "description": "Filter by address. Fuzzy prefix query is supported"
                         },
                         "name": "address",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Sort by ID(asc/desc)",
+                        "required": false,
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/components/schemas/Sort"
+                                }
+                            ],
+                            "description": "Sort by ID(asc/desc)",
+                            "default": "desc"
+                        },
+                        "name": "sortDir",
                         "in": "query"
                     },
                     {
@@ -3096,9 +3111,9 @@
                 "tags": [
                     "RSM"
                 ],
-                "summary": "List",
-                "description": "\nGet all RSM.\n",
-                "operationId": "list_api_v1_rsms_get",
+                "summary": "List RSMs",
+                "description": "\nGet all RSMs.\n",
+                "operationId": "get_all_api_v1_rsms_get",
                 "parameters": [
                     {
                         "description": "Filter by ptcType",
@@ -3109,6 +3124,21 @@
                             "description": "Filter by ptcType"
                         },
                         "name": "ptcType",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Sort by ID(asc/desc)",
+                        "required": false,
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/components/schemas/Sort"
+                                }
+                            ],
+                            "description": "Sort by ID(asc/desc)",
+                            "default": "desc"
+                        },
+                        "name": "sortDir",
                         "in": "query"
                     },
                     {
@@ -4474,9 +4504,9 @@
                 "tags": [
                     "RSU Query"
                 ],
-                "summary": "List",
+                "summary": "Get All",
                 "description": "\nGet all RSUQueries.\n",
-                "operationId": "list_api_v1_rsu_queries_get",
+                "operationId": "get_all_api_v1_rsu_queries_get",
                 "parameters": [
                     {
                         "description": "Filter by rsuId",
@@ -5800,9 +5830,9 @@
                 "tags": [
                     "RSI DNP"
                 ],
-                "summary": "List",
+                "summary": "List RSI DNPs",
                 "description": "\nGet all RSI DNPs.\n",
-                "operationId": "list_api_v1_rsi_dnps_get",
+                "operationId": "get_all_api_v1_rsi_dnps_get",
                 "parameters": [
                     {
                         "description": "UseCase type",
@@ -5813,6 +5843,21 @@
                             "description": "UseCase type"
                         },
                         "name": "info",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Sort by ID(asc/desc)",
+                        "required": false,
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/components/schemas/Sort"
+                                }
+                            ],
+                            "description": "Sort by ID(asc/desc)",
+                            "default": "desc"
+                        },
+                        "name": "sortDir",
                         "in": "query"
                     },
                     {
@@ -9813,6 +9858,15 @@
                 "enum": [
                     "ByAll",
                     "ByID"
+                ],
+                "type": "string",
+                "description": "An enumeration."
+            },
+            "Sort": {
+                "title": "Sort",
+                "enum": [
+                    "asc",
+                    "desc"
                 ],
                 "type": "string",
                 "description": "An enumeration."
