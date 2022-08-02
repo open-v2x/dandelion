@@ -20,7 +20,7 @@ from fastapi.encoders import jsonable_encoder
 from sqlalchemy.orm import Session
 
 from dandelion.crud.base import CRUDBase
-from dandelion.models import Camera
+from dandelion.models import RSU, Camera
 from dandelion.schemas import CameraCreate, CameraUpdate
 
 
@@ -43,12 +43,18 @@ class CRUDCamera(CRUDBase[Camera, CameraCreate, CameraUpdate]):
         limit: int = 10,
         sn: Optional[str] = None,
         name: Optional[str] = None,
+        rsu_id: Optional[int] = None,
+        area_code: Optional[str] = None,
     ) -> Tuple[int, List[Camera]]:
-        query_ = db.query(self.model)
+        query_ = db.query(self.model).join(RSU, self.model.rsu_id == RSU.id)
         if sn is not None:
             query_ = query_.filter(self.model.sn.like(f"{sn}%"))
         if name is not None:
             query_ = query_.filter(self.model.name.like(f"{name}%"))
+        if rsu_id is not None:
+            query_ = query_.filter(self.model.rsu_id == rsu_id)
+        if area_code is not None:
+            query_ = query_.filter(RSU.area_code == area_code)
         total = query_.count()
         if limit != -1:
             query_ = query_.offset(skip).limit(limit)
