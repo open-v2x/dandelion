@@ -7583,7 +7583,6 @@
                     "rsuEsn",
                     "address",
                     "eventClass",
-                    "eventType",
                     "createTime",
                     "countryCode",
                     "countryName",
@@ -7594,11 +7593,9 @@
                     "areaCode",
                     "areaName",
                     "alertID",
-                    "duration",
                     "eventStatus",
                     "timestamp",
-                    "eventSource",
-                    "eventConfidence"
+                    "eventSource"
                 ],
                 "type": "object",
                 "properties": {
