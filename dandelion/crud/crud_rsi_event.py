@@ -23,6 +23,7 @@ from sqlalchemy.orm import Session
 from dandelion.crud.base import CRUDBase
 from dandelion.models import RSU, RSIEvent
 from dandelion.schemas import RSIEventCreate, RSIEventUpdate
+from dandelion.schemas.utils import Sort
 
 
 class CRUDRSIEvent(CRUDBase[RSIEvent, RSIEventCreate, RSIEventUpdate]):
@@ -43,6 +44,7 @@ class CRUDRSIEvent(CRUDBase[RSIEvent, RSIEventCreate, RSIEventUpdate]):
         *,
         skip: int = 0,
         limit: int = 10,
+        sort: Sort = Sort.desc,
         event_type: Optional[int] = None,
         area_code: Optional[str] = None,
         address: Optional[str] = None,
@@ -55,7 +57,10 @@ class CRUDRSIEvent(CRUDBase[RSIEvent, RSIEventCreate, RSIEventUpdate]):
         if address is not None:
             query_ = query_.filter(self.model.address.like(f"{address}%"))
         total = query_.count()
-        query_ = query_.order_by(desc(self.model.id))
+        if sort == Sort.asc:
+            query_ = query_.order_by(self.model.id)
+        else:
+            query_ = query_.order_by(desc(self.model.id))
         if limit != -1:
             query_ = query_.offset(skip).limit(limit)
         data = query_.all()
