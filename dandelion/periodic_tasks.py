@@ -15,6 +15,7 @@
 from __future__ import annotations
 
 import json
+import time
 from logging import LoggerAdapter
 
 import redis
@@ -24,6 +25,7 @@ from sqlalchemy.orm import Session
 from dandelion import crud, schemas
 from dandelion.db import redis_pool, session
 from dandelion.mqtt import cloud_server as mqtt_cloud_server
+from dandelion.util import Optional
 
 LOG: LoggerAdapter = log.getLogger(__name__)
 
@@ -70,3 +72,43 @@ def edge_heartbeat() -> None:
     edge_id = mqtt_cloud_server.GET_EDGE_ID()
     if client and edge_id > 0:
         client.publish(topic="V2X/EDGE/HB/UP", payload=json.dumps(dict(id=edge_id)), qos=0)
+
+
+def rsu_info():
+    LOG.info("RSU Running Info...")
+    db: Session = session.DB_SESSION_LOCAL()
+    redis_conn: redis.Redis = redis_pool.REDIS_CONN
+    _, rsus = crud.rsu.get_multi_with_total(db, limit=-1)
+    for rsu in rsus:
+        get_key = f"RSU_RUNNING_INFO_{rsu.rsu_esn}"
+        c_time = int(time.time())
+        cpu_data = json.loads(Optional.none(redis_conn.hget(get_key, "cpu")).orElse("{}"))
+        cpu = dict(
+            time=c_time,
+            uti=Optional.none(cpu_data.get("uti")).map(lambda s: len(s.split(","))).orElse(0),
+            load=cpu_data.get("load", 0),
+        )
+        mem_data = json.loads(Optional.none(redis_conn.hget(get_key, "mem")).orElse("{}"))
+        mem = dict(time=c_time, total=mem_data.get("total", 0), used=mem_data.get("used", 0))
+        net_data = json.loads(Optional.none(redis_conn.hget(get_key, "net")).orElse("{}"))
+        net = dict(time=c_time, rxByte=net_data.get("rxByte", 0), wxByte=net_data.get("wxByte", 0))
+        disk_data = json.loads(Optional.none(redis_conn.hget(get_key, "disk")).orElse("{}"))
+        disk = dict(time=c_time, read=disk_data.get("read", 0), write=disk_data.get("write", 0))
+
+        cpu_key = f"RSU_RUNNING_CPU_{rsu.rsu_esn}"
+        redis_conn.zadd(cpu_key, {json.dumps(cpu): c_time})
+        mem_key = f"RSU_RUNNING_MEM_{rsu.rsu_esn}"
+        redis_conn.zadd(mem_key, {json.dumps(mem): c_time})
+        disk_key = f"RSU_RUNNING_DISK_{rsu.rsu_esn}"
+        redis_conn.zadd(disk_key, {json.dumps(disk): c_time})
+        net_key = f"RSU_RUNNING_NET_{rsu.rsu_esn}"
+        redis_conn.zadd(net_key, {json.dumps(net): c_time})
+
+        if redis_conn.zcard(cpu_key) > 1000:
+            redis_conn.zremrangebyrank(cpu_key, min=1, max=1)
+        if redis_conn.zcard(mem_key) > 1000:
+            redis_conn.zremrangebyrank(mem_key, min=1, max=1)
+        if redis_conn.zcard(disk_key) > 1000:
+            redis_conn.zremrangebyrank(disk_key, min=1, max=1)
+        if redis_conn.zcard(net_key) > 1000:
+            redis_conn.zremrangebyrank(net_key, min=1, max=1)

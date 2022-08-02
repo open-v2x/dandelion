@@ -19,3 +19,5 @@ python-jose>=3.3.0 # MIT
 passlib>=1.7.4 # BSD
 python-multipart>=0.0.5 # Apache-2.0
 bcrypt>=3.2.2 # Apache-2.0
+APScheduler>=3.9.1 # MIT
+types-pytz>=2022.1
