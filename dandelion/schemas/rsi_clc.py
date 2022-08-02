@@ -14,22 +14,22 @@
 
 from __future__ import annotations
 
+<<<<<<< HEAD
 from datetime import datetime
+=======
+>>>>>>> bd4ed84 (feat: Add RSI_CLC RSI_CWM RSI_SDS)
 from typing import List, Optional
 
 from pydantic import BaseModel, Field
 
 
-class RSIDNPBase(BaseModel):
+class RSICLCBase(BaseModel):
     msg_id: Optional[str] = Field(None, alias="msgID", description="MSG ID")
-    sec_mark: Optional[int] = Field(None, alias="secMark", description="Millisecond time")
+    sec_mark: Optional[int] = Field(None, alias="secMark", description="SEC Mark")
     ref_pos: Optional[REFPOS] = Field(None, alias="refPos", description="3D Coordinates")
     veh_id: Optional[str] = Field(None, alias="vehID", description="Target ID")
     drive_suggestion: Optional[DriveSuggestion] = Field(
         None, alias="driveSuggestion", description="Drive Suggestion"
-    )
-    path_guidance: Optional[List[PathGuidance]] = Field(
-        None, alias="pathGuidance", description="Path Guidance"
     )
     info: Optional[int] = Field(None, alias="info", description="Info Type")
 
@@ -45,32 +45,26 @@ class DriveSuggestion(BaseModel):
     life_time: int = Field(..., alias="lifeTime", description="Life Time")
 
 
-class PathGuidance(BaseModel):
-    pos: Optional[REFPOS] = Field(None, alias="suggestion", description="Location")
-    speed: Optional[int] = Field(None, alias="speed", description="Speed")
-    heading: Optional[int] = Field(None, alias="heading", description="Heading")
-    estimated_time: Optional[int] = Field(
-        None, alias="estimatedTime", description="Estimated time"
-    )
-
-
-class RSIDNPCreate(RSIDNPBase):
+class RSICLCCreate(RSICLCBase):
     """"""
 
 
-class RSIDNPInDBBase(RSIDNPBase):
-    id: int = Field(..., alias="id", description="DNP ID")
+class RSICLCInDBBase(RSICLCBase):
+    id: int = Field(..., alias="id", description="CLC ID")
+<<<<<<< HEAD
     create_time: datetime = Field(..., alias="createTime", description="Create Time")
+=======
+>>>>>>> bd4ed84 (feat: Add RSI_CLC RSI_CWM RSI_SDS)
 
     class Config:
         orm_mode = True
 
 
 # Additional properties to return via API
-class RSIDNP(RSIDNPInDBBase):
+class RSICLC(RSICLCInDBBase):
     """"""
 
 
-class RSIDNPs(BaseModel):
+class RSICLCs(BaseModel):
     total: int = Field(..., alias="total", description="Total")
-    data: List[RSIDNP] = Field(..., alias="data", description="Data")
+    data: List[RSICLC] = Field(..., alias="data", description="Data")

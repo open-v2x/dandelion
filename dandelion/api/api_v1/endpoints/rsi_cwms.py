@@ -14,30 +14,34 @@
 
 from __future__ import annotations
 
-from logging import LoggerAdapter
 from typing import Optional
 
 from fastapi import APIRouter, Depends, Query, status
-from oslo_log import log
 from sqlalchemy.orm import Session
 
 from dandelion import crud, models, schemas
 from dandelion.api import deps
+<<<<<<< HEAD
 from dandelion.schemas.utils import Sort
+=======
+>>>>>>> bd4ed84 (feat: Add RSI_CLC RSI_CWM RSI_SDS)
 
 router = APIRouter()
-LOG: LoggerAdapter = log.getLogger(__name__)
 
 
 @router.get(
     "",
-    response_model=schemas.RSMParticipants,
+    response_model=schemas.RSICWMs,
     status_code=status.HTTP_200_OK,
+<<<<<<< HEAD
+    summary="List RSI CWMs",
+=======
+>>>>>>> bd4ed84 (feat: Add RSI_CLC RSI_CWM RSI_SDS)
     description="""
-Get all RSM.
+Get all RSI CWMs.
 """,
     responses={
-        status.HTTP_200_OK: {"model": schemas.RSMParticipants, "description": "OK"},
+        status.HTTP_200_OK: {"model": schemas.RSICWMs, "description": "OK"},
         status.HTTP_401_UNAUTHORIZED: {
             "model": schemas.ErrorMessage,
             "description": "Unauthorized",
@@ -46,18 +50,34 @@ Get all RSM.
         status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
     },
 )
-def list(
-    ptc_type: Optional[str] = Query(None, alias="ptcType", description="Filter by ptcType"),
+<<<<<<< HEAD
+def get_all(
+=======
+def list_rsi_cwms(
+>>>>>>> bd4ed84 (feat: Add RSI_CLC RSI_CWM RSI_SDS)
+    event_type: Optional[int] = Query(None, alias="eventType", description="Event Type"),
+    collision_type: Optional[int] = Query(
+        None, alias="collisionType", description="Collision Type"
+    ),
+<<<<<<< HEAD
     sort_dir: Sort = Query(Sort.desc, alias="sortDir", description="Sort by ID(asc/desc)"),
+=======
+>>>>>>> bd4ed84 (feat: Add RSI_CLC RSI_CWM RSI_SDS)
     page_num: int = Query(1, alias="pageNum", ge=1, description="Page number"),
     page_size: int = Query(10, alias="pageSize", ge=-1, description="Page size"),
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
-) -> schemas.RSMParticipants:
+) -> schemas.RSICWMs:
     skip = page_size * (page_num - 1)
-    total, data = crud.rsm_participant.get_multi_with_total(
-        db, skip=skip, limit=page_size, sort=sort_dir, ptc_type=ptc_type
+    total, data = crud.rsi_cwm.get_multi_with_total(
+        db,
+        skip=skip,
+        limit=page_size,
+<<<<<<< HEAD
+        sort=sort_dir,
+=======
+>>>>>>> bd4ed84 (feat: Add RSI_CLC RSI_CWM RSI_SDS)
+        event_type=event_type,
+        collision_type=collision_type,
     )
-    return schemas.RSMParticipants(
-        total=total, data=[rsm_participant.to_dict() for rsm_participant in data]
-    )
+    return schemas.RSICWMs(total=total, data=[cwm.to_all_dict() for cwm in data])

@@ -21,13 +21,16 @@ from sqlalchemy import desc
 from sqlalchemy.orm import Session
 
 from dandelion.crud.base import CRUDBase
-from dandelion.models import RSIDNP
-from dandelion.schemas import RSIDNPCreate
+from dandelion.models import RSISDS
+from dandelion.schemas import RSISDSCreate
+<<<<<<< HEAD
 from dandelion.schemas.utils import Sort
+=======
+>>>>>>> bd4ed84 (feat: Add RSI_CLC RSI_CWM RSI_SDS)
 
 
-class CRUDRSIDNP(CRUDBase[RSIDNP, RSIDNPCreate, RSIDNPCreate]):
-    def create(self, db: Session, *, obj_in: RSIDNPCreate) -> RSIDNP:
+class CRUDRSISDS(CRUDBase[RSISDS, RSISDSCreate, RSISDSCreate]):
+    def create(self, db: Session, *, obj_in: RSISDSCreate) -> RSISDS:
         obj_in_data = jsonable_encoder(obj_in, by_alias=False)
         db_obj = self.model(**obj_in_data)
         db.add(db_obj)
@@ -41,21 +44,28 @@ class CRUDRSIDNP(CRUDBase[RSIDNP, RSIDNPCreate, RSIDNPCreate]):
         *,
         skip: int = 0,
         limit: int = 10,
+<<<<<<< HEAD
         sort: Sort = Sort.desc,
-        info: Optional[int] = None,
-    ) -> Tuple[int, List[RSIDNP]]:
+=======
+>>>>>>> bd4ed84 (feat: Add RSI_CLC RSI_CWM RSI_SDS)
+        equipment_type: Optional[int] = None,
+    ) -> Tuple[int, List[RSISDS]]:
         query_ = db.query(self.model)
-        if info is not None:
-            query_ = query_.filter(self.model.info == info)
+        if equipment_type is not None:
+            query_ = query_.filter(self.model.equipment_type == equipment_type)
         total = query_.count()
+<<<<<<< HEAD
         if sort == Sort.asc:
             query_ = query_.order_by(self.model.id)
         else:
             query_ = query_.order_by(desc(self.model.id))
+=======
+        query_ = query_.order_by(desc(self.model.id))
+>>>>>>> bd4ed84 (feat: Add RSI_CLC RSI_CWM RSI_SDS)
         if limit != -1:
             query_ = query_.offset(skip).limit(limit)
         data = query_.all()
         return total, data
 
 
-rsi_dnp = CRUDRSIDNP(RSIDNP)
+rsi_sds = CRUDRSISDS(RSISDS)
