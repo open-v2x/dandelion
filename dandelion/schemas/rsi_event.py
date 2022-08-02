@@ -71,7 +71,7 @@ class RSIEvent(RSIEventInDBBase):
     rsu_esn: str = Field(..., alias="rsuEsn", description="RSU esn")
     address: str = Field(..., alias="address", description="RSU address")
     event_class: str = Field(..., alias="eventClass", description="Event class")
-    event_type: int = Field(..., alias="eventType", description="Event type")
+    event_type: Optional[int] = Field(None, alias="eventType", description="Event type")
     create_time: datetime = Field(..., alias="createTime", description="Create time")
     country_code: str = Field(..., alias="countryCode", description="Country Code")
     country_name: str = Field(..., alias="countryName", description="Country Name")
@@ -82,11 +82,13 @@ class RSIEvent(RSIEventInDBBase):
     area_code: str = Field(..., alias="areaCode", description="Area Code")
     area_name: str = Field(..., alias="areaName", description="Area Name")
     alert_id: str = Field(..., alias="alertID", description="Alert id")
-    duration: int = Field(..., alias="duration", description="Duration")
+    duration: Optional[int] = Field(None, alias="duration", description="Duration")
     event_status: bool = Field(..., alias="eventStatus", description="Event status")
     timestamp: str = Field(..., alias="timestamp", description="Timestamp")
     event_source: str = Field(..., alias="eventSource", description="Event source")
-    event_confidence: float = Field(..., alias="eventConfidence", description="Event confidence")
+    event_confidence: Optional[float] = Field(
+        None, alias="eventConfidence", description="Event confidence"
+    )
     event_position: Optional[Dict[str, Any]] = Field(
         None, alias="eventPosition", description="Event position"
     )
