@@ -311,3 +311,72 @@ def get_map(
             detail=f"Map RSU [rsu_id: {rsu_id}] not found",
         )
     return Optional_util.none(map_rsu_in_db).map(lambda v: v.map).map(lambda v: v.data).get()
+
+
+@router.get(
+    "/{rsu_id}/running",
+    response_model=schemas.RSURunning,
+    status_code=status.HTTP_200_OK,
+    description="""
+Get a RSU Running Info.
+""",
+    responses={
+        status.HTTP_200_OK: {"model": schemas.RSURunning, "description": "OK"},
+        status.HTTP_401_UNAUTHORIZED: {
+            "model": schemas.ErrorMessage,
+            "description": "Unauthorized",
+        },
+        status.HTTP_403_FORBIDDEN: {"model": schemas.ErrorMessage, "description": "Forbidden"},
+        status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
+    },
+)
+def get_running(
+    rsu_id: int,
+    *,
+    db: Session = Depends(deps.get_db),
+    redis_conn: Redis = Depends(deps.get_redis_conn),
+    current_user: models.User = Depends(deps.get_current_user),
+) -> schemas.RSURunning:
+    rsu = crud.rsu.get(db, id=rsu_id)
+    if not rsu:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail=f"RSU [id: {rsu_id}] not found"
+        )
+    rsu_running = schemas.RSURunning()
+    rsu_running.cpu = []
+    for cpu in redis_conn.zrevrange(f"RSU_RUNNING_CPU_{rsu.rsu_esn}", start=0, end=6):
+        data = json.loads(cpu)
+        cpu_ = schemas.RunningCPU()
+        cpu_.time = data.get("time")
+        cpu_.uti = data.get("uti", 0)
+        cpu_.load = data.get("load", 0)
+        rsu_running.cpu.append(cpu_)
+
+    rsu_running.mem = []
+    for mem in redis_conn.zrevrange(f"RSU_RUNNING_MEM_{rsu.rsu_esn}", start=0, end=6):
+        data = json.loads(mem)
+        mem_ = schemas.RunningMEM()
+        mem_.time = data.get("time")
+        mem_.total = data.get("total", 0)
+        mem_.used = data.get("used", 0)
+        rsu_running.mem.append(mem_)
+
+    rsu_running.disk = []
+    for disk in redis_conn.zrevrange(f"RSU_RUNNING_DISK_{rsu.rsu_esn}", start=0, end=6):
+        data = json.loads(disk)
+        disk_ = schemas.RunningDisk()
+        disk_.time = data.get("time")
+        disk_.rx_byte = data.get("rxByte", 0)
+        disk_.wx_byte = data.get("wxByte", 0)
+        rsu_running.disk.append(disk_)
+
+    rsu_running.net = []
+    for net in redis_conn.zrevrange(f"RSU_RUNNING_NET_{rsu.rsu_esn}", start=0, end=6):
+        data = json.loads(net)
+        net_ = schemas.RunningNet()
+        net_.time = data.get("time")
+        net_.read = data.get("read", 0)
+        net_.write = data.get("write", 0)
+        rsu_running.net.append(net_)
+
+    return rsu_running

@@ -165,6 +165,37 @@ class RSUDetail(RSUInDBBase):
     )
 
 
+class RunningCPU(BaseModel):
+    time: Optional[str] = Field(None, alias="time", description="time")
+    uti: Optional[int] = Field(None, alias="uti", description="CPU UTI")
+    load: Optional[float] = Field(None, alias="load", description="CPU Load")
+
+
+class RunningMEM(BaseModel):
+    time: Optional[str] = Field(None, alias="time", description="time")
+    total: Optional[float] = Field(None, alias="total", description="MEM Total")
+    used: Optional[float] = Field(None, alias="used", description="MEM Used")
+
+
+class RunningDisk(BaseModel):
+    time: Optional[str] = Field(None, alias="time", description="time")
+    rx_byte: Optional[float] = Field(None, alias="rxByte", description="Disk RXByte")
+    wx_byte: Optional[float] = Field(None, alias="wxByte", description="Disk WXByte")
+
+
+class RunningNet(BaseModel):
+    time: Optional[str] = Field(None, alias="time", description="time")
+    read: Optional[float] = Field(None, alias="read", description="Net Read")
+    write: Optional[float] = Field(None, alias="write", description="Net Write")
+
+
+class RSURunning(BaseModel):
+    cpu: Optional[List[RunningCPU]] = Field(None, alias="cpu", description="CPU Info")
+    mem: Optional[List[RunningMEM]] = Field(None, alias="mem", description="MEM Info")
+    disk: Optional[List[RunningDisk]] = Field(None, alias="disk", description="Disk Info")
+    net: Optional[List[RunningNet]] = Field(None, alias="net", description="NET Info")
+
+
 class RSUs(BaseModel):
     total: int = Field(..., alias="total", description="Total")
     data: List[RSU] = Field(..., alias="data", description="Data")
