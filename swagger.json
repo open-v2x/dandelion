@@ -8379,6 +8379,11 @@
                         "type": "integer",
                         "description": "RSU ID"
                     },
+                    "rsuModelName": {
+                        "title": "Rsumodelname",
+                        "type": "string",
+                        "description": "RSU Model Name"
+                    },
                     "config": {
                         "title": "Config",
                         "type": "array",
