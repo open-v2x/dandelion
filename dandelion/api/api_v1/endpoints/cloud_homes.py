@@ -59,13 +59,13 @@ def online_rate(
     camera_online_rate = {
         "online": 0,
         "offline": 0,
-        "notRegister": 0,
+        "notRegister": crud.camera.get_multi_with_total(db)[0],
     }
     # temporarily unavailable data
     radar_online_rate = {
         "online": 0,
         "offline": 0,
-        "notRegister": 0,
+        "notRegister": crud.radar.get_multi_with_total(db)[0],
     }
     return schemas.OnlineRate(
         **{
