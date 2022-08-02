@@ -21,6 +21,7 @@ from sqlalchemy.orm import Session
 
 from dandelion import crud, models, schemas
 from dandelion.api import deps
+from dandelion.schemas.utils import Sort
 
 router = APIRouter()
 
@@ -44,6 +45,7 @@ Get all RSI CLCs.
     },
 )
 def get_all(
+    sort_dir: Sort = Query(Sort.desc, alias="sortDir", description="Sort by ID(asc/desc)"),
     info: Optional[int] = Query(None, alias="info", description="UseCase type"),
     page_num: int = Query(1, alias="pageNum", ge=1, description="Page number"),
     page_size: int = Query(10, alias="pageSize", ge=-1, description="Page size"),
@@ -55,6 +57,7 @@ def get_all(
         db,
         skip=skip,
         limit=page_size,
+        sort=sort_dir,
         info=info,
     )
     return schemas.RSICLCs(total=total, data=[clc.to_all_dict() for clc in data])

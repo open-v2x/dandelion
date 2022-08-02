@@ -23,6 +23,7 @@ from sqlalchemy.orm import Session
 from dandelion.crud.base import CRUDBase
 from dandelion.models import RSICLC
 from dandelion.schemas import RSICLCCreate
+from dandelion.schemas.utils import Sort
 
 
 class CRUDRSICLC(CRUDBase[RSICLC, RSICLCCreate, RSICLCCreate]):
@@ -40,13 +41,17 @@ class CRUDRSICLC(CRUDBase[RSICLC, RSICLCCreate, RSICLCCreate]):
         *,
         skip: int = 0,
         limit: int = 10,
+        sort: Sort = Sort.desc,
         info: Optional[int] = None,
     ) -> Tuple[int, List[RSICLC]]:
         query_ = db.query(self.model)
         if info is not None:
             query_ = query_.filter(self.model.info == info)
         total = query_.count()
-        query_ = query_.order_by(desc(self.model.id))
+        if sort == Sort.asc:
+            query_ = query_.order_by(self.model.id)
+        else:
+            query_ = query_.order_by(desc(self.model.id))
         if limit != -1:
             query_ = query_.offset(skip).limit(limit)
         data = query_.all()

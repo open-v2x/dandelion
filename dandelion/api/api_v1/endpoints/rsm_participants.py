@@ -23,6 +23,7 @@ from sqlalchemy.orm import Session
 
 from dandelion import crud, models, schemas
 from dandelion.api import deps
+from dandelion.schemas.utils import Sort
 
 router = APIRouter()
 LOG: LoggerAdapter = log.getLogger(__name__)
@@ -48,6 +49,7 @@ Get all RSMs.
 )
 def get_all(
     ptc_type: Optional[str] = Query(None, alias="ptcType", description="Filter by ptcType"),
+    sort_dir: Sort = Query(Sort.desc, alias="sortDir", description="Sort by ID(asc/desc)"),
     page_num: int = Query(1, alias="pageNum", ge=1, description="Page number"),
     page_size: int = Query(10, alias="pageSize", ge=-1, description="Page size"),
     db: Session = Depends(deps.get_db),
@@ -55,7 +57,7 @@ def get_all(
 ) -> schemas.RSMParticipants:
     skip = page_size * (page_num - 1)
     total, data = crud.rsm_participant.get_multi_with_total(
-        db, skip=skip, limit=page_size, ptc_type=ptc_type
+        db, skip=skip, limit=page_size, sort=sort_dir, ptc_type=ptc_type
     )
     return schemas.RSMParticipants(
         total=total, data=[rsm_participant.to_dict() for rsm_participant in data]

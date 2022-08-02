@@ -23,6 +23,7 @@ from sqlalchemy.orm import Session
 
 from dandelion import crud, models, schemas
 from dandelion.api import deps
+from dandelion.schemas.utils import Sort
 
 router = APIRouter()
 LOG: LoggerAdapter = log.getLogger(__name__)
@@ -83,6 +84,7 @@ def get_all(
     address: Optional[str] = Query(
         None, alias="address", description="Filter by address. Fuzzy prefix query is supported"
     ),
+    sort_dir: Sort = Query(Sort.desc, alias="sortDir", description="Sort by ID(asc/desc)"),
     page_num: int = Query(1, alias="pageNum", ge=1, description="Page number"),
     page_size: int = Query(10, alias="pageSize", ge=-1, description="Page size"),
     db: Session = Depends(deps.get_db),
@@ -90,6 +92,12 @@ def get_all(
 ) -> schemas.RSIEvents:
     skip = page_size * (page_num - 1)
     total, data = crud.rsi_event.get_multi_with_total(
-        db, skip=skip, limit=page_size, event_type=event_type, area_code=area_code, address=address
+        db,
+        skip=skip,
+        limit=page_size,
+        sort=sort_dir,
+        event_type=event_type,
+        area_code=area_code,
+        address=address,
     )
     return schemas.RSIEvents(total=total, data=[rsi_event.to_all_dict() for rsi_event in data])
