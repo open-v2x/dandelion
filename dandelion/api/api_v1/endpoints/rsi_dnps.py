@@ -21,6 +21,7 @@ from sqlalchemy.orm import Session
 
 from dandelion import crud, models, schemas
 from dandelion.api import deps
+from dandelion.schemas.utils import Sort
 
 router = APIRouter()
 
@@ -45,6 +46,7 @@ Get all RSI DNPs.
 )
 def get_all(
     info: Optional[int] = Query(None, alias="info", description="UseCase type"),
+    sort_dir: Sort = Query(Sort.desc, alias="sortDir", description="Sort by ID(asc/desc)"),
     page_num: int = Query(1, alias="pageNum", ge=1, description="Page number"),
     page_size: int = Query(10, alias="pageSize", ge=-1, description="Page size"),
     db: Session = Depends(deps.get_db),
@@ -55,6 +57,7 @@ def get_all(
         db,
         skip=skip,
         limit=page_size,
+        sort=sort_dir,
         info=info,
     )
     return schemas.RSIDNPs(total=total, data=[dnp.to_all_dict() for dnp in data])

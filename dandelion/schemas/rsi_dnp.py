@@ -14,6 +14,7 @@
 
 from __future__ import annotations
 
+from datetime import datetime
 from typing import List, Optional
 
 from pydantic import BaseModel, Field
@@ -59,6 +60,7 @@ class RSIDNPCreate(RSIDNPBase):
 
 class RSIDNPInDBBase(RSIDNPBase):
     id: int = Field(..., alias="id", description="DNP ID")
+    create_time: datetime = Field(..., alias="createTime", description="Create Time")
 
     class Config:
         orm_mode = True

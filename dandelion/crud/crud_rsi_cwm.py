@@ -23,6 +23,7 @@ from sqlalchemy.orm import Session
 from dandelion.crud.base import CRUDBase
 from dandelion.models import RSICWM
 from dandelion.schemas import RSICWMCreate
+from dandelion.schemas.utils import Sort
 
 
 class CRUDRSICWM(CRUDBase[RSICWM, RSICWMCreate, RSICWMCreate]):
@@ -40,6 +41,7 @@ class CRUDRSICWM(CRUDBase[RSICWM, RSICWMCreate, RSICWMCreate]):
         *,
         skip: int = 0,
         limit: int = 10,
+        sort: Sort = Sort.desc,
         event_type: Optional[int] = 0,
         collision_type: Optional[int],
     ) -> Tuple[int, List[RSICWM]]:
@@ -49,7 +51,10 @@ class CRUDRSICWM(CRUDBase[RSICWM, RSICWMCreate, RSICWMCreate]):
         if collision_type is not None:
             query_ = query_.filter(self.model.collision_type == collision_type)
         total = query_.count()
-        query_ = query_.order_by(desc(self.model.id))
+        if sort == Sort.asc:
+            query_ = query_.order_by(self.model.id)
+        else:
+            query_ = query_.order_by(desc(self.model.id))
         if limit != -1:
             query_ = query_.offset(skip).limit(limit)
         data = query_.all()

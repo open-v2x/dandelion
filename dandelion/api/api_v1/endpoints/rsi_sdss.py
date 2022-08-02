@@ -21,6 +21,7 @@ from sqlalchemy.orm import Session
 
 from dandelion import crud, models, schemas
 from dandelion.api import deps
+from dandelion.schemas.utils import Sort
 
 router = APIRouter()
 
@@ -47,6 +48,7 @@ def get_all(
     equipment_type: Optional[int] = Query(
         None, alias="equipmentType", description="Equipment Type"
     ),
+    sort_dir: Sort = Query(Sort.desc, alias="sortDir", description="Sort by ID(asc/desc)"),
     page_num: int = Query(1, alias="pageNum", ge=1, description="Page number"),
     page_size: int = Query(10, alias="pageSize", ge=-1, description="Page size"),
     db: Session = Depends(deps.get_db),
@@ -57,6 +59,7 @@ def get_all(
         db,
         skip=skip,
         limit=page_size,
+        sort=sort_dir,
         equipment_type=equipment_type,
     )
     return schemas.RSISDSs(total=total, data=[sds.to_all_dict() for sds in data])

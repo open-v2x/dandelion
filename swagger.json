@@ -3006,6 +3006,21 @@
                         "in": "query"
                     },
                     {
+                        "description": "Sort by ID(asc/desc)",
+                        "required": false,
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/components/schemas/Sort"
+                                }
+                            ],
+                            "description": "Sort by ID(asc/desc)",
+                            "default": "desc"
+                        },
+                        "name": "sortDir",
+                        "in": "query"
+                    },
+                    {
                         "description": "Page number",
                         "required": false,
                         "schema": {
@@ -3109,6 +3124,21 @@
                             "description": "Filter by ptcType"
                         },
                         "name": "ptcType",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Sort by ID(asc/desc)",
+                        "required": false,
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/components/schemas/Sort"
+                                }
+                            ],
+                            "description": "Sort by ID(asc/desc)",
+                            "default": "desc"
+                        },
+                        "name": "sortDir",
                         "in": "query"
                     },
                     {
@@ -5816,6 +5846,21 @@
                         "in": "query"
                     },
                     {
+                        "description": "Sort by ID(asc/desc)",
+                        "required": false,
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/components/schemas/Sort"
+                                }
+                            ],
+                            "description": "Sort by ID(asc/desc)",
+                            "default": "desc"
+                        },
+                        "name": "sortDir",
+                        "in": "query"
+                    },
+                    {
                         "description": "Page number",
                         "required": false,
                         "schema": {
@@ -5933,6 +5978,21 @@
                         "in": "query"
                     },
                     {
+                        "description": "Sort by ID(asc/desc)",
+                        "required": false,
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/components/schemas/Sort"
+                                }
+                            ],
+                            "description": "Sort by ID(asc/desc)",
+                            "default": "desc"
+                        },
+                        "name": "sortDir",
+                        "in": "query"
+                    },
+                    {
                         "description": "Page number",
                         "required": false,
                         "schema": {
@@ -6027,6 +6087,21 @@
                 "description": "\nGet all RSI CLCs.\n",
                 "operationId": "get_all_api_v1_rsi_clcs_get",
                 "parameters": [
+                    {
+                        "description": "Sort by ID(asc/desc)",
+                        "required": false,
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/components/schemas/Sort"
+                                }
+                            ],
+                            "description": "Sort by ID(asc/desc)",
+                            "default": "desc"
+                        },
+                        "name": "sortDir",
+                        "in": "query"
+                    },
                     {
                         "description": "UseCase type",
                         "required": false,
@@ -6142,6 +6217,21 @@
                             "description": "Equipment Type"
                         },
                         "name": "equipmentType",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Sort by ID(asc/desc)",
+                        "required": false,
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/components/schemas/Sort"
+                                }
+                            ],
+                            "description": "Sort by ID(asc/desc)",
+                            "default": "desc"
+                        },
+                        "name": "sortDir",
                         "in": "query"
                     },
                     {
@@ -7804,7 +7894,8 @@
             "RSICLC": {
                 "title": "RSICLC",
                 "required": [
-                    "id"
+                    "id",
+                    "createTime"
                 ],
                 "type": "object",
                 "properties": {
@@ -7850,6 +7941,12 @@
                         "title": "Id",
                         "type": "integer",
                         "description": "CLC ID"
+                    },
+                    "createTime": {
+                        "title": "Createtime",
+                        "type": "string",
+                        "description": "Create Time",
+                        "format": "date-time"
                     }
                 }
             },
@@ -7879,7 +7976,8 @@
             "RSICWM": {
                 "title": "RSICWM",
                 "required": [
-                    "id"
+                    "id",
+                    "createTime"
                 ],
                 "type": "object",
                 "properties": {
@@ -7997,6 +8095,12 @@
                         "title": "Id",
                         "type": "integer",
                         "description": "CWM ID"
+                    },
+                    "createTime": {
+                        "title": "Createtime",
+                        "type": "string",
+                        "description": "Create Time",
+                        "format": "date-time"
                     }
                 }
             },
@@ -8026,7 +8130,8 @@
             "RSIDNP": {
                 "title": "RSIDNP",
                 "required": [
-                    "id"
+                    "id",
+                    "createTime"
                 ],
                 "type": "object",
                 "properties": {
@@ -8080,6 +8185,12 @@
                         "title": "Id",
                         "type": "integer",
                         "description": "DNP ID"
+                    },
+                    "createTime": {
+                        "title": "Createtime",
+                        "type": "string",
+                        "description": "Create Time",
+                        "format": "date-time"
                     }
                 }
             },
@@ -8289,7 +8400,8 @@
             "RSISDS": {
                 "title": "RSISDS",
                 "required": [
-                    "id"
+                    "id",
+                    "createTime"
                 ],
                 "type": "object",
                 "properties": {
@@ -8335,6 +8447,12 @@
                         "title": "Id",
                         "type": "integer",
                         "description": "SDS ID"
+                    },
+                    "createTime": {
+                        "title": "Createtime",
+                        "type": "string",
+                        "description": "Create Time",
+                        "format": "date-time"
                     }
                 }
             },
@@ -10419,6 +10537,15 @@
                 "enum": [
                     "ByAll",
                     "ByID"
+                ],
+                "type": "string",
+                "description": "An enumeration."
+            },
+            "Sort": {
+                "title": "Sort",
+                "enum": [
+                    "asc",
+                    "desc"
                 ],
                 "type": "string",
                 "description": "An enumeration."
