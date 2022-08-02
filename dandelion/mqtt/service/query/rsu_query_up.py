@@ -34,14 +34,10 @@ class RSUQueryUPRouterHandler(RouterHandler):
         esn = data.get("rsuEsn")
         if not esn:
             return
-        result_data = schemas.RSUQueryResultDataCreate()
-        result_data.result_id = int(data.get("seqNum", 0))
-        info_type = data.get("Infotype", -1)
-        if info_type == 0:
+        seq_num = int(data.get("seqNum", 0))
+        if crud.rsu_query_result.get(db, id=seq_num):
+            result_data = schemas.RSUQueryResultDataCreate()
+            result_data.result_id = seq_num
             result_data.data = data.get("InfoValue", {})
-        elif info_type == 1:
-            result_data.data = data.get("InfoValue", {})
-        elif info_type == 2:
-            result_data.data = data.get("InfoValue", {})
-        crud.rsu_query_result_data.create_result_data(db, obj_in=result_data)
+            crud.rsu_query_result_data.create_result_data(db, obj_in=result_data)
         LOG.info(f"{topic} => RSUQueryResponse created")
