@@ -20,6 +20,7 @@ from sqlalchemy.orm import Session
 from dandelion import crud, models, schemas
 from dandelion.api import deps
 from dandelion.mqtt import cloud_server as mqtt_cloud_server
+from dandelion.mqtt.service.algorithm.system_config import notice
 
 router = APIRouter()
 
@@ -60,6 +61,7 @@ def create(
     else:
         system_config = crud.system_config.create(db, obj_in=user_in)
         mqtt_cloud_server.connect()
+    notice()
 
     return system_config
 
