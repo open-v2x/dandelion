@@ -23,6 +23,7 @@ from sqlalchemy import create_engine, pool
 import dandelion.conf
 from dandelion import constants, version
 from dandelion.db.base import Base  # noqa
+from dandelion.db.session import connection_database
 
 CONF: cfg = dandelion.conf.CONF
 
@@ -49,6 +50,7 @@ fileConfig(config.config_file_name)  # type: ignore
 
 target_metadata = Base.metadata
 
+
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
 # my_important_option = config.get_main_option("my_important_option")
@@ -67,8 +69,9 @@ def run_migrations_offline():
     script output.
 
     """
+    connection = connection_database()
     context.configure(
-        url=CONF.database.connection,
+        url=connection,
         target_metadata=target_metadata,
         literal_binds=True,
         dialect_opts={"paramstyle": "named"},
@@ -85,7 +88,8 @@ def run_migrations_online():
     and associate a connection with the context.
 
     """
-    engine = create_engine(CONF.database.connection, poolclass=pool.NullPool)
+    connection = connection_database()
+    engine = create_engine(connection, poolclass=pool.NullPool)
 
     with engine.connect() as connection:
         context.configure(connection=connection, target_metadata=target_metadata)
