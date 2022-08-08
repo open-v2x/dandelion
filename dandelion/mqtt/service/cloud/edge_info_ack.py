@@ -38,6 +38,9 @@ class EdgeInfoACKRouterHandler(RouterHandler):
         db: Session = session.DB_SESSION_LOCAL()
         crud.system_config.update_node_id(db, _id=1, node_id=node_id)
 
+        # Notification cerebrum
+        client.publish(topic="V2X/CONFIG/UPDATE/NOTICE", payload=json.dumps({}), qos=0)
+
         _, rsus = crud.rsu.get_multi_with_total(db)
         node_rsus: List[dict] = []
         for rsu in rsus:
