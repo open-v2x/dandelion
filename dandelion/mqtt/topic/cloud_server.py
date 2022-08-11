@@ -14,14 +14,10 @@
 
 from __future__ import annotations
 
-
-def v2x_rsu_log_conf_down_all():
-    return "V2X/RSU/Log/UP"
-
-
-def v2x_rsu_log_conf_down(rsu_esn):
-    return f"V2X/RSU/{rsu_esn}/Log/UP"
+V2X_EDGE_INFO_UP = "V2X/EDGE/INFO/UP"
+V2X_EDGE_HB_UP = "V2X/EDGE/HB/UP"
+V2X_EDGE_RSU_UP = "V2X/EDGE/RSU/UP"
 
 
-def v2x_rsu_log_conf_down_ack(rsu_esn):
-    return f"V2X/RSU/{rsu_esn}/Log/UP/ACK"
+def v2x_edge_key_info_up_ack(key):
+    return f"V2X/EDGE/{key}/INFO/UP/ACK"

@@ -22,6 +22,7 @@ import paho.mqtt.client as mqtt
 from oslo_log import log
 
 from dandelion.mqtt.service import RouterHandler
+from dandelion.mqtt.topic.cloud import edge_forward_node
 
 LOG: LoggerAdapter = log.getLogger(__name__)
 
@@ -33,5 +34,6 @@ class EdgeForwardRouterHandler(RouterHandler):
         edge_id = GET_EDGE_ID()
         LOG.info(f"{topic}")
         if edge_id > 0:
-            client.publish(topic=f"{topic}/NODE{edge_id}", payload=json.dumps(data), qos=0)
-            LOG.info(f"{topic}/NODE{edge_id} => forward succeeded")
+            publish_topic = edge_forward_node(topic, edge_id)
+            client.publish(publish_topic, payload=json.dumps(data), qos=0)
+            LOG.info(f"{publish_topic} => forward succeeded")
