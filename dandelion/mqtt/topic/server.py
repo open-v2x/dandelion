@@ -14,22 +14,17 @@
 
 from __future__ import annotations
 
-
-def v2x_rsu_config_up():
-    return "V2X/RSU/CONFIG/UP"
-
-
-def v2x_rsu_config_up_ack(rsu_id):
-    return f"V2X/RSU/{rsu_id}/CONFIG/UP/ACK"
-
-
-def v2x_rsu_config_down(rsu_id):
-    return f"V2X/RSU/{rsu_id}/CONFIG/DOWN"
-
-
-def v2x_rsu_config_down_all():
-    return "V2X/RSU/CONFIG/DOWN"
-
-
-def v2x_rsu_config_down_ack():
-    return "V2X/RSU/CONFIG/DOWN/ACK"
+V2X_RSU_INFO_UP = "V2X/RSU/INFO/UP"
+V2X_RSU_HB_UP = "V2X/RSU/HB/UP"
+V2X_RSU_BaseINFO_UP = "V2X/RSU/BaseINFO/UP"
+V2X_RSU_RunningInfo_UP = "V2X/RSU/RunningInfo/UP"
+V2X_RSU_INFOQuery_Response = "V2X/RSU/INFOQuery/Response"
+V2X_RSU_MAP_DOWN_ACK = "V2X/RSU/+/MAP/DOWN/ACK"
+V2X_RSU_CONFIG_DOWN_ACK = "V2X/RSU/+/CONFIG/DOWN/ACK"
+V2X_RSU_MAP_UP = "V2X/RSU/+/MAP/UP"
+V2X_RSU_RSM_DOWN = "V2X/RSU/+/RSM/DOWN"
+V2X_RSU_RSI_DOWN = "V2X/RSU/+/RSI/DOWN"
+V2X_RSU_DNP_DOWN = "V2X/RSU/+/DNP/DOWN"
+V2X_RSU_CWM_DOWN = "V2X/RSU/+/CWM/DOWN"
+V2X_RSU_CLC_DOWN = "V2X/RSU/+/CLC/DOWN"
+V2X_RSU_SDS_DOWN = "V2X/RSU/+/SDS/DOWN"

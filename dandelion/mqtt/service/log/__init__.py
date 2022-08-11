@@ -20,14 +20,14 @@ from typing import Any, Dict, Optional
 from oslo_log import log
 
 from dandelion.mqtt import send_msg
-from dandelion.mqtt.topic.rsu_log import v2x_rsu_log_conf_down, v2x_rsu_log_conf_down_all
+from dandelion.mqtt.topic.log import V2X_RSU_LOG_UP, v2x_rsu_log_conf_down
 
 LOG: LoggerAdapter = log.getLogger(__name__)
 
 
 def log_down(data: Dict[str, Any], rsu_esn: Optional[str] = None) -> None:
     LOG.info(f"log_down: rsu_esn={rsu_esn}, data={data}")
-    topic = v2x_rsu_log_conf_down_all()
+    topic = V2X_RSU_LOG_UP
     if rsu_esn is not None:
         topic = v2x_rsu_log_conf_down(rsu_esn)
     send_msg(topic, data)

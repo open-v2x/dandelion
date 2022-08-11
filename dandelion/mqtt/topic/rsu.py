@@ -14,9 +14,23 @@
 
 from __future__ import annotations
 
+V2X_RSU_CONFIG_UP = "V2X/RSU/CONFIG/UP"
+V2X_RSU_CONFIG_DOWN = "V2X/RSU/CONFIG/DOWN"
+V2X_RSU_CONFIG_DOWN_ACK = "V2X/RSU/CONFIG/DOWN/ACK"
+V2X_RSU_HB_UP = "V2X/RSU/HB/UP"
+V2X_RSU_INFO_UP = "V2X/RSU/INFO/UP"
 
-def v2x_rsu_info_up():
-    return "V2X/RSU/INFO/UP"
+
+def v2x_rsu_config_up_ack(rsu_id):
+    return f"V2X/RSU/{rsu_id}/CONFIG/UP/ACK"
+
+
+def v2x_rsu_config_down(rsu_id):
+    return f"V2X/RSU/{rsu_id}/CONFIG/DOWN"
+
+
+def v2x_rsu_hb_up_ack(rsu_id):
+    return f"V2X/RSU/{rsu_id}/HB/UP/ACK"
 
 
 def v2x_rsu_info_up_ack(rsu_id):

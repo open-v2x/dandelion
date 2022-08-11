@@ -14,8 +14,12 @@
 
 from __future__ import annotations
 
-V2X_RSU_INFOQuery_Response = "V2X/RSU/INFOQuery/Response"
+V2X_RSU_LOG_UP = "V2X/RSU/Log/UP"
 
 
-def info_query(esn):
-    return f"V2X/RSU/{esn}/INFOQuery"
+def v2x_rsu_log_conf_down(rsu_esn):
+    return f"V2X/RSU/{rsu_esn}/Log/UP"
+
+
+def v2x_rsu_log_conf_down_ack(rsu_esn):
+    return f"V2X/RSU/{rsu_esn}/Log/UP/ACK"

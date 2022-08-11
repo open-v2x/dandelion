@@ -14,6 +14,9 @@
 
 from __future__ import annotations
 
+V2X_RSU_MAP_DOWN = "V2X/RSU/MAP/DOWN"
+V2X_RSU_MAP_DOWN_ACK = "V2X/RSU/MAP/DOWN/ACK"
+
 
 def v2x_rsu_map_up_ack(rsu_id):
     return f"V2X/RSU/{rsu_id}/MAP/UP/ACK"
@@ -21,11 +24,3 @@ def v2x_rsu_map_up_ack(rsu_id):
 
 def v2x_rsu_map_down(rsu_id):
     return f"V2X/RSU/{rsu_id}/MAP/DOWN"
-
-
-def v2x_rsu_map_down_all():
-    return "V2X/RSU/MAP/DOWN"
-
-
-def v2x_rsu_map_down_ack():
-    return "V2X/RSU/MAP/DOWN/ACK"

@@ -32,14 +32,15 @@ from dandelion.mqtt.service.cloud.edge_hb import EdgeHBRouterHandler
 from dandelion.mqtt.service.cloud.edge_info import EdgeInfoRouterHandler
 from dandelion.mqtt.service.cloud.edge_info_ack import EdgeInfoACKRouterHandler
 from dandelion.mqtt.service.cloud.edge_rsu import EdgeRSURouterHandler
+from dandelion.mqtt.topic import cloud_server
 
 LOG: LoggerAdapter = log.getLogger(__name__)
 CONF: cfg = conf.CONF
 
 topic_router: Dict[str, RouterHandler] = {
-    "V2X/EDGE/INFO/UP": EdgeInfoRouterHandler(),
-    "V2X/EDGE/HB/UP": EdgeHBRouterHandler(),
-    "V2X/EDGE/RSU/UP": EdgeRSURouterHandler(),
+    cloud_server.V2X_EDGE_INFO_UP: EdgeInfoRouterHandler(),
+    cloud_server.V2X_EDGE_HB_UP: EdgeHBRouterHandler(),
+    cloud_server.V2X_EDGE_RSU_UP: EdgeRSURouterHandler(),
     # "V2X/DEVICE/+/PARTICIPANT": EdgeForwardRouterHandler(),
     # "V2X/DEVICE/+/APPLICATION/CW": EdgeForwardRouterHandler(),
     # "V2X/DEVICE/+/APPLICATION/CLC": EdgeForwardRouterHandler(),
@@ -93,11 +94,13 @@ def _on_connect(client: mqtt.Client, userdata: Any, flags: Any, rc: int) -> None
         client.subscribe(topic=route, qos=0)
 
     key = uuid.uuid4().hex
-
-    client.message_callback_add(f"V2X/EDGE/{key}/INFO/UP/ACK", EdgeInfoACKRouterHandler().request)
-    client.subscribe(topic=f"V2X/EDGE/{key}/INFO/UP/ACK", qos=0)
+    topic = cloud_server.v2x_edge_key_info_up_ack(key)
+    client.message_callback_add(topic, EdgeInfoACKRouterHandler().request)
+    client.subscribe(topic=topic, qos=0)
     client.publish(
-        topic="V2X/EDGE/INFO/UP", payload=json.dumps(dict(key=key, name=EDGE_NAME)), qos=0
+        topic=cloud_server.V2X_EDGE_INFO_UP,
+        payload=json.dumps(dict(key=key, name=EDGE_NAME)),
+        qos=0,
     )
 
 

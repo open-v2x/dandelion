@@ -14,10 +14,13 @@
 
 from __future__ import annotations
 
+V2X_CONFIG_UPDATE_NOTICE = "V2X/CONFIG/UPDATE/NOTICE"
+V2X_EDGE_RSU_UP = "V2X/EDGE/RSU/UP"
 
-def v2x_rsu_hb_up():
-    return "V2X/RSU/HB/UP"
+
+def edge_forward_node(topic, edge_id):
+    return f"{topic}/NODE{edge_id}"
 
 
-def v2x_rsu_hb_up_ack(rsu_id):
-    return f"V2X/RSU/{rsu_id}/HB/UP/ACK"
+def edge_info_key_up_ack(key):
+    return f"V2X/EDGE/{key}/INFO/UP/ACK"
