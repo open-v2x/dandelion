@@ -14,10 +14,4 @@
 
 from __future__ import annotations
 
-
-def info_query(esn):
-    return f"V2X/RSU/{esn}/INFOQuery"
-
-
-def info_query_response():
-    return "V2X/RSU/INFOQuery/Response"
+V2X_CONFIG_UPDATE_NOTICE = "V2X/CONFIG/UPDATE/NOTICE"
