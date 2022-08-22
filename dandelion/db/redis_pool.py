@@ -20,7 +20,7 @@ from logging import LoggerAdapter
 import redis
 from oslo_config import cfg
 from oslo_log import log
-from oslo_utils import netutils, strutils
+from oslo_utils import strutils
 from redis import sentinel
 
 CONF: cfg = cfg.CONF
@@ -68,20 +68,24 @@ DEFAULT_SOCKET_TIMEOUT: int = 30
 
 
 def setup_redis() -> None:
-    parsed_url = netutils.urlsplit(CONF.redis.connection)
-    options = urllib.parse.parse_qs(parsed_url.query)
+    parser_url, options_ = CONF.redis.connection.split("//", 1)[1].rsplit("?", 1)
+    user_password, host_port = parser_url.rsplit("@", 1)
+    user, password = user_password.split(":", 1)
+    hostname, port = host_port.split(":")
+    port = int(port)
+    options = urllib.parse.parse_qs(options_)
 
     kwargs = {}
-    if parsed_url.hostname:
-        kwargs["host"] = parsed_url.hostname
-        if parsed_url.port:
-            kwargs["port"] = parsed_url.port
-    else:
-        if not parsed_url.path:
-            raise ValueError("Expected socket path in parsed urls path")
-        kwargs["unix_socket_path"] = parsed_url.path
-    if parsed_url.password:
-        kwargs["password"] = parsed_url.password
+    if hostname:
+        kwargs["host"] = hostname
+        if port:
+            kwargs["port"] = port
+    # else:
+    #     if not parsed_url.path:
+    #         raise ValueError("Expected socket path in parsed urls path")
+    #     kwargs["unix_socket_path"] = parsed_url.path
+    if password:
+        kwargs["password"] = password
     for a in CLIENT_ARGS:
         if a not in options:
             continue
