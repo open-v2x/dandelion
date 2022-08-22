@@ -25,6 +25,7 @@ from sqlalchemy.orm import Session
 from dandelion import crud, schemas
 from dandelion.db import session
 from dandelion.mqtt.service import RouterHandler
+from dandelion.mqtt.topic.v2x_edge import v2x_edge_key_info_up_ack
 
 LOG: LoggerAdapter = log.getLogger(__name__)
 
@@ -40,7 +41,7 @@ class EdgeInfoRouterHandler(RouterHandler):
                 edge_node_in.name = name
                 edge_node = crud.edge_node.create(db, obj_in=edge_node_in)
             client.publish(
-                topic=f'V2X/EDGE/{data.get("key")}/INFO/UP/ACK',
+                topic=v2x_edge_key_info_up_ack(data.get("key")),
                 payload=json.dumps(dict(id=edge_node.id)),
                 qos=0,
             )
