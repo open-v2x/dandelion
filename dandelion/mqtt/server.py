@@ -38,25 +38,26 @@ from dandelion.mqtt.service.rsu.rsu_config import RSUConfigDownACKRouterHandler
 from dandelion.mqtt.service.rsu.rsu_heartbeat import RSUHeartbeatRouterHandler
 from dandelion.mqtt.service.rsu.rsu_info import RSUInfoRouterHandler
 from dandelion.mqtt.service.rsu.rsu_running_info import RSURunningInfoRouterHandler
+from dandelion.mqtt.topic import v2x_rsu
 
 LOG: LoggerAdapter = log.getLogger(__name__)
 CONF: cfg = conf.CONF
 
 topic_router: Dict[str, RouterHandler] = {
-    "V2X/RSU/INFO/UP": RSUInfoRouterHandler(),
-    "V2X/RSU/HB/UP": RSUHeartbeatRouterHandler(),
-    "V2X/RSU/BaseINFO/UP": RSUBaseINFORouterHandler(),
-    "V2X/RSU/RunningInfo/UP": RSURunningInfoRouterHandler(),
-    "V2X/RSU/INFOQuery/Response": RSUQueryUPRouterHandler(),
-    "V2X/RSU/+/MAP/DOWN/ACK": MapDownACKRouterHandler(),
-    "V2X/RSU/+/CONFIG/DOWN/ACK": RSUConfigDownACKRouterHandler(),
-    "V2X/RSU/+/MAP/UP": MapRouterHandler(),
-    "V2X/RSU/+/RSM/DOWN": RSMRouterHandler(),
-    "V2X/RSU/+/RSI/DOWN": RSIRouterHandler(),
-    "V2X/RSU/+/DNP/DOWN": RSIDNPRouterHandler(),
-    "V2X/RSU/+/CWM/DOWN": RSICWMRouterHandler(),
-    "V2X/RSU/+/CLC/DOWN": RSICLCRouterHandler(),
-    "V2X/RSU/+/SDS/DOWN": RSISDSRouterHandler(),
+    v2x_rsu.V2X_RSU_INFO_UP: RSUInfoRouterHandler(),
+    v2x_rsu.V2X_RSU_HB_UP: RSUHeartbeatRouterHandler(),
+    v2x_rsu.V2X_RSU_BaseINFO_UP: RSUBaseINFORouterHandler(),
+    v2x_rsu.V2X_RSU_RunningInfo_UP: RSURunningInfoRouterHandler(),
+    v2x_rsu.V2X_RSU_INFOQuery_Response: RSUQueryUPRouterHandler(),
+    v2x_rsu.V2X_RSU_PLUS_MAP_DOWN_ACK: MapDownACKRouterHandler(),
+    v2x_rsu.V2X_RSU_PLUS_CONFIG_DOWN_ACK: RSUConfigDownACKRouterHandler(),
+    v2x_rsu.V2X_RSU_PLUS_MAP_UP: MapRouterHandler(),
+    v2x_rsu.V2X_RSU_PLUS_RSM_DOWN: RSMRouterHandler(),
+    v2x_rsu.V2X_RSU_PLUS_RSI_DOWN: RSIRouterHandler(),
+    v2x_rsu.V2X_RSU_PLUS_DNP_DOWN: RSIDNPRouterHandler(),
+    v2x_rsu.V2X_RSU_PLUS_CWM_DOWN: RSICWMRouterHandler(),
+    v2x_rsu.V2X_RSU_PLUS_CLC_DOWN: RSICLCRouterHandler(),
+    v2x_rsu.V2X_RSU_PLUS_SDS_DOWN: RSISDSRouterHandler(),
 }
 MQTT_CLIENT: mqtt.Client = None
 GET_MQTT_CLIENT: Callable[[], mqtt.Client]

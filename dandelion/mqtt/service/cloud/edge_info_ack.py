@@ -25,6 +25,8 @@ from sqlalchemy.orm import Session
 from dandelion import crud
 from dandelion.db import session
 from dandelion.mqtt.service import RouterHandler
+from dandelion.mqtt.topic.v2x_config import V2X_CONFIG_UPDATE_NOTICE
+from dandelion.mqtt.topic.v2x_edge import V2X_EDGE_RSU_UP
 
 LOG: LoggerAdapter = log.getLogger(__name__)
 
@@ -39,7 +41,7 @@ class EdgeInfoACKRouterHandler(RouterHandler):
         crud.system_config.update_node_id(db, _id=1, node_id=node_id)
 
         # Notification cerebrum
-        client.publish(topic="V2X/CONFIG/UPDATE/NOTICE", payload=json.dumps({}), qos=0)
+        client.publish(topic=V2X_CONFIG_UPDATE_NOTICE, payload=json.dumps({}), qos=0)
 
         _, rsus = crud.rsu.get_multi_with_total(db)
         node_rsus: List[dict] = []
@@ -50,7 +52,7 @@ class EdgeInfoACKRouterHandler(RouterHandler):
             node_rsus.append(node_rsu)
 
         client.publish(
-            topic="V2X/EDGE/RSU/UP",
+            topic=V2X_EDGE_RSU_UP,
             payload=json.dumps(dict(id=node_id, rsus=node_rsus)),
             qos=0,
         )

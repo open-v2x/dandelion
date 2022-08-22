@@ -14,18 +14,14 @@
 
 from __future__ import annotations
 
-
-def v2x_rsu_map_up_ack(rsu_id):
-    return f"V2X/RSU/{rsu_id}/MAP/UP/ACK"
-
-
-def v2x_rsu_map_down(rsu_id):
-    return f"V2X/RSU/{rsu_id}/MAP/DOWN"
+V2X_EDGE_RSU_UP = "V2X/EDGE/RSU/UP"
+V2X_EDGE_INFO_UP = "V2X/EDGE/INFO/UP"
+V2X_EDGE_HB_UP = "V2X/EDGE/HB/UP"
 
 
-def v2x_rsu_map_down_all():
-    return "V2X/RSU/MAP/DOWN"
+def edge_forward(topic, edge_id):
+    return f"{topic}/NODE{edge_id}"
 
 
-def v2x_rsu_map_down_ack():
-    return "V2X/RSU/MAP/DOWN/ACK"
+def v2x_edge_key_info_up_ack(key):
+    return (f"V2X/EDGE/{key}/INFO/UP/ACK",)
