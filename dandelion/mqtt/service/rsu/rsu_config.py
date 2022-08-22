@@ -26,14 +26,14 @@ from dandelion import crud
 from dandelion.db import session
 from dandelion.mqtt import server
 from dandelion.mqtt.service import RouterHandler
-from dandelion.mqtt.topic.rsu_config import v2x_rsu_config_down, v2x_rsu_config_down_all
+from dandelion.mqtt.topic.v2x_rsu import V2X_RSU_CONFIG_DOWN, v2x_rsu_config_down
 
 LOG: LoggerAdapter = log.getLogger(__name__)
 
 
 def config_down(data: Dict[str, Any], rsu_esn: Optional[str] = None) -> None:
     LOG.info(f"config_down: rsu_esn={rsu_esn}, data={data}")
-    topic = v2x_rsu_config_down_all()
+    topic = V2X_RSU_CONFIG_DOWN
     if rsu_esn is not None:
         topic = v2x_rsu_config_down(rsu_esn)
     client = server.GET_MQTT_CLIENT()
