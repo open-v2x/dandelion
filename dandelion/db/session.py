@@ -14,9 +14,9 @@
 
 from __future__ import annotations
 
+import urllib
 from logging import LoggerAdapter
 from typing import Dict
-from urllib.parse import quote_plus
 
 from oslo_config import cfg
 from oslo_log import log
@@ -52,8 +52,12 @@ def setup_db() -> None:
 
 
 def connection_database() -> str:
-    connection_list = CONF.database.connection.split(":")
-    index = connection_list[2].rfind("@")
-    connection_list[2] = quote_plus(connection_list[2][:index]) + connection_list[2][index:]
-    connection = ":".join(connection_list)
+    connection = CONF.database.connection
+    right = connection.rfind("@", 1)
+    left = connection.find(":", connection.find(":") + 1)
+    connection = (
+            connection[: left + 1]
+            + urllib.parse.quote_plus(connection[left + 1: right])
+            + connection[right:]
+    )
     return connection
