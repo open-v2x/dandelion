@@ -14,10 +14,11 @@
 
 from __future__ import annotations
 
+import redis
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
-from dandelion import crud, models, schemas
+from dandelion import crud, models, periodic_tasks, schemas
 from dandelion.api import deps
 from dandelion.mqtt import cloud_server as mqtt_cloud_server
 
@@ -45,6 +46,7 @@ def create(
     user_in: schemas.SystemConfigCreate,
     *,
     db: Session = Depends(deps.get_db),
+    redis_conn: redis.Redis = Depends(deps.get_redis_conn),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> schemas.SystemConfig:
     """
@@ -53,10 +55,12 @@ def create(
     # System configuration is global, So use ID=1.
     system_config = crud.system_config.get(db, id=1)
     if system_config:
+        redis_conn.delete(f"EDGE_ONLINE_{system_config.node_id}")
         system_config = crud.system_config.update(db, db_obj=system_config, obj_in=user_in)
         if mqtt_cloud_server.MQTT_CLIENT:
             mqtt_cloud_server.MQTT_CLIENT.disconnect()
         mqtt_cloud_server.connect()
+        periodic_tasks.delete_offline_edge()
     else:
         system_config = crud.system_config.create(db, obj_in=user_in)
         mqtt_cloud_server.connect()
