@@ -24,4 +24,4 @@ def edge_forward(topic, edge_id):
 
 
 def v2x_edge_key_info_up_ack(key):
-    return (f"V2X/EDGE/{key}/INFO/UP/ACK",)
+    return f"V2X/EDGE/{key}/INFO/UP/ACK"
