@@ -48,4 +48,4 @@ class SystemConfigInDBBase(SystemConfigBase):
 
 # Additional properties to return via API
 class SystemConfig(SystemConfigInDBBase):
-    """"""
+    mode: Optional[str] = Field(None, alias="mode", description="Node Mode")

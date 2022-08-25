@@ -17,7 +17,7 @@ from __future__ import annotations
 import json
 import uuid
 from logging import LoggerAdapter
-from typing import Any, Callable, Dict
+from typing import Any, Callable
 
 import paho.mqtt.client as mqtt
 from oslo_config import cfg
@@ -25,28 +25,13 @@ from oslo_log import log
 from sqlalchemy.orm import Session
 
 from dandelion import conf, crud
-from dandelion.mqtt.service import RouterHandler
-
-# from dandelion.mqtt.service.cloud.edge_forward import EdgeForwardRouterHandler
-from dandelion.mqtt.service.cloud.edge_hb import EdgeHBRouterHandler
-from dandelion.mqtt.service.cloud.edge_info import EdgeInfoRouterHandler
 from dandelion.mqtt.service.cloud.edge_info_ack import EdgeInfoACKRouterHandler
-from dandelion.mqtt.service.cloud.edge_rsu import EdgeRSURouterHandler
 from dandelion.mqtt.topic import v2x_edge
 
 LOG: LoggerAdapter = log.getLogger(__name__)
 CONF: cfg = conf.CONF
+role_conf = CONF.role
 
-topic_router: Dict[str, RouterHandler] = {
-    v2x_edge.V2X_EDGE_INFO_UP: EdgeInfoRouterHandler(),
-    v2x_edge.V2X_EDGE_HB_UP: EdgeHBRouterHandler(),
-    v2x_edge.V2X_EDGE_RSU_UP: EdgeRSURouterHandler(),
-    # "V2X/DEVICE/+/PARTICIPANT": EdgeForwardRouterHandler(),
-    # "V2X/DEVICE/+/APPLICATION/CW": EdgeForwardRouterHandler(),
-    # "V2X/DEVICE/+/APPLICATION/CLC": EdgeForwardRouterHandler(),
-    # "V2X/DEVICE/+/APPLICATION/DNP": EdgeForwardRouterHandler(),
-    # "V2X/DEVICE/+/APPLICATION/SDS": EdgeForwardRouterHandler(),
-}
 MQTT_CLIENT: mqtt.Client = None
 GET_MQTT_CLIENT: Callable[[], mqtt.Client]
 EDGE_ID: int = 0
@@ -88,10 +73,6 @@ def _on_connect(client: mqtt.Client, userdata: Any, flags: Any, rc: int) -> None
 
     global GET_EDGE_ID
     GET_EDGE_ID = _get_edge_id
-
-    for route in topic_router:
-        client.message_callback_add(route, topic_router[route].request)
-        client.subscribe(topic=route, qos=0)
 
     key = uuid.uuid4().hex
     subscribe_topic = v2x_edge.v2x_edge_key_info_up_ack(key)
