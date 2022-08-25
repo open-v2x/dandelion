@@ -69,7 +69,11 @@ def run_migrations_offline():
     script output.
 
     """
-    connection = connection_database()
+    connection = (
+        CONF.database.connection
+        if CONF.database.connection.startswith("sqlite")
+        else connection_database()
+    )
     context.configure(
         url=connection,
         target_metadata=target_metadata,
@@ -88,7 +92,11 @@ def run_migrations_online():
     and associate a connection with the context.
 
     """
-    connection = connection_database()
+    connection = (
+        CONF.database.connection
+        if CONF.database.connection.startswith("sqlite")
+        else connection_database()
+    )
     engine = create_engine(connection, poolclass=pool.NullPool)
 
     with engine.connect() as connection:
