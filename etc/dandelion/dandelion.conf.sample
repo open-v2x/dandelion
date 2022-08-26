@@ -227,6 +227,24 @@
 #connection = <None>
 
 
+[role]
+#
+# Run Role related options.
+
+#
+# From dandelion.conf
+#
+
+#
+# Run role. Default: coexist
+# Possible values:
+# edge - The edge node sends data to the cloud control center
+# center - The cloud control center displays the data reported by the connected edge nodes
+# coexist - Coexistence of cloud control center and edge nodes
+#  (string value)
+#run_role = coexist
+
+
 [token]
 #
 # Token related options.

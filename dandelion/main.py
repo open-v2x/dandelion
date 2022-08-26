@@ -41,6 +41,8 @@ app = FastAPI(
     openapi_url=f"{constants.API_V1_STR}/openapi.json",
 )
 
+role_conf = CONF.role
+
 
 # Startup
 @app.on_event("startup")
@@ -66,7 +68,8 @@ def setup_db() -> None:
 
 @app.on_event("startup")
 def setup_cloud_mqtt() -> None:
-    mqtt_cloud_server.connect()
+    if "edge" == role_conf.run_role or "coexist" == role_conf.run_role:
+        mqtt_cloud_server.connect()
 
 
 @app.on_event("startup")
