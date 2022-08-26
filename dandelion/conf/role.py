@@ -16,14 +16,33 @@ from __future__ import annotations
 
 from oslo_config import cfg
 
-from dandelion.conf import cors, database, mqtt, redis, role, token
+role_group = cfg.OptGroup(
+    name="role",
+    title="Run Role Options",
+    help="""
+Run Role related options.
+""",
+)
 
-CONF: cfg = cfg.CONF
+role_opts = [
+    cfg.StrOpt(
+        "run_role",
+        default="coexist",
+        help="""
+Run role. Default: coexist
+Possible values:
+edge - The edge node sends data to the cloud control center
+center - The cloud control center displays the data reported by the connected edge nodes
+coexist - Coexistence of cloud control center and edge nodes
+""",
+    ),
+]
 
 
-cors.register_opts(CONF)
-database.register_opts(CONF)
-mqtt.register_opts(CONF)
-redis.register_opts(CONF)
-token.register_opts(CONF)
-role.register_opts(CONF)
+def register_opts(conf):
+    conf.register_group(role_group)
+    conf.register_opts(role_opts, group=role_group)
+
+
+def list_opts():
+    return {role_group: role_opts}
