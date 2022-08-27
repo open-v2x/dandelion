@@ -42,7 +42,7 @@ from dandelion.mqtt.topic import v2x_edge, v2x_rsu
 
 LOG: LoggerAdapter = log.getLogger(__name__)
 CONF: cfg = conf.CONF
-role_conf = CONF.role
+mode_conf = CONF.mode
 
 topic_router: Dict[str, RouterHandler] = {
     v2x_rsu.V2X_RSU_INFO_UP: RSUInfoRouterHandler(),
@@ -60,7 +60,7 @@ topic_router: Dict[str, RouterHandler] = {
 MQTT_CLIENT: mqtt.Client = None
 GET_MQTT_CLIENT: Callable[[], mqtt.Client]
 
-if "center" == role_conf.run_role or "coexist" == role_conf.run_role:
+if mode_conf.mode in ["center", "coexist"]:
     topic_router[v2x_edge.V2X_EDGE_INFO_UP] = EdgeInfoRouterHandler()
     topic_router[v2x_edge.V2X_EDGE_HB_UP] = EdgeHBRouterHandler()
     topic_router[v2x_edge.V2X_EDGE_RSU_UP] = EdgeRSURouterHandler()
