@@ -16,7 +16,7 @@ from __future__ import annotations
 
 from oslo_config import cfg
 
-from dandelion.conf import cors, database, mqtt, redis, role, token
+from dandelion.conf import cors, database, mode, mqtt, redis, token
 
 CONF: cfg = cfg.CONF
 
@@ -26,4 +26,4 @@ database.register_opts(CONF)
 mqtt.register_opts(CONF)
 redis.register_opts(CONF)
 token.register_opts(CONF)
-role.register_opts(CONF)
+mode.register_opts(CONF)
