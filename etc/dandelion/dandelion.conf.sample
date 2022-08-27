@@ -178,6 +178,24 @@
 #max_overflow = 1000
 
 
+[mode]
+#
+# Mode related options.
+
+#
+# From dandelion.conf
+#
+
+#
+# Mode. Default: coexist
+# Possible values:
+# edge - The edge node sends data to the cloud control center
+# center - The cloud control center displays the data reported by the connected edge nodes
+# coexist - Coexistence of cloud control center and edge nodes
+#  (string value)
+#mode = coexist
+
+
 [mqtt]
 #
 # MQTT related options.
@@ -225,24 +243,6 @@
 # "redis://<user>:<password>@<ip>:<port>?sentinel=<sentinel>&sentinel_fallback=<ip>:<port>&sentinel_fallback=<ip>:<port>&db=0&socket_timeout=60&retry_on_timeout=yes"
 #  (string value)
 #connection = <None>
-
-
-[role]
-#
-# Run Role related options.
-
-#
-# From dandelion.conf
-#
-
-#
-# Run role. Default: coexist
-# Possible values:
-# edge - The edge node sends data to the cloud control center
-# center - The cloud control center displays the data reported by the connected edge nodes
-# coexist - Coexistence of cloud control center and edge nodes
-#  (string value)
-#run_role = coexist
 
 
 [token]

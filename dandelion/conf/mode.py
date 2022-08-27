@@ -16,20 +16,20 @@ from __future__ import annotations
 
 from oslo_config import cfg
 
-role_group = cfg.OptGroup(
-    name="role",
-    title="Run Role Options",
+mode_group = cfg.OptGroup(
+    name="mode",
+    title="Mode Options",
     help="""
-Run Role related options.
+Mode related options.
 """,
 )
 
-role_opts = [
+mode_opts = [
     cfg.StrOpt(
-        "run_role",
+        "mode",
         default="coexist",
         help="""
-Run role. Default: coexist
+Mode. Default: coexist
 Possible values:
 edge - The edge node sends data to the cloud control center
 center - The cloud control center displays the data reported by the connected edge nodes
@@ -40,9 +40,9 @@ coexist - Coexistence of cloud control center and edge nodes
 
 
 def register_opts(conf):
-    conf.register_group(role_group)
-    conf.register_opts(role_opts, group=role_group)
+    conf.register_group(mode_group)
+    conf.register_opts(mode_opts, group=mode_group)
 
 
 def list_opts():
-    return {role_group: role_opts}
+    return {mode_group: mode_opts}
