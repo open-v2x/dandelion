@@ -14,16 +14,15 @@
 
 from __future__ import annotations
 
-from oslo_config import cfg
+V2X_EDGE_RSU_UP = "V2X/EDGE/RSU/UP"
+V2X_EDGE_INFO_UP = "V2X/EDGE/INFO/UP"
+V2X_EDGE_HB_UP = "V2X/EDGE/HB/UP"
+V2X_EDGE_DELETE_UP = "V2X/EDGE/DELETE/UP"
 
-from dandelion.conf import cors, database, mode, mqtt, redis, token
 
-CONF: cfg = cfg.CONF
+def edge_forward(topic, edge_id):
+    return f"{topic}/NODE{edge_id}"
 
 
-cors.register_opts(CONF)
-database.register_opts(CONF)
-mqtt.register_opts(CONF)
-redis.register_opts(CONF)
-token.register_opts(CONF)
-mode.register_opts(CONF)
+def v2x_edge_key_info_up_ack(key):
+    return f"V2X/EDGE/{key}/INFO/UP/ACK"

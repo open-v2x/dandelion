@@ -16,14 +16,33 @@ from __future__ import annotations
 
 from oslo_config import cfg
 
-from dandelion.conf import cors, database, mode, mqtt, redis, token
+mode_group = cfg.OptGroup(
+    name="mode",
+    title="Mode Options",
+    help="""
+Mode related options.
+""",
+)
 
-CONF: cfg = cfg.CONF
+mode_opts = [
+    cfg.StrOpt(
+        "mode",
+        default="coexist",
+        help="""
+Mode. Default: coexist
+Possible values:
+edge - The edge node sends data to the cloud control center
+center - The cloud control center displays the data reported by the connected edge nodes
+coexist - Coexistence of cloud control center and edge nodes
+""",
+    ),
+]
 
 
-cors.register_opts(CONF)
-database.register_opts(CONF)
-mqtt.register_opts(CONF)
-redis.register_opts(CONF)
-token.register_opts(CONF)
-mode.register_opts(CONF)
+def register_opts(conf):
+    conf.register_group(mode_group)
+    conf.register_opts(mode_opts, group=mode_group)
+
+
+def list_opts():
+    return {mode_group: mode_opts}

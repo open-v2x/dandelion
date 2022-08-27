@@ -178,6 +178,24 @@
 #max_overflow = 1000
 
 
+[mode]
+#
+# Mode related options.
+
+#
+# From dandelion.conf
+#
+
+#
+# Mode. Default: coexist
+# Possible values:
+# edge - The edge node sends data to the cloud control center
+# center - The cloud control center displays the data reported by the connected edge nodes
+# coexist - Coexistence of cloud control center and edge nodes
+#  (string value)
+#mode = coexist
+
+
 [mqtt]
 #
 # MQTT related options.

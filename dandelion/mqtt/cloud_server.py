@@ -35,6 +35,7 @@ from dandelion.mqtt.service.cloud.edge_rsu import EdgeRSURouterHandler
 
 LOG: LoggerAdapter = log.getLogger(__name__)
 CONF: cfg = conf.CONF
+mode_conf = CONF.mode
 
 topic_router: Dict[str, RouterHandler] = {
     "V2X/EDGE/INFO/UP": EdgeInfoRouterHandler(),

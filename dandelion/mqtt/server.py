@@ -27,6 +27,9 @@ from dandelion.mqtt.service import RouterHandler
 from dandelion.mqtt.service.algorithm.rsi import RSIRouterHandler
 from dandelion.mqtt.service.algorithm.rsi_dnp import RSIDNPRouterHandler
 from dandelion.mqtt.service.algorithm.rsm import RSMRouterHandler
+from dandelion.mqtt.service.cloud.edge_hb import EdgeHBRouterHandler
+from dandelion.mqtt.service.cloud.edge_info import EdgeInfoRouterHandler
+from dandelion.mqtt.service.cloud.edge_rsu import EdgeRSURouterHandler
 from dandelion.mqtt.service.map.map_down import MapDownACKRouterHandler
 from dandelion.mqtt.service.map.map_up import MapRouterHandler
 from dandelion.mqtt.service.query.rsu_query_up import RSUQueryUPRouterHandler
@@ -35,9 +38,11 @@ from dandelion.mqtt.service.rsu.rsu_config import RSUConfigDownACKRouterHandler
 from dandelion.mqtt.service.rsu.rsu_heartbeat import RSUHeartbeatRouterHandler
 from dandelion.mqtt.service.rsu.rsu_info import RSUInfoRouterHandler
 from dandelion.mqtt.service.rsu.rsu_running_info import RSURunningInfoRouterHandler
+from dandelion.mqtt.topic import v2x_edge
 
 LOG: LoggerAdapter = log.getLogger(__name__)
 CONF: cfg = conf.CONF
+mode_conf = CONF.mode
 
 topic_router: Dict[str, RouterHandler] = {
     "V2X/RSU/INFO/UP": RSUInfoRouterHandler(),
@@ -54,6 +59,11 @@ topic_router: Dict[str, RouterHandler] = {
 }
 MQTT_CLIENT: mqtt.Client = None
 GET_MQTT_CLIENT: Callable[[], mqtt.Client]
+
+if mode_conf.mode in ["center", "coexist"]:
+    topic_router[v2x_edge.V2X_EDGE_INFO_UP] = EdgeInfoRouterHandler()
+    topic_router[v2x_edge.V2X_EDGE_HB_UP] = EdgeHBRouterHandler()
+    topic_router[v2x_edge.V2X_EDGE_RSU_UP] = EdgeRSURouterHandler()
 
 
 def _get_mqtt() -> mqtt.Client:

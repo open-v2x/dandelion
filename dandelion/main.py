@@ -41,6 +41,8 @@ app = FastAPI(
     openapi_url=f"{constants.API_V1_STR}/openapi.json",
 )
 
+mode_conf = CONF.mode
+
 
 # Startup
 @app.on_event("startup")
@@ -66,7 +68,8 @@ def setup_db() -> None:
 
 @app.on_event("startup")
 def setup_cloud_mqtt() -> None:
-    mqtt_cloud_server.connect()
+    if mode_conf.mode in ["edge", "coexist"]:
+        mqtt_cloud_server.connect()
 
 
 @app.on_event("startup")
