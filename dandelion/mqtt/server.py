@@ -27,6 +27,7 @@ from dandelion.mqtt.service import RouterHandler
 from dandelion.mqtt.service.algorithm.rsi import RSIRouterHandler
 from dandelion.mqtt.service.algorithm.rsi_dnp import RSIDNPRouterHandler
 from dandelion.mqtt.service.algorithm.rsm import RSMRouterHandler
+from dandelion.mqtt.service.cloud.edge_delete import EdgeDeleteRouterHandler
 from dandelion.mqtt.service.cloud.edge_hb import EdgeHBRouterHandler
 from dandelion.mqtt.service.cloud.edge_info import EdgeInfoRouterHandler
 from dandelion.mqtt.service.cloud.edge_rsu import EdgeRSURouterHandler
@@ -64,6 +65,7 @@ if mode_conf.mode in ["center", "coexist"]:
     topic_router[v2x_edge.V2X_EDGE_INFO_UP] = EdgeInfoRouterHandler()
     topic_router[v2x_edge.V2X_EDGE_HB_UP] = EdgeHBRouterHandler()
     topic_router[v2x_edge.V2X_EDGE_RSU_UP] = EdgeRSURouterHandler()
+    topic_router[v2x_edge.V2X_EDGE_DELETE_UP] = EdgeDeleteRouterHandler()
 
 
 def _get_mqtt() -> mqtt.Client:

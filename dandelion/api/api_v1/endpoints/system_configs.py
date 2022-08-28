@@ -14,6 +14,8 @@
 
 from __future__ import annotations
 
+import json
+
 from fastapi import APIRouter, Depends, HTTPException, status
 from oslo_config import cfg
 from sqlalchemy.orm import Session
@@ -21,8 +23,7 @@ from sqlalchemy.orm import Session
 from dandelion import crud, models, schemas
 from dandelion.api import deps
 from dandelion.mqtt import cloud_server as mqtt_cloud_server
-
-# from dandelion.util import Optional
+from dandelion.mqtt.topic import v2x_edge
 
 router = APIRouter()
 CONF: cfg = cfg.CONF
@@ -92,6 +93,13 @@ def create(
     if system_config:
         system_config = crud.system_config.update(db, db_obj=system_config, obj_in=user_in)
         if mqtt_cloud_server.MQTT_CLIENT:
+            # disconnect
+            if system_config.node_id is not None and system_config.node_id > 0:
+                mqtt_cloud_server.MQTT_CLIENT.publish(
+                    topic=v2x_edge.V2X_EDGE_DELETE_UP,
+                    payload=json.dumps(dict(edge_id=system_config.node_id)),
+                    qos=0,
+                )
             mqtt_cloud_server.MQTT_CLIENT.disconnect()
         mqtt_cloud_server.connect()
     else:
