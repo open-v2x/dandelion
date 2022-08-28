@@ -17,6 +17,7 @@ from __future__ import annotations
 V2X_EDGE_RSU_UP = "V2X/EDGE/RSU/UP"
 V2X_EDGE_INFO_UP = "V2X/EDGE/INFO/UP"
 V2X_EDGE_HB_UP = "V2X/EDGE/HB/UP"
+V2X_EDGE_DELETE_UP = "V2X/EDGE/DELETE/UP"
 
 
 def edge_forward(topic, edge_id):
