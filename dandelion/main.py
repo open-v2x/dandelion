@@ -124,6 +124,7 @@ def edge_heartbeat() -> None:
 @app.on_event("shutdown")
 def shutdown_event():
     LOG.info("Shutting down...")
+    periodic_tasks.edge_delete()
 
 
 # Middleware
