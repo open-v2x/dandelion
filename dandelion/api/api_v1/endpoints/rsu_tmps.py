@@ -17,7 +17,7 @@ from __future__ import annotations
 from logging import LoggerAdapter
 from typing import Optional
 
-from fastapi import APIRouter, Depends, Query, status
+from fastapi import APIRouter, Depends, HTTPException, Query, Response, status
 from oslo_log import log
 from sqlalchemy.orm import Session
 
@@ -61,3 +61,34 @@ def get_all(
         db, skip=skip, limit=page_size, rsu_name=rsu_name, rsu_esn=rsu_esn
     )
     return schemas.RSUTMPs(total=total, data=[rsu_tmp.to_dict() for rsu_tmp in data])
+
+
+@router.delete(
+    "/{rsu_id}",
+    status_code=status.HTTP_204_NO_CONTENT,
+    description="""
+Delete a TMP RSU.
+""",
+    responses={
+        status.HTTP_401_UNAUTHORIZED: {
+            "model": schemas.ErrorMessage,
+            "description": "Unauthorized",
+        },
+        status.HTTP_403_FORBIDDEN: {"model": schemas.ErrorMessage, "description": "Forbidden"},
+        status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
+    },
+    response_class=Response,
+    response_description="No Content",
+)
+def delete(
+    rsu_id: int,
+    *,
+    db: Session = Depends(deps.get_db),
+    current_user: models.User = Depends(deps.get_current_user),
+) -> Response:
+    if not crud.rsu_tmp.get(db, id=rsu_id):
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail=f"TMP RSU [id: {rsu_id}] not found"
+        )
+    crud.rsu_tmp.remove(db, id=rsu_id)
+    return Response(content=None, status_code=status.HTTP_204_NO_CONTENT)
