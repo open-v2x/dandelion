@@ -40,14 +40,32 @@ class CRUDEdgeNodeRSU(CRUDBase[EdgeNodeRSU, EdgeNodeRSUCreate, EdgeNodeRSUUpdate
             query_ = query_.filter(self.model.edge_node_id == node_id)
         if area_code is not None:
             query_ = query_.filter(self.model.area_code == area_code)
+        query_ = query_.filter(self.model.location != "{}")
+
         total = query_.count()
         if limit != -1:
             query_ = query_.offset(skip).limit(limit)
         data = query_.all()
         return total, data
 
+    def get_by_node_id_esn(self, db: Session, *, edge_node_id: int, rsu_esn: str):
+        return (
+            db.query(self.model)
+            .filter(self.model.edge_node_id == edge_node_id)
+            .filter(self.model.esn == rsu_esn)
+            .first()
+        )
+
     def remove_by_node_id(self, db: Session, *, edge_node_id: int):
         db.execute(delete(self.model).where(self.model.edge_node_id == edge_node_id))
+        db.commit()
+
+    def remove_by_node_id_esn(self, db: Session, *, edge_node_id: int, rsu_esn: str):
+        db.execute(
+            delete(self.model).where(
+                self.model.edge_node_id == edge_node_id, self.model.esn == rsu_esn
+            )
+        )
         db.commit()
 
     def create(self, db: Session, *, obj_in: EdgeNodeRSUCreate):
