@@ -22,6 +22,7 @@ from oslo_log import log
 from sqlalchemy.orm import Session
 
 from dandelion import crud, schemas
+from dandelion.crud import utils as db_util
 from dandelion.db import session
 from dandelion.mqtt.service import RouterHandler
 
@@ -59,4 +60,5 @@ class RSUInfoRouterHandler(RouterHandler):
                 config=data.get("config"),
             )
             crud.rsu.update_with_version(db, db_obj=rsu, obj_in=rsu_in)
+            db_util.refresh_cloud_rsu(db)
             LOG.info(f"{topic} => RSU [rsu_esn: {rsu_esn}] updated")

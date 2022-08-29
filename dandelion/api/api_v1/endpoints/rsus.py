@@ -71,26 +71,24 @@ def create(
     del rsu_in.tmp_id
     try:
         rsu_in_db = crud.rsu.create_rsu(db, obj_in=rsu_in, rsu_tmp_in_db=rsu_tmp)
-        refresh_cloud_rsu(db)
+        mqtt_cloud_server.MQTT_CLIENT.publish(
+            topic=v2x_edge.V2X_EDGE_RSU_ADD_UP,
+            payload=json.dumps(
+                dict(
+                    id=mqtt_cloud_server.EDGE_ID,
+                    rsu=dict(
+                        name=rsu_in.rsu_name,
+                        esn=rsu_in.rsu_esn,
+                        areaCode=rsu_in.area_code,
+                        location=Optional_util.none(rsu_tmp).map(lambda v: v.location).orElse({}),
+                    ),
+                )
+            ),
+            qos=0,
+        )
     except sql_exc.IntegrityError as ex:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=ex.args[0])
     return rsu_in_db.to_all_dict()
-
-
-def refresh_cloud_rsu(db: Session):
-    if mqtt_cloud_server.MQTT_CLIENT:
-        _, rsus = crud.rsu.get_multi_with_total(db)
-        node_rsus: List[dict] = []
-        for rsu in rsus:
-            node_rsu = dict(
-                name=rsu.rsu_name, esn=rsu.rsu_esn, areaCode=rsu.area_code, location=rsu.location
-            )
-            node_rsus.append(node_rsu)
-        mqtt_cloud_server.MQTT_CLIENT.publish(
-            topic=v2x_edge.V2X_EDGE_RSU_UP,
-            payload=json.dumps(dict(id=mqtt_cloud_server.EDGE_ID, rsus=node_rsus)),
-            qos=0,
-        )
 
 
 @router.get(
@@ -264,8 +262,14 @@ def delete(
         crud.rsu_query_result_data.remove_by_result_id(db, result_id=result.id)
         crud.rsu_query_result.remove(db, id=result.id)
     crud.mng.remove_by_rsu_id(db, rsu_id=rsu_id)
+    rsu = crud.rsu.get(db, id=rsu_id)
     crud.rsu.remove(db, id=rsu_id)
-    refresh_cloud_rsu(db)
+    if rsu is not None:
+        mqtt_cloud_server.MQTT_CLIENT.publish(
+            topic=v2x_edge.V2X_EDGE_RSU_DELETE_UP,
+            payload=json.dumps(dict(id=mqtt_cloud_server.EDGE_ID, rsuEsn=rsu.rsu_esn)),
+            qos=0,
+        )
     return Response(content=None, status_code=status.HTTP_204_NO_CONTENT)
 
 
