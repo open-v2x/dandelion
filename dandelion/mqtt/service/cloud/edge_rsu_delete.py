@@ -14,7 +14,6 @@
 
 from __future__ import annotations
 
-import json
 from logging import LoggerAdapter
 from typing import Any, Dict
 
@@ -23,23 +22,18 @@ from oslo_log import log
 from sqlalchemy.orm import Session
 
 from dandelion import crud
-from dandelion.crud import utils as db_util
 from dandelion.db import session
 from dandelion.mqtt.service import RouterHandler
-from dandelion.mqtt.topic.v2x_config import V2X_CONFIG_UPDATE_NOTICE
 
 LOG: LoggerAdapter = log.getLogger(__name__)
 
 
-class EdgeInfoACKRouterHandler(RouterHandler):
+class EdgeRSUDeleteRouterHandler(RouterHandler):
     def handler(self, client: mqtt.MQTT_CLIENT, topic: str, data: Dict[str, Any]) -> None:
-        from dandelion.mqtt.cloud_server import SET_EDGE_ID
-
-        node_id = int(data.get("id", 0))
-        SET_EDGE_ID(node_id)
+        LOG.info(f"{topic} => Edge RSU sync {data}")
         db: Session = session.DB_SESSION_LOCAL()
-        crud.system_config.update_node_id(db, _id=1, node_id=node_id)
-
-        # Notification cerebrum
-        client.publish(topic=V2X_CONFIG_UPDATE_NOTICE, payload=json.dumps({}), qos=0)
-        db_util.refresh_cloud_rsu(db)
+        id_ = data.get("id")
+        esn = data.get("rsuEsn")
+        if id_ is not None and esn is not None:
+            crud.edge_node_rsu.remove_by_node_id_esn(db, edge_node_id=id_, rsu_esn=esn)
+            LOG.info(f"{topic} => Edge RSU updated")

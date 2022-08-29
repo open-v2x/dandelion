@@ -14,7 +14,6 @@
 
 from __future__ import annotations
 
-import json
 from logging import LoggerAdapter
 from typing import Any, Dict
 
@@ -22,24 +21,30 @@ import paho.mqtt.client as mqtt
 from oslo_log import log
 from sqlalchemy.orm import Session
 
-from dandelion import crud
-from dandelion.crud import utils as db_util
+from dandelion import crud, schemas
 from dandelion.db import session
 from dandelion.mqtt.service import RouterHandler
-from dandelion.mqtt.topic.v2x_config import V2X_CONFIG_UPDATE_NOTICE
 
 LOG: LoggerAdapter = log.getLogger(__name__)
 
 
-class EdgeInfoACKRouterHandler(RouterHandler):
+class EdgeRSUAddRouterHandler(RouterHandler):
     def handler(self, client: mqtt.MQTT_CLIENT, topic: str, data: Dict[str, Any]) -> None:
-        from dandelion.mqtt.cloud_server import SET_EDGE_ID
-
-        node_id = int(data.get("id", 0))
-        SET_EDGE_ID(node_id)
+        LOG.info(f"{topic} => Edge RSU add {data}")
         db: Session = session.DB_SESSION_LOCAL()
-        crud.system_config.update_node_id(db, _id=1, node_id=node_id)
-
-        # Notification cerebrum
-        client.publish(topic=V2X_CONFIG_UPDATE_NOTICE, payload=json.dumps({}), qos=0)
-        db_util.refresh_cloud_rsu(db)
+        id_ = data.get("id")
+        if id_ is not None:
+            node_rsu = data.get("rsu")
+            if node_rsu is not None:
+                edge_node_rsu = schemas.EdgeNodeRSUCreate()
+                edge_node_rsu.edge_node_id = id_
+                edge_node_rsu.name = node_rsu.get("name", "")
+                edge_node_rsu.esn = node_rsu.get("esn", "")
+                edge_node_rsu.area_code = node_rsu.get("areaCode", "")
+                location = node_rsu.get("location", {})
+                if location is not None:
+                    edge_node_rsu.location = schemas.Location()
+                    edge_node_rsu.location.lon = location.get("lon", 0)
+                    edge_node_rsu.location.lat = location.get("lat", 0)
+                _ = crud.edge_node_rsu.create(db, obj_in=edge_node_rsu)
+            LOG.info(f"{topic} => Edge RSU added")
