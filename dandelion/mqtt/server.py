@@ -109,6 +109,8 @@ def _on_message(client: mqtt.Client, userdata: Any, msg: mqtt.MQTTMessage) -> No
 
 def _on_disconnect(client: mqtt.Client, userdata: Any, rc: int) -> None:
     LOG.error(f"MQTT Connection disconnected, rc: {rc}")
+    global MQTT_CLIENT
+    MQTT_CLIENT = None
 
 
 def connect() -> None:

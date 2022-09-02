@@ -25,6 +25,7 @@ from sqlalchemy.orm import Session
 from dandelion import crud
 from dandelion.crud import utils as db_util
 from dandelion.db import session
+from dandelion.mqtt.server import GET_MQTT_CLIENT
 from dandelion.mqtt.service import RouterHandler
 from dandelion.mqtt.topic.v2x_config import V2X_CONFIG_UPDATE_NOTICE
 
@@ -41,5 +42,5 @@ class EdgeInfoACKRouterHandler(RouterHandler):
         crud.system_config.update_node_id(db, _id=1, node_id=node_id)
 
         # Notification cerebrum
-        client.publish(topic=V2X_CONFIG_UPDATE_NOTICE, payload=json.dumps({}), qos=0)
+        GET_MQTT_CLIENT().publish(topic=V2X_CONFIG_UPDATE_NOTICE, payload=json.dumps({}), qos=0)
         db_util.refresh_cloud_rsu(db)
