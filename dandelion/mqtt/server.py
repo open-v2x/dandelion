@@ -16,7 +16,7 @@ from __future__ import annotations
 
 import uuid
 from logging import LoggerAdapter
-from typing import Any, Callable, Dict
+from typing import Any, Dict
 
 import paho.mqtt.client as mqtt
 from oslo_config import cfg
@@ -68,7 +68,6 @@ topic_router: Dict[str, RouterHandler] = {
     v2x_rsu.V2X_RSU_PLUS_SDS_DOWN: RSISDSRouterHandler(),
 }
 MQTT_CLIENT: mqtt.Client = None
-GET_MQTT_CLIENT: Callable[[], mqtt.Client]
 
 if mode_conf.mode in ["center", "coexist"]:
     topic_router[v2x_edge.V2X_EDGE_INFO_UP] = EdgeInfoRouterHandler()
@@ -80,7 +79,7 @@ if mode_conf.mode in ["center", "coexist"]:
     topic_router[v2x_edge.V2X_EDGE_DELETE_UP] = EdgeDeleteRouterHandler()
 
 
-def _get_mqtt() -> mqtt.Client:
+def GET_MQTT_CLIENT() -> mqtt.Client:
     global MQTT_CLIENT
     if MQTT_CLIENT is None:
         raise SystemError("MQTT Client is none")
@@ -94,9 +93,6 @@ def _on_connect(client: mqtt.Client, userdata: Any, flags: Any, rc: int) -> None
 
     global MQTT_CLIENT
     MQTT_CLIENT = client
-
-    global GET_MQTT_CLIENT
-    GET_MQTT_CLIENT = _get_mqtt
 
     for route in topic_router:
         client.message_callback_add(route, topic_router[route].request)
