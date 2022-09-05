@@ -26,7 +26,7 @@ from dandelion import crud
 from dandelion.db import session
 from dandelion.mqtt import server
 from dandelion.mqtt.service import RouterHandler
-from dandelion.mqtt.topic.map import v2x_rsu_map_down, v2x_rsu_map_down_all
+from dandelion.mqtt.topic.v2x_rsu import V2X_RSU_MAP_DOWN, v2x_rsu_map_down
 
 LOG: LoggerAdapter = log.getLogger(__name__)
 
@@ -35,7 +35,7 @@ def map_down(
     id: str, map_slice: str, map_: Dict[str, Any], e_tag: str, rsu_esn: Optional[str] = None
 ) -> None:
     data = dict(mapSlice=map_slice, map=map_, eTag=e_tag, ack=False, seqNum=f"{id}")
-    topic = v2x_rsu_map_down_all()
+    topic = V2X_RSU_MAP_DOWN
     if rsu_esn is not None:
         topic = v2x_rsu_map_down(rsu_esn)
     client = server.GET_MQTT_CLIENT()
