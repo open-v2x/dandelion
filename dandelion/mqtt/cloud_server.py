@@ -17,7 +17,7 @@ from __future__ import annotations
 import json
 import uuid
 from logging import LoggerAdapter
-from typing import Any, Callable
+from typing import Any
 
 import paho.mqtt.client as mqtt
 from oslo_config import cfg
@@ -33,26 +33,23 @@ CONF: cfg = conf.CONF
 mode_conf = CONF.mode
 
 MQTT_CLIENT: mqtt.Client = None
-GET_MQTT_CLIENT: Callable[[], mqtt.Client]
 EDGE_ID: int = 0
-SET_EDGE_ID: Callable[[int], None]
-GET_EDGE_ID: Callable[[], int]
 EDGE_NAME: str = ""
 
 
-def _get_mqtt() -> mqtt.Client:
+def get_mqtt_client() -> mqtt.Client:
     global MQTT_CLIENT
     if MQTT_CLIENT is None:
         raise SystemError("Cloud MQTT Client is none")
     return MQTT_CLIENT
 
 
-def _set_edge_id(edge_id) -> None:
+def set_edge_id(edge_id) -> None:
     global EDGE_ID
     EDGE_ID = edge_id
 
 
-def _get_edge_id() -> int:
+def get_edge_id() -> int:
     global EDGE_ID
     return EDGE_ID
 
@@ -64,15 +61,6 @@ def _on_connect(client: mqtt.Client, userdata: Any, flags: Any, rc: int) -> None
 
     global MQTT_CLIENT
     MQTT_CLIENT = client
-
-    global GET_MQTT_CLIENT
-    GET_MQTT_CLIENT = _get_mqtt
-
-    global SET_EDGE_ID
-    SET_EDGE_ID = _set_edge_id
-
-    global GET_EDGE_ID
-    GET_EDGE_ID = _get_edge_id
 
     key = uuid.uuid4().hex
     subscribe_topic = v2x_edge.v2x_edge_key_info_up_ack(key)

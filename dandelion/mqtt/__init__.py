@@ -28,6 +28,6 @@ LOG: LoggerAdapter = log.getLogger(__name__)
 
 def send_msg(topic: str, msg: Dict[str, Any]) -> None:
     LOG.debug(f"Start to send message [{msg}] to topic [{topic}]")
-    client: mqtt.Client = server.GET_MQTT_CLIENT()
+    client: mqtt.Client = server.get_mqtt_client()
     client.publish(topic=topic, payload=json.dumps(msg), qos=0)
     LOG.info(f"Message [{msg}] has been sent to topic [{topic}]")

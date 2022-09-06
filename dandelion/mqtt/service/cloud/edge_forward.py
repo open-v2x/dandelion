@@ -29,9 +29,9 @@ LOG: LoggerAdapter = log.getLogger(__name__)
 
 class EdgeForwardRouterHandler(RouterHandler):
     def handler(self, client: mqtt.MQTT_CLIENT, topic: str, data: Dict[str, Any]) -> None:
-        from dandelion.mqtt.cloud_server import GET_EDGE_ID
+        from dandelion.mqtt.cloud_server import get_edge_id
 
-        edge_id = GET_EDGE_ID()
+        edge_id = get_edge_id()
         LOG.info(f"{topic}")
         if edge_id > 0:
             public_topic = edge_forward(topic, edge_id)
