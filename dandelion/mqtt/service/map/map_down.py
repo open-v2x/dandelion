@@ -38,7 +38,7 @@ def map_down(
     topic = V2X_RSU_MAP_DOWN
     if rsu_esn is not None:
         topic = v2x_rsu_map_down(rsu_esn)
-    client = server.GET_MQTT_CLIENT()
+    client = server.get_mqtt_client()
     client.publish(topic=topic, payload=json.dumps(data), qos=0)
 
 
