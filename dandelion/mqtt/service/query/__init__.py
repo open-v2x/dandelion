@@ -34,5 +34,5 @@ def down_query(
         ack=True,
         seqNum=f"{id}",
     )
-    client = server.GET_MQTT_CLIENT()
+    client = server.get_mqtt_client()
     client.publish(topic=info_query(rsu_esn), payload=json.dumps(data), qos=0)

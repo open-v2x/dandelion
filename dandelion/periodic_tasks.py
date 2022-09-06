@@ -69,8 +69,8 @@ def delete_offline_edge() -> None:
 def edge_heartbeat() -> None:
     LOG.info("Edge Heartbeat...")
 
-    client = mqtt_cloud_server.GET_MQTT_CLIENT()
-    edge_id = mqtt_cloud_server.GET_EDGE_ID()
+    client = mqtt_cloud_server.get_mqtt_client()
+    edge_id = mqtt_cloud_server.get_edge_id()
     if client and edge_id > 0:
         client.publish(topic="V2X/EDGE/HB/UP", payload=json.dumps(dict(id=edge_id)), qos=0)
 
