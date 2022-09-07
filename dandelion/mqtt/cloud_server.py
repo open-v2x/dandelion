@@ -30,7 +30,7 @@ from dandelion.mqtt.topic import v2x_edge
 
 LOG: LoggerAdapter = log.getLogger(__name__)
 CONF: cfg = conf.CONF
-role_conf = CONF.role
+mode_conf = CONF.mode
 
 MQTT_CLIENT: mqtt.Client = None
 GET_MQTT_CLIENT: Callable[[], mqtt.Client]
