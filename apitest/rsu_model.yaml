@@ -1,0 +1,99 @@
+fixtures:
+  - ConfigFixture
+  - SampleDataFixture
+
+defaults:
+  ssl: False
+  request_headers:
+    content-type: application/json
+    accept: application/json
+
+vars:
+  - &username 'gabbi_user'
+  - &password 'dandelion'
+
+tests:
+  - name: create_user
+    url: /api/v1/users
+    method: POST
+    data:
+      username: *username
+      password: *password
+      is_active: true
+    status: 200
+    response_json_paths:
+      $.username: *username
+
+  - name: user_login
+    url: /api/v1/login
+    method: POST
+    data:
+      username: *username
+      password: *password
+    status: 200
+    response_json_paths:
+      $.token_type: bearer
+
+  - name: create_rsu_model
+    url: /api/v1/rsu_models
+    method: POST
+    request_headers:
+      Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
+    data:
+      name: 蓝天SD726
+      manufacturer: 蓝天科技
+      desc: 蓝天726
+    status: 201
+    response_json_paths:
+      $.name: 蓝天SD726
+      $.manufacturer: 蓝天科技
+      $.desc: 蓝天726
+
+  - name: rsu_model_list
+    url: /api/v1/rsu_models
+    method: GET
+    request_headers:
+      Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
+    query_parameters:
+      name: 蓝天
+      manufacturer: 蓝天科技
+      pageNum: 1
+      pageSize: 10
+    status: 200
+
+  - name: rsu_model_info
+    url: /api/v1/rsu_models/$HISTORY['create_rsu_model'].$RESPONSE['$.id']
+    method: GET
+    request_headers:
+      Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
+    status: 200
+    response_json_paths:
+      $.id: $HISTORY['create_rsu_model'].$RESPONSE['$.id']
+
+  - name: update_rsu_model
+    url: /api/v1/rsu_models/$HISTORY['create_rsu_model'].$RESPONSE['$.id']
+    method: PUT
+    request_headers:
+      Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
+    data:
+      name: 蓝天_UPDATE
+      manufacturer: 蓝天科技_UPDATE
+    status: 200
+    response_json_paths:
+      $.id: $HISTORY['create_rsu_model'].$RESPONSE['$.id']
+      $.name: 蓝天_UPDATE
+      $.manufacturer: 蓝天科技_UPDATE
+
+  - name: delete_rsu_model
+    url: /api/v1/rsu_models/$HISTORY['create_rsu_model'].$RESPONSE['$.id']
+    method: DELETE
+    request_headers:
+      Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
+    status: 204
+
+  - name: delete_user
+    url: /api/v1/users/$HISTORY['create_user'].$RESPONSE['$.id']
+    method: DELETE
+    request_headers:
+      Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
+    status: 204
