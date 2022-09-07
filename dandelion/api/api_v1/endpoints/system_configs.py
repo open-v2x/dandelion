@@ -15,13 +15,18 @@
 from __future__ import annotations
 
 from fastapi import APIRouter, Depends, HTTPException, status
+from oslo_config import cfg
 from sqlalchemy.orm import Session
 
 from dandelion import crud, models, schemas
 from dandelion.api import deps
 from dandelion.mqtt import cloud_server as mqtt_cloud_server
+from dandelion.util import Optional
 
 router = APIRouter()
+CONF: cfg = cfg.CONF
+role_conf = CONF.role
+mqtt_conf = CONF.mqtt
 
 
 @router.post(
@@ -50,6 +55,37 @@ def create(
     """
     Set system configuration.
     """
+    mq_host = (
+        Optional.none(user_in).map(lambda c: c.mqtt_config).map(lambda c: c.host).orElse(None)
+    )
+    mq_port = (
+        Optional.none(user_in).map(lambda c: c.mqtt_config).map(lambda c: c.port).orElse(None)
+    )
+    if "edge" == role_conf.run_role:
+        if (
+            mq_host is not None
+            and mqtt_conf.host == mq_host
+            and mq_port is not None
+            and mqtt_conf.port == mq_port
+        ):
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Coexist node configuration is the different as the node.",
+            )
+
+    if "center" == role_conf.run_role:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="The current node does not support configuration.",
+        )
+    if "coexist" == role_conf.run_role:
+        if (mq_host is not None and mqtt_conf.host != mq_host) or (
+            mq_port is not None and mqtt_conf.port != mq_port
+        ):
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Coexist node configuration is the same as the node.",
+            )
     # System configuration is global, So use ID=1.
     system_config = crud.system_config.get(db, id=1)
     if system_config:
@@ -93,4 +129,5 @@ def get(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"System config [id: {system_config_id}] not found.",
         )
+    system_config.mode = role_conf.run_role
     return system_config
