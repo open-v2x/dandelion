@@ -1,0 +1,51 @@
+name: test
+
+on:
+  pull_request:
+    branches:
+      - 'master'
+
+jobs:
+  ssh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: apply to all-in-one environment
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.AIO_MASTER_HOST }}
+          username: ${{ secrets.AIO_MASTER_USERNAME }}
+          key: ${{ secrets.AIO_MASTER_KEY }}
+          port: ${{ secrets.AIO_MASTER_PORT }}
+          script: |
+            
+            
+  apitest:
+    needs: ssh
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ["3.8"]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python }}
+      - name: set conf
+        run: cp etc/dandelion/dandelion.conf.test etc/dandelion/dandelion.conf
+      - name: Run dandelion init
+        run: python tools/datainit.py
+      - name: pip install tox
+        run: pip install tox
+      - name: tox -e venv
+        run: tox -e venv
+      - name: source .tox/venv/bin/activate
+        run: source .tox/venv/bin/activate
+      - name: Run dandelion
+        run: uvicorn --reload --reload-dir dandelion --port 28300 --log-level debug dandelion.main:app --host 0.0.0.0 &
+      - name: pip install gabbi
+        run: pip install gabbi
+      - name: Run apitest
+        run: ls apitest/*.yaml | xargs gabbi-run localhost:28300 --
+      

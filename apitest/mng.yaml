@@ -1,0 +1,165 @@
+fixtures:
+  - ConfigFixture
+  - SampleDataFixture
+
+defaults:
+  ssl: False
+  request_headers:
+    content-type: application/json
+    accept: application/json
+
+vars:
+  - &username 'gabbi_user'
+  - &password 'dandelion'
+
+tests:
+  - name: create_user
+    url: /api/v1/users
+    method: POST
+    data:
+      username: *username
+      password: *password
+      is_active: true
+    status: 200
+    response_json_paths:
+      $.username: *username
+
+  - name: user_login
+    url: /api/v1/login
+    method: POST
+    data:
+      username: *username
+      password: *password
+    status: 200
+    response_json_paths:
+      $.token_type: bearer
+
+  - name: create_rsu_model
+    url: /api/v1/rsu_models
+    method: POST
+    request_headers:
+      Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
+    data:
+      name: 蓝天SD726
+      manufacturer: 蓝天科技
+      desc: 蓝天726
+    status: 201
+    response_json_paths:
+      $.name: 蓝天SD726
+      $.manufacturer: 蓝天科技
+      $.desc: 蓝天726
+
+  - name: create_rsu1
+    url: /api/v1/rsus
+    method: POST
+    request_headers:
+      Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
+    data:
+      rsuId: 'RSU_ID_01'
+      rsuName: 'RSU_NAME_01'
+      rsuEsn: 'RSU_ESN01'
+      rsuIP: '192.168.0.101'
+      areaCode: '320115'
+      address: '江宁区交叉路口'
+      rsuModelId: $HISTORY['create_rsu_model'].$RESPONSE['$.id']
+      desc: 'test_rsu'
+    status: 201
+    response_json_paths:
+      $.rsuId: 'RSU_ID_01'
+      $.rsuName: 'RSU_NAME_01'
+      $.rsuEsn: 'RSU_ESN01'
+      $.rsuIP: '192.168.0.101'
+      $.rsuModelId: $HISTORY['create_rsu_model'].$RESPONSE['$.id']
+
+  - name: create_rsu2
+    url: /api/v1/rsus
+    method: POST
+    request_headers:
+      Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
+    data:
+      rsuId: 'RSU_ID_02'
+      rsuName: 'RSU_NAME_02'
+      rsuEsn: 'RSU_ESN02'
+      rsuIP: '192.168.0.102'
+      areaCode: '320115'
+      address: '江宁区交叉路口'
+      rsuModelId: $HISTORY['create_rsu_model'].$RESPONSE['$.id']
+      desc: 'test_rsu'
+    status: 201
+    response_json_paths:
+      $.rsuId: 'RSU_ID_02'
+      $.rsuName: 'RSU_NAME_02'
+      $.rsuEsn: 'RSU_ESN02'
+      $.rsuIP: '192.168.0.102'
+      $.rsuModelId: $HISTORY['create_rsu_model'].$RESPONSE['$.id']
+
+  - name: mng_list
+    url: /api/v1/mngs
+    method: GET
+    request_headers:
+      Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
+    query_parameters:
+      pageNum: 1
+      pageSize: 10
+    status: 200
+
+  - name: mng_edit
+    url: /api/v1/mngs/$HISTORY['mng_list'].$RESPONSE['$.data[0].id']
+    method: PUT
+    request_headers:
+      Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
+    data:
+      hbRate: 10
+      runningInfoRate: 10
+      logLevel: NOLog
+      reboot: not_reboot
+      addressChg:
+        cssUrl: "139.196.13.9"
+        time: 0
+      extendConfig: "{}"
+    status: 200
+
+  - name: mng_down
+    url: /api/v1/mngs/$HISTORY['mng_list'].$RESPONSE['$.data[0].id']/down
+    method: POST
+    request_headers:
+      Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
+    status: 200
+
+  - name: mng_copy
+    url: /api/v1/mngs/$HISTORY['mng_list'].$RESPONSE['$.data[0].id']/down
+    method: POST
+    request_headers:
+      Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
+    data:
+      rsus:
+        - $HISTORY['create_rsu2'].$RESPONSE['$.id']
+    status: 200
+
+  - name: delete_rsu1
+    url: /api/v1/rsus/$HISTORY['create_rsu1'].$RESPONSE['$.id']
+    method: DELETE
+    request_headers:
+      Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
+    status: 204
+
+  - name: delete_rsu2
+    url: /api/v1/rsus/$HISTORY['create_rsu2'].$RESPONSE['$.id']
+    method: DELETE
+    request_headers:
+      Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
+    status: 204
+
+  - name: delete_rsu_model
+    url: /api/v1/rsu_models/$HISTORY['create_rsu_model'].$RESPONSE['$.id']
+    method: DELETE
+    request_headers:
+      Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
+    status: 204
+
+  - name: delete_user
+    url: /api/v1/users/$HISTORY['create_user'].$RESPONSE['$.id']
+    method: DELETE
+    request_headers:
+      Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
+    status: 204
