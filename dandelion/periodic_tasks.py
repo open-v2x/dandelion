@@ -25,6 +25,7 @@ from sqlalchemy.orm import Session
 from dandelion import crud, schemas
 from dandelion.db import redis_pool, session
 from dandelion.mqtt import cloud_server as mqtt_cloud_server
+from dandelion.mqtt.topic import v2x_edge
 from dandelion.util import Optional
 
 LOG: LoggerAdapter = log.getLogger(__name__)
@@ -72,6 +73,19 @@ def edge_heartbeat() -> None:
     edge_id = mqtt_cloud_server.GET_EDGE_ID()
     if client and edge_id > 0:
         client.publish(topic="V2X/EDGE/HB/UP", payload=json.dumps(dict(id=edge_id)), qos=0)
+
+
+def edge_delete() -> None:
+    LOG.info("Edge Delete...")
+    db: Session = session.DB_SESSION_LOCAL()
+    system_config = crud.system_config.get(db, id=1)
+    if system_config:
+        if system_config.node_id is not None and system_config.node_id > 0:
+            mqtt_cloud_server.MQTT_CLIENT.publish(
+                topic=v2x_edge.V2X_EDGE_DELETE_UP,
+                payload=json.dumps(dict(edge_id=system_config.node_id)),
+                qos=0,
+            )
 
 
 def rsu_info():
