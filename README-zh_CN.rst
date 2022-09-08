@@ -30,7 +30,7 @@ OpenV2X 设备管理 - APIServer
 
    .. code:: bash
 
-      cp etc/dandelion/dandelion.conf.example etc/dandelion/dandelion.conf
+      cp etc/dandelion/dandelion.conf.sample etc/dandelion/dandelion.conf
 
 -  通常，你应该修改以下配置属性值：
 

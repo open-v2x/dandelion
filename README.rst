@@ -30,7 +30,7 @@ Configuration
 
    .. code:: bash
 
-      cp etc/dandelion/dandelion.conf.example etc/dandelion/dandelion.conf
+      cp etc/dandelion/dandelion.conf.sample etc/dandelion/dandelion.conf
 
 -  Generally, you should change the following values:
 
