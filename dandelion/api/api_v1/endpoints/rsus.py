@@ -71,21 +71,24 @@ def create(
     del rsu_in.tmp_id
     try:
         rsu_in_db = crud.rsu.create_rsu(db, obj_in=rsu_in, rsu_tmp_in_db=rsu_tmp)
-        mqtt_cloud_server.MQTT_CLIENT.publish(
-            topic=v2x_edge.V2X_EDGE_RSU_ADD_UP,
-            payload=json.dumps(
-                dict(
-                    id=mqtt_cloud_server.EDGE_ID,
-                    rsu=dict(
-                        name=rsu_in.rsu_name,
-                        esn=rsu_in.rsu_esn,
-                        areaCode=rsu_in.area_code,
-                        location=Optional_util.none(rsu_tmp).map(lambda v: v.location).orElse({}),
-                    ),
-                )
-            ),
-            qos=0,
-        )
+        if mqtt_cloud_server.MQTT_CLIENT is not None:
+            mqtt_cloud_server.get_mqtt_client().publish(
+                topic=v2x_edge.V2X_EDGE_RSU_ADD_UP,
+                payload=json.dumps(
+                    dict(
+                        id=mqtt_cloud_server.EDGE_ID,
+                        rsu=dict(
+                            name=rsu_in.rsu_name,
+                            esn=rsu_in.rsu_esn,
+                            areaCode=rsu_in.area_code,
+                            location=Optional_util.none(rsu_tmp)
+                            .map(lambda v: v.location)
+                            .orElse({}),
+                        ),
+                    )
+                ),
+                qos=0,
+            )
     except sql_exc.IntegrityError as ex:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=ex.args[0])
     return rsu_in_db.to_all_dict()
@@ -264,8 +267,8 @@ def delete(
     crud.mng.remove_by_rsu_id(db, rsu_id=rsu_id)
     rsu = crud.rsu.get(db, id=rsu_id)
     crud.rsu.remove(db, id=rsu_id)
-    if rsu is not None:
-        mqtt_cloud_server.MQTT_CLIENT.publish(
+    if rsu is not None and mqtt_cloud_server.MQTT_CLIENT is not None:
+        mqtt_cloud_server.get_mqtt_client().publish(
             topic=v2x_edge.V2X_EDGE_RSU_DELETE_UP,
             payload=json.dumps(dict(id=mqtt_cloud_server.EDGE_ID, rsuEsn=rsu.rsu_esn)),
             qos=0,
