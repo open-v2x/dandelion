@@ -1,0 +1,70 @@
+name: test
+
+on:
+  pull_request:
+    branches:
+      - 'master'
+
+jobs:
+            
+  apitest:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ["3.8"]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python }}       
+      - name: install pre
+        run: sudo unalias cp 2>/dev/null || true
+      - name: install pre
+        run: sudo rm -rf openv2x-aio-master.tar.gz && wget https://openv2x.oss-ap-southeast-1.aliyuncs.com/deploy/master/openv2x-aio-master.tar.gz
+      - name: install pre
+        run: sudo rm -rf src && tar zxvf openv2x-aio-master.tar.gz
+      - name: install pre
+        run: sudo rm -rf /openv2x/data && sudo mkdir -pv /openv2x/data
+      - name: install pre
+        run: sudo cp -rf src/deploy/mysql /openv2x/data/
+      - name: install pre
+        run: sudo cp -f src/deploy/docker-compose-pre.yaml /tmp/docker-compose-pre.yaml
+      - name: install pre
+        run: sudo sed -i "s/8084/8085/" /tmp/docker-compose-pre.yaml
+      - name: install pre
+        run: sudo docker-compose -f /tmp/docker-compose-pre.yaml up -d
+      - name: mkdir -pv /var/log/dandelion/
+        run: sudo mkdir -pv /var/log/dandelion/
+      - name: touch /var/log/dandelion/dandelion.log
+        run: sudo touch /var/log/dandelion/dandelion.log
+      - name: mkdir -pv /etc/dandelion
+        run: sudo mkdir -pv /etc/dandelion
+      - name: set conf
+        run: sudo cp src/deploy/dandelion/dandelion.conf /etc/dandelion/dandelion.conf
+      - name: pip install requirements
+        run: pip install -r requirements.txt
+      - name: install dandelion
+        run: python setup.py install
+      - name: alembic upgrade head
+        run: alembic upgrade head
+      - name: Run dandelion init
+        run: python tools/datainit.py
+      - name: pip install tox
+        run: pip install tox
+      - name: tox -e venv
+        run: tox -e venv
+      - name: source .tox/venv/bin/activate
+        run: source .tox/venv/bin/activate
+      - name: sudo chmod -R 777 /var/log/
+        run: sudo chmod -R 777 /var/log/
+      - name: Run service
+        run: uvicorn --reload --reload-dir dandelion --port 28300 --log-level debug dandelion.main:app --host 0.0.0.0 &
+      - name: Run 
+        run: ps -ef | grep  dandelion
+      - name: pip install gabbi
+        run: pip install gabbi
+      - name: Run apitest
+        run: ls apitest/*.yaml | xargs gabbi-run localhost:28300 --
+      
