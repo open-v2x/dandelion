@@ -36,7 +36,7 @@ def config_down(data: Dict[str, Any], rsu_esn: Optional[str] = None) -> None:
     topic = V2X_RSU_CONFIG_DOWN
     if rsu_esn is not None:
         topic = v2x_rsu_config_down(rsu_esn)
-    client = server.GET_MQTT_CLIENT()
+    client = server.get_mqtt_client()
     client.publish(topic=topic, payload=json.dumps(data), qos=0)
 
 
