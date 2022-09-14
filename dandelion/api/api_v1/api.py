@@ -24,6 +24,7 @@ from dandelion.api.api_v1.endpoints import (
     countries,
     edge_node_rsus,
     edge_nodes,
+    lidars,
     login,
     map_rsus,
     maps,
@@ -66,6 +67,8 @@ api_router.include_router(maps.router, prefix="/maps", tags=["Map"])
 api_router.include_router(mngs.router, prefix="/mngs", tags=["MNG"])
 
 api_router.include_router(radars.router, prefix="/radars", tags=["Radar"])
+
+api_router.include_router(lidars.router, prefix="/lidars", tags=["Lidar"])
 
 api_router.include_router(rsi_events.router, prefix="/events", tags=["Event"])
 
