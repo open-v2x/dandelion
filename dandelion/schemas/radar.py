@@ -67,6 +67,7 @@ class Radar(RadarInDBBase):
     lat: str = Field(..., alias="lat", description="Latitude")
     elevation: str = Field(..., alias="elevation", description="Elevation")
     towards: str = Field(..., alias="towards", description="Towards")
+    status: bool = Field(..., alias="status", description="Status")
     rsu_id: int = Field(..., alias="rsuId", description="RSU ID")
     rsu_name: str = Field(..., alias="rsuName", description="RSU Name")
     country_code: str = Field(..., alias="countryCode", description="Country Code")

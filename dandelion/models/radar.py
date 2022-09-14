@@ -30,7 +30,7 @@ class Radar(Base, DandelionBase):
     lat = Column(Float, nullable=False)
     elevation = Column(Float, nullable=False)
     towards = Column(Float, nullable=False)
-    status = Column(Boolean, nullable=False, default=True)
+    status = Column(Boolean, nullable=False, default=False)
     rsu_id = Column(Integer, ForeignKey("rsu.id"))
     desc = Column(String(255), nullable=False, default="")
 
@@ -48,6 +48,7 @@ class Radar(Base, DandelionBase):
                 lat=self.lat,
                 elevation=self.elevation,
                 towards=self.towards,
+                status=self.status,
                 rsuId=self.rsu_id,
                 rsuName=Optional_util.none(self.rsu).map(lambda v: v.rsu_name).get(),
                 desc=self.desc,
