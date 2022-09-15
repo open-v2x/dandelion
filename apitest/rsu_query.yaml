@@ -100,6 +100,13 @@ tests:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
     status: 200
 
+  - name: delete_rsu_query
+    url: /api/v1/rsu_queries/$HISTORY['create_rsu_query'].$RESPONSE['$.id']
+    method: DELETE
+    request_headers:
+      Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
+    status: 204
+
   - name: delete_rsu
     url: /api/v1/rsus/$HISTORY['create_rsu'].$RESPONSE['$.id']
     method: DELETE
