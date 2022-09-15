@@ -1,0 +1,139 @@
+fixtures:
+  - ConfigFixture
+  - SampleDataFixture
+
+defaults:
+  ssl: False
+  request_headers:
+    content-type: application/json
+    accept: application/json
+
+vars:
+  - &username 'gabbi_user'
+  - &password 'dandelion'
+
+tests:
+  - name: create_user
+    url: /api/v1/users
+    method: POST
+    data:
+      username: *username
+      password: *password
+      is_active: true
+    status: 200
+    response_json_paths:
+      $.username: *username
+
+  - name: user_login
+    url: /api/v1/login
+    method: POST
+    data:
+      username: *username
+      password: *password
+    status: 200
+    response_json_paths:
+      $.token_type: bearer
+
+  - name: create_rsu_model
+    url: /api/v1/rsu_models
+    method: POST
+    request_headers:
+      Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
+    data:
+      name: 蓝天SD726
+      manufacturer: 蓝天科技
+      desc: 蓝天726
+    status: 201
+    response_json_paths:
+      $.name: 蓝天SD726
+      $.manufacturer: 蓝天科技
+      $.desc: 蓝天726
+
+  - name: create_rsu
+    url: /api/v1/rsus
+    method: POST
+    request_headers:
+      Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
+    data:
+      rsuId: 'RSU_ID_01'
+      rsuName: 'RSU_NAME_01'
+      rsuEsn: 'RSU_ESN01'
+      rsuIP: '192.168.0.101'
+      areaCode: '320115'
+      address: '江宁区交叉路口'
+      rsuModelId: $HISTORY['create_rsu_model'].$RESPONSE['$.id']
+      desc: 'test_rsu'
+    status: 201
+    response_json_paths:
+      $.rsuId: 'RSU_ID_01'
+      $.rsuName: 'RSU_NAME_01'
+      $.rsuEsn: 'RSU_ESN01'
+      $.rsuIP: '192.168.0.101'
+      $.rsuModelId: $HISTORY['create_rsu_model'].$RESPONSE['$.id']
+
+  - name: create_camera
+    url: /api/v1/cameras
+    method: POST
+    request_headers:
+      Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
+    data:
+      sn: 'XXT_SN_01'
+      name: 'XXT_NAME_01'
+      streamUrl: 'http://192.168.0.101:8080/cameras'
+      lng: 118.795
+      lat: 32.051
+      elevation: 0
+      towards: 90
+      rsuId: $HISTORY['create_rsu'].$RESPONSE['$.id']
+      desc: 'test_xxt'
+    status: 201
+    response_json_paths:
+      $.sn: 'XXT_SN_01'
+      $.name: 'XXT_NAME_01'
+      $.streamUrl: 'http://192.168.0.101:8080/cameras'
+      $.lng: 118.795
+      $.lat: 32.051
+      $.elevation: 0
+      $.towards: 90
+      $.rsuId: $HISTORY['create_rsu'].$RESPONSE['$.id']
+      $.desc: 'test_xxt'
+
+  - name: camera_list
+    url: /api/v1/cameras
+    method: GET
+    request_headers:
+      Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
+    data:
+      sn: XXT_SN_01
+      name: XXT_NAME_01
+      pageNum: 1
+      pageSize: 10
+    status: 200
+
+  - name: delete_camera
+    url: /api/v1/cameras/$HISTORY['create_camera'].$RESPONSE['$.id']
+    method: DELETE
+    request_headers:
+      Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
+    status: 204
+
+  - name: delete_rsu
+    url: /api/v1/rsus/$HISTORY['create_rsu'].$RESPONSE['$.id']
+    method: DELETE
+    request_headers:
+      Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
+    status: 204
+
+  - name: delete_rsu_model
+    url: /api/v1/rsu_models/$HISTORY['create_rsu_model'].$RESPONSE['$.id']
+    method: DELETE
+    request_headers:
+      Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
+    status: 204
+
+  - name: delete_user
+    url: /api/v1/users/$HISTORY['create_user'].$RESPONSE['$.id']
+    method: DELETE
+    request_headers:
+      Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
+    status: 204
