@@ -2885,6 +2885,549 @@
                 ]
             }
         },
+        "/api/v1/spats": {
+            "get": {
+                "tags": [
+                    "Spat"
+                ],
+                "summary": "List Spats",
+                "description": "Get all Spats.",
+                "operationId": "get_all_api_v1_spats_get",
+                "parameters": [
+                    {
+                        "description": "Filter by spat intersectionId. Fuzzy prefix query is supported",
+                        "required": false,
+                        "schema": {
+                            "title": "Intersectionid",
+                            "type": "string",
+                            "description": "Filter by spat intersectionId. Fuzzy prefix query is supported"
+                        },
+                        "name": "intersectionId",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Filter by spat name. Fuzzy prefix query is supported",
+                        "required": false,
+                        "schema": {
+                            "title": "Name",
+                            "type": "string",
+                            "description": "Filter by spat name. Fuzzy prefix query is supported"
+                        },
+                        "name": "name",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Filter by rsuId",
+                        "required": false,
+                        "schema": {
+                            "title": "Rsuid",
+                            "type": "integer",
+                            "description": "Filter by rsuId"
+                        },
+                        "name": "rsuId",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Filter by camera area code",
+                        "required": false,
+                        "schema": {
+                            "title": "Areacode",
+                            "type": "string",
+                            "description": "Filter by camera area code"
+                        },
+                        "name": "areaCode",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Page number",
+                        "required": false,
+                        "schema": {
+                            "title": "Pagenum",
+                            "minimum": 1.0,
+                            "type": "integer",
+                            "description": "Page number",
+                            "default": 1
+                        },
+                        "name": "pageNum",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Page size",
+                        "required": false,
+                        "schema": {
+                            "title": "Pagesize",
+                            "minimum": -1.0,
+                            "type": "integer",
+                            "description": "Page size",
+                            "default": 10
+                        },
+                        "name": "pageSize",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Spats"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Spat"
+                ],
+                "summary": "Create",
+                "description": "Create a new Spat.",
+                "operationId": "create_api_v1_spats_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SpatCreate"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Spat"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/spats/{spat_id}": {
+            "get": {
+                "tags": [
+                    "Spat"
+                ],
+                "summary": "Get",
+                "description": "Get a Spat.",
+                "operationId": "get_api_v1_spats__spat_id__get",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Spat Id",
+                            "type": "integer"
+                        },
+                        "name": "spat_id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Spat"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Spat"
+                ],
+                "summary": "Update",
+                "description": "Update a Spat.",
+                "operationId": "update_api_v1_spats__spat_id__put",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Spat Id",
+                            "type": "integer"
+                        },
+                        "name": "spat_id",
+                        "in": "path"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SpatUpdate"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Spat"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Spat"
+                ],
+                "summary": "Update Enabled",
+                "description": "Enable/Disabled a Lidar.",
+                "operationId": "update_enabled_api_v1_spats__spat_id__post",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Spat Id",
+                            "type": "integer"
+                        },
+                        "name": "spat_id",
+                        "in": "path"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SpatEnabledUpdate"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Spat"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Spat"
+                ],
+                "summary": "Delete",
+                "description": "Delete a Spat.",
+                "operationId": "delete_api_v1_spats__spat_id__delete",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Spat Id",
+                            "type": "integer"
+                        },
+                        "name": "spat_id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            }
+        },
         "/api/v1/lidars": {
             "get": {
                 "tags": [
@@ -11008,6 +11551,7 @@
                     "lat",
                     "elevation",
                     "towards",
+                    "status",
                     "rsuId",
                     "rsuName",
                     "countryCode",
@@ -11062,6 +11606,11 @@
                         "title": "Towards",
                         "type": "string",
                         "description": "Towards"
+                    },
+                    "status": {
+                        "title": "Status",
+                        "type": "boolean",
+                        "description": "Status"
                     },
                     "rsuId": {
                         "title": "Rsuid",
@@ -11497,6 +12046,274 @@
                 ],
                 "type": "string",
                 "description": "An enumeration."
+            },
+            "Spat": {
+                "title": "Spat",
+                "required": [
+                    "id",
+                    "intersectionId",
+                    "name",
+                    "point",
+                    "onlineStatus",
+                    "enabled",
+                    "phaseId",
+                    "light",
+                    "timing",
+                    "rsuId",
+                    "rsuName",
+                    "countryCode",
+                    "countryName",
+                    "provinceCode",
+                    "provinceName",
+                    "cityCode",
+                    "cityName",
+                    "areaCode",
+                    "areaName",
+                    "createTime"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "title": "Id",
+                        "type": "integer",
+                        "description": "Spat ID"
+                    },
+                    "intersectionId": {
+                        "title": "Intersectionid",
+                        "type": "string",
+                        "description": "Spat intersection id"
+                    },
+                    "name": {
+                        "title": "Name",
+                        "type": "string",
+                        "description": "Spat Name"
+                    },
+                    "spatIp": {
+                        "title": "Spatip",
+                        "type": "string",
+                        "description": "Spat IP"
+                    },
+                    "point": {
+                        "title": "Point",
+                        "type": "string",
+                        "description": "Point"
+                    },
+                    "onlineStatus": {
+                        "title": "Onlinestatus",
+                        "type": "boolean",
+                        "description": "Online Status"
+                    },
+                    "enabled": {
+                        "title": "Enabled",
+                        "type": "boolean",
+                        "description": "Enabled"
+                    },
+                    "phaseId": {
+                        "title": "Phaseid",
+                        "type": "string",
+                        "description": "PhaseId"
+                    },
+                    "light": {
+                        "title": "Light",
+                        "type": "string",
+                        "description": "Light"
+                    },
+                    "timing": {
+                        "title": "Timing",
+                        "type": "string",
+                        "description": "Timing",
+                        "format": "date-time"
+                    },
+                    "rsuId": {
+                        "title": "Rsuid",
+                        "type": "integer",
+                        "description": "RSU ID"
+                    },
+                    "rsuName": {
+                        "title": "Rsuname",
+                        "type": "string",
+                        "description": "RSU Name"
+                    },
+                    "countryCode": {
+                        "title": "Countrycode",
+                        "type": "string",
+                        "description": "Country Code"
+                    },
+                    "countryName": {
+                        "title": "Countryname",
+                        "type": "string",
+                        "description": "Country Name"
+                    },
+                    "provinceCode": {
+                        "title": "Provincecode",
+                        "type": "string",
+                        "description": "Province Code"
+                    },
+                    "provinceName": {
+                        "title": "Provincename",
+                        "type": "string",
+                        "description": "Province Name"
+                    },
+                    "cityCode": {
+                        "title": "Citycode",
+                        "type": "string",
+                        "description": "City Code"
+                    },
+                    "cityName": {
+                        "title": "Cityname",
+                        "type": "string",
+                        "description": "City Name"
+                    },
+                    "areaCode": {
+                        "title": "Areacode",
+                        "type": "string",
+                        "description": "Area Code"
+                    },
+                    "areaName": {
+                        "title": "Areaname",
+                        "type": "string",
+                        "description": "Area Name"
+                    },
+                    "createTime": {
+                        "title": "Createtime",
+                        "type": "string",
+                        "description": "Create Time",
+                        "format": "date-time"
+                    }
+                }
+            },
+            "SpatCreate": {
+                "title": "SpatCreate",
+                "required": [
+                    "intersectionId",
+                    "name",
+                    "point",
+                    "phaseId",
+                    "light"
+                ],
+                "type": "object",
+                "properties": {
+                    "intersectionId": {
+                        "title": "Intersectionid",
+                        "type": "string",
+                        "description": "Spat intersection id"
+                    },
+                    "name": {
+                        "title": "Name",
+                        "type": "string",
+                        "description": "Spat Name"
+                    },
+                    "spatIp": {
+                        "title": "Spatip",
+                        "type": "string",
+                        "description": "Spat IP"
+                    },
+                    "point": {
+                        "title": "Point",
+                        "type": "string",
+                        "description": "Point"
+                    },
+                    "phaseId": {
+                        "title": "Phaseid",
+                        "type": "string",
+                        "description": "PhaseId"
+                    },
+                    "light": {
+                        "title": "Light",
+                        "type": "string",
+                        "description": "Light"
+                    },
+                    "rsuId": {
+                        "title": "Rsuid",
+                        "type": "integer",
+                        "description": "RSU ID"
+                    }
+                }
+            },
+            "SpatEnabledUpdate": {
+                "title": "SpatEnabledUpdate",
+                "required": [
+                    "enabled"
+                ],
+                "type": "object",
+                "properties": {
+                    "enabled": {
+                        "title": "Enabled",
+                        "type": "boolean",
+                        "description": "Enabled"
+                    }
+                }
+            },
+            "SpatUpdate": {
+                "title": "SpatUpdate",
+                "required": [
+                    "intersectionId",
+                    "name",
+                    "point",
+                    "phaseId",
+                    "light"
+                ],
+                "type": "object",
+                "properties": {
+                    "intersectionId": {
+                        "title": "Intersectionid",
+                        "type": "string",
+                        "description": "Spat intersection id"
+                    },
+                    "name": {
+                        "title": "Name",
+                        "type": "string",
+                        "description": "Spat Name"
+                    },
+                    "spatIp": {
+                        "title": "Spatip",
+                        "type": "string",
+                        "description": "Spat IP"
+                    },
+                    "point": {
+                        "title": "Point",
+                        "type": "string",
+                        "description": "Point"
+                    },
+                    "phaseId": {
+                        "title": "Phaseid",
+                        "type": "string",
+                        "description": "PhaseId"
+                    },
+                    "light": {
+                        "title": "Light",
+                        "type": "string",
+                        "description": "Light"
+                    },
+                    "rsuId": {
+                        "title": "Rsuid",
+                        "type": "integer",
+                        "description": "RSU ID"
+                    }
+                }
+            },
+            "Spats": {
+                "title": "Spats",
+                "required": [
+                    "total",
+                    "data"
+                ],
+                "type": "object",
+                "properties": {
+                    "total": {
+                        "title": "Total",
+                        "type": "integer",
+                        "description": "Total"
+                    },
+                    "data": {
+                        "title": "Data",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Spat"
+                        },
+                        "description": "Data"
+                    }
+                }
             },
             "SystemConfig": {
                 "title": "SystemConfig",
