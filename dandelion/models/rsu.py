@@ -59,6 +59,7 @@ class RSU(Base, DandelionBase):
 
     cameras = relationship("Camera", backref="rsu")
     radars = relationship("Radar", backref="rsu")
+    lidars = relationship("Lidar", backref="rsu")
 
     def __repr__(self) -> str:
         return f"<RSU(id='{self.id}', rsuId='{self.rsu_id}')>"

@@ -2885,6 +2885,549 @@
                 ]
             }
         },
+        "/api/v1/lidars": {
+            "get": {
+                "tags": [
+                    "Lidar"
+                ],
+                "summary": "List Lidars",
+                "description": "Get all Lidars.",
+                "operationId": "get_all_api_v1_lidars_get",
+                "parameters": [
+                    {
+                        "description": "Filter by Lidar sn. Fuzzy prefix query is supported",
+                        "required": false,
+                        "schema": {
+                            "title": "Sn",
+                            "type": "string",
+                            "description": "Filter by Lidar sn. Fuzzy prefix query is supported"
+                        },
+                        "name": "sn",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Filter by lidar name. Fuzzy prefix query is supported",
+                        "required": false,
+                        "schema": {
+                            "title": "Name",
+                            "type": "string",
+                            "description": "Filter by lidar name. Fuzzy prefix query is supported"
+                        },
+                        "name": "name",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Filter by rsuId",
+                        "required": false,
+                        "schema": {
+                            "title": "Rsuid",
+                            "type": "integer",
+                            "description": "Filter by rsuId"
+                        },
+                        "name": "rsuId",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Filter by camera area code",
+                        "required": false,
+                        "schema": {
+                            "title": "Areacode",
+                            "type": "string",
+                            "description": "Filter by camera area code"
+                        },
+                        "name": "areaCode",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Page number",
+                        "required": false,
+                        "schema": {
+                            "title": "Pagenum",
+                            "minimum": 1.0,
+                            "type": "integer",
+                            "description": "Page number",
+                            "default": 1
+                        },
+                        "name": "pageNum",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Page size",
+                        "required": false,
+                        "schema": {
+                            "title": "Pagesize",
+                            "minimum": -1.0,
+                            "type": "integer",
+                            "description": "Page size",
+                            "default": 10
+                        },
+                        "name": "pageSize",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Lidars"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Lidar"
+                ],
+                "summary": "Create",
+                "description": "Create a new Lidar.",
+                "operationId": "create_api_v1_lidars_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LidarCreate"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Lidar"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/lidars/{lidar_id}": {
+            "get": {
+                "tags": [
+                    "Lidar"
+                ],
+                "summary": "Get",
+                "description": "Get a Lidar.",
+                "operationId": "get_api_v1_lidars__lidar_id__get",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Lidar Id",
+                            "type": "integer"
+                        },
+                        "name": "lidar_id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Lidar"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Lidar"
+                ],
+                "summary": "Update",
+                "description": "Update a Lidar.",
+                "operationId": "update_api_v1_lidars__lidar_id__put",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Lidar Id",
+                            "type": "integer"
+                        },
+                        "name": "lidar_id",
+                        "in": "path"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LidarUpdate"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Lidar"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Lidar"
+                ],
+                "summary": "Update Enabled",
+                "description": "Enable/Disabled a Lidar.",
+                "operationId": "update_enabled_api_v1_lidars__lidar_id__post",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Lidar Id",
+                            "type": "integer"
+                        },
+                        "name": "lidar_id",
+                        "in": "path"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LidarEnabledUpdate"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Lidar"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Lidar"
+                ],
+                "summary": "Delete",
+                "description": "Delete a Lidar.",
+                "operationId": "delete_api_v1_lidars__lidar_id__delete",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Lidar Id",
+                            "type": "integer"
+                        },
+                        "name": "lidar_id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            }
+        },
         "/api/v1/events/{event_id}": {
             "get": {
                 "tags": [
@@ -7233,6 +7776,340 @@
                         "title": "Angularspeed",
                         "type": "integer",
                         "description": "Angular Speed"
+                    }
+                }
+            },
+            "Lidar": {
+                "title": "Lidar",
+                "required": [
+                    "id",
+                    "sn",
+                    "name",
+                    "lidarIP",
+                    "lng",
+                    "lat",
+                    "elevation",
+                    "towards",
+                    "onlineStatus",
+                    "enabled",
+                    "point",
+                    "pole",
+                    "rsuId",
+                    "rsuName",
+                    "countryCode",
+                    "countryName",
+                    "provinceCode",
+                    "provinceName",
+                    "cityCode",
+                    "cityName",
+                    "areaCode",
+                    "areaName",
+                    "desc",
+                    "createTime"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "title": "Id",
+                        "type": "integer",
+                        "description": "Lidar ID"
+                    },
+                    "sn": {
+                        "title": "Sn",
+                        "type": "string",
+                        "description": "Lidar SN"
+                    },
+                    "name": {
+                        "title": "Name",
+                        "type": "string",
+                        "description": "Lidar Name"
+                    },
+                    "lidarIP": {
+                        "title": "Lidarip",
+                        "type": "string",
+                        "description": "Lidar IP"
+                    },
+                    "lng": {
+                        "title": "Lng",
+                        "type": "string",
+                        "description": "Longitude"
+                    },
+                    "lat": {
+                        "title": "Lat",
+                        "type": "string",
+                        "description": "Latitude"
+                    },
+                    "elevation": {
+                        "title": "Elevation",
+                        "type": "string",
+                        "description": "Elevation"
+                    },
+                    "towards": {
+                        "title": "Towards",
+                        "type": "string",
+                        "description": "Towards"
+                    },
+                    "onlineStatus": {
+                        "title": "Onlinestatus",
+                        "type": "boolean",
+                        "description": "Online Status"
+                    },
+                    "enabled": {
+                        "title": "Enabled",
+                        "type": "boolean",
+                        "description": "enabled"
+                    },
+                    "point": {
+                        "title": "Point",
+                        "type": "string",
+                        "description": "point"
+                    },
+                    "pole": {
+                        "title": "Pole",
+                        "type": "string",
+                        "description": "pole"
+                    },
+                    "rsuId": {
+                        "title": "Rsuid",
+                        "type": "integer",
+                        "description": "RSU ID"
+                    },
+                    "rsuName": {
+                        "title": "Rsuname",
+                        "type": "string",
+                        "description": "RSU Name"
+                    },
+                    "countryCode": {
+                        "title": "Countrycode",
+                        "type": "string",
+                        "description": "Country Code"
+                    },
+                    "countryName": {
+                        "title": "Countryname",
+                        "type": "string",
+                        "description": "Country Name"
+                    },
+                    "provinceCode": {
+                        "title": "Provincecode",
+                        "type": "string",
+                        "description": "Province Code"
+                    },
+                    "provinceName": {
+                        "title": "Provincename",
+                        "type": "string",
+                        "description": "Province Name"
+                    },
+                    "cityCode": {
+                        "title": "Citycode",
+                        "type": "string",
+                        "description": "City Code"
+                    },
+                    "cityName": {
+                        "title": "Cityname",
+                        "type": "string",
+                        "description": "City Name"
+                    },
+                    "areaCode": {
+                        "title": "Areacode",
+                        "type": "string",
+                        "description": "Area Code"
+                    },
+                    "areaName": {
+                        "title": "Areaname",
+                        "type": "string",
+                        "description": "Area Name"
+                    },
+                    "desc": {
+                        "title": "Desc",
+                        "type": "string",
+                        "description": "Description"
+                    },
+                    "createTime": {
+                        "title": "Createtime",
+                        "type": "string",
+                        "description": "Create Time",
+                        "format": "date-time"
+                    }
+                }
+            },
+            "LidarCreate": {
+                "title": "LidarCreate",
+                "required": [
+                    "sn",
+                    "name",
+                    "lng",
+                    "lat",
+                    "elevation",
+                    "towards",
+                    "point",
+                    "pole"
+                ],
+                "type": "object",
+                "properties": {
+                    "sn": {
+                        "title": "Sn",
+                        "type": "string",
+                        "description": "Lidar SN"
+                    },
+                    "name": {
+                        "title": "Name",
+                        "type": "string",
+                        "description": "Lidar Name"
+                    },
+                    "lidarIp": {
+                        "title": "Lidarip",
+                        "type": "string",
+                        "description": "Lidar IP"
+                    },
+                    "lng": {
+                        "title": "Lng",
+                        "type": "string",
+                        "description": "Longitude"
+                    },
+                    "lat": {
+                        "title": "Lat",
+                        "type": "string",
+                        "description": "Latitude"
+                    },
+                    "elevation": {
+                        "title": "Elevation",
+                        "type": "string",
+                        "description": "Elevation"
+                    },
+                    "towards": {
+                        "title": "Towards",
+                        "type": "string",
+                        "description": "Towards"
+                    },
+                    "point": {
+                        "title": "Point",
+                        "type": "string",
+                        "description": "point"
+                    },
+                    "pole": {
+                        "title": "Pole",
+                        "type": "string",
+                        "description": "pole"
+                    },
+                    "rsuId": {
+                        "title": "Rsuid",
+                        "type": "integer",
+                        "description": "RSU ID"
+                    },
+                    "desc": {
+                        "title": "Desc",
+                        "type": "string",
+                        "description": "Description",
+                        "default": ""
+                    }
+                }
+            },
+            "LidarEnabledUpdate": {
+                "title": "LidarEnabledUpdate",
+                "required": [
+                    "enabled"
+                ],
+                "type": "object",
+                "properties": {
+                    "enabled": {
+                        "title": "Enabled",
+                        "type": "boolean",
+                        "description": "enabled"
+                    }
+                }
+            },
+            "LidarUpdate": {
+                "title": "LidarUpdate",
+                "required": [
+                    "sn",
+                    "name",
+                    "lng",
+                    "lat",
+                    "elevation",
+                    "towards",
+                    "point",
+                    "pole"
+                ],
+                "type": "object",
+                "properties": {
+                    "sn": {
+                        "title": "Sn",
+                        "type": "string",
+                        "description": "Lidar SN"
+                    },
+                    "name": {
+                        "title": "Name",
+                        "type": "string",
+                        "description": "Lidar Name"
+                    },
+                    "LidarIp": {
+                        "title": "Lidarip",
+                        "type": "string",
+                        "description": "Lidar IP"
+                    },
+                    "lng": {
+                        "title": "Lng",
+                        "type": "string",
+                        "description": "Longitude"
+                    },
+                    "lat": {
+                        "title": "Lat",
+                        "type": "string",
+                        "description": "Latitude"
+                    },
+                    "elevation": {
+                        "title": "Elevation",
+                        "type": "string",
+                        "description": "Elevation"
+                    },
+                    "towards": {
+                        "title": "Towards",
+                        "type": "string",
+                        "description": "Towards"
+                    },
+                    "point": {
+                        "title": "Point",
+                        "type": "string",
+                        "description": "point"
+                    },
+                    "pole": {
+                        "title": "Pole",
+                        "type": "string",
+                        "description": "pole"
+                    },
+                    "rsuId": {
+                        "title": "Rsuid",
+                        "type": "integer",
+                        "description": "RSU ID"
+                    },
+                    "desc": {
+                        "title": "Desc",
+                        "type": "string",
+                        "description": "Description",
+                        "default": ""
+                    }
+                }
+            },
+            "Lidars": {
+                "title": "Lidars",
+                "required": [
+                    "total",
+                    "data"
+                ],
+                "type": "object",
+                "properties": {
+                    "total": {
+                        "title": "Total",
+                        "type": "integer",
+                        "description": "Total"
+                    },
+                    "data": {
+                        "title": "Data",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Lidar"
+                        },
+                        "description": "Data"
                     }
                 }
             },
