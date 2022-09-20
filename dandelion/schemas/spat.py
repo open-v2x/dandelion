@@ -29,7 +29,7 @@ class SpatBase(BaseModel):
 class SpatCreate(BaseModel):
     intersection_id: str = Field(..., alias="intersectionId", description="Spat intersection id")
     name: str = Field(..., alias="name", description="Spat Name")
-    spat_ip: Optional[str] = Field(None, alias="spatIp", description="Spat IP")
+    spat_ip: Optional[str] = Field(None, alias="spatIP", description="Spat IP")
     point: str = Field(..., alias="point", description="Point")
     phase_id: str = Field(..., alias="phaseId", description="PhaseId")
     light: str = Field(..., alias="light", description="Light")
@@ -44,7 +44,7 @@ class SpatEnabledUpdate(BaseModel):
 class SpatUpdate(SpatBase):
     intersection_id: str = Field(..., alias="intersectionId", description="Spat intersection id")
     name: str = Field(..., alias="name", description="Spat Name")
-    spat_ip: Optional[str] = Field(None, alias="spatIp", description="Spat IP")
+    spat_ip: Optional[str] = Field(None, alias="spatIP", description="Spat IP")
     point: str = Field(..., alias="point", description="Point")
     phase_id: str = Field(..., alias="phaseId", description="PhaseId")
     light: str = Field(..., alias="light", description="Light")
@@ -62,7 +62,7 @@ class SpatInDBBase(SpatBase):
 class Spat(SpatInDBBase):
     intersection_id: str = Field(..., alias="intersectionId", description="Spat intersection id")
     name: str = Field(..., alias="name", description="Spat Name")
-    spat_ip: Optional[str] = Field(None, alias="spatIp", description="Spat IP")
+    spat_ip: Optional[str] = Field(None, alias="spatIP", description="Spat IP")
     point: str = Field(..., alias="point", description="Point")
     online_status: bool = Field(..., alias="onlineStatus", description="Online Status")
     enabled: bool = Field(..., alias="enabled", description="Enabled")

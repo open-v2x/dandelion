@@ -3277,7 +3277,7 @@
                     "Spat"
                 ],
                 "summary": "Update Enabled",
-                "description": "Enable/Disabled a Lidar.",
+                "description": "Enable/Disabled a Spat.",
                 "operationId": "update_enabled_api_v1_spats__spat_id__post",
                 "parameters": [
                     {
@@ -8499,7 +8499,7 @@
                         "type": "string",
                         "description": "Lidar Name"
                     },
-                    "lidarIp": {
+                    "lidarIP": {
                         "title": "Lidarip",
                         "type": "string",
                         "description": "Lidar IP"
@@ -8585,7 +8585,7 @@
                         "type": "string",
                         "description": "Lidar Name"
                     },
-                    "LidarIp": {
+                    "lidarIP": {
                         "title": "Lidarip",
                         "type": "string",
                         "description": "Lidar IP"
@@ -11697,7 +11697,7 @@
                         "type": "string",
                         "description": "Radar Name"
                     },
-                    "radarIp": {
+                    "radarIP": {
                         "title": "Radarip",
                         "type": "string",
                         "description": "Radar IP"
@@ -11783,7 +11783,7 @@
                         "type": "string",
                         "description": "Radar Name"
                     },
-                    "radarIp": {
+                    "radarIP": {
                         "title": "Radarip",
                         "type": "string",
                         "description": "Radar IP"
@@ -12088,7 +12088,7 @@
                         "type": "string",
                         "description": "Spat Name"
                     },
-                    "spatIp": {
+                    "spatIP": {
                         "title": "Spatip",
                         "type": "string",
                         "description": "Spat IP"
@@ -12203,7 +12203,7 @@
                         "type": "string",
                         "description": "Spat Name"
                     },
-                    "spatIp": {
+                    "spatIP": {
                         "title": "Spatip",
                         "type": "string",
                         "description": "Spat IP"
@@ -12265,7 +12265,7 @@
                         "type": "string",
                         "description": "Spat Name"
                     },
-                    "spatIp": {
+                    "spatIP": {
                         "title": "Spatip",
                         "type": "string",
                         "description": "Spat IP"
