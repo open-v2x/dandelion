@@ -45,6 +45,7 @@ from dandelion.mqtt.service.rsu.rsu_config import RSUConfigDownACKRouterHandler
 from dandelion.mqtt.service.rsu.rsu_heartbeat import RSUHeartbeatRouterHandler
 from dandelion.mqtt.service.rsu.rsu_info import RSUInfoRouterHandler
 from dandelion.mqtt.service.rsu.rsu_running_info import RSURunningInfoRouterHandler
+from dandelion.mqtt.service.rsu.rsu_spat import RSUSpatHandler
 from dandelion.mqtt.topic import v2x_edge, v2x_rsu
 
 LOG: LoggerAdapter = log.getLogger(__name__)
@@ -66,6 +67,7 @@ topic_router: Dict[str, RouterHandler] = {
     v2x_rsu.V2X_RSU_PLUS_CWM_DOWN: RSICWMRouterHandler(),
     v2x_rsu.V2X_RSU_PLUS_CLC_DOWN: RSICLCRouterHandler(),
     v2x_rsu.V2X_RSU_PLUS_SDS_DOWN: RSISDSRouterHandler(),
+    v2x_rsu.V2X_RSU_PLUS_SPAT_UP: RSUSpatHandler(),
 }
 MQTT_CLIENT: mqtt.Client = None
 

@@ -42,6 +42,7 @@ from .crud_rsu_query import rsu_query
 from .crud_rsu_query_result import rsu_query_result
 from .crud_rsu_query_result_data import rsu_query_result_data
 from .crud_rsu_tmp import rsu_tmp
+from .crud_spat import spat
 from .crud_system_config import system_config
 from .crud_user import user
 
@@ -76,4 +77,5 @@ __all__ = [
     "edge_node",
     "edge_node_rsu",
     "rsu_query_result_data",
+    "spat",
 ]

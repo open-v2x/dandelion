@@ -71,6 +71,7 @@ from .rsu_query_result import (
 )
 from .rsu_query_result_data import RSUQueryResultData, RSUQueryResultDataCreate
 from .rsu_tmp import RSUTMP, RSUTMPCreate, RSUTMPs, RSUTMPUpdate
+from .spat import Spat, SpatCreate, SpatEnabledUpdate, Spats, SpatUpdate
 from .system_config import MQTTConfig, SystemConfig, SystemConfigCreate
 from .token import AccessToken, Token, TokenPayload
 from .user import User, UserCreate, UserUpdate
