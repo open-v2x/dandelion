@@ -29,7 +29,7 @@ class LidarBase(BaseModel):
 class LidarCreate(BaseModel):
     sn: str = Field(..., alias="sn", description="Lidar SN")
     name: str = Field(..., alias="name", description="Lidar Name")
-    lidar_ip: Optional[str] = Field(None, alias="lidarIp", description="Lidar IP")
+    lidar_ip: Optional[str] = Field(None, alias="lidarIP", description="Lidar IP")
     lng: str = Field(..., alias="lng", description="Longitude")
     lat: str = Field(..., alias="lat", description="Latitude")
     elevation: str = Field(..., alias="elevation", description="Elevation")
@@ -48,7 +48,7 @@ class LidarEnabledUpdate(BaseModel):
 class LidarUpdate(LidarBase):
     sn: str = Field(..., alias="sn", description="Lidar SN")
     name: str = Field(..., alias="name", description="Lidar Name")
-    lidar_ip: Optional[str] = Field(None, alias="LidarIp", description="Lidar IP")
+    lidar_ip: Optional[str] = Field(None, alias="lidarIP", description="Lidar IP")
     lng: str = Field(..., alias="lng", description="Longitude")
     lat: str = Field(..., alias="lat", description="Latitude")
     elevation: str = Field(..., alias="elevation", description="Elevation")

@@ -29,7 +29,7 @@ class RadarBase(BaseModel):
 class RadarCreate(BaseModel):
     sn: str = Field(..., alias="sn", description="Radar SN")
     name: str = Field(..., alias="name", description="Radar Name")
-    radar_ip: Optional[str] = Field(None, alias="radarIp", description="Radar IP")
+    radar_ip: Optional[str] = Field(None, alias="radarIP", description="Radar IP")
     lng: str = Field(..., alias="lng", description="Longitude")
     lat: str = Field(..., alias="lat", description="Latitude")
     elevation: str = Field(..., alias="elevation", description="Elevation")
@@ -42,7 +42,7 @@ class RadarCreate(BaseModel):
 class RadarUpdate(RadarBase):
     sn: str = Field(..., alias="sn", description="Radar SN")
     name: str = Field(..., alias="name", description="Radar Name")
-    radar_ip: Optional[str] = Field(None, alias="radarIp", description="Radar IP")
+    radar_ip: Optional[str] = Field(None, alias="radarIP", description="Radar IP")
     lng: str = Field(..., alias="lng", description="Longitude")
     lat: str = Field(..., alias="lat", description="Latitude")
     elevation: str = Field(..., alias="elevation", description="Elevation")
