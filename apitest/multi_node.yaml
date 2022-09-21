@@ -1,0 +1,100 @@
+fixtures:
+  - ConfigFixture
+  - SampleDataFixture
+
+defaults:
+  ssl: False
+  request_headers:
+    content-type: application/json
+    accept: application/json
+
+vars:
+  - &username 'gabbi_user_4'
+  - &password 'dandelion'
+  - &other_node_ip '101.133.236.98'
+
+tests:
+  - name: create_user
+    url: /api/v1/users
+    method: POST
+    data:
+      username: *username
+      password: *password
+      is_active: true
+    status: 200
+    response_json_paths:
+      $.username: *username
+
+  - name: user_login
+    url: /api/v1/login
+    method: POST
+    data:
+      username: *username
+      password: *password
+    status: 200
+    response_json_paths:
+      $.token_type: bearer
+
+  - name: create_node
+    url: /api/v1/system_configs
+    method: POST
+    request_headers:
+      Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
+    data:
+      name : 'testmqtt'
+      mqtt_config:
+        host: *other_node_ip
+        password: 'password'
+        port: 1883
+        username: 'root'
+    status: 200
+    response_json_paths:
+      $.mqtt_config.username: 'root'
+      $.mqtt_config.port: 1883
+      $.mqtt_config.password: 'password'
+      $.mqtt_config.host: *other_node_ip
+
+  - name: login_other_node-create_user
+    url: http://$HISTORY['create_node'].$RESPONSE['$.mqtt_config.host']/api/v1/users
+    method: POST
+    data:
+      username: *username
+      password: *password
+      is_active: true
+    status: 200
+    response_json_paths:
+      $.username: *username
+
+  - name: login_other_node-user_login
+    url: http://$HISTORY['create_node'].$RESPONSE['$.mqtt_config.host']/api/v1/login
+    method: POST
+    data:
+      username: *username
+      password: *password
+    status: 200
+    response_json_paths:
+      $.token_type: bearer
+
+
+  - name: get_node
+    url: http://$HISTORY['create_node'].$RESPONSE['$.mqtt_config.host']/api/v1/edge_nodes?name=&pageNum=1&pageSize=10
+    method: GET
+    request_headers:
+      Authorization: Bearer $HISTORY['login_other_node-user_login'].$RESPONSE['$.access_token']
+    status: 200
+    response_strings:
+      - testmqtt
+
+  - name: delete_user
+    url: /api/v1/users/$HISTORY['create_user'].$RESPONSE['$.id']
+    method: DELETE
+    request_headers:
+      Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
+    status: 204
+
+  - name: delete_other_node_user
+    url: http://$HISTORY['create_node'].$RESPONSE['$.mqtt_config.host']/api/v1/users/$HISTORY['login_other_node-create_user'].$RESPONSE['$.id']
+    method: DELETE
+    request_headers:
+      Authorization: Bearer $HISTORY['login_other_node-user_login'].$RESPONSE['$.access_token']
+    status: 204
