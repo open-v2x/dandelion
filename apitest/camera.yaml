@@ -108,6 +108,7 @@ tests:
       name: XXT_NAME_01
       pageNum: 1
       pageSize: 10
+      rsuEsn: $HISTORY['create_rsu'].$RESPONSE['$.rsuEsn']
     status: 200
 
   - name: delete_camera
