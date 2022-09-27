@@ -658,6 +658,17 @@
                         "in": "query"
                     },
                     {
+                        "description": "Filter by rsuEsn",
+                        "required": false,
+                        "schema": {
+                            "title": "Rsuesn",
+                            "type": "string",
+                            "description": "Filter by rsuEsn"
+                        },
+                        "name": "rsuEsn",
+                        "in": "query"
+                    },
+                    {
                         "description": "Filter by camera area code",
                         "required": false,
                         "schema": {
