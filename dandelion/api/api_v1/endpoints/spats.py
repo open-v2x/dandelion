@@ -54,7 +54,11 @@ def create(
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> schemas.Spat:
-    spat_in_db = crud.spat.create(db, obj_in=spat_in)
+    try:
+        spat_in_db = crud.spat.create(db, obj_in=spat_in)
+    except sql_exc.IntegrityError as ex:
+        LOG.error(ex.args[0])
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=ex.args[0])
     spat_publish(spat_in_db)
     return spat_in_db.to_dict()
 

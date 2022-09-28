@@ -53,7 +53,11 @@ def create(
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> schemas.Radar:
-    radar_in_db = crud.radar.create(db, obj_in=radar_in)
+    try:
+        radar_in_db = crud.radar.create(db, obj_in=radar_in)
+    except sql_exc.IntegrityError as ex:
+        LOG.error(ex.args[0])
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=ex.args[0])
     return radar_in_db.to_dict()
 
 
