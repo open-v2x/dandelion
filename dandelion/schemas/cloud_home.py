@@ -37,10 +37,17 @@ class RadarOnlineRateBase(BaseModel):
     not_register: int = Field(..., alias="notRegister", description="Not Register")
 
 
+class LidarOnlineRateBase(BaseModel):
+    online: int = Field(..., alias="online", description="Online")
+    offline: int = Field(..., alias="offline", description="Offline")
+    not_register: int = Field(..., alias="notRegister", description="Not Register")
+
+
 class OnlineRateBase(BaseModel):
     rsu: RSUOnlineRateBase = Field(..., alias="rsu", description="RSU Online Rate")
     camera: CameraOnlineRateBase = Field(..., alias="camera", description="Camera Online Rate")
     radar: RadarOnlineRateBase = Field(..., alias="radar", description="Radar Online Rate")
+    lidar: LidarOnlineRateBase = Field(..., alias="lidar", description="Lidar Online Rate")
 
 
 class OnlineRate(BaseModel):
