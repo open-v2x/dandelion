@@ -25,7 +25,7 @@ class Camera(Base, DandelionBase):
 
     sn = Column(String(64), nullable=False, index=True, unique=True)
     name = Column(String(64), nullable=False, index=True, default="")
-    stream_url = Column(String(255), nullable=False, default="")
+    stream_url = Column(String(1024), nullable=False, default="")
     lng = Column(Float, nullable=False)
     lat = Column(Float, nullable=False)
     elevation = Column(Float, nullable=False)
