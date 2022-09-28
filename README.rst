@@ -19,6 +19,7 @@ Table of contents
       -  `Run server <#run-server>`__
       -  `Alembic (Database Migration) <#alembic-database-migration>`__
       -  `Tox Tools <#tox-tools>`__
+      -  `Apitest <#apitest>`__
       -  `Notice <#notice>`__
 
 Configuration
@@ -147,6 +148,25 @@ Tox Tools
 
       tox -e pep8-format
       tox -e pep8
+
+Apitest
+~~~~~~~
+-  install requirement
+
+   .. code:: bash
+
+      pip3 install gabbi
+
+-  execute test
+
+   .. code:: bash
+
+      ls apitest/*.yaml | xargs gabbi-run 139.196.13.9:28300 --
+      ls apitest/*.yaml | xargs gabbi-run localhost:28300 --
+
+      # show verbose
+      gabbi-run -v all 139.196.13.9:28300 -- apitest/*.yaml
+      gabbi-run -v all localhost:28300 -- apitest/*.yaml
 
 Notice
 ~~~~~~
