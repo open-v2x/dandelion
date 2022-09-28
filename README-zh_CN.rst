@@ -20,6 +20,7 @@ OpenV2X 设备管理 - APIServer
       -  `运行服务 <#run-server>`__
       -  `Alembic (数据库迁移) <#alembic-database-migration>`__
       -  `Tox 工具 <#tox-tools>`__
+      -  `接口自动化测试 <#apitest>`__
       -  `注意 <#notice>`__
 
 .. _`Configuration`:
@@ -154,6 +155,27 @@ Tox 工具
 
       tox -e pep8-format
       tox -e pep8
+
+.. _` apitest`:
+接口自动化测试
+~~~~~~~~~
+
+-  安装依赖
+
+   .. code:: bash
+
+      pip3 install gabbi
+
+-  执行测试
+
+   .. code:: bash
+
+      ls apitest/*.yaml | xargs gabbi-run 139.196.13.9:28300 --
+      ls apitest/*.yaml | xargs gabbi-run localhost:28300 --
+
+      # show verbose
+      gabbi-run -v all 139.196.13.9:28300 -- apitest/*.yaml
+      gabbi-run -v all localhost:28300 -- apitest/*.yaml
 
 .. _`Notice`:
 注意
