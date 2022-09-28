@@ -8572,6 +8572,32 @@
                     }
                 }
             },
+            "LidarOnlineRateBase": {
+                "title": "LidarOnlineRateBase",
+                "required": [
+                    "online",
+                    "offline",
+                    "notRegister"
+                ],
+                "type": "object",
+                "properties": {
+                    "online": {
+                        "title": "Online",
+                        "type": "integer",
+                        "description": "Online"
+                    },
+                    "offline": {
+                        "title": "Offline",
+                        "type": "integer",
+                        "description": "Offline"
+                    },
+                    "notRegister": {
+                        "title": "Notregister",
+                        "type": "integer",
+                        "description": "Not Register"
+                    }
+                }
+            },
             "LidarUpdate": {
                 "title": "LidarUpdate",
                 "required": [
@@ -9293,7 +9319,8 @@
                 "required": [
                     "rsu",
                     "camera",
-                    "radar"
+                    "radar",
+                    "lidar"
                 ],
                 "type": "object",
                 "properties": {
@@ -9323,6 +9350,15 @@
                             }
                         ],
                         "description": "Radar Online Rate"
+                    },
+                    "lidar": {
+                        "title": "Lidar",
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/LidarOnlineRateBase"
+                            }
+                        ],
+                        "description": "Lidar Online Rate"
                     }
                 }
             },
