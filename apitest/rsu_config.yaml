@@ -137,6 +137,11 @@ tests:
       rsus:
         - $HISTORY['create_rsu'].$RESPONSE['$.id']
     status: 200
+    response_json_paths:
+      $.bsmConfig.upLimit: 2
+      $.rsmConfig.upLimit: 2
+      $.mapConfig.upLimit: 2
+      $.spatConfig.upLimit: 2
 
   - name: delete_rsu_config
     url: /api/v1/rsu_configs/$HISTORY['create_rsu_config'].$RESPONSE['$.id']
