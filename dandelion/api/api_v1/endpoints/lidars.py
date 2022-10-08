@@ -55,7 +55,7 @@ def create(
 ) -> schemas.Lidar:
     try:
         lidar_in_db = crud.lidar.create(db, obj_in=lidar_in)
-    except sql_exc.IntegrityError as ex:
+    except (sql_exc.IntegrityError, sql_exc.DataError) as ex:
         LOG.error(ex.args[0])
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=ex.args[0])
     return lidar_in_db.to_dict()
