@@ -99,6 +99,40 @@ tests:
       pageNum: 1
       pageSize: 10
     status: 200
+  
+  - name: radar_info
+    url: /api/v1/radars/$HISTORY['create_radar'].$RESPONSE['$.id']
+    method: GET
+    request_headers:
+      Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
+    status: 200
+    response_json_paths:
+      $.sn: 'LD_SN_01'
+      $.name: 'LD_NAME_01'
+      $.rsuId: $HISTORY['create_rsu'].$RESPONSE['$.id']
+      $.radarIP: '192.168.0.101'
+
+  - name: update_radar
+    url: /api/v1/radars/$HISTORY['create_radar'].$RESPONSE['$.id']
+    method: PUT
+    request_headers:
+      Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
+    data:
+      sn: 'LD_SN_03'
+      name: 'LD_NAME_02'
+      radarIP: '192.168.0.102'
+      lng: 117.79576
+      lat: 33.051433
+      elevation: 0
+      towards: 90
+      rsuId: $HISTORY['create_rsu'].$RESPONSE['$.id']
+      desc: 'test_update_leida'
+    status: 200
+    response_json_paths:
+      $.sn: 'LD_SN_03'
+      $.name: 'LD_NAME_02'
+      $.radarIP: '192.168.0.102'
+      $.desc: 'test_update_leida'
 
   - name: delete_radar
     url: /api/v1/radars/$HISTORY['create_radar'].$RESPONSE['$.id']

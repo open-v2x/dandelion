@@ -111,6 +111,45 @@ tests:
       rsuEsn: $HISTORY['create_rsu'].$RESPONSE['$.rsuEsn']
     status: 200
 
+  - name: camera_info
+    url: /api/v1/cameras/$HISTORY['create_camera'].$RESPONSE['$.id']
+    method: GET
+    request_headers:
+      Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
+    status: 200
+    response_json_paths:
+      $.sn: 'XXT_SN_01'
+      $.name: 'XXT_NAME_01'
+      $.streamUrl: 'http://192.168.0.101:8080/cameras'
+      $.lng: 118.795
+      $.lat: 32.051
+      $.elevation: 0
+      $.towards: 90
+      $.rsuId: $HISTORY['create_rsu'].$RESPONSE['$.id']
+      $.desc: 'test_xxt'
+
+  - name: update_camera
+    url: /api/v1/cameras/$HISTORY['create_camera'].$RESPONSE['$.id']
+    method: PUT
+    request_headers:
+      Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
+    data:
+      sn: 'XXT_SN_02'
+      name: 'XXT_NAME_02'
+      streamUrl: 'http://192.168.0.102:8080/cameras'
+      lng: 118.795
+      lat: 32.051
+      elevation: 0
+      towards: 90
+      rsuId: $HISTORY['create_rsu'].$RESPONSE['$.id']
+      desc: 'test_update_xxt'
+    status: 200
+    response_json_paths:
+      $.sn: 'XXT_SN_02'
+      $.name: 'XXT_NAME_02'
+      $.streamUrl: 'http://192.168.0.102:8080/cameras'
+      $.desc: 'test_update_xxt'
+ 
   - name: delete_camera
     url: /api/v1/cameras/$HISTORY['create_camera'].$RESPONSE['$.id']
     method: DELETE
