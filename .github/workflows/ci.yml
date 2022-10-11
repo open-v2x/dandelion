@@ -38,7 +38,7 @@ jobs:
     needs: docker
     runs-on: ubuntu-latest
     steps:
-      - name: apply to all-in-one environment
+      - name: apply to all-in-one environment & sync image to ACR
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.AIO_MASTER_HOST }}
@@ -51,3 +51,6 @@ jobs:
             rm -rf src && tar zxvf openv2x-aio-master.tar.gz
             cd src
             sh install.sh
+            docker tag openv2x/dandelion:latest registry.cn-shanghai.aliyuncs.com/openv2x/dandelion:latest
+            docker push registry.cn-shanghai.aliyuncs.com/openv2x/dandelion:latest
+
