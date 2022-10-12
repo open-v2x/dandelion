@@ -85,6 +85,8 @@ tests:
       light: "1"
       rsuId: $HISTORY['create_rsu'].$RESPONSE['$.id']
     status: 201
+    response_json_paths:
+      $.intersectionId: 'LD_Intersection_01'
 
   - name: spat_list
     url: /api/v1/spats
@@ -113,12 +115,19 @@ tests:
     data:
       intersectionId: 'LD_Intersection_02'
       name: 'LD_NAME_02'
-      spatIP: '192.168.0.101'
-      point: "1"
+      spatIP: '192.168.0.102'
+      point: "2"
       phaseId: "234"
-      light: "1"
+      light: "2"
       rsuId: $HISTORY['create_rsu'].$RESPONSE['$.id']
     status: 200
+    response_json_paths:
+      $.intersectionId: LD_Intersection_02
+      $.name: LD_NAME_02
+      $.spatIP: '192.168.0.102'
+      $.point: '2'
+      $.phaseId: '234'
+      $.light: '2'
 
   - name: spat_enabled
     url: /api/v1/spats/$HISTORY['create_spat'].$RESPONSE['$.id']
@@ -128,6 +137,8 @@ tests:
     data:
       enabled: false
     status: 200
+    response_json_paths:
+      $.enabled: false
 
   - name: delete_spat
     url: /api/v1/spats/$HISTORY['create_spat'].$RESPONSE['$.id']
@@ -135,6 +146,13 @@ tests:
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
     status: 204
+
+  - name: verify_delete_spat
+    url: /api/v1/spats/$HISTORY['create_spat'].$RESPONSE['$.id']
+    method: GET
+    request_headers:
+      Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
+    status: 404
 
   - name: delete_rsu
     url: /api/v1/rsus/$HISTORY['create_rsu'].$RESPONSE['$.id']
