@@ -89,6 +89,8 @@ tests:
       rsuId: $HISTORY['create_rsu'].$RESPONSE['$.id']
       desc: 'test_leida'
     status: 201
+    response_json_paths:
+      $.sn: 'LD_SN_01'
 
   - name: lidar_list
     url: /api/v1/lidars
@@ -117,16 +119,27 @@ tests:
     data:
       sn: 'LD_SN_02'
       name: 'LD_NAME_02'
-      lidarIP: '192.168.0.101'
-      lng: 118.79576
-      lat: 32.051433
-      elevation: 0
-      towards: 90
-      point: 1
-      pole: 1
+      lidarIP: '192.168.0.102'
+      lng: 119
+      lat: 33
+      elevation: 1
+      towards: 91
+      point: 11
+      pole: 11
       rsuId: $HISTORY['create_rsu'].$RESPONSE['$.id']
-      desc: 'test_leida'
+      desc: 'test_update_lidar'
     status: 200
+    response_json_paths:
+      $.sn: 'LD_SN_02'
+      $.name: 'LD_NAME_02'
+      $.lidarIP: '192.168.0.102'
+      $.lng: "119.0"
+      $.lat: "33.0"
+      $.elevation: "1.0"
+      $.towards: "91.0"
+      $.point: "11"
+      $.pole: "11"
+      $.desc: 'test_update_lidar'
 
   - name: lidar_enabled
     url: /api/v1/lidars/$HISTORY['create_lidar'].$RESPONSE['$.id']
@@ -136,6 +149,8 @@ tests:
     data:
       enabled: false
     status: 200
+    response_json_paths:
+      $.enabled: false
 
   - name: delete_lidar
     url: /api/v1/lidars/$HISTORY['create_lidar'].$RESPONSE['$.id']
@@ -143,6 +158,13 @@ tests:
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
     status: 204
+
+  - name: verify_delete_lidar
+    url: /api/v1/lidars/$HISTORY['create_lidar'].$RESPONSE['$.id']
+    method: GET
+    request_headers:
+      Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
+    status: 404
 
   - name: delete_rsu
     url: /api/v1/rsus/$HISTORY['create_rsu'].$RESPONSE['$.id']
