@@ -84,6 +84,7 @@ tests:
       phaseId: "12"
       light: "1"
       rsuId: $HISTORY['create_rsu'].$RESPONSE['$.id']
+      desc: "test_spat"
     status: 201
     response_json_paths:
       $.intersectionId: 'LD_Intersection_01'
@@ -120,6 +121,7 @@ tests:
       phaseId: "234"
       light: "2"
       rsuId: $HISTORY['create_rsu'].$RESPONSE['$.id']
+      desc: "test_spat_update"
     status: 200
     response_json_paths:
       $.intersectionId: LD_Intersection_02

@@ -12116,6 +12116,7 @@
                     "cityName",
                     "areaCode",
                     "areaName",
+                    "desc",
                     "createTime"
                 ],
                 "type": "object",
@@ -12221,6 +12222,11 @@
                         "type": "string",
                         "description": "Area Name"
                     },
+                    "desc": {
+                        "title": "Desc",
+                        "type": "string",
+                        "description": "Description"
+                    },
                     "createTime": {
                         "title": "Createtime",
                         "type": "string",
@@ -12236,7 +12242,8 @@
                     "name",
                     "point",
                     "phaseId",
-                    "light"
+                    "light",
+                    "desc"
                 ],
                 "type": "object",
                 "properties": {
@@ -12274,6 +12281,11 @@
                         "title": "Rsuid",
                         "type": "integer",
                         "description": "RSU ID"
+                    },
+                    "desc": {
+                        "title": "Desc",
+                        "type": "string",
+                        "description": "Description"
                     }
                 }
             },
@@ -12298,7 +12310,8 @@
                     "name",
                     "point",
                     "phaseId",
-                    "light"
+                    "light",
+                    "desc"
                 ],
                 "type": "object",
                 "properties": {
@@ -12336,6 +12349,11 @@
                         "title": "Rsuid",
                         "type": "integer",
                         "description": "RSU ID"
+                    },
+                    "desc": {
+                        "title": "Desc",
+                        "type": "string",
+                        "description": "Description"
                     }
                 }
             },
