@@ -35,6 +35,7 @@ class Spat(Base, DandelionBase):
     light = Column(String(15), nullable=False, default="")
     rsu_id = Column(Integer, ForeignKey("rsu.id"))
     timing = Column(DateTime, nullable=False, default=lambda: datetime.utcnow())
+    desc = Column(String(255), nullable=False, default="")
 
     __table_args__ = (UniqueConstraint("intersection_id", "phase_id"),)
 
@@ -56,6 +57,7 @@ class Spat(Base, DandelionBase):
                 rsuId=self.rsu_id,
                 timing=self.timing,
                 rsuName=Optional_util.none(self.rsu).map(lambda v: v.rsu_name).get(),
+                desc=self.desc,
                 createTime=self.create_time,
             ),
             **Optional_util.none(self.rsu).map(lambda v: v.area).map(lambda v: v.to_all()).get(),
