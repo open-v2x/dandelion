@@ -149,6 +149,7 @@ def get_all(
         None, alias="name", description="Filter by lidar name. Fuzzy prefix query is supported"
     ),
     rsu_id: Optional[int] = Query(None, alias="rsuId", description="Filter by rsuId"),
+    rsu_esn: Optional[str] = Query(None, alias="rsuEsn", description="Filter by rsuEsn"),
     area_code: Optional[str] = Query(
         None, alias="areaCode", description="Filter by camera area code"
     ),
@@ -159,7 +160,14 @@ def get_all(
 ) -> schemas.Lidars:
     skip = page_size * (page_num - 1)
     total, data = crud.lidar.get_multi_with_total(
-        db, skip=skip, limit=page_size, sn=sn, name=name, rsu_id=rsu_id, area_code=area_code
+        db,
+        skip=skip,
+        limit=page_size,
+        sn=sn,
+        name=name,
+        rsu_id=rsu_id,
+        area_code=area_code,
+        rsu_esn=rsu_esn,
     )
     return schemas.Lidars(total=total, data=[lidar.to_dict() for lidar in data])
 
