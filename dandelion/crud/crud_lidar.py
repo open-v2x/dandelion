@@ -45,6 +45,7 @@ class CRUDLidar(CRUDBase[Lidar, LidarCreate, Union[LidarUpdate, LidarEnabledUpda
         name: Optional[str] = None,
         rsu_id: Optional[int] = None,
         area_code: Optional[str] = None,
+        rsu_esn: Optional[str] = None,
     ) -> Tuple[int, List[Lidar]]:
         query_ = db.query(self.model).join(RSU, self.model.rsu_id == RSU.id)
         if sn is not None:
@@ -55,6 +56,8 @@ class CRUDLidar(CRUDBase[Lidar, LidarCreate, Union[LidarUpdate, LidarEnabledUpda
             query_ = query_.filter(self.model.rsu_id == rsu_id)
         if area_code is not None:
             query_ = query_.filter(RSU.area_code == area_code)
+        if rsu_esn is not None:
+            query_ = query_.filter(RSU.rsu_esn.like(f"%{rsu_esn}%"))
         total = query_.count()
         if limit != -1:
             query_ = query_.offset(skip).limit(limit)
