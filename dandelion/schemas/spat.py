@@ -34,6 +34,7 @@ class SpatCreate(BaseModel):
     phase_id: str = Field(..., alias="phaseId", description="PhaseId")
     light: str = Field(..., alias="light", description="Light")
     rsu_id: Optional[int] = Field(None, alias="rsuId", description="RSU ID")
+    desc: str = Field(..., alias="desc", description="Description")
 
 
 class SpatEnabledUpdate(BaseModel):
@@ -49,6 +50,7 @@ class SpatUpdate(SpatBase):
     phase_id: str = Field(..., alias="phaseId", description="PhaseId")
     light: str = Field(..., alias="light", description="Light")
     rsu_id: Optional[int] = Field(None, alias="rsuId", description="RSU ID")
+    desc: str = Field(..., alias="desc", description="Description")
 
 
 class SpatInDBBase(SpatBase):
@@ -79,6 +81,7 @@ class Spat(SpatInDBBase):
     city_name: str = Field(..., alias="cityName", description="City Name")
     area_code: str = Field(..., alias="areaCode", description="Area Code")
     area_name: str = Field(..., alias="areaName", description="Area Name")
+    desc: str = Field(..., alias="desc", description="Description")
     create_time: datetime = Field(..., alias="createTime", description="Create Time")
 
 
