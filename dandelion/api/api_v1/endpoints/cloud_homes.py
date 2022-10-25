@@ -72,6 +72,11 @@ def online_rate(
         "offline": 0,
         "notRegister": crud.lidar.get_multi_with_total(db)[0],
     }
+    spat_online_rate = {
+        "online": 0,
+        "offline": 0,
+        "notRegister": crud.spat.get_multi_with_total(db)[0],
+    }
     return schemas.OnlineRate(
         **{
             "data": {
@@ -79,6 +84,7 @@ def online_rate(
                 "camera": camera_online_rate,
                 "radar": radar_online_rate,
                 "lidar": lidar_online_rate,
+                "spat": spat_online_rate,
             }
         }
     )

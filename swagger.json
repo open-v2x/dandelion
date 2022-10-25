@@ -9320,7 +9320,8 @@
                     "rsu",
                     "camera",
                     "radar",
-                    "lidar"
+                    "lidar",
+                    "spat"
                 ],
                 "type": "object",
                 "properties": {
@@ -9359,6 +9360,15 @@
                             }
                         ],
                         "description": "Lidar Online Rate"
+                    },
+                    "spat": {
+                        "title": "Spat",
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/SpatOnlineRateBase"
+                            }
+                        ],
+                        "description": "Spat Online Rate"
                     }
                 }
             },
@@ -12288,6 +12298,32 @@
                         "title": "Enabled",
                         "type": "boolean",
                         "description": "Enabled"
+                    }
+                }
+            },
+            "SpatOnlineRateBase": {
+                "title": "SpatOnlineRateBase",
+                "required": [
+                    "online",
+                    "offline",
+                    "notRegister"
+                ],
+                "type": "object",
+                "properties": {
+                    "online": {
+                        "title": "Online",
+                        "type": "integer",
+                        "description": "Online"
+                    },
+                    "offline": {
+                        "title": "Offline",
+                        "type": "integer",
+                        "description": "Offline"
+                    },
+                    "notRegister": {
+                        "title": "Notregister",
+                        "type": "integer",
+                        "description": "Not Register"
                     }
                 }
             },
