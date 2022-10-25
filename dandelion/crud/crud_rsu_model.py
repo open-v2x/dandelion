@@ -37,9 +37,9 @@ class CRUDRSUModel(CRUDBase[RSUModel, RSUModelCreate, RSUModelUpdate]):
     ) -> Tuple[int, List[RSUModel]]:
         query_ = db.query(self.model)
         if name is not None:
-            query_ = query_.filter(self.model.name.like(f"{name}%"))
+            query_ = query_.filter(self.model.name.like(f"%{name}%"))
         if manufacturer is not None:
-            query_ = query_.filter(self.model.manufacturer.like(f"{manufacturer}%"))
+            query_ = query_.filter(self.model.manufacturer.like(f"%{manufacturer}%"))
         total = query_.count()
         if limit != -1:
             query_ = query_.offset(skip).limit(limit)
