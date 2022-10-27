@@ -55,7 +55,11 @@ def get(
     rsi_event_in_db = crud.rsi_event.get(db, id=event_id)
     if not rsi_event_in_db:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"RSIEvent [id: {event_id}] not found"
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail={
+                "code": status.HTTP_404_NOT_FOUND,
+                "msg": f"RSIEvent [id: {event_id}] not found",
+            },
         )
     return rsi_event_in_db.to_all_dict()
 

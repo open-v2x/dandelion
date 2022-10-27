@@ -88,7 +88,8 @@ def delete(
 ) -> Response:
     if not crud.rsu_tmp.get(db, id=rsu_id):
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"TMP RSU [id: {rsu_id}] not found"
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail={"code": status.HTTP_404_NOT_FOUND, "msg": f"TMP RSU [id: {rsu_id}] not found"},
         )
     crud.rsu_tmp.remove(db, id=rsu_id)
     return Response(content=None, status_code=status.HTTP_204_NO_CONTENT)

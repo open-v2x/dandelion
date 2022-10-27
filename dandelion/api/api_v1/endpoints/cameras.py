@@ -57,7 +57,9 @@ def create(
         camera_in_db = crud.camera.create(db, obj_in=camera_in)
     except (sql_exc.IntegrityError, sql_exc.DataError) as ex:
         LOG.error(ex.args[0])
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=ex.args[0])
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail=deps.error_msg_handle(ex.args[0])
+        )
     return camera_in_db.to_dict()
 
 
@@ -86,7 +88,11 @@ def delete(
 ) -> Response:
     if not crud.camera.get(db, id=camera_id):
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"Camera [id: {camera_id}] not found"
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail={
+                "code": status.HTTP_404_NOT_FOUND,
+                "msg": f"Camera [id: {camera_id}] not found",
+            },
         )
     crud.camera.remove(db, id=camera_id)
     return Response(content=None, status_code=status.HTTP_204_NO_CONTENT)
@@ -118,7 +124,11 @@ def get(
     camera_in_db = crud.camera.get(db, id=camera_id)
     if not camera_in_db:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"Camera [id: {camera_id}] not found"
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail={
+                "code": status.HTTP_404_NOT_FOUND,
+                "msg": f"Camera [id: {camera_id}] not found",
+            },
         )
     return camera_in_db.to_dict()
 
@@ -199,11 +209,17 @@ def update(
     camera_in_db = crud.camera.get(db, id=camera_id)
     if not camera_in_db:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"Camera [id: {camera_id}] not found"
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail={
+                "code": status.HTTP_404_NOT_FOUND,
+                "msg": f"Camera [id: {camera_id}] not found",
+            },
         )
     try:
         new_camera_in_db = crud.camera.update(db, db_obj=camera_in_db, obj_in=camera_in)
     except (sql_exc.DataError, sql_exc.IntegrityError) as ex:
         LOG.error(ex.args[0])
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=ex.args[0])
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail=deps.error_msg_handle(ex.args[0])
+        )
     return new_camera_in_db.to_dict()

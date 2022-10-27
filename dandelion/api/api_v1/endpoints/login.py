@@ -77,7 +77,10 @@ def login(
     if not user:
         err = "Incorrect username or password."
         LOG.error(err)
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=err)
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail={"code": status.HTTP_400_BAD_REQUEST, "msg": err},
+        )
 
     access_token_expires = timedelta(seconds=CONF.token.expire_seconds)
     access_token = security.create_access_token(user.id, expires_delta=access_token_expires)
@@ -115,7 +118,10 @@ def access_token(
     if not user:
         err = "Incorrect username or password."
         LOG.error(err)
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=err)
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail={"code": status.HTTP_400_BAD_REQUEST, "msg": err},
+        )
 
     access_token_expires = timedelta(seconds=CONF.token.expire_seconds)
     access_token = security.create_access_token(user.id, expires_delta=access_token_expires)

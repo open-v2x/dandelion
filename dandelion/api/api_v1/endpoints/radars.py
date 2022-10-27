@@ -57,7 +57,9 @@ def create(
         radar_in_db = crud.radar.create(db, obj_in=radar_in)
     except (sql_exc.IntegrityError, sql_exc.DataError) as ex:
         LOG.error(ex.args[0])
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=ex.args[0])
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail=deps.error_msg_handle(ex.args[0])
+        )
     return radar_in_db.to_dict()
 
 
@@ -86,7 +88,8 @@ def delete(
 ) -> Response:
     if not crud.radar.get(db, id=radar_id):
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"Radar [id: {radar_id}] not found"
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail={"code": status.HTTP_404_NOT_FOUND, "msg": f"Radar [id: {radar_id}] not found"},
         )
     crud.radar.remove(db, id=radar_id)
     return Response(content=None, status_code=status.HTTP_204_NO_CONTENT)
@@ -118,7 +121,8 @@ def get(
     radar_in_db = crud.radar.get(db, id=radar_id)
     if not radar_in_db:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"Radar [id: {radar_id}] not found"
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail={"code": status.HTTP_404_NOT_FOUND, "msg": f"Radar [id: {radar_id}] not found"},
         )
     return radar_in_db.to_dict()
 
@@ -191,11 +195,14 @@ def update(
     radar_in_db = crud.radar.get(db, id=radar_id)
     if not radar_in_db:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"Radar [id: {radar_id}] not found"
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail={"code": status.HTTP_404_NOT_FOUND, "msg": f"Radar [id: {radar_id}] not found"},
         )
     try:
         new_radar_in_db = crud.radar.update(db, db_obj=radar_in_db, obj_in=radar_in)
     except (sql_exc.DataError, sql_exc.IntegrityError) as ex:
         LOG.error(ex.args[0])
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=ex.args[0])
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail=deps.error_msg_handle(ex.args[0])
+        )
     return new_radar_in_db.to_dict()

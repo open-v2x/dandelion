@@ -58,7 +58,8 @@ def create(
     map_in_db = crud.map.get(db, id=map_id)
     if not map_in_db:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"Map [id: {map_id}] not found"
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail={"code": status.HTTP_404_NOT_FOUND, "msg": f"Map [id: {map_id}] not found"},
         )
 
     rsus: List[models.RSU] = []
@@ -66,7 +67,8 @@ def create(
         rsu_in_db = crud.rsu.get(db, id=rsu_id)
         if not rsu_in_db:
             raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND, detail=f"RSU [id: {rsu_id}] not found"
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail={"code": status.HTTP_404_NOT_FOUND, "msg": f"RSU [id: {rsu_id}] not found"},
             )
         rsus.append(rsu_in_db)
 
@@ -115,11 +117,16 @@ def delete(
 ) -> Response:
     if not crud.map.get(db, id=map_id):
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"Map [id: {map_id}] not found"
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail={"code": status.HTTP_404_NOT_FOUND, "msg": f"Map [id: {map_id}] not found"},
         )
     if not crud.map_rsu.get(db, id=map_rsu_id):
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"MapRSU [id: {map_rsu_id}] not found"
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail={
+                "code": status.HTTP_404_NOT_FOUND,
+                "msg": f"MapRSU [id: {map_rsu_id}] not found",
+            },
         )
     crud.map_rsu.remove(db, id=map_rsu_id)
     return Response(content=None, status_code=status.HTTP_204_NO_CONTENT)

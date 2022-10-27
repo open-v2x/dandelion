@@ -66,7 +66,10 @@ def create(
         except orm_exc.UnmappedInstanceError:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
-                detail=f"RSU Temp [id: {rsu_in.tmp_id}] not found",
+                detail={
+                    "code": status.HTTP_404_NOT_FOUND,
+                    "msg": f"RSU Temp [id: {rsu_in.tmp_id}] not found",
+                },
             )
     del rsu_in.tmp_id
     try:
@@ -89,8 +92,10 @@ def create(
                 ),
                 qos=0,
             )
-    except sql_exc.IntegrityError as ex:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=ex.args[0])
+    except (sql_exc.IntegrityError, sql_exc.DataError) as ex:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail=deps.error_msg_handle(ex.args[0])
+        )
     return rsu_in_db.to_all_dict()
 
 
@@ -173,7 +178,7 @@ def get(
     if not rsu_in_db:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"RSU [id: {rsu_in_db}] not found",
+            detail={"code": status.HTTP_404_NOT_FOUND, "msg": f"RSU [id: {rsu_in_db}] not found"},
         )
     result = rsu_in_db.to_info_dict()
     rsu_config_rsus: List[models.RSUConfigRSU] = result["config"]
@@ -223,13 +228,16 @@ def update(
     rsu_in_db = crud.rsu.get(db, id=rsu_id)
     if not rsu_in_db:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"RSU [id: {rsu_id}] not found"
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail={"code": status.HTTP_404_NOT_FOUND, "msg": f"RSU [id: {rsu_id}] not found"},
         )
     try:
         new_rsu_in_db = crud.rsu.update(db, db_obj=rsu_in_db, obj_in=rsu_in)
     except (sql_exc.DataError, sql_exc.IntegrityError) as ex:
         LOG.error(ex.args[0])
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=ex.args[0])
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail=deps.error_msg_handle(ex.args[0])
+        )
     return new_rsu_in_db.to_all_dict()
 
 
@@ -258,7 +266,8 @@ def delete(
 ) -> Response:
     if not crud.rsu.get(db, id=rsu_id):
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"RSU [id: {rsu_id}] not found"
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail={"code": status.HTTP_404_NOT_FOUND, "msg": f"RSU [id: {rsu_id}] not found"},
         )
     results = crud.rsu_query_result.get_multi_by_rsu_id(db, rsu_id=rsu_id)
     for result in results:
@@ -303,7 +312,10 @@ def get_location(
     if not rsu_in_db:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"RSU [rsu_esn: {rsu_esn}] not found",
+            detail={
+                "code": status.HTTP_404_NOT_FOUND,
+                "msg": f"RSU [rsu_esn: {rsu_esn}] not found",
+            },
         )
     return Optional_util.none(rsu_in_db).map(lambda v: v.location).get()
 
@@ -335,7 +347,10 @@ def get_map(
     if not map_rsu_in_db:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Map RSU [rsu_id: {rsu_id}] not found",
+            detail={
+                "code": status.HTTP_404_NOT_FOUND,
+                "msg": f"Map RSU [rsu_id: {rsu_id}] not found",
+            },
         )
     return Optional_util.none(map_rsu_in_db).map(lambda v: v.map).map(lambda v: v.data).get()
 
@@ -367,7 +382,8 @@ def get_running(
     rsu = crud.rsu.get(db, id=rsu_id)
     if not rsu:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"RSU [id: {rsu_id}] not found"
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail={"code": status.HTTP_404_NOT_FOUND, "msg": f"RSU [id: {rsu_id}] not found"},
         )
     rsu_running = schemas.RSURunning()
     rsu_running.cpu = []

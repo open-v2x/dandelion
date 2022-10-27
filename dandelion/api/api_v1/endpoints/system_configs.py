@@ -138,7 +138,10 @@ def get(
     if not system_config:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"System config [id: {system_config_id}] not found.",
+            detail={
+                "code": status.HTTP_404_NOT_FOUND,
+                "msg": f"System config [id: {system_config_id}] not found.",
+            },
         )
     system_config.mode = mode_conf.mode
     return system_config

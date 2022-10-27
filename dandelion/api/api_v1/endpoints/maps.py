@@ -66,7 +66,9 @@ def create(
     try:
         map_in_db = crud.map.create(db, obj_in=new_map_in)
     except sql_exc.IntegrityError as ex:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=ex.args[0])
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail=deps.error_msg_handle(ex.args[0])
+        )
     return map_in_db.to_dict()
 
 
@@ -95,7 +97,8 @@ def delete(
 ) -> Response:
     if not crud.map.get(db, id=map_id):
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"Map [id: {map_id}] not found"
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail={"code": status.HTTP_404_NOT_FOUND, "msg": f"Map [id: {map_id}] not found"},
         )
     crud.map.remove(db, id=map_id)
     return Response(content=None, status_code=status.HTTP_204_NO_CONTENT)
@@ -127,7 +130,8 @@ def get(
     map_in_db = crud.map.get(db, id=map_id)
     if not map_in_db:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"Map [id: {map_id}] not found"
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail={"code": status.HTTP_404_NOT_FOUND, "msg": f"Map [id: {map_id}] not found"},
         )
     return map_in_db.to_dict()
 
@@ -194,7 +198,8 @@ def update(
     map_in_db = crud.map.get(db, id=map_id)
     if not map_in_db:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"Map [id: {map_id}] not found"
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail={"code": status.HTTP_404_NOT_FOUND, "msg": f"Map [id: {map_id}] not found"},
         )
 
     new_map_in = models.Map()
@@ -210,7 +215,9 @@ def update(
         new_map_in_db = crud.map.update(db, db_obj=map_in_db, obj_in=new_map_in.__dict__)
     except (sql_exc.DataError, sql_exc.IntegrityError) as ex:
         LOG.error(ex.args[0])
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=ex.args[0])
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail=deps.error_msg_handle(ex.args[0])
+        )
     return new_map_in_db.to_dict()
 
 
@@ -240,6 +247,7 @@ def data(
     map_in_db = crud.map.get(db, id=map_id)
     if not map_in_db:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"Map [id: {map_id}] not found"
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail={"code": status.HTTP_404_NOT_FOUND, "msg": f"Map [id: {map_id}] not found"},
         )
     return map_in_db.data

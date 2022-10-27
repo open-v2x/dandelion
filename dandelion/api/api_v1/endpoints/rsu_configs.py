@@ -62,7 +62,10 @@ def create(
             if not rsu_in_db:
                 raise HTTPException(
                     status_code=status.HTTP_404_NOT_FOUND,
-                    detail=f"RSU [id: {rsu_id}] not found",
+                    detail={
+                        "code": status.HTTP_404_NOT_FOUND,
+                        "msg": f"RSU [id: {rsu_id}] not found",
+                    },
                 )
             crud.rsu_config_rsu.remove_by_rsu_id(db, rsu_id=rsu_id)
             rsu_dict[rsu_in_db.id] = rsu_in_db.rsu_esn
@@ -72,7 +75,9 @@ def create(
         rsu_config_in_db = crud.rsu_config.create_rsu_config(db, obj_in=rsu_config_in, rsus=rsus)
     except sql_exc.IntegrityError as ex:
         LOG.error(ex.args[0])
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=ex.args[0])
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail=deps.error_msg_handle(ex.args[0])
+        )
 
     # config down
     data = rsu_config_in_db.mqtt_dict()
@@ -110,7 +115,10 @@ def delete(
     if not crud.rsu_config.get(db, id=rsu_config_id):
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"RSUConfig [id: {rsu_config_id}] not found",
+            detail={
+                "code": status.HTTP_404_NOT_FOUND,
+                "msg": f"RSUConfig [id: {rsu_config_id}] not found",
+            },
         )
     crud.rsu_config.remove(db, id=rsu_config_id)
     return Response(content=None, status_code=status.HTTP_204_NO_CONTENT)
@@ -143,7 +151,10 @@ def get(
     if not rsu_config_in_db:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"RSUConfig [id: {rsu_config_id}] not found",
+            detail={
+                "code": status.HTTP_404_NOT_FOUND,
+                "msg": f"RSUConfig [id: {rsu_config_id}] not found",
+            },
         )
     return rsu_config_in_db.to_all_dict()
 
@@ -208,7 +219,10 @@ def update(
     if not rsu_config_in_db:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"RSUConfig [id: {rsu_config_id}] not found",
+            detail={
+                "code": status.HTTP_404_NOT_FOUND,
+                "msg": f"RSUConfig [id: {rsu_config_id}] not found",
+            },
         )
 
     rsus: List[models.RSU] = []
@@ -218,7 +232,10 @@ def update(
             if not rus_in_db:
                 raise HTTPException(
                     status_code=status.HTTP_404_NOT_FOUND,
-                    detail=f"RSU [id: {rsu_id}] not found",
+                    detail={
+                        "code": status.HTTP_404_NOT_FOUND,
+                        "msg": f"RSU [id: {rsu_id}] not found",
+                    },
                 )
             rsus.append(rus_in_db)
 
@@ -230,7 +247,9 @@ def update(
         )
     except (sql_exc.DataError, sql_exc.IntegrityError) as ex:
         LOG.error(ex.args[0])
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=ex.args[0])
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail=deps.error_msg_handle(ex.args[0])
+        )
 
     # config down
     data = new_rsu_config_in_db.mqtt_dict()

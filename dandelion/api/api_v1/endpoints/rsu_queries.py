@@ -59,7 +59,7 @@ def create(
         if not rus:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
-                detail=f"RSU [id: {rsu_id}] not found",
+                detail={"code": status.HTTP_404_NOT_FOUND, "msg": f"RSU [id: {rsu_id}] not found"},
             )
 
         rsu_query_result = crud.rsu_query_result.create(
@@ -103,7 +103,10 @@ def get(
     if not rsu_query_in_db:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"RSU Query [id: {rsu_query_id}] not found",
+            detail={
+                "code": status.HTTP_404_NOT_FOUND,
+                "msg": f"RSU Query [id: {rsu_query_id}] not found",
+            },
         )
     return schemas.RSUQueryDetail(**{"data": [v.to_all_dict() for v in rsu_query_in_db.results]})
 
@@ -165,7 +168,11 @@ def delete(
 ) -> Response:
     if not crud.rsu_query.get(db, id=query_id):
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"RSUQuery [id: {query_id}] not found"
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail={
+                "code": status.HTTP_404_NOT_FOUND,
+                "msg": f"RSUQuery [id: {query_id}] not found",
+            },
         )
     results = crud.rsu_query_result.get_multi_by_query_id(db, query_id=query_id)
     for result in results:

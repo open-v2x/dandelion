@@ -38,7 +38,10 @@ def create(
     if user:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="The user with this username already exists in the system.",
+            detail={
+                "code": status.HTTP_400_BAD_REQUEST,
+                "msg": "The user with this username already exists in the system.",
+            },
         )
     user = crud.user.create(db, obj_in=user_in)
     return user
@@ -93,7 +96,8 @@ def delete(
 ) -> Response:
     if not crud.user.get(db, id=user_id):
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"User [id: {user_id}] not found"
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail={"code": status.HTTP_404_NOT_FOUND, "msg": f"User [id: {user_id}] not found"},
         )
     crud.user.remove(db, id=user_id)
     return Response(content=None, status_code=status.HTTP_204_NO_CONTENT)

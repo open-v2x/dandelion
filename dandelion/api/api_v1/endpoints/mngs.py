@@ -93,13 +93,16 @@ def update(
     mng_in_db = crud.mng.get(db, id=mng_id)
     if not mng_in_db:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"MNG [id: {mng_id}] not found"
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail={"code": status.HTTP_404_NOT_FOUND, "msg": f"MNG [id: {mng_id}] not found"},
         )
     try:
         new_mng_in_db = crud.mng.update_mng(db, db_obj=mng_in_db, obj_in=mng_in)
     except (sql_exc.DataError, sql_exc.IntegrityError) as ex:
         LOG.error(ex.args[0])
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=ex.args[0])
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail=deps.error_msg_handle(ex.args[0])
+        )
     return new_mng_in_db.all_dict()
 
 
@@ -129,14 +132,15 @@ def down(
     mng_in_db = crud.mng.get(db, id=mng_id)
     if not mng_in_db:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"MNG [id: {mng_id}] not found"
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail={"code": status.HTTP_404_NOT_FOUND, "msg": f"MNG [id: {mng_id}] not found"},
         )
 
     data = mng_in_db.mqtt_dict()
     data["timestamp"] = int(time.time())
     data["ack"] = False
     mng_down(mng_in_db.rsu.rsu_esn, data)
-    return schemas.Message(detail="Send down for mng.")
+    return schemas.Message(detail={"code": status.HTTP_200_OK, "msg": "Send down for mng."})
 
 
 @router.post(
@@ -166,7 +170,8 @@ def copy(
     mng_in_db = crud.mng.get(db, id=mng_id)
     if not mng_in_db:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"MNG [id: {mng_id}] not found"
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail={"code": status.HTTP_404_NOT_FOUND, "msg": f"MNG [id: {mng_id}] not found"},
         )
 
     new_mngs: List[models.MNG] = []
@@ -175,7 +180,10 @@ def copy(
         if not new_mng_in_db:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
-                detail=f"MNG [by rsu id: {rsu_id}] not found",
+                detail={
+                    "code": status.HTTP_404_NOT_FOUND,
+                    "msg": f"MNG [by rsu id: {rsu_id}] not found",
+                },
             )
         new_mngs.append(new_mng_in_db)
 
@@ -198,4 +206,4 @@ def copy(
         data["ack"] = False
         mng_down(new_mng.rsu.rsu_esn, data)
 
-    return schemas.Message(detail="Copy mng.")
+    return schemas.Message(detail={"code": status.HTTP_200_OK, "msg": "Copy mng."})

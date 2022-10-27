@@ -14,6 +14,7 @@
 
 from __future__ import annotations
 
+import re
 from logging import LoggerAdapter
 from typing import Generator
 
@@ -56,10 +57,21 @@ def get_current_user(
     except (jwt.JWTError, ValidationError):
         err = "Could not validate credentials."
         LOG.error(err)
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=err)
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail={"code": status.HTTP_403_FORBIDDEN, "msg": err},
+        )
     user = crud.user.get(db, id=token_data.sub)
     if not user:
         err = "User not found."
         LOG.error(err)
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=err)
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail={"code": status.HTTP_404_NOT_FOUND, "msg": err},
+        )
     return user
+
+
+def error_msg_handle(err_msg: str) -> dict:
+    code, msg = eval(re.findall(r"\(.*?\)", err_msg)[1])
+    return {"code": code, "msg": re.findall("'.*?'", msg)[0]}

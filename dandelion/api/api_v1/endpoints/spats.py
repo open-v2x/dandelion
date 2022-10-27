@@ -58,7 +58,9 @@ def create(
         spat_in_db = crud.spat.create(db, obj_in=spat_in)
     except (sql_exc.IntegrityError, sql_exc.DataError) as ex:
         LOG.error(ex.args[0])
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=ex.args[0])
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail=deps.error_msg_handle(ex.args[0])
+        )
     spat_publish(spat_in_db)
     return spat_in_db.to_dict()
 
@@ -88,7 +90,8 @@ def delete(
 ) -> Response:
     if not crud.spat.get(db, id=spat_id):
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"Spat [id: {spat_id}] not found"
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail={"code": status.HTTP_404_NOT_FOUND, "msg": f"Spat [id: {spat_id}] not found"},
         )
     crud.spat.remove(db, id=spat_id)
     return Response(content=None, status_code=status.HTTP_204_NO_CONTENT)
@@ -120,7 +123,8 @@ def get(
     spat_in_db = crud.spat.get(db, id=spat_id)
     if not spat_in_db:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"Spat [id: {spat_id}] not found"
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail={"code": status.HTTP_404_NOT_FOUND, "msg": f"Spat [id: {spat_id}] not found"},
         )
     return spat_in_db.to_dict()
 
@@ -201,13 +205,16 @@ def update(
     spat_in_db = crud.spat.get(db, id=spat_id)
     if not spat_in_db:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"Spat [id: {spat_id}] not found"
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail={"code": status.HTTP_404_NOT_FOUND, "msg": f"Spat [id: {spat_id}] not found"},
         )
     try:
         new_spat_in_db = crud.spat.update(db, db_obj=spat_in_db, obj_in=spat_in)
     except (sql_exc.DataError, sql_exc.IntegrityError) as ex:
         LOG.error(ex.args[0])
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=ex.args[0])
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail=deps.error_msg_handle(ex.args[0])
+        )
     spat_publish(spat_in_db)
 
     return new_spat_in_db.to_dict()
@@ -240,7 +247,8 @@ def update_enabled(
     spat_id_db = crud.spat.get(db, id=spat_id)
     if not spat_id_db:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"Spat [id: {spat_id}] not found"
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail={"code": status.HTTP_404_NOT_FOUND, "msg": f"Spat [id: {spat_id}] not found"},
         )
     if spat_id_db.enabled == spat_in.enabled:
         return spat_id_db.to_dict()
@@ -248,5 +256,7 @@ def update_enabled(
         new_spat_id_db = crud.spat.update(db, db_obj=spat_id_db, obj_in=spat_in)
     except (sql_exc.DataError, sql_exc.IntegrityError) as ex:
         LOG.error(ex.args[0])
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=ex.args[0])
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail=deps.error_msg_handle(ex.args[0])
+        )
     return new_spat_id_db.to_dict()

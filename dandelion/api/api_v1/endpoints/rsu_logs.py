@@ -60,7 +60,7 @@ def create(
         if not rus_in_db:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
-                detail=f"RSU [id: {rsu_id}] not found",
+                detail={"code": status.HTTP_404_NOT_FOUND, "msg": f"RSU [id: {rsu_id}] not found"},
             )
         rsus.append(rus_in_db)
 
@@ -103,7 +103,11 @@ def delete(
 ) -> Response:
     if not crud.rsu_log.get(db, id=rsu_log_id):
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"RSULog [id: {rsu_log_id}] not found"
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail={
+                "code": status.HTTP_404_NOT_FOUND,
+                "msg": f"RSULog [id: {rsu_log_id}] not found",
+            },
         )
     crud.rsu_log.remove(db, id=rsu_log_id)
     return Response(content=None, status_code=status.HTTP_204_NO_CONTENT)
@@ -135,7 +139,11 @@ def get(
     rsu_log_in_db = crud.rsu_log.get(db, id=rsu_log_id)
     if not rsu_log_in_db:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"RSULog [id: {rsu_log_id}] not found"
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail={
+                "code": status.HTTP_404_NOT_FOUND,
+                "msg": f"RSULog [id: {rsu_log_id}] not found",
+            },
         )
     return rsu_log_in_db.to_all_dict()
 
@@ -196,7 +204,11 @@ def update(
     rsu_log_in_db = crud.rsu_log.get(db, id=rsu_log_id)
     if not rsu_log_in_db:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"RSULog [id: {rsu_log_id}] not found"
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail={
+                "code": status.HTTP_404_NOT_FOUND,
+                "msg": f"RSULog [id: {rsu_log_id}] not found",
+            },
         )
 
     rsus: List[models.RSU] = []
@@ -205,7 +217,7 @@ def update(
         if not rus_in_db:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
-                detail=f"RSU [id: {rsu_id}] not found",
+                detail={"code": status.HTTP_404_NOT_FOUND, "msg": f"RSU [id: {rsu_id}] not found"},
             )
         rsus.append(rus_in_db)
 
