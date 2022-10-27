@@ -46,7 +46,7 @@ class CRUDRSUTMP(CRUDBase[RSUTMP, RSUTMPCreate, RSUTMPUpdate]):
     ) -> Tuple[int, List[RSUTMP]]:
         query_ = db.query(self.model)
         if rsu_name is not None:
-            query_ = query_.filter(self.model.rsu_name.like(f"{rsu_name}%"))
+            query_ = query_.filter(self.model.rsu_name.like(f"%{rsu_name}%"))
         if rsu_esn is not None:
             query_ = query_.filter(self.model.rsu_esn == rsu_esn)
         total = query_.count()

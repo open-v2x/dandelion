@@ -48,9 +48,9 @@ class CRUDSpat(CRUDBase[Spat, SpatCreate, Union[SpatUpdate, SpatEnabledUpdate]])
     ) -> Tuple[int, List[Spat]]:
         query_ = db.query(self.model).join(RSU, self.model.rsu_id == RSU.id)
         if intersection_id is not None:
-            query_ = query_.filter(self.model.intersection_id.like(f"{intersection_id}%"))
+            query_ = query_.filter(self.model.intersection_id.like(f"%{intersection_id}%"))
         if name is not None:
-            query_ = query_.filter(self.model.name.like(f"{name}%"))
+            query_ = query_.filter(self.model.name.like(f"%{name}%"))
         if rsu_id is not None:
             query_ = query_.filter(self.model.rsu_id == rsu_id)
         if area_code is not None:

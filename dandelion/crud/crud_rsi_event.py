@@ -55,7 +55,7 @@ class CRUDRSIEvent(CRUDBase[RSIEvent, RSIEventCreate, RSIEventUpdate]):
         if area_code is not None:
             query_ = query_.filter(self.model.area_code == area_code)
         if address is not None:
-            query_ = query_.filter(self.model.address.like(f"{address}%"))
+            query_ = query_.filter(self.model.address.like(f"%{address}%"))
         total = query_.count()
         if sort == Sort.asc:
             query_ = query_.order_by(self.model.id)

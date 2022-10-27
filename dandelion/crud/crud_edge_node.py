@@ -37,7 +37,7 @@ class CRUDEdgeNode(CRUDBase[EdgeNode, EdgeNodeCreate, EdgeNodeUpdate]):
     ) -> Tuple[int, List[EdgeNode]]:
         query_ = db.query(self.model)
         if name is not None:
-            query_ = query_.filter(self.model.name.like(f"{name}%"))
+            query_ = query_.filter(self.model.name.like(f"%{name}%"))
         total = query_.count()
         if limit != -1:
             query_ = query_.offset(skip).limit(limit)
