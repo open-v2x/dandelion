@@ -18,12 +18,13 @@ from datetime import datetime
 from logging import LoggerAdapter
 from typing import Dict, List, Optional, Union
 
-from fastapi import APIRouter, Depends, HTTPException, Query, Response, status
+from fastapi import APIRouter, Depends, Query, Response, status
 from oslo_log import log
 from sqlalchemy.orm import Session
 
 from dandelion import crud, models, schemas
 from dandelion.api import deps
+from dandelion.api.deps import OpenV2XHTTPException as HTTPException
 from dandelion.mqtt.service.map.map_down import map_down
 
 router = APIRouter()

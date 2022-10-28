@@ -17,7 +17,7 @@ from __future__ import annotations
 from datetime import timedelta
 from logging import LoggerAdapter
 
-from fastapi import APIRouter, Body, Depends, HTTPException, status
+from fastapi import APIRouter, Body, Depends, status
 from fastapi.security import OAuth2PasswordRequestForm
 from oslo_config import cfg
 from oslo_log import log
@@ -25,6 +25,7 @@ from sqlalchemy.orm import Session
 
 from dandelion import conf, crud, schemas
 from dandelion.api import deps
+from dandelion.api.deps import OpenV2XHTTPException as HTTPException
 from dandelion.core import security
 
 LOG: LoggerAdapter = log.getLogger(__name__)

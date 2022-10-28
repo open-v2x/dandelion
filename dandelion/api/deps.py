@@ -14,8 +14,9 @@
 
 from __future__ import annotations
 
+import re
 from logging import LoggerAdapter
-from typing import Generator
+from typing import Any, Dict, Generator, Optional
 
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
@@ -33,6 +34,23 @@ LOG: LoggerAdapter = log.getLogger(__name__)
 CONF: cfg = conf.CONF
 
 reusable_oauth2 = OAuth2PasswordBearer(tokenUrl=f"{constants.API_V1_STR}/login/access-token")
+
+
+class OpenV2XHTTPException(HTTPException):
+    def __init__(
+        self,
+        status_code: int,
+        detail: Any = None,
+        headers: Optional[Dict[str, Any]] = None,
+    ) -> None:
+        if detail.startswith("(sqlite3.IntegrityError)"):
+            detail = {"code": 1062, "msg": detail.split(")")[1].split(":")[1].split(".")[1]}
+        elif detail.startswith("(pymysql"):
+            code, msg = eval(re.findall(r"\(.*?\)", detail)[1])
+            detail = {"code": code, "msg": re.findall("'.*?'", msg)[0]}
+        if not isinstance(detail, dict):
+            detail = {"code": status_code, "msg": detail}
+        super().__init__(status_code=status_code, detail=detail, headers=headers)
 
 
 def get_db() -> Generator:
@@ -56,10 +74,10 @@ def get_current_user(
     except (jwt.JWTError, ValidationError):
         err = "Could not validate credentials."
         LOG.error(err)
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=err)
+        raise OpenV2XHTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=err)
     user = crud.user.get(db, id=token_data.sub)
     if not user:
         err = "User not found."
         LOG.error(err)
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=err)
+        raise OpenV2XHTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=err)
     return user

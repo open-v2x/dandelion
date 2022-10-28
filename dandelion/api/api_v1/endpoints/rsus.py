@@ -18,7 +18,7 @@ import json
 from logging import LoggerAdapter
 from typing import Any, Dict, List, Optional
 
-from fastapi import APIRouter, Depends, HTTPException, Query, Response, status
+from fastapi import APIRouter, Depends, Query, Response, status
 from oslo_log import log
 from redis import Redis
 from sqlalchemy import exc as sql_exc
@@ -26,6 +26,7 @@ from sqlalchemy.orm import Session, exc as orm_exc
 
 from dandelion import crud, models, schemas
 from dandelion.api import deps
+from dandelion.api.deps import OpenV2XHTTPException as HTTPException
 from dandelion.mqtt import cloud_server as mqtt_cloud_server
 from dandelion.mqtt.topic import v2x_edge
 from dandelion.util import Optional as Optional_util
@@ -89,7 +90,7 @@ def create(
                 ),
                 qos=0,
             )
-    except sql_exc.IntegrityError as ex:
+    except (sql_exc.IntegrityError, sql_exc.DataError) as ex:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=ex.args[0])
     return rsu_in_db.to_all_dict()
 

@@ -17,8 +17,13 @@ from __future__ import annotations
 from pydantic import BaseModel, Field
 
 
+class ListDetailBase(BaseModel):
+    code: int = Field(..., alias="code", description="Response code")
+    msg: str = Field(..., alias="msg", description="Response message")
+
+
 class MessageBase(BaseModel):
-    detail: str = Field(..., alias="detail", description="Message detail")
+    detail: ListDetailBase = Field(..., alias="detail", description="Message detail")
 
 
 class Message(MessageBase):
