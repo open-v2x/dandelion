@@ -8494,6 +8494,12 @@
                         "type": "string",
                         "description": "Create Time",
                         "format": "date-time"
+                    },
+                    "wsUrl": {
+                        "title": "Wsurl",
+                        "type": "string",
+                        "description": "websocket url",
+                        "default": ""
                     }
                 }
             },
@@ -8565,6 +8571,12 @@
                         "title": "Desc",
                         "type": "string",
                         "description": "Description",
+                        "default": ""
+                    },
+                    "wsUrl": {
+                        "title": "Wsurl",
+                        "type": "string",
+                        "description": "websocket url",
                         "default": ""
                     }
                 }
@@ -8677,6 +8689,12 @@
                         "title": "Desc",
                         "type": "string",
                         "description": "Description",
+                        "default": ""
+                    },
+                    "wsUrl": {
+                        "title": "Wsurl",
+                        "type": "string",
+                        "description": "websocket url",
                         "default": ""
                     }
                 }

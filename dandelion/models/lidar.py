@@ -36,6 +36,7 @@ class Lidar(Base, DandelionBase):
     pole = Column(String(15), nullable=False)
     rsu_id = Column(Integer, ForeignKey("rsu.id"))
     desc = Column(String(255), nullable=False, default="")
+    ws_url = Column(String(50), nullable=False, default="")
 
     def __repr__(self) -> str:
         return f"<Lidar (sn='{self.sn}', name='{self.name}')>"
@@ -59,6 +60,7 @@ class Lidar(Base, DandelionBase):
                 rsuName=Optional_util.none(self.rsu).map(lambda v: v.rsu_name).get(),
                 desc=self.desc,
                 createTime=self.create_time,
+                wsUrl=self.ws_url,
             ),
             **Optional_util.none(self.rsu).map(lambda v: v.area).map(lambda v: v.to_all()).get(),
         }
