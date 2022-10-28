@@ -38,6 +38,7 @@ class LidarCreate(BaseModel):
     pole: str = Field(..., alias="pole", description="pole")
     rsu_id: Optional[int] = Field(None, alias="rsuId", description="RSU ID")
     desc: Optional[str] = Field("", alias="desc", description="Description")
+    ws_url: Optional[str] = Field("", alias="wsUrl", description="websocket url")
 
 
 class LidarEnabledUpdate(BaseModel):
@@ -57,6 +58,7 @@ class LidarUpdate(LidarBase):
     pole: str = Field(..., alias="pole", description="pole")
     rsu_id: Optional[int] = Field(None, alias="rsuId", description="RSU ID")
     desc: Optional[str] = Field("", alias="desc", description="Description")
+    ws_url: Optional[str] = Field("", alias="wsUrl", description="websocket url")
 
 
 class LidarInDBBase(LidarBase):
@@ -91,6 +93,7 @@ class Lidar(LidarInDBBase):
     area_name: str = Field(..., alias="areaName", description="Area Name")
     desc: str = Field(..., alias="desc", description="Description")
     create_time: datetime = Field(..., alias="createTime", description="Create Time")
+    ws_url: Optional[str] = Field("", alias="wsUrl", description="websocket url")
 
 
 class Lidars(BaseModel):
