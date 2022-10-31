@@ -18,13 +18,14 @@ import time
 from logging import LoggerAdapter
 from typing import List, Optional
 
-from fastapi import APIRouter, Body, Depends, HTTPException, Query, status
+from fastapi import APIRouter, Body, Depends, Query, status
 from oslo_log import log
 from sqlalchemy import exc as sql_exc
 from sqlalchemy.orm import Session
 
 from dandelion import crud, models, schemas
 from dandelion.api import deps
+from dandelion.api.deps import OpenV2XHTTPException as HTTPException
 from dandelion.mqtt.service.mng import mng_down
 
 router = APIRouter()
@@ -136,7 +137,7 @@ def down(
     data["timestamp"] = int(time.time())
     data["ack"] = False
     mng_down(mng_in_db.rsu.rsu_esn, data)
-    return schemas.Message(detail="Send down for mng.")
+    return schemas.Message(detail={"code": status.HTTP_200_OK, "msg": "Send down for mng."})
 
 
 @router.post(
@@ -198,4 +199,4 @@ def copy(
         data["ack"] = False
         mng_down(new_mng.rsu.rsu_esn, data)
 
-    return schemas.Message(detail="Copy mng.")
+    return schemas.Message(detail={"code": status.HTTP_200_OK, "msg": "Copy mng."})

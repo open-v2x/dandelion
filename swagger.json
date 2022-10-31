@@ -8300,7 +8300,11 @@
                 "properties": {
                     "detail": {
                         "title": "Detail",
-                        "type": "string",
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/ListDetailBase"
+                            }
+                        ],
                         "description": "Message detail"
                     }
                 }
@@ -8719,6 +8723,26 @@
                             "$ref": "#/components/schemas/Lidar"
                         },
                         "description": "Data"
+                    }
+                }
+            },
+            "ListDetailBase": {
+                "title": "ListDetailBase",
+                "required": [
+                    "code",
+                    "msg"
+                ],
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "title": "Code",
+                        "type": "integer",
+                        "description": "Response code"
+                    },
+                    "msg": {
+                        "title": "Msg",
+                        "type": "string",
+                        "description": "Response message"
                     }
                 }
             },
@@ -9320,7 +9344,11 @@
                 "properties": {
                     "detail": {
                         "title": "Detail",
-                        "type": "string",
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/ListDetailBase"
+                            }
+                        ],
                         "description": "Message detail"
                     }
                 }
