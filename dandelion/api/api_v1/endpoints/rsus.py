@@ -78,6 +78,7 @@ def create(
                     dict(
                         id=mqtt_cloud_server.EDGE_ID,
                         rsu=dict(
+                            edge_rsu_id=rsu_in_db.id,
                             name=rsu_in.rsu_name,
                             esn=rsu_in.rsu_esn,
                             areaCode=rsu_in.area_code,
@@ -220,6 +221,7 @@ def update(
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> schemas.RSU:
+    rsu_tmp: Optional[models.RSUTMP] = None
     rsu_in_db = crud.rsu.get(db, id=rsu_id)
     if not rsu_in_db:
         raise HTTPException(
@@ -227,6 +229,25 @@ def update(
         )
     try:
         new_rsu_in_db = crud.rsu.update(db, db_obj=rsu_in_db, obj_in=rsu_in)
+        if mqtt_cloud_server.MQTT_CLIENT is not None:
+            mqtt_cloud_server.get_mqtt_client().publish(
+                topic=v2x_edge.V2X_EDGE_RSU_UPDATE_UP,
+                payload=json.dumps(
+                    dict(
+                        id=mqtt_cloud_server.EDGE_ID,
+                        rsu=dict(
+                            edge_rsu_id=rsu_in_db.id,
+                            name=rsu_in.rsu_name,
+                            esn=rsu_in.rsu_esn,
+                            areaCode=rsu_in.area_code,
+                            location=Optional_util.none(rsu_tmp)
+                            .map(lambda v: v.location)
+                            .orElse({}),
+                        ),
+                    )
+                ),
+                qos=0,
+            )
     except (sql_exc.DataError, sql_exc.IntegrityError) as ex:
         LOG.error(ex.args[0])
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=ex.args[0])

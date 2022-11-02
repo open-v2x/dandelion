@@ -28,27 +28,27 @@ from dandelion.mqtt.service import RouterHandler
 LOG: LoggerAdapter = log.getLogger(__name__)
 
 
-class EdgeRSURouterHandler(RouterHandler):
+class EdgeRSUUpdateRouterHandler(RouterHandler):
     def handler(self, client: mqtt.MQTT_CLIENT, topic: str, data: Dict[str, Any]) -> None:
-        LOG.info(f"{topic} => Edge RSU sync {data}")
+        LOG.info(f"{topic} => Edge RSU update {data}")
         db: Session = session.DB_SESSION_LOCAL()
-        id = data.get("id")
-        if id:
-            crud.edge_node_rsu.remove_by_node_id(db, edge_node_id=id)
-            node_rsus = data.get("rsus")
-            if node_rsus:
-                for node_rsu in node_rsus:
-                    edge_node_rsu = schemas.EdgeNodeRSUCreate()
-                    edge_node_rsu.edge_node_id = id
+        id_ = data.get("id")
+        if id_ is not None:
+            node_rsu = data.get("rsu")
+            if node_rsu is not None:
+                rsu_in_db = crud.edge_node_rsu.get_by_node_id_rsu(
+                    db=db, edge_node_id=id_, edge_rsu_id=node_rsu.get("edge_rsu_id")
+                )
+                if rsu_in_db:
+                    edge_node_rsu = schemas.EdgeNodeRSUUpdate()
+                    edge_node_rsu.edge_node_id = id_
                     edge_node_rsu.name = node_rsu.get("name", "")
                     edge_node_rsu.esn = node_rsu.get("esn", "")
                     edge_node_rsu.area_code = node_rsu.get("areaCode", "")
-                    edge_node_rsu.edge_rsu_id = node_rsu.get("edge_rsu_id")
                     location = node_rsu.get("location", {})
-                    if location:
+                    if location is not None:
                         edge_node_rsu.location = schemas.Location()
                         edge_node_rsu.location.lon = location.get("lon", 116.40)
                         edge_node_rsu.location.lat = location.get("lat", 39.91)
-                    _ = crud.edge_node_rsu.create(db, obj_in=edge_node_rsu)
-
-        LOG.info(f"{topic} => Edge RSU synced")
+                    _ = crud.edge_node_rsu.update(db=db, db_obj=rsu_in_db, obj_in=edge_node_rsu)
+            LOG.info(f"{topic} => Edge RSU updated")

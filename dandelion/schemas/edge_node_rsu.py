@@ -35,11 +35,14 @@ class Location(BaseModel):
 class EdgeNodeRSUCreate(EdgeNodeRSUBase):
     area_code: Optional[str] = Field(None, alias="areaCode", description="Area Code")
     edge_node_id: Optional[int] = Field(None, alias="edgeNodeID", description="Edge Node ID")
+    edge_rsu_id: Optional[int] = Field(None, alias="edgeRsuID", description="Edge Rsu ID")
 
 
 # Properties to receive via API on update
 class EdgeNodeRSUUpdate(EdgeNodeRSUBase):
-    """"""
+    area_code: Optional[str] = Field(None, alias="areaCode", description="Area Code")
+    edge_node_id: Optional[int] = Field(None, alias="edgeNodeID", description="Edge Node ID")
+    edge_rsu_id: Optional[int] = Field(None, alias="edgeRsuID", description="Edge Rsu ID")
 
 
 class EdgeNodeRSUInDBBase(EdgeNodeRSUBase):

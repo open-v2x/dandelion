@@ -47,6 +47,7 @@ def refresh_cloud_rsu(db: Session):
                 esn=rsu.rsu_esn,
                 areaCode=rsu.area_code,
                 location=rsu.location,
+                edge_rsu_id=rsu.id,
             )
             node_rsus.append(node_rsu)
         mqtt_cloud_server.MQTT_CLIENT.publish(

@@ -37,6 +37,7 @@ from dandelion.mqtt.service.cloud.edge_rsu import EdgeRSURouterHandler
 from dandelion.mqtt.service.cloud.edge_rsu_add import EdgeRSUAddRouterHandler
 from dandelion.mqtt.service.cloud.edge_rsu_delete import EdgeRSUDeleteRouterHandler
 from dandelion.mqtt.service.cloud.edge_rsu_location import EdgeRSULocationRouterHandler
+from dandelion.mqtt.service.cloud.edge_rsu_update import EdgeRSUUpdateRouterHandler
 from dandelion.mqtt.service.map.map_down import MapDownACKRouterHandler
 from dandelion.mqtt.service.map.map_up import MapRouterHandler
 from dandelion.mqtt.service.query.rsu_query_up import RSUQueryUPRouterHandler
@@ -76,6 +77,7 @@ if mode_conf.mode in ["center", "coexist"]:
     topic_router[v2x_edge.V2X_EDGE_HB_UP] = EdgeHBRouterHandler()
     topic_router[v2x_edge.V2X_EDGE_RSU_UP] = EdgeRSURouterHandler()
     topic_router[v2x_edge.V2X_EDGE_RSU_ADD_UP] = EdgeRSUAddRouterHandler()
+    topic_router[v2x_edge.V2X_EDGE_RSU_UPDATE_UP] = EdgeRSUUpdateRouterHandler()
     topic_router[v2x_edge.V2X_EDGE_RSU_DELETE_UP] = EdgeRSUDeleteRouterHandler()
     topic_router[v2x_edge.V2X_EDGE_RSU_LOCATION_UP] = EdgeRSULocationRouterHandler()
     topic_router[v2x_edge.V2X_EDGE_DELETE_UP] = EdgeDeleteRouterHandler()

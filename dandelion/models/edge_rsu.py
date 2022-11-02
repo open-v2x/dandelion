@@ -27,6 +27,7 @@ class EdgeNodeRSU(Base, DandelionBase):
     name = Column(String(64), nullable=False, index=True)
     esn = Column(String(64), nullable=False, index=True)
     location = Column(JSON, nullable=False)
+    edge_rsu_id = Column(Integer, nullable=False)
 
     def to_all_dict(self):
         return dict(
