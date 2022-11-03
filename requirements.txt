@@ -21,3 +21,5 @@ python-multipart>=0.0.5 # Apache-2.0
 bcrypt>=3.2.2 # Apache-2.0
 APScheduler>=3.9.1 # MIT
 types-pytz>=2022.1
+requests==2.28.1
+types-requests==2.28.11.4

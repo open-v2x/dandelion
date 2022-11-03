@@ -17,12 +17,13 @@ from __future__ import annotations
 from logging import LoggerAdapter
 from typing import Optional
 
-from fastapi import APIRouter, Depends, HTTPException, Query, status
+from fastapi import APIRouter, Depends, Query, status
 from oslo_log import log
 from sqlalchemy.orm import Session
 
 from dandelion import crud, models, schemas
 from dandelion.api import deps
+from dandelion.api.deps import OpenV2XHTTPException as HTTPException
 from dandelion.schemas.utils import Sort
 
 router = APIRouter()
