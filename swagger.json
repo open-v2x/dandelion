@@ -12309,8 +12309,7 @@
                     "name",
                     "point",
                     "phaseId",
-                    "light",
-                    "desc"
+                    "light"
                 ],
                 "type": "object",
                 "properties": {
@@ -12352,7 +12351,8 @@
                     "desc": {
                         "title": "Desc",
                         "type": "string",
-                        "description": "Description"
+                        "description": "Description",
+                        "default": ""
                     }
                 }
             },
@@ -12403,8 +12403,7 @@
                     "name",
                     "point",
                     "phaseId",
-                    "light",
-                    "desc"
+                    "light"
                 ],
                 "type": "object",
                 "properties": {
@@ -12446,7 +12445,8 @@
                     "desc": {
                         "title": "Desc",
                         "type": "string",
-                        "description": "Description"
+                        "description": "Description",
+                        "default": ""
                     }
                 }
             },

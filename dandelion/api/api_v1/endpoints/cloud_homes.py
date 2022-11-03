@@ -57,25 +57,25 @@ def online_rate(
     }
     # temporarily unavailable data
     camera_online_rate = {
-        "online": 0,
+        "online": crud.camera.get_multi_with_total(db)[0],
         "offline": 0,
-        "notRegister": crud.camera.get_multi_with_total(db)[0],
+        "notRegister": 0,
     }
     # temporarily unavailable data
     radar_online_rate = {
-        "online": 0,
+        "online": crud.radar.get_multi_with_total(db)[0],
         "offline": 0,
-        "notRegister": crud.radar.get_multi_with_total(db)[0],
+        "notRegister": 0,
     }
     lidar_online_rate = {
-        "online": 0,
+        "online": crud.lidar.get_multi_with_total(db)[0],
         "offline": 0,
-        "notRegister": crud.lidar.get_multi_with_total(db)[0],
+        "notRegister": 0,
     }
     spat_online_rate = {
-        "online": 0,
+        "online": crud.spat.get_multi_with_total(db)[0],
         "offline": 0,
-        "notRegister": crud.spat.get_multi_with_total(db)[0],
+        "notRegister": 0,
     }
     return schemas.OnlineRate(
         **{
