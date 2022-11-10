@@ -66,7 +66,7 @@ class CRUDRSUConfig(CRUDBase[RSUConfig, RSUConfigCreate, RSUConfigUpdate]):
     ) -> Tuple[int, List[RSUConfig]]:
         query_ = db.query(self.model)
         if name is not None:
-            query_ = query_.filter(self.model.name.like(f"%{name}%"))
+            query_ = self.fuzz_filter(query_, self.model.name, name)
         total = query_.count()
         if limit != -1:
             query_ = query_.offset(skip).limit(limit)

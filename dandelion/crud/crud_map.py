@@ -37,7 +37,7 @@ class CRUDMap(CRUDBase[Map, MapCreate, MapUpdate]):
     ) -> Tuple[int, List[Map]]:
         query_ = db.query(self.model)
         if name is not None:
-            query_ = query_.filter(self.model.name.like(f"%{name}%"))
+            query_ = self.fuzz_filter(query_, self.model.name, name)
         if area_code is not None:
             query_ = query_.filter(self.model.area_code == area_code)
         total = query_.count()
