@@ -76,3 +76,11 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         db.delete(obj)
         db.commit()
         return obj
+
+    @staticmethod
+    def fuzz_filter(query, model, field):
+        return (
+            query.filter(model.like(f"%/{field}%", escape="/"))
+            if field == "_"
+            else query.filter(model.like(f"%{field}%"))
+        )

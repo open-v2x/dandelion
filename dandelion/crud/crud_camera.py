@@ -49,9 +49,9 @@ class CRUDCamera(CRUDBase[Camera, CameraCreate, CameraUpdate]):
     ) -> Tuple[int, List[Camera]]:
         query_ = db.query(self.model).join(RSU, self.model.rsu_id == RSU.id)
         if sn is not None:
-            query_ = query_.filter(self.model.sn.like(f"%{sn}%"))
+            query_ = self.fuzz_filter(query_, self.model.sn, sn)
         if name is not None:
-            query_ = query_.filter(self.model.name.like(f"%{name}%"))
+            query_ = self.fuzz_filter(query_, self.model.name, name)
         if rsu_id is not None:
             query_ = query_.filter(self.model.rsu_id == rsu_id)
         if area_code is not None:
