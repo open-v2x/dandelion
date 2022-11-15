@@ -86,6 +86,8 @@ def get_current_user(
 
 def get_token(host: str) -> str:
     login_url = f"http://{host}:28300/api/v1/login"
-    login_res = requests.post(url=login_url, json={"username": "admin", "password": "dandelion"})
+    login_res = requests.post(
+        url=login_url, json={"username": CONF.user.username, "password": CONF.user.password}
+    )
     res = login_res.json()
     return f"{res.get('token_type')} {res.get('access_token')}"
