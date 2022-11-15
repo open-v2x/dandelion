@@ -57,7 +57,7 @@ jobs:
     needs: acr
     runs-on: ubuntu-latest
     steps:
-      - name: apply to all-in-one environment & sync image to ACR
+      - name: apply to all-in-one environment
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.AIO_MASTER_HOST }}
