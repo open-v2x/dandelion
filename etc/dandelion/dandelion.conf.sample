@@ -262,3 +262,22 @@
 # Secret key of token.
 #  (string value)
 #secret_key = CP7l45i1SEk7jues8DAcO3MnWe-NMKITz3XrMxHBZhY
+
+
+[user]
+#
+# user related options.
+
+#
+# From dandelion.conf
+#
+
+#
+# username.
+#  (string value)
+#username = admin
+
+#
+# user password.
+#  (string value)
+#password = dandelion
