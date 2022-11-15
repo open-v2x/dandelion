@@ -27,18 +27,23 @@ class EdgeNodeRSUBase(BaseModel):
 
 
 class Location(BaseModel):
-    lat: Optional[float] = Field(None, alias="lat", description="Latitude")
-    lon: Optional[float] = Field(None, alias="lon", description="Longitude")
+    lat: Optional[float] = Field(39.91, alias="lat", description="Latitude")
+    lon: Optional[float] = Field(116.40, alias="lon", description="Longitude")
+
+
+class EdgeNodeRsuCreateUpdate(EdgeNodeRSUBase):
+    area_code: Optional[str] = Field(None, alias="areaCode", description="Area Code")
+    edge_node_id: Optional[int] = Field(None, alias="edgeNodeID", description="Edge Node ID")
+    edge_rsu_id: int = Field(None, alias="edgeRsuID", description="Edge Rsu ID")
 
 
 # Properties to receive via API on creation
-class EdgeNodeRSUCreate(EdgeNodeRSUBase):
-    area_code: Optional[str] = Field(None, alias="areaCode", description="Area Code")
-    edge_node_id: Optional[int] = Field(None, alias="edgeNodeID", description="Edge Node ID")
+class EdgeNodeRSUCreate(EdgeNodeRsuCreateUpdate):
+    """"""
 
 
 # Properties to receive via API on update
-class EdgeNodeRSUUpdate(EdgeNodeRSUBase):
+class EdgeNodeRSUUpdate(EdgeNodeRsuCreateUpdate):
     """"""
 
 

@@ -18,6 +18,7 @@ import re
 from logging import LoggerAdapter
 from typing import Any, Dict, Generator, Optional
 
+import requests
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from jose import jwt
@@ -81,3 +82,10 @@ def get_current_user(
         LOG.error(err)
         raise OpenV2XHTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=err)
     return user
+
+
+def get_token(host: str) -> str:
+    login_url = f"http://{host}:28300/api/v1/login"
+    login_res = requests.post(url=login_url, json={"username": "admin", "password": "dandelion"})
+    res = login_res.json()
+    return f"{res.get('token_type')} {res.get('access_token')}"

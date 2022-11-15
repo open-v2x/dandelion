@@ -18,13 +18,14 @@ import json
 from logging import LoggerAdapter
 from typing import Any, Dict, List, Optional
 
+import requests
 from fastapi import APIRouter, Depends, Query, Response, status
 from oslo_log import log
 from redis import Redis
 from sqlalchemy import exc as sql_exc
 from sqlalchemy.orm import Session, exc as orm_exc
 
-from dandelion import crud, models, schemas
+from dandelion import constants, crud, models, schemas
 from dandelion.api import deps
 from dandelion.api.deps import OpenV2XHTTPException as HTTPException
 from dandelion.mqtt import cloud_server as mqtt_cloud_server
@@ -79,6 +80,7 @@ def create(
                     dict(
                         id=mqtt_cloud_server.EDGE_ID,
                         rsu=dict(
+                            edge_rsu_id=rsu_in_db.id,
                             name=rsu_in.rsu_name,
                             esn=rsu_in.rsu_esn,
                             areaCode=rsu_in.area_code,
@@ -221,6 +223,7 @@ def update(
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> schemas.RSU:
+    rsu_tmp: Optional[models.RSUTMP] = None
     rsu_in_db = crud.rsu.get(db, id=rsu_id)
     if not rsu_in_db:
         raise HTTPException(
@@ -228,6 +231,26 @@ def update(
         )
     try:
         new_rsu_in_db = crud.rsu.update(db, db_obj=rsu_in_db, obj_in=rsu_in)
+        if mqtt_cloud_server.MQTT_CLIENT is not None:
+            system_config_db = crud.system_config.get(db, id=1)
+            host = system_config_db.mqtt_config.get("host") if system_config_db else None
+            token = deps.get_token(host)
+            update_url = (
+                f"http://"
+                f"{host}:28300"
+                f"{constants.API_V1_STR}/edge_node_rsus/"
+                f"{mqtt_cloud_server.EDGE_ID}/"
+            )
+            data = dict(
+                edgeRsuID=rsu_in_db.id,
+                name=rsu_in.rsu_name,
+                esn=rsu_in.rsu_esn,
+                areaCode=rsu_in.area_code,
+                location=Optional_util.none(rsu_tmp).map(lambda v: v.location).orElse({}),
+            )
+            requests.put(url=update_url, json=data, headers={"Authorization": token})
+            # if res.status_code != status.HTTP_200_OK:
+            #     raise HTTPException(status_code=res.status_code, detail=res.text)
     except (sql_exc.DataError, sql_exc.IntegrityError) as ex:
         LOG.error(ex.args[0])
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=ex.args[0])

@@ -59,3 +59,45 @@ def get_all(
         area_code=area_code,
     )
     return schemas.EdgeNodeRSUs(total=total, data=[rsu.to_all_dict() for rsu in data])
+
+
+@router.put(
+    "/{edge_node_id}",
+    response_model=schemas.EdgeNodeRSU,
+    status_code=status.HTTP_200_OK,
+    description="""
+Update a RSU.
+""",
+    responses={
+        status.HTTP_200_OK: {"model": schemas.EdgeNodeRSU, "description": "OK"},
+        status.HTTP_401_UNAUTHORIZED: {
+            "model": schemas.ErrorMessage,
+            "description": "Unauthorized",
+        },
+        status.HTTP_403_FORBIDDEN: {"model": schemas.ErrorMessage, "description": "Forbidden"},
+        status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
+    },
+)
+def update(
+    edge_node_id: int,
+    edge_rsu_in: schemas.EdgeNodeRSUCreate,
+    *,
+    db: Session = Depends(deps.get_db),
+    current_user: models.User = Depends(deps.get_current_user),
+) -> schemas.EdgeNodeRSU:
+    edge_rsu_in_db = crud.edge_node_rsu.get_by_node_id_rsu(
+        db=db, edge_node_id=edge_node_id, edge_rsu_id=edge_rsu_in.edge_rsu_id
+    )
+    edge_rsu_in.edge_node_id = edge_node_id
+    location = edge_rsu_in.location
+    if location is not None:
+        edge_rsu_in.location = schemas.Location()
+        edge_rsu_in.location.lon = location.lon
+        edge_rsu_in.location.lat = location.lat
+    if edge_rsu_in_db:
+        edge_rsu_in_db = crud.edge_node_rsu.update(
+            db=db, db_obj=edge_rsu_in_db, obj_in=edge_rsu_in.dict()
+        )
+    else:
+        edge_rsu_in_db = crud.edge_node_rsu.create(db=db, obj_in=edge_rsu_in)
+    return edge_rsu_in_db.to_all_dict()

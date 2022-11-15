@@ -7601,6 +7601,91 @@
                         "OAuth2PasswordBearer": []
                     }
                 ]
+            },
+            "post": {
+                "tags": [
+                    "Edge Node"
+                ],
+                "summary": "Create",
+                "description": "Create a new edge node.",
+                "operationId": "create_api_v1_edge_nodes_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/EdgeNodeCreate"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EdgeNode"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
             }
         },
         "/api/v1/edge_node_rsus": {
@@ -7664,6 +7749,94 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/EdgeNodeRSUs"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/edge_node_rsus/{edge_node_id}": {
+            "put": {
+                "tags": [
+                    "Edge Node RSU"
+                ],
+                "summary": "Update",
+                "description": "Update a RSU.",
+                "operationId": "update_api_v1_edge_node_rsus__edge_node_id__put",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Edge Node Id",
+                            "type": "integer"
+                        },
+                        "name": "edge_node_id",
+                        "in": "path"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/EdgeNodeRSUCreate"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EdgeNodeRSU"
                                 }
                             }
                         }
@@ -8212,6 +8385,17 @@
                     }
                 }
             },
+            "EdgeNodeCreate": {
+                "title": "EdgeNodeCreate",
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "title": "Name",
+                        "type": "string",
+                        "description": "Edge Node Name"
+                    }
+                }
+            },
             "EdgeNodeRSU": {
                 "title": "EdgeNodeRSU",
                 "required": [
@@ -8242,6 +8426,46 @@
                         "title": "Id",
                         "type": "integer",
                         "description": "RSU ID"
+                    }
+                }
+            },
+            "EdgeNodeRSUCreate": {
+                "title": "EdgeNodeRSUCreate",
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "title": "Name",
+                        "type": "string",
+                        "description": "RSU Name"
+                    },
+                    "esn": {
+                        "title": "Esn",
+                        "type": "string",
+                        "description": "RSU ESN"
+                    },
+                    "location": {
+                        "title": "Location",
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/Location"
+                            }
+                        ],
+                        "description": "Location"
+                    },
+                    "areaCode": {
+                        "title": "Areacode",
+                        "type": "string",
+                        "description": "Area Code"
+                    },
+                    "edgeNodeID": {
+                        "title": "Edgenodeid",
+                        "type": "integer",
+                        "description": "Edge Node ID"
+                    },
+                    "edgeRsuID": {
+                        "title": "Edgersuid",
+                        "type": "integer",
+                        "description": "Edge Rsu ID"
                     }
                 }
             },
@@ -8753,12 +8977,14 @@
                     "lat": {
                         "title": "Lat",
                         "type": "number",
-                        "description": "Latitude"
+                        "description": "Latitude",
+                        "default": 39.91
                     },
                     "lon": {
                         "title": "Lon",
                         "type": "number",
-                        "description": "Longitude"
+                        "description": "Longitude",
+                        "default": 116.4
                     }
                 }
             },

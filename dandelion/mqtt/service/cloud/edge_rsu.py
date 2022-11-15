@@ -43,11 +43,12 @@ class EdgeRSURouterHandler(RouterHandler):
                     edge_node_rsu.name = node_rsu.get("name", "")
                     edge_node_rsu.esn = node_rsu.get("esn", "")
                     edge_node_rsu.area_code = node_rsu.get("areaCode", "")
+                    edge_node_rsu.edge_rsu_id = node_rsu.get("edge_rsu_id")
                     location = node_rsu.get("location", {})
                     if location:
                         edge_node_rsu.location = schemas.Location()
-                        edge_node_rsu.location.lon = location.get("lon", 0)
-                        edge_node_rsu.location.lat = location.get("lat", 0)
+                        edge_node_rsu.location.lon = location.get("lon", 116.40)
+                        edge_node_rsu.location.lat = location.get("lat", 39.91)
                     _ = crud.edge_node_rsu.create(db, obj_in=edge_node_rsu)
 
         LOG.info(f"{topic} => Edge RSU synced")

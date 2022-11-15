@@ -56,6 +56,14 @@ class CRUDEdgeNodeRSU(CRUDBase[EdgeNodeRSU, EdgeNodeRSUCreate, EdgeNodeRSUUpdate
             .first()
         )
 
+    def get_by_node_id_rsu(self, db: Session, *, edge_node_id: int, edge_rsu_id: int):
+        return (
+            db.query(self.model)
+            .filter(self.model.edge_node_id == edge_node_id)
+            .filter(self.model.edge_rsu_id == edge_rsu_id)
+            .first()
+        )
+
     def remove_by_node_id(self, db: Session, *, edge_node_id: int):
         db.execute(delete(self.model).where(self.model.edge_node_id == edge_node_id))
         db.commit()
