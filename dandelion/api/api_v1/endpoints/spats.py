@@ -57,7 +57,20 @@ def create(
 ) -> schemas.Spat:
     try:
         spat_in_db = crud.spat.create(db, obj_in=spat_in)
-    except (sql_exc.IntegrityError, sql_exc.DataError) as ex:
+    except sql_exc.IntegrityError as ex:
+        LOG.error(ex.args[0])
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail={
+                "code": 1116,
+                "msg": "error",
+                "detail": {
+                    "intersection_id": spat_in.intersection_id,
+                    "phase_id": spat_in.phase_id,
+                },
+            },
+        )
+    except sql_exc.DataError as ex:
         LOG.error(ex.args[0])
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=ex.args[0])
     spat_publish(spat_in_db)
@@ -206,7 +219,20 @@ def update(
         )
     try:
         new_spat_in_db = crud.spat.update(db, db_obj=spat_in_db, obj_in=spat_in)
-    except (sql_exc.DataError, sql_exc.IntegrityError) as ex:
+    except sql_exc.IntegrityError as ex:
+        LOG.error(ex.args[0])
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail={
+                "code": 1116,
+                "msg": "error",
+                "detail": {
+                    "intersection_id": spat_in.intersection_id,
+                    "phase_id": spat_in.phase_id,
+                },
+            },
+        )
+    except sql_exc.DataError as ex:
         LOG.error(ex.args[0])
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=ex.args[0])
     spat_publish(spat_in_db)

@@ -8967,6 +8967,11 @@
                         "title": "Msg",
                         "type": "string",
                         "description": "Response message"
+                    },
+                    "detail": {
+                        "title": "Detail",
+                        "type": "object",
+                        "description": "Response detail"
                     }
                 }
             },

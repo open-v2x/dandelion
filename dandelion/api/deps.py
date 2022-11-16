@@ -44,11 +44,12 @@ class OpenV2XHTTPException(HTTPException):
         detail: Any = None,
         headers: Optional[Dict[str, Any]] = None,
     ) -> None:
-        if detail.startswith("(sqlite3.IntegrityError)"):
-            detail = {"code": 1062, "msg": detail.split(")")[1].split(":")[1].split(".")[1]}
-        elif detail.startswith("(pymysql"):
-            code, msg = eval(re.findall(r"\(.*?\)", detail)[1])
-            detail = {"code": code, "msg": re.findall("'.*?'", msg)[0]}
+        if isinstance(detail, str):
+            if detail.startswith("(sqlite3.IntegrityError)"):
+                detail = {"code": 1062, "msg": detail.split(")")[1].split(":")[1].split(".")[1]}
+            elif detail.startswith("(pymysql"):
+                code, msg = eval(re.findall(r"\(.*?\)", detail)[1])
+                detail = {"code": code, "msg": re.findall("'.*?'", msg)[0]}
         if not isinstance(detail, dict):
             detail = {"code": status_code, "msg": detail}
         super().__init__(status_code=status_code, detail=detail, headers=headers)
