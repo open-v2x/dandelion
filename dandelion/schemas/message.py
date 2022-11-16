@@ -14,12 +14,15 @@
 
 from __future__ import annotations
 
+from typing import Any, Dict, Optional
+
 from pydantic import BaseModel, Field
 
 
 class ListDetailBase(BaseModel):
     code: int = Field(..., alias="code", description="Response code")
     msg: str = Field(..., alias="msg", description="Response message")
+    detail: Optional[Dict[str, Any]] = Field(None, alias="detail", description="Response detail")
 
 
 class MessageBase(BaseModel):
