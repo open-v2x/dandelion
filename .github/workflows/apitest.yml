@@ -3,7 +3,7 @@ name: test
 on:
   pull_request:
     branches:
-      - 'master'
+      - 'beihai'
 
 jobs:
             
@@ -23,8 +23,8 @@ jobs:
         shell: bash
         run: |
           sudo unalias cp 2>/dev/null || true
-          sudo rm -rf openv2x-aio-master.tar.gz && wget https://openv2x.oss-ap-southeast-1.aliyuncs.com/deploy/master/openv2x-aio-master.tar.gz
-          sudo rm -rf src && tar zxvf openv2x-aio-master.tar.gz
+          sudo rm -rf openv2x-aio-beihai.tar.gz && wget https://openv2x.oss-ap-southeast-1.aliyuncs.com/deploy/beihai/openv2x-aio-beihai.tar.gz
+          sudo rm -rf src && tar zxvf openv2x-aio-beihai.tar.gz
           sudo rm -rf /openv2x/data && sudo mkdir -pv /openv2x/data
           sudo cp -rf src/deploy/mysql /openv2x/data/
           sudo cp -f src/deploy/docker-compose-pre.yaml /tmp/docker-compose-pre.yaml
