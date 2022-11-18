@@ -16,16 +16,29 @@ from __future__ import annotations
 
 from oslo_config import cfg
 
-from dandelion.conf import cors, database, iam, mode, mqtt, redis, token, user
+user_group = cfg.OptGroup(
+    name="iam",
+    title="iam Options",
+    help="""
+iam related options.
+""",
+)
 
-CONF: cfg = cfg.CONF
+user_opts = [
+    cfg.StrOpt(
+        "get_auth_info_url",
+        default="https://localhost:28300/api/iam/?Action=GetAuthInfo",
+        help="""
+iam get_auth_info_url.
+""",
+    ),
+]
 
 
-cors.register_opts(CONF)
-database.register_opts(CONF)
-mqtt.register_opts(CONF)
-redis.register_opts(CONF)
-token.register_opts(CONF)
-mode.register_opts(CONF)
-user.register_opts(CONF)
-iam.register_opts(CONF)
+def register_opts(conf):
+    conf.register_group(user_group)
+    conf.register_opts(user_opts, group=user_group)
+
+
+def list_opts():
+    return {user_group: user_opts}

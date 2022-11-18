@@ -27,6 +27,7 @@ jobs:
           sudo rm -rf src && tar zxvf openv2x-aio-master.tar.gz
           sudo rm -rf /openv2x/data && sudo mkdir -pv /openv2x/data
           sudo cp -rf src/deploy/mysql /openv2x/data/
+          sudo cp -rf src/deploy/lalserver /openv2x/data/
           sudo cp -f src/deploy/docker-compose-pre.yaml /tmp/docker-compose-pre.yaml
           sudo sed -i "s/8084/8085/" /tmp/docker-compose-pre.yaml
           sudo docker-compose -f /tmp/docker-compose-pre.yaml up -d

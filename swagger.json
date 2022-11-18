@@ -109,6 +109,61 @@
                 }
             }
         },
+        "/api/v1/login/iam": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Iam Login",
+                "description": "User login with iam token.",
+                "operationId": "iam_login_api_v1_login_iam_post",
+                "parameters": [
+                    {
+                        "description": "Iam token",
+                        "required": true,
+                        "schema": {
+                            "title": "Iamtoken",
+                            "type": "string",
+                            "description": "Iam token"
+                        },
+                        "name": "IamToken",
+                        "in": "header"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Token"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/users": {
             "post": {
                 "tags": [
