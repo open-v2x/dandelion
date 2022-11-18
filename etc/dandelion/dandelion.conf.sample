@@ -178,6 +178,20 @@
 #max_overflow = 1000
 
 
+[iam]
+#
+# iam related options.
+
+#
+# From dandelion.conf
+#
+
+#
+# iam get_auth_info_url.
+#  (string value)
+#get_auth_info_url = https://localhost:28300/api/iam/?Action=GetAuthInfo
+
+
 [mode]
 #
 # Mode related options.

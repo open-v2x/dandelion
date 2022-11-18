@@ -17,7 +17,9 @@ from __future__ import annotations
 from datetime import timedelta
 from logging import LoggerAdapter
 
-from fastapi import APIRouter, Body, Depends, status
+import requests
+import urllib3
+from fastapi import APIRouter, Body, Depends, Header, status
 from fastapi.security import OAuth2PasswordRequestForm
 from oslo_config import cfg
 from oslo_log import log
@@ -118,6 +120,39 @@ def access_token(
         LOG.error(err)
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=err)
 
+    access_token_expires = timedelta(seconds=CONF.token.expire_seconds)
+    access_token = security.create_access_token(user.id, expires_delta=access_token_expires)
+    return schemas.Token(access_token=access_token, token_type="bearer")
+
+
+@router.post(
+    "/iam",
+    response_model=schemas.Token,
+    status_code=status.HTTP_200_OK,
+    summary="Iam Login",
+    description="""
+User login with iam token.
+""",
+    responses={
+        200: {"model": schemas.Token, "description": "OK"},
+        400: {"model": schemas.ErrorMessage, "description": "Bad Request"},
+    },
+)
+def iam_login(
+    db: Session = Depends(deps.get_db),
+    iam_token: str = Header(..., alias="IamToken", description="Iam token"),
+) -> schemas.Token:
+    urllib3.disable_warnings()
+    res = requests.get(
+        url=CONF.iam.get_auth_info_url, headers={"X-Auth-Token": str(iam_token)}, verify=False
+    )
+    if res.status_code != status.HTTP_200_OK:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Incorrect iam token")
+    username = res.json().get("UserId")
+    user = crud.user.get_by_username(db, username=username)
+    if not user:
+        user_obj_in = schemas.UserCreate(username=username, password=CONF.user.password)
+        user = crud.user.create(db, obj_in=user_obj_in)
     access_token_expires = timedelta(seconds=CONF.token.expire_seconds)
     access_token = security.create_access_token(user.id, expires_delta=access_token_expires)
     return schemas.Token(access_token=access_token, token_type="bearer")
