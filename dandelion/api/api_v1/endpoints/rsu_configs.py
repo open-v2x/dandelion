@@ -24,7 +24,7 @@ from sqlalchemy.orm import Session
 
 from dandelion import crud, models, schemas
 from dandelion.api import deps
-from dandelion.api.deps import OpenV2XHTTPException as HTTPException
+from dandelion.api.deps import OpenV2XHTTPException as HTTPException, error_handle
 from dandelion.mqtt.service.rsu.rsu_config import config_down
 
 router = APIRouter()
@@ -71,9 +71,8 @@ def create(
 
     try:
         rsu_config_in_db = crud.rsu_config.create_rsu_config(db, obj_in=rsu_config_in, rsus=rsus)
-    except sql_exc.IntegrityError as ex:
-        LOG.error(ex.args[0])
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=ex.args[0])
+    except (sql_exc.DataError, sql_exc.IntegrityError) as ex:
+        raise error_handle(ex, "name", rsu_config_in.name)
 
     # config down
     data = rsu_config_in_db.mqtt_dict()

@@ -27,7 +27,7 @@ from sqlalchemy.orm import Session, exc as orm_exc
 
 from dandelion import constants, crud, models, schemas
 from dandelion.api import deps
-from dandelion.api.deps import OpenV2XHTTPException as HTTPException
+from dandelion.api.deps import OpenV2XHTTPException as HTTPException, error_handle
 from dandelion.mqtt import cloud_server as mqtt_cloud_server
 from dandelion.mqtt.topic import v2x_edge
 from dandelion.util import Optional as Optional_util
@@ -93,7 +93,7 @@ def create(
                 qos=0,
             )
     except (sql_exc.IntegrityError, sql_exc.DataError) as ex:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=ex.args[0])
+        raise error_handle(ex, "rsu_esn", rsu_in.rsu_esn)
     return rsu_in_db.to_all_dict()
 
 
@@ -252,8 +252,7 @@ def update(
             # if res.status_code != status.HTTP_200_OK:
             #     raise HTTPException(status_code=res.status_code, detail=res.text)
     except (sql_exc.DataError, sql_exc.IntegrityError) as ex:
-        LOG.error(ex.args[0])
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=ex.args[0])
+        raise error_handle(ex, "rsu_esn", rsu_in.rsu_esn)
     return new_rsu_in_db.to_all_dict()
 
 

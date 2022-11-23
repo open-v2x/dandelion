@@ -19,6 +19,7 @@ from logging import LoggerAdapter
 from typing import Any, Dict, Generator, Optional
 
 import requests
+import sqlalchemy.exc
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from jose import jwt
@@ -44,12 +45,9 @@ class OpenV2XHTTPException(HTTPException):
         detail: Any = None,
         headers: Optional[Dict[str, Any]] = None,
     ) -> None:
-        if isinstance(detail, str):
-            if detail.startswith("(sqlite3.IntegrityError)"):
-                detail = {"code": 1062, "msg": detail.split(")")[1].split(":")[1].split(".")[1]}
-            elif detail.startswith("(pymysql"):
-                code, msg = eval(re.findall(r"\(.*?\)", detail)[1])
-                detail = {"code": code, "msg": re.findall("'.*?'", msg)[0]}
+        if isinstance(detail, str) and detail.startswith("(pymysql.err.DataError)"):
+            code, msg = eval(re.findall(r"\(.*?\)", detail)[1])
+            detail = {"code": code, "msg": re.findall("'.*?'", msg)[0]}
         if not isinstance(detail, dict):
             detail = {"code": status_code, "msg": detail}
         super().__init__(status_code=status_code, detail=detail, headers=headers)
@@ -92,3 +90,19 @@ def get_token(host: str) -> str:
     )
     res = login_res.json()
     return f"{res.get('token_type')} {res.get('access_token')}"
+
+
+def error_handle(err: sqlalchemy.exc.DatabaseError, field: str, field_data: Optional[str]):
+    err_msg = err.args[0]
+    LOG.error(err_msg)
+    if isinstance(err, sqlalchemy.exc.IntegrityError):
+        return OpenV2XHTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail={
+                "code": 1062,
+                "msg": err_msg,
+                "detail": {field: field_data},
+            },
+        )
+    else:
+        return OpenV2XHTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=err_msg)

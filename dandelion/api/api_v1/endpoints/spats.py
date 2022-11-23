@@ -63,7 +63,7 @@ def create(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail={
                 "code": 1116,
-                "msg": "error",
+                "msg": ex.args[0],
                 "detail": {
                     "intersection_id": spat_in.intersection_id,
                     "phase_id": spat_in.phase_id,
