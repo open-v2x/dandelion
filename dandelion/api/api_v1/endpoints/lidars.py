@@ -24,7 +24,7 @@ from sqlalchemy.orm import Session
 
 from dandelion import crud, models, schemas
 from dandelion.api import deps
-from dandelion.api.deps import OpenV2XHTTPException as HTTPException
+from dandelion.api.deps import OpenV2XHTTPException as HTTPException, error_handle
 
 router = APIRouter()
 LOG: LoggerAdapter = log.getLogger(__name__)
@@ -57,8 +57,7 @@ def create(
     try:
         lidar_in_db = crud.lidar.create(db, obj_in=lidar_in)
     except (sql_exc.IntegrityError, sql_exc.DataError) as ex:
-        LOG.error(ex.args[0])
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=ex.args[0])
+        raise error_handle(ex, "sn", lidar_in.sn)
     return lidar_in_db.to_dict()
 
 
@@ -205,8 +204,7 @@ def update(
     try:
         new_lidar_id_db = crud.lidar.update(db, db_obj=lidar_id_db, obj_in=lidar_in)
     except (sql_exc.DataError, sql_exc.IntegrityError) as ex:
-        LOG.error(ex.args[0])
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=ex.args[0])
+        raise error_handle(ex, "sn", lidar_in.sn)
     return new_lidar_id_db.to_dict()
 
 
@@ -243,7 +241,7 @@ def update_enabled(
         return lidar_id_db.to_dict()
     try:
         new_lidar_id_db = crud.lidar.update(db, db_obj=lidar_id_db, obj_in=lidar_in)
-    except (sql_exc.DataError, sql_exc.IntegrityError) as ex:
+    except sql_exc.DataError as ex:
         LOG.error(ex.args[0])
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=ex.args[0])
     return new_lidar_id_db.to_dict()

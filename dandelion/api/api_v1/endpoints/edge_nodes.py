@@ -87,6 +87,6 @@ def create(
 ) -> schemas.EdgeNode:
     try:
         edge_node_in_db = crud.edge_node.create(db, obj_in=edge_node_in)
-    except (sql_exc.IntegrityError, sql_exc.DataError) as ex:
+    except sql_exc.DataError as ex:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=ex.args[0])
     return edge_node_in_db.to_all_dict()

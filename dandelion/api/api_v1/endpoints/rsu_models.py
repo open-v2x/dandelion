@@ -24,7 +24,7 @@ from sqlalchemy.orm import Session
 
 from dandelion import crud, models, schemas
 from dandelion.api import deps
-from dandelion.api.deps import OpenV2XHTTPException as HTTPException
+from dandelion.api.deps import OpenV2XHTTPException as HTTPException, error_handle
 
 router = APIRouter()
 LOG: LoggerAdapter = log.getLogger(__name__)
@@ -57,8 +57,7 @@ def create(
     try:
         rsu_model_in_db = crud.rsu_model.create(db, obj_in=rsu_model_in)
     except (sql_exc.IntegrityError, sql_exc.DataError) as ex:
-        LOG.error(ex.args[0])
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=ex.args[0])
+        raise error_handle(ex, "name", rsu_model_in.name)
     return rsu_model_in_db.to_dict()
 
 
@@ -200,6 +199,5 @@ def update(
             db, db_obj=rsu_model_in_db, obj_in=rsu_model_in
         )
     except (sql_exc.DataError, sql_exc.IntegrityError) as ex:
-        LOG.error(ex.args[0])
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=ex.args[0])
+        raise error_handle(ex, "name", rsu_model_in.name)
     return new_rsu_model_in_db.to_dict()

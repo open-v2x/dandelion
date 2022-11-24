@@ -98,7 +98,7 @@ def update(
         )
     try:
         new_mng_in_db = crud.mng.update_mng(db, db_obj=mng_in_db, obj_in=mng_in)
-    except (sql_exc.DataError, sql_exc.IntegrityError) as ex:
+    except sql_exc.DataError as ex:
         LOG.error(ex.args[0])
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=ex.args[0])
     return new_mng_in_db.all_dict()

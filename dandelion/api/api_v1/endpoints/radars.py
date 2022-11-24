@@ -24,7 +24,7 @@ from sqlalchemy.orm import Session
 
 from dandelion import crud, models, schemas
 from dandelion.api import deps
-from dandelion.api.deps import OpenV2XHTTPException as HTTPException
+from dandelion.api.deps import OpenV2XHTTPException as HTTPException, error_handle
 
 router = APIRouter()
 LOG: LoggerAdapter = log.getLogger(__name__)
@@ -57,8 +57,7 @@ def create(
     try:
         radar_in_db = crud.radar.create(db, obj_in=radar_in)
     except (sql_exc.IntegrityError, sql_exc.DataError) as ex:
-        LOG.error(ex.args[0])
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=ex.args[0])
+        raise error_handle(ex, "sn", radar_in.sn)
     return radar_in_db.to_dict()
 
 
@@ -197,6 +196,5 @@ def update(
     try:
         new_radar_in_db = crud.radar.update(db, db_obj=radar_in_db, obj_in=radar_in)
     except (sql_exc.DataError, sql_exc.IntegrityError) as ex:
-        LOG.error(ex.args[0])
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=ex.args[0])
+        raise error_handle(ex, "sn", radar_in.sn)
     return new_radar_in_db.to_dict()

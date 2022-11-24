@@ -24,7 +24,7 @@ from sqlalchemy.orm import Session
 
 from dandelion import crud, models, schemas
 from dandelion.api import deps
-from dandelion.api.deps import OpenV2XHTTPException as HTTPException
+from dandelion.api.deps import OpenV2XHTTPException as HTTPException, error_handle
 from dandelion.util import Optional as Optional_util
 
 router = APIRouter()
@@ -66,8 +66,8 @@ def create(
     )
     try:
         map_in_db = crud.map.create(db, obj_in=new_map_in)
-    except sql_exc.IntegrityError as ex:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=ex.args[0])
+    except (sql_exc.DataError, sql_exc.IntegrityError) as ex:
+        raise error_handle(ex, "name", map_in.name)
     return map_in_db.to_dict()
 
 
@@ -210,8 +210,7 @@ def update(
     try:
         new_map_in_db = crud.map.update(db, db_obj=map_in_db, obj_in=new_map_in.__dict__)
     except (sql_exc.DataError, sql_exc.IntegrityError) as ex:
-        LOG.error(ex.args[0])
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=ex.args[0])
+        raise error_handle(ex, "name", map_in.name)
     return new_map_in_db.to_dict()
 
 
