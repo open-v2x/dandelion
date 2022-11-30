@@ -43,7 +43,7 @@ Get all Edge Node RSUs.
 )
 def get_all(
     node_id: int = Query(None, alias="nodeId", description=""),
-    area_code: str = Query(None, alias="areaCode", description=""),
+    intersection_code: str = Query(None, alias="intersectionCode", description=""),
     page_num: int = Query(1, alias="pageNum", ge=1, description="Page number"),
     page_size: int = Query(10, alias="pageSize", ge=-1, description="Page size"),
     *,
@@ -56,7 +56,7 @@ def get_all(
         skip=skip,
         limit=page_size,
         node_id=node_id,
-        area_code=area_code,
+        intersection_code=intersection_code,
     )
     return schemas.EdgeNodeRSUs(total=total, data=[rsu.to_all_dict() for rsu in data])
 

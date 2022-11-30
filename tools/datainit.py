@@ -24,6 +24,7 @@ from dandelion.models import (
     Area,
     City,
     Country,
+    Intersection,
     Province,
     RSUConfig,
     RSUConfigRSU,
@@ -93,6 +94,22 @@ def init_db() -> None:
     area3.name = "滨湖区"
     session_.add(area3)
 
+    intersection1 = Intersection()
+    intersection1.code = "32010601"
+    intersection1.name = "鼓楼交叉路口"
+    intersection1.lat = 31.934846637757847
+    intersection1.lng = 118.8213963998263
+    intersection1.area_code = "320106"
+    session_.add(intersection1)
+
+    intersection2 = Intersection()
+    intersection2.code = "32011501"
+    intersection2.name = "江宁交叉路口"
+    intersection2.lat = 31.929900
+    intersection2.lng = 118.862336
+    intersection2.area_code = "320115"
+    session_.add(intersection2)
+
     rsu_model1 = RSUModel()
     rsu_model1.name = "RSU1"
     rsu_model1.manufacturer = "华为"
@@ -112,8 +129,7 @@ def init_db() -> None:
     rsu1.location = {"lon": 118.8213963998263, "lat": 31.934846637757847}
     rsu1.config = {}
     rsu1.rsu_model_id = rsu_model1.id
-    rsu1.area_code = "320115"
-    rsu1.address = "江宁交叉路口"
+    rsu1.intersection_code = "32011501"
     rsu1.desc = ""
     rsu1.bias_x = 0.0
     rsu1.bias_y = 0.0
@@ -168,8 +184,7 @@ def init_db() -> None:
     rsu2.location = {"lon": 118.862336, "lat": 31.929900}
     rsu2.config = {}
     rsu2.rsu_model_id = rsu_model1.id
-    rsu2.area_code = "320115"
-    rsu2.address = "江宁交叉路口"
+    rsu2.intersection_code = "32011501"
     rsu2.desc = ""
     rsu2.bias_x = 74.67
     rsu2.bias_y = 78.91

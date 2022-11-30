@@ -50,7 +50,9 @@ class RSIEventCreate(BaseModel):
     reference_paths: Optional[str] = Field(
         None, alias="referencePaths", description="Reference paths"
     )
-    area_code: Optional[str] = Field(None, alias="areaCode", description="Area code")
+    intersection_code: Optional[str] = Field(
+        None, alias="intersectionCode", description="Intersection code"
+    )
 
 
 # Properties to receive via API on update
@@ -69,7 +71,6 @@ class RSIEventInDBBase(RSIEventBase):
 class RSIEvent(RSIEventInDBBase):
     rsu_name: str = Field(..., alias="rsuName", description="RSU name")
     rsu_esn: str = Field(..., alias="rsuEsn", description="RSU esn")
-    address: str = Field(..., alias="address", description="RSU address")
     event_class: str = Field(..., alias="eventClass", description="Event class")
     event_type: Optional[int] = Field(None, alias="eventType", description="Event type")
     create_time: datetime = Field(..., alias="createTime", description="Create time")
@@ -81,6 +82,8 @@ class RSIEvent(RSIEventInDBBase):
     city_name: str = Field(..., alias="cityName", description="City Name")
     area_code: str = Field(..., alias="areaCode", description="Area Code")
     area_name: str = Field(..., alias="areaName", description="Area Name")
+    intersection_code: str = Field(..., alias="intersectionCode", description="Intersection Code")
+    intersection_name: str = Field(..., alias="intersectionName", description="Intersection Name")
     alert_id: str = Field(..., alias="alertID", description="Alert id")
     duration: Optional[int] = Field(None, alias="duration", description="Duration")
     event_status: bool = Field(..., alias="eventStatus", description="Event status")

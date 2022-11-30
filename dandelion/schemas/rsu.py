@@ -47,7 +47,8 @@ class RSUBase(BaseModel):
     city_name: str = Field(..., alias="cityName", description="City Name")
     area_code: str = Field(..., alias="areaCode", description="Area Code")
     area_name: str = Field(..., alias="areaName", description="Area Name")
-    address: str = Field(..., alias="address", description="Address")
+    intersection_code: str = Field(..., alias="intersectionCode", description="Intersection Code")
+    intersection_name: str = Field(..., alias="intersectionName", description="Intersection Name")
     rsu_status: str = Field(..., alias="rsuStatus", description="RSU Status")
     enabled: Optional[bool] = Field(None, alias="enabled", description="Enable RSU or not")
     online_status: bool = Field(..., alias="onlineStatus", description="Online Status")
@@ -66,10 +67,11 @@ class RSUCreate(BaseModel):
     rsu_name: str = Field(..., alias="rsuName", description="RSU Name")
     rsu_esn: str = Field(..., alias="rsuEsn", description="RSU ESN")
     rsu_ip: str = Field(..., alias="rsuIP", description="RSU IP")
-    area_code: str = Field(..., alias="areaCode", description="Area Code")
-    address: str = Field(..., alias="address", description="Address")
+    intersection_code: str = Field(..., alias="intersectionCode", description="Intersection Code")
     rsu_model_id: Optional[int] = Field(None, alias="rsuModelId", description="RSU Model ID")
     desc: Optional[str] = Field(None, alias="desc", description="Description")
+    lat: str = Field(..., alias="lat", description="Latitude")
+    lon: str = Field(..., alias="lon", description="Longitude")
 
 
 # Properties to receive via API on update
@@ -78,12 +80,15 @@ class RSUUpdate(BaseModel):
     rsu_name: Optional[str] = Field(None, alias="rsuName", description="RSU Name")
     rsu_esn: Optional[str] = Field(None, alias="rsuEsn", description="RSU ESN")
     rsu_ip: Optional[str] = Field(None, alias="rsuIP", description="RSU IP")
-    area_code: Optional[str] = Field(None, alias="areaCode", description="Area Code")
-    address: Optional[str] = Field(None, alias="address", description="Address")
+    intersection_code: Optional[str] = Field(
+        None, alias="intersectionCode", description="intersection Code"
+    )
     rsu_model_id: Optional[int] = Field(None, alias="rsuModelId", description="RSU Model ID")
     desc: Optional[str] = Field(None, alias="desc", description="Description")
     rsu_status: Optional[str] = Field(None, alias="rsuStatus", description="RSU Status")
     enabled: Optional[bool] = Field(None, alias="enabled", description="Enable RSU or not")
+    lat: str = Field(..., alias="lat", description="Latitude")
+    lon: str = Field(..., alias="lon", description="Longitude")
 
 
 class RSUUpdateWithVersion(BaseModel):
@@ -102,7 +107,9 @@ class RSUUpdateWithBaseInfo(BaseModel):
     rsu_id: Optional[str] = Field(None, alias="rsuId", description="RSU ID")
     version: Optional[str] = Field(None, alias="version", description="Version")
     location: Optional[RSULocation] = Field(None, alias="location", description="Location")
-    area_code: Optional[str] = Field(None, alias="regionId", description="RSU Area Code")
+    intersection_code: Optional[str] = Field(
+        None, alias="regionId", description="RSU Intersection Code"
+    )
     rsu_status: Optional[str] = Field(None, alias="rsuStatus", description="RSU Status")
     imei: Optional[str] = Field(None, alias="imei", description="RSU IMEI")
     icc_id: Optional[str] = Field(None, alias="iccId", description="RSU ICC ID")

@@ -28,8 +28,7 @@ class MapBase(BaseModel):
 # Properties to receive via API on creation
 class MapCreate(BaseModel):
     name: str = Field(..., alias="name", description="Map Name")
-    area_code: str = Field(..., alias="areaCode", description="Area Code")
-    address: str = Field(..., alias="address", description="Address")
+    intersection_code: str = Field(..., alias="intersectionCode", description="Intersection Code")
     desc: Optional[str] = Field("", alias="desc", description="Description")
     data: Dict[str, Any] = Field(..., alias="data", description="Data")
 
@@ -37,9 +36,8 @@ class MapCreate(BaseModel):
 # Properties to receive via API on update
 class MapUpdate(MapBase):
     name: str = Field(..., alias="name", description="Name")
-    area_code: str = Field(..., alias="areaCode", description="Area Code")
-    address: str = Field(..., alias="address", description="Address")
-    desc: Optional[str] = Field(None, alias="desc", description="Description")
+    intersection_code: str = Field(..., alias="intersectionCode", description="Intersection Code")
+    desc: Optional[str] = Field("", alias="desc", description="Description")
     data: Optional[Dict[str, Any]] = Field(None, alias="data", description="Data")
 
 
@@ -53,7 +51,6 @@ class MapInDBBase(MapBase):
 # Additional properties to return via API
 class Map(MapInDBBase):
     name: str = Field(..., alias="name", description="Map Name")
-    address: str = Field(..., alias="address", description="Address")
     desc: str = Field(..., alias="desc", description="Description")
     amount: int = Field(..., alias="amount", description="Count of RSUs")
     lat: float = Field(..., alias="lat", description="Latitude")
@@ -67,6 +64,8 @@ class Map(MapInDBBase):
     city_name: str = Field(..., alias="cityName", description="City Name")
     area_code: str = Field(..., alias="areaCode", description="Area Code")
     area_name: str = Field(..., alias="areaName", description="Area Name")
+    intersection_code: str = Field(..., alias="intersectionCode", description="Intersection Code")
+    intersection_name: str = Field(..., alias="intersectionName", description="Intersection Name")
 
 
 class Maps(BaseModel):

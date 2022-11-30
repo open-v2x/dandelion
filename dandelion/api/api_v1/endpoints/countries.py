@@ -50,10 +50,13 @@ def get_all(
     cascade: Optional[bool] = Query(
         None, alias="cascade", description="Cascade to list all countries."
     ),
+    need_intersection: Optional[bool] = Query(
+        True, alias="needIntersection", description="Need intersection data."
+    ),
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> List[schemas.Country]:
     countries = crud.country.get_multi(db)
     if cascade:
-        return [country.to_all_dict() for country in countries]
+        return [country.to_all_dict(need_intersection) for country in countries]
     return [country.to_dict() for country in countries]

@@ -45,7 +45,7 @@ def refresh_cloud_rsu(db: Session):
             node_rsu = dict(
                 name=rsu.rsu_name,
                 esn=rsu.rsu_esn,
-                areaCode=rsu.area_code,
+                intersectionCode=rsu.intersection_code,
                 location=rsu.location,
                 edge_rsu_id=rsu.id,
             )

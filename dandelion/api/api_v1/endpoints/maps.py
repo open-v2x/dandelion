@@ -57,8 +57,7 @@ def create(
 ) -> schemas.Map:
     new_map_in = models.Map(
         name=map_in.name,
-        area_code=map_in.area_code,
-        address=map_in.address,
+        intersection_code=map_in.intersection_code,
         desc=map_in.desc,
         data=map_in.data,
         lng=Optional_util.none(map_in.data.get("refPos")).map(lambda v: v.get("lon")).orElse(0),
@@ -155,7 +154,9 @@ def get_all(
     name: Optional[str] = Query(
         None, alias="name", description="Filter by map name. Fuzzy prefix query is supported"
     ),
-    area_code: Optional[str] = Query(None, alias="areaCode", description="Filter by map areaCode"),
+    intersection_code: Optional[str] = Query(
+        None, alias="intersectionCode", description="Filter by map intersectionCode"
+    ),
     page_num: int = Query(1, alias="pageNum", ge=1, description="Page number"),
     page_size: int = Query(10, alias="pageSize", ge=-1, description="Page size"),
     db: Session = Depends(deps.get_db),
@@ -163,7 +164,7 @@ def get_all(
 ) -> schemas.Maps:
     skip = page_size * (page_num - 1)
     total, data = crud.map.get_multi_with_total(
-        db, skip=skip, limit=page_size, name=name, area_code=area_code
+        db, skip=skip, limit=page_size, name=name, intersection_code=intersection_code
     )
     return schemas.Maps(total=total, data=[map.to_dict() for map in data])
 
@@ -200,8 +201,7 @@ def update(
 
     new_map_in = models.Map()
     new_map_in.name = map_in.name
-    new_map_in.area_code = map_in.area_code
-    new_map_in.address = map_in.address
+    new_map_in.intersection_code = map_in.intersection_code
     new_map_in.desc = map_in.desc
     if map_in.data:
         new_map_in.lng = map_in.data.get("refPos", {}).get("lon", 0.0)

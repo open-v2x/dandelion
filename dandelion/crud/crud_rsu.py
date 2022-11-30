@@ -77,12 +77,26 @@ class CRUDRSU(CRUDBase[RSU, RSUCreate, RSUUpdate]):
         db.refresh(db_obj)
         return db_obj
 
+    def update_with_location(self, db: Session, *, db_obj: RSU, obj_in: RSUUpdate) -> RSU:
+        obj_data = jsonable_encoder(db_obj, by_alias=False)
+        update_data = obj_in.dict(exclude_unset=True)
+        update_data["location"] = {"lon": update_data.pop("lon"), "lat": update_data.pop("lat")}
+        for field in obj_data:
+            if field in update_data:
+                setattr(db_obj, field, update_data[field])
+        db_obj.update_time = datetime.utcnow()
+        db.add(db_obj)
+        db.commit()
+        db.refresh(db_obj)
+        return db_obj
+
     def create_rsu(
         self, db: Session, *, obj_in: RSUCreate, rsu_tmp_in_db: Optional[RSUTMP]
     ) -> RSU:
         obj_in_data = jsonable_encoder(obj_in, by_alias=False)
+        location = {"lon": obj_in_data.pop("lon"), "lat": obj_in_data.pop("lat")}
         obj_in_data["version"] = "" if rsu_tmp_in_db is None else rsu_tmp_in_db.version
-        obj_in_data["location"] = {} if rsu_tmp_in_db is None else rsu_tmp_in_db.location
+        obj_in_data["location"] = location if rsu_tmp_in_db is None else rsu_tmp_in_db.location
         obj_in_data["config"] = {} if rsu_tmp_in_db is None else rsu_tmp_in_db.config
         obj_in_data["rsu_status"] = "" if rsu_tmp_in_db is None else rsu_tmp_in_db.rsu_status
         obj_in_data["online_status"] = False
@@ -107,7 +121,7 @@ class CRUDRSU(CRUDBase[RSU, RSUCreate, RSUUpdate]):
         limit: int = 10,
         rsu_name: Optional[str] = None,
         rsu_esn: Optional[str] = None,
-        area_code: Optional[str] = None,
+        intersection_code: Optional[str] = None,
         online_status: Optional[bool] = None,
         rsu_status: Optional[str] = None,
         enabled: Optional[bool] = None,
@@ -117,8 +131,8 @@ class CRUDRSU(CRUDBase[RSU, RSUCreate, RSUUpdate]):
             query_ = self.fuzz_filter(query_, self.model.rsu_name, rsu_name)
         if rsu_esn is not None:
             query_ = self.fuzz_filter(query_, self.model.rsu_esn, rsu_esn)
-        if area_code is not None:
-            query_ = query_.filter(self.model.area_code == area_code)
+        if intersection_code is not None:
+            query_ = query_.filter(self.model.intersection_code == intersection_code)
         if online_status is not None:
             query_ = query_.filter(self.model.online_status == online_status)
         if rsu_status is not None:

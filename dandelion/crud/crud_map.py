@@ -33,13 +33,13 @@ class CRUDMap(CRUDBase[Map, MapCreate, MapUpdate]):
         skip: int = 0,
         limit: int = 10,
         name: Optional[str] = None,
-        area_code: Optional[str] = None,
+        intersection_code: Optional[str] = None,
     ) -> Tuple[int, List[Map]]:
         query_ = db.query(self.model)
         if name is not None:
             query_ = self.fuzz_filter(query_, self.model.name, name)
-        if area_code is not None:
-            query_ = query_.filter(self.model.area_code == area_code)
+        if intersection_code is not None:
+            query_ = query_.filter(self.model.intersection_code == intersection_code)
         total = query_.count()
         if limit != -1:
             query_ = query_.offset(skip).limit(limit)

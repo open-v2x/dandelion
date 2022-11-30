@@ -83,7 +83,7 @@ def create(
                             edge_rsu_id=rsu_in_db.id,
                             name=rsu_in.rsu_name,
                             esn=rsu_in.rsu_esn,
-                            areaCode=rsu_in.area_code,
+                            intersectionCode=rsu_in.intersection_code,
                             location=Optional_util.none(rsu_tmp)
                             .map(lambda v: v.location)
                             .orElse({}),
@@ -122,7 +122,9 @@ def get_all(
     rsu_esn: Optional[str] = Query(
         None, alias="rsuEsn", description="Filter by rsuEsn. Fuzzy prefix query is supported"
     ),
-    area_code: Optional[str] = Query(None, alias="areaCode", description="Filter by areaCode"),
+    intersection_code: Optional[str] = Query(
+        None, alias="intersectionCode", description="Filter by intersectionCode"
+    ),
     online_status: Optional[bool] = Query(
         None, alias="onlineStatus", description="Filter by onlineStatus"
     ),
@@ -140,7 +142,7 @@ def get_all(
         limit=page_size,
         rsu_name=rsu_name,
         rsu_esn=rsu_esn,
-        area_code=area_code,
+        intersection_code=intersection_code,
         online_status=online_status,
         rsu_status=rsu_status,
         enabled=enabled,
@@ -230,7 +232,7 @@ def update(
             status_code=status.HTTP_404_NOT_FOUND, detail=f"RSU [id: {rsu_id}] not found"
         )
     try:
-        new_rsu_in_db = crud.rsu.update(db, db_obj=rsu_in_db, obj_in=rsu_in)
+        new_rsu_in_db = crud.rsu.update_with_location(db, db_obj=rsu_in_db, obj_in=rsu_in)
         if mqtt_cloud_server.MQTT_CLIENT is not None:
             system_config_db = crud.system_config.get(db, id=1)
             host = system_config_db.mqtt_config.get("host") if system_config_db else None
@@ -245,7 +247,7 @@ def update(
                 edgeRsuID=rsu_in_db.id,
                 name=rsu_in.rsu_name,
                 esn=rsu_in.rsu_esn,
-                areaCode=rsu_in.area_code,
+                intersectionCode=rsu_in.intersection_code,
                 location=Optional_util.none(rsu_tmp).map(lambda v: v.location).orElse({}),
             )
             requests.put(url=update_url, json=data, headers={"Authorization": token})

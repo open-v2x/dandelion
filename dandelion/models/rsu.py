@@ -34,10 +34,7 @@ class RSU(Base, DandelionBase):
     config = Column(JSON, nullable=False)
     online_status = Column(Boolean, index=True, nullable=False, default=False)
     rsu_model_id = Column(Integer, ForeignKey("rsu_model.id"))
-    area_code = Column(String(64), ForeignKey("area.code"))
-    address = Column(
-        String(255), nullable=False, default="", comment="Installation specific location"
-    )
+    intersection_code = Column(String(64), ForeignKey("intersection.code"))
     desc = Column(String(255), nullable=True, default="")
     log_id = Column(Integer, ForeignKey("rsu_log.id"))
 
@@ -78,8 +75,7 @@ class RSU(Base, DandelionBase):
             onlineStatus=self.online_status,
             rsuModelId=self.rsu_model_id,
             rsuModelName=self.rsu_model.name if self.rsu_model else "",
-            areaCode=self.area_code,
-            address=self.address,
+            intersectionCode=self.intersection_code,
             desc=self.desc,
             location=self.location,
             config=self.config,
@@ -100,7 +96,7 @@ class RSU(Base, DandelionBase):
         )
 
     def to_all_dict(self):
-        return {**self.to_dict(), **self.area.to_all()}
+        return {**self.to_dict(), **self.intersection.to_all()}
 
     def to_info_dict(self):
         return {**self.to_all_dict(), **self.to_base_dict(), "config": self.rsu_config_rsu}

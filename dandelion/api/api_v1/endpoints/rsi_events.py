@@ -81,9 +81,8 @@ Get all RSI Events.
 )
 def get_all(
     event_type: Optional[int] = Query(None, alias="eventType", description="Filter by eventType"),
-    area_code: Optional[str] = Query(None, alias="areaCode", description="Filter by areaCode"),
-    address: Optional[str] = Query(
-        None, alias="address", description="Filter by address. Fuzzy prefix query is supported"
+    intersection_code: Optional[str] = Query(
+        None, alias="intersectionCode", description="Filter by intersectionCode"
     ),
     sort_dir: Sort = Query(Sort.desc, alias="sortDir", description="Sort by ID(asc/desc)"),
     page_num: int = Query(1, alias="pageNum", ge=1, description="Page number"),
@@ -98,7 +97,6 @@ def get_all(
         limit=page_size,
         sort=sort_dir,
         event_type=event_type,
-        area_code=area_code,
-        address=address,
+        intersection_code=intersection_code,
     )
     return schemas.RSIEvents(total=total, data=[rsi_event.to_all_dict() for rsi_event in data])

@@ -29,6 +29,7 @@ from .edge_node_rsu import (
     EdgeNodeRSUUpdate,
     Location,
 )
+from .intersection import Intersection, IntersectionCreate, Intersections, IntersectionUpdate
 from .lidar import Lidar, LidarCreate, LidarEnabledUpdate, Lidars, LidarUpdate
 from .map import Map, MapCreate, Maps, MapUpdate
 from .map_rsu import MapRSU, MapRSUCreate, MapRSUs, MapRSUUpdate

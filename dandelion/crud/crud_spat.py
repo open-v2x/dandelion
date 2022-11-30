@@ -44,7 +44,7 @@ class CRUDSpat(CRUDBase[Spat, SpatCreate, Union[SpatUpdate, SpatEnabledUpdate]])
         intersection_id: Optional[str] = None,
         name: Optional[str] = None,
         rsu_id: Optional[int] = None,
-        area_code: Optional[str] = None,
+        intersection_code: Optional[str] = None,
     ) -> Tuple[int, List[Spat]]:
         query_ = db.query(self.model).join(RSU, self.model.rsu_id == RSU.id)
         if intersection_id is not None:
@@ -53,8 +53,8 @@ class CRUDSpat(CRUDBase[Spat, SpatCreate, Union[SpatUpdate, SpatEnabledUpdate]])
             query_ = self.fuzz_filter(query_, self.model.name, name)
         if rsu_id is not None:
             query_ = query_.filter(self.model.rsu_id == rsu_id)
-        if area_code is not None:
-            query_ = query_.filter(RSU.area_code == area_code)
+        if intersection_code is not None:
+            query_ = query_.filter(RSU.intersection_code == intersection_code)
         total = query_.count()
         if limit != -1:
             query_ = query_.offset(skip).limit(limit)

@@ -54,5 +54,8 @@ class Radar(Base, DandelionBase):
                 desc=self.desc,
                 createTime=self.create_time,
             ),
-            **Optional_util.none(self.rsu).map(lambda v: v.area).map(lambda v: v.to_all()).get(),
+            **Optional_util.none(self.rsu)
+            .map(lambda v: v.intersection)
+            .map(lambda v: v.to_all())
+            .get(),
         }

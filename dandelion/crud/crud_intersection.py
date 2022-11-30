@@ -17,22 +17,19 @@ from __future__ import annotations
 from typing import List, Optional, Tuple
 
 from fastapi.encoders import jsonable_encoder
-from sqlalchemy import desc
 from sqlalchemy.orm import Session
 
 from dandelion.crud.base import CRUDBase
-from dandelion.models import RSU, RSIEvent
-from dandelion.schemas import RSIEventCreate, RSIEventUpdate
-from dandelion.schemas.utils import Sort
+from dandelion.models import Intersection
+from dandelion.schemas import IntersectionCreate, IntersectionUpdate
 
 
-class CRUDRSIEvent(CRUDBase[RSIEvent, RSIEventCreate, RSIEventUpdate]):
+class CRUDIntersection(CRUDBase[Intersection, IntersectionCreate, IntersectionUpdate]):
     """"""
 
-    def create_rsi_event(self, db: Session, *, obj_in: RSIEventCreate, rsu: RSU) -> RSIEvent:
+    def create(self, db: Session, *, obj_in: IntersectionCreate) -> Intersection:
         obj_in_data = jsonable_encoder(obj_in, by_alias=False)
         db_obj = self.model(**obj_in_data)
-        db_obj.rsu = rsu
         db.add(db_obj)
         db.commit()
         db.refresh(db_obj)
@@ -44,27 +41,19 @@ class CRUDRSIEvent(CRUDBase[RSIEvent, RSIEventCreate, RSIEventUpdate]):
         *,
         skip: int = 0,
         limit: int = 10,
-        sort: Sort = Sort.desc,
-        event_type: Optional[int] = None,
-        intersection_code: Optional[str] = None,
-        address: Optional[str] = None,
-    ) -> Tuple[int, List[RSIEvent]]:
-        query_ = db.query(self.model)
-        if event_type is not None:
-            query_ = query_.filter(self.model.event_type == event_type)
-        if intersection_code is not None:
-            query_ = query_.filter(self.model.intersection_code == intersection_code)
-        if address is not None:
-            query_ = query_.filter(self.model.address.like(f"%{address}%"))
+        name: Optional[str] = None,
+        area_code: Optional[str] = None,
+    ) -> Tuple[int, List[Intersection]]:
+        query_ = db.query(self.model).filter()
+        if name is not None:
+            query_ = self.fuzz_filter(query_, self.model.name, name)
+        if area_code is not None:
+            query_ = query_.filter(self.model.area_code == area_code)
         total = query_.count()
-        if sort == Sort.asc:
-            query_ = query_.order_by(self.model.id)
-        else:
-            query_ = query_.order_by(desc(self.model.id))
         if limit != -1:
             query_ = query_.offset(skip).limit(limit)
         data = query_.all()
         return total, data
 
 
-rsi_event = CRUDRSIEvent(RSIEvent)
+intersection = CRUDIntersection(Intersection)

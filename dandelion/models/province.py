@@ -38,5 +38,8 @@ class Province(Base, DandelionBase):
     def to_dict(self):
         return dict(code=self.code, name=self.name)
 
-    def to_all_dict(self):
-        return {**self.to_dict(), "children": [v.to_all_dict() for v in self.cities]}
+    def to_all_dict(self, need_intersection):
+        return {
+            **self.to_dict(),
+            "children": [v.to_all_dict(need_intersection) for v in self.cities],
+        }
