@@ -17,12 +17,13 @@ from __future__ import annotations
 from logging import LoggerAdapter
 from typing import Any, Dict, Optional
 
-from fastapi import APIRouter, Depends, Query, Response, status
+from fastapi import APIRouter, Depends, Query, Response, UploadFile, status
+from fastapi.responses import FileResponse
 from oslo_log import log
 from sqlalchemy import exc as sql_exc
 from sqlalchemy.orm import Session
 
-from dandelion import crud, models, schemas
+from dandelion import constants, crud, models, schemas
 from dandelion.api import deps
 from dandelion.api.deps import OpenV2XHTTPException as HTTPException, error_handle
 from dandelion.util import Optional as Optional_util
@@ -62,6 +63,7 @@ def create(
         data=map_in.data,
         lng=Optional_util.none(map_in.data.get("refPos")).map(lambda v: v.get("lon")).orElse(0),
         lat=Optional_util.none(map_in.data.get("refPos")).map(lambda v: v.get("lat")).orElse(0),
+        bitmap=map_in.bitmap,
     )
     try:
         map_in_db = crud.map.create(db, obj_in=new_map_in)
@@ -203,6 +205,7 @@ def update(
     new_map_in.name = map_in.name
     new_map_in.intersection_code = map_in.intersection_code
     new_map_in.desc = map_in.desc
+    new_map_in.bitmap = map_in.bitmap
     if map_in.data:
         new_map_in.lng = map_in.data.get("refPos", {}).get("lon", 0.0)
         new_map_in.lat = map_in.data.get("refPos", {}).get("lat", 0.0)
@@ -243,3 +246,65 @@ def data(
             status_code=status.HTTP_404_NOT_FOUND, detail=f"Map [id: {map_id}] not found"
         )
     return map_in_db.data
+
+
+@router.post(
+    "/bitmap",
+    response_model=dict,
+    status_code=status.HTTP_200_OK,
+    description="""
+Update a Map.
+""",
+    responses={
+        status.HTTP_200_OK: {"model": dict, "description": "OK"},
+        status.HTTP_401_UNAUTHORIZED: {
+            "model": schemas.ErrorMessage,
+            "description": "Unauthorized",
+        },
+        status.HTTP_403_FORBIDDEN: {"model": schemas.ErrorMessage, "description": "Forbidden"},
+        status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
+    },
+)
+def add_bitmap(
+    bitmap: UploadFile,
+    *,
+    db: Session = Depends(deps.get_db),
+    current_user: models.User = Depends(deps.get_current_user),
+) -> dict:
+    if crud.map.get_with_bitmap(db=db, bitmap=bitmap.filename):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Map [bitmap filename: {bitmap.filename}] already exists",
+        )
+    with open(f"{constants.BITMAP_FILE_PATH}/{bitmap.filename}", "wb") as f:
+        f.write(bitmap.file.read())
+    return {"bitmap": bitmap.filename}
+
+
+@router.get(
+    "/{map_id}/bitmap",
+    status_code=status.HTTP_200_OK,
+    response_class=FileResponse,
+    description="""
+Get a bitmap data.
+""",
+    responses={
+        status.HTTP_200_OK: {"description": "OK"},
+        status.HTTP_401_UNAUTHORIZED: {
+            "model": schemas.ErrorMessage,
+            "description": "Unauthorized",
+        },
+        status.HTTP_403_FORBIDDEN: {"model": schemas.ErrorMessage, "description": "Forbidden"},
+        status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
+    },
+)
+def get_bitmap(
+    map_id: int,
+    *,
+    db: Session = Depends(deps.get_db),
+    current_user: models.User = Depends(deps.get_current_user),
+) -> FileResponse:
+    map_in_db = crud.map.get(db, id=map_id)
+    if not map_in_db or not map_in_db.bitmap:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="bitmap not found")
+    return FileResponse(f"{constants.BITMAP_FILE_PATH}/{map_in_db.bitmap}")

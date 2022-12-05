@@ -16,6 +16,7 @@ from __future__ import annotations
 
 from typing import List, Optional, Tuple
 
+from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from dandelion.crud.base import CRUDBase
@@ -45,6 +46,18 @@ class CRUDMap(CRUDBase[Map, MapCreate, MapUpdate]):
             query_ = query_.offset(skip).limit(limit)
         data = query_.all()
         return total, data
+
+    def get_with_bitmap(
+        self,
+        db: Session,
+        *,
+        bitmap: str,
+    ) -> Optional[Map]:
+        return db.query(self.model).filter(self.model.bitmap == bitmap).first()
+
+    def get_list_bitmap(self, db: Session):
+
+        return db.execute(select(self.model.bitmap).where(self.model.bitmap.isnot(None))).all()
 
 
 map = CRUDMap(Map)

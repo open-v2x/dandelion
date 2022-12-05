@@ -2129,6 +2129,155 @@
                 ]
             }
         },
+        "/api/v1/maps/bitmap": {
+            "post": {
+                "tags": [
+                    "Map"
+                ],
+                "summary": "Add Bitmap",
+                "description": "Update a Map.",
+                "operationId": "add_bitmap_api_v1_maps_bitmap_post",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Body_add_bitmap_api_v1_maps_bitmap_post"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "title": "Response 200 Add Bitmap Api V1 Maps Bitmap Post",
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/maps/{map_id}/bitmap": {
+            "get": {
+                "tags": [
+                    "Map"
+                ],
+                "summary": "Get Bitmap",
+                "description": "Get a bitmap data.",
+                "operationId": "get_bitmap_api_v1_maps__map_id__bitmap_get",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Map Id",
+                            "type": "integer"
+                        },
+                        "name": "map_id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            }
+        },
         "/api/v1/mngs": {
             "get": {
                 "tags": [
@@ -8494,6 +8643,20 @@
                     }
                 }
             },
+            "Body_add_bitmap_api_v1_maps_bitmap_post": {
+                "title": "Body_add_bitmap_api_v1_maps_bitmap_post",
+                "required": [
+                    "bitmap"
+                ],
+                "type": "object",
+                "properties": {
+                    "bitmap": {
+                        "title": "Bitmap",
+                        "type": "string",
+                        "format": "binary"
+                    }
+                }
+            },
             "Body_login_api_v1_login_post": {
                 "title": "Body_login_api_v1_login_post",
                 "required": [
@@ -10040,6 +10203,11 @@
                         "title": "Intersectionname",
                         "type": "string",
                         "description": "Intersection Name"
+                    },
+                    "bitmap": {
+                        "title": "Bitmap",
+                        "type": "string",
+                        "description": "Bitmap"
                     }
                 }
             },
@@ -10072,6 +10240,11 @@
                         "title": "Data",
                         "type": "object",
                         "description": "Data"
+                    },
+                    "bitmap": {
+                        "title": "Bitmap",
+                        "type": "string",
+                        "description": "bitmap"
                     }
                 }
             },
@@ -10235,6 +10408,11 @@
                         "title": "Data",
                         "type": "object",
                         "description": "Data"
+                    },
+                    "bitmap": {
+                        "title": "Bitmap",
+                        "type": "string",
+                        "description": "bitmap"
                     }
                 }
             },

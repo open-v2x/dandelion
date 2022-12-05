@@ -15,6 +15,7 @@
 from __future__ import annotations
 
 import json
+import os
 import time
 from logging import LoggerAdapter
 
@@ -22,7 +23,7 @@ import redis
 from oslo_log import log
 from sqlalchemy.orm import Session
 
-from dandelion import crud, schemas
+from dandelion import constants, crud, schemas
 from dandelion.db import redis_pool, session
 from dandelion.mqtt import cloud_server as mqtt_cloud_server
 from dandelion.mqtt.topic import v2x_edge
@@ -126,3 +127,14 @@ def rsu_info():
             redis_conn.zremrangebyrank(disk_key, min=1, max=1)
         if redis_conn.zcard(net_key) > 1000:
             redis_conn.zremrangebyrank(net_key, min=1, max=1)
+
+
+def delete_unused_bitmap() -> None:
+    LOG.info("Bitmap delete...")
+    db: Session = session.DB_SESSION_LOCAL()
+    bitmaps = crud.map.get_list_bitmap(db)
+    bitmaps_set = {bitmap.bitmap for bitmap in bitmaps}
+    for filename in os.listdir(constants.BITMAP_FILE_PATH):
+        if filename not in bitmaps_set:
+            os.remove(f"{constants.BITMAP_FILE_PATH}/{filename}")
+            LOG.info(f"removed bitmap file {filename}")
