@@ -11,7 +11,8 @@ defaults:
 vars:
   - &username 'gabbi_user_4'
   - &password 'dandelion'
-  - &other_node_ip '101.133.236.98'
+  - &other_node_ip '47.100.126.13'
+  - &other_node_password '346aedb3f3d0'
 
 tests:
   - name: create_user
@@ -44,14 +45,14 @@ tests:
       name : 'testmqtt'
       mqtt_config:
         host: *other_node_ip
-        password: 'password'
+        password: *other_node_password
         port: 1883
         username: 'root'
     status: 200
     response_json_paths:
       $.mqtt_config.username: 'root'
       $.mqtt_config.port: 1883
-      $.mqtt_config.password: 'password'
+      $.mqtt_config.password: *other_node_password
       $.mqtt_config.host: *other_node_ip
 
   - name: login_other_node-create_user
