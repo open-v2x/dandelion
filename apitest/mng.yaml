@@ -59,10 +59,11 @@ tests:
       rsuName: 'RSU_NAME_01'
       rsuEsn: 'RSU_ESN01'
       rsuIP: '192.168.0.101'
-      areaCode: '320115'
-      address: '江宁区交叉路口'
+      intersectionCode: '32011501'
       rsuModelId: $HISTORY['create_rsu_model'].$RESPONSE['$.id']
       desc: 'test_rsu'
+      lon: 118.8213963998263
+      lat: 31.934846637757847
     status: 201
     response_json_paths:
       $.rsuId: 'RSU_ID_01'
@@ -81,10 +82,11 @@ tests:
       rsuName: 'RSU_NAME_02'
       rsuEsn: 'RSU_ESN02'
       rsuIP: '192.168.0.102'
-      areaCode: '320115'
-      address: '江宁区交叉路口'
+      intersectionCode: '32011501'
       rsuModelId: $HISTORY['create_rsu_model'].$RESPONSE['$.id']
       desc: 'test_rsu'
+      lon: 118.8213963998263
+      lat: 31.934846637757847
     status: 201
     response_json_paths:
       $.rsuId: 'RSU_ID_02'

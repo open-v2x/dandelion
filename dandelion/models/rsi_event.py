@@ -47,8 +47,7 @@ class RSIEvent(Base, DandelionBase):
     __tablename__ = "rsi_event"
 
     rsu_id = Column(Integer, ForeignKey("rsu.id"))
-    area_code = Column(String(64), ForeignKey("area.code"))
-    address = Column(String(64), nullable=False, index=True, default="")
+    intersection_code = Column(String(64), ForeignKey("intersection.code"))
     alert_id = Column(String(64), nullable=True, default="")
     duration = Column(Integer, nullable=True)
     event_status = Column(Boolean, nullable=True, default=True)
@@ -92,10 +91,9 @@ class RSIEvent(Base, DandelionBase):
                 id=self.id,
                 rsuName=Optional_util.none(self.rsu).map(lambda v: v.rsu_name).get(),
                 rsuEsn=Optional_util.none(self.rsu).map(lambda v: v.rsu_esn).get(),
-                address=self.address,
                 eventClass=self.event_class.name,
                 eventType=self.event_type,
                 createTime=self.create_time,
             ),
-            **self.area.to_all(),
+            **self.intersection.to_all(),
         }

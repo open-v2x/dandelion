@@ -150,8 +150,8 @@ def get_all(
     ),
     rsu_id: Optional[int] = Query(None, alias="rsuId", description="Filter by rsuId"),
     rsu_esn: Optional[str] = Query(None, alias="rsuEsn", description="Filter by rsuEsn"),
-    area_code: Optional[str] = Query(
-        None, alias="areaCode", description="Filter by camera area code"
+    intersection_code: Optional[str] = Query(
+        None, alias="intersectionCode", description="Filter by lidar intersection code"
     ),
     page_num: int = Query(1, alias="pageNum", ge=1, description="Page number"),
     page_size: int = Query(10, alias="pageSize", ge=-1, description="Page size"),
@@ -166,7 +166,7 @@ def get_all(
         sn=sn,
         name=name,
         rsu_id=rsu_id,
-        area_code=area_code,
+        intersection_code=intersection_code,
         rsu_esn=rsu_esn,
     )
     return schemas.Lidars(total=total, data=[lidar.to_dict() for lidar in data])

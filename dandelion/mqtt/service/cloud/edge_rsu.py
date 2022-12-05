@@ -42,7 +42,7 @@ class EdgeRSURouterHandler(RouterHandler):
                     edge_node_rsu.edge_node_id = id
                     edge_node_rsu.name = node_rsu.get("name", "")
                     edge_node_rsu.esn = node_rsu.get("esn", "")
-                    edge_node_rsu.area_code = node_rsu.get("areaCode", "")
+                    edge_node_rsu.intersection_code = node_rsu.get("intersectionCode", "")
                     edge_node_rsu.edge_rsu_id = node_rsu.get("edge_rsu_id")
                     location = node_rsu.get("location", {})
                     if location:

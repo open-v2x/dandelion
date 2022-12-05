@@ -167,8 +167,8 @@ def get_all(
         None, alias="name", description="Filter by spat name. Fuzzy prefix query is supported"
     ),
     rsu_id: Optional[int] = Query(None, alias="rsuId", description="Filter by rsuId"),
-    area_code: Optional[str] = Query(
-        None, alias="areaCode", description="Filter by camera area code"
+    intersection_code: Optional[str] = Query(
+        None, alias="areaCode", description="Filter by spat intersection code"
     ),
     page_num: int = Query(1, alias="pageNum", ge=1, description="Page number"),
     page_size: int = Query(10, alias="pageSize", ge=-1, description="Page size"),
@@ -183,7 +183,7 @@ def get_all(
         intersection_id=intersection_id,
         name=name,
         rsu_id=rsu_id,
-        area_code=area_code,
+        intersection_code=intersection_code,
     )
     return schemas.Spats(total=total, data=[spat.to_dict() for spat in data])
 

@@ -52,7 +52,7 @@ class RSIRouterHandler(RouterHandler):
                 eventDescription=rsi.get("eventDescription"),
                 eventPriority=rsi.get("eventPriority"),
                 referencePaths=rsi.get("referencePaths"),
-                areaCode=rsu.area_code,
+                intersectionCode=rsu.intersection_code,
             )
             crud.rsi_event.create_rsi_event(db, obj_in=rsi_event_in, rsu=rsu)
             LOG.info(f"{topic} => RSIEvent [alert_id: {rsi_event_in.alert_id}] created")

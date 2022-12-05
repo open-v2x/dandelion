@@ -91,6 +91,8 @@ class Lidar(LidarInDBBase):
     city_name: str = Field(..., alias="cityName", description="City Name")
     area_code: str = Field(..., alias="areaCode", description="Area Code")
     area_name: str = Field(..., alias="areaName", description="Area Name")
+    intersection_code: str = Field(..., alias="intersectionCode", description="Intersection Code")
+    intersection_name: str = Field(..., alias="intersectionName", description="Intersection Name")
     desc: str = Field(..., alias="desc", description="Description")
     create_time: datetime = Field(..., alias="createTime", description="Create Time")
     ws_url: Optional[str] = Field("", alias="wsUrl", description="websocket url")

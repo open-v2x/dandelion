@@ -34,78 +34,51 @@ tests:
     response_json_paths:
       $.token_type: bearer
 
-  - name: create_map
-    url: /api/v1/maps
+  - name: intersection_create
+    url: /api/v1/intersections
     method: POST
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
     data:
-      name: '测试地图01'
-      intersectionCode: '32011501'
-      desc: '这是测试的地图'
-      data:
-        id:
-          id: 0
-          region: 0
-        name: 'TEST_MAP01'
-        timestamp: 1652371164
-        refPos:
-          lon: 118.840897
-          lat: 31.88335
-          ele: 625
+      code: "123126"
+      name: "测试路口"
+      lng: "118.8213963998263"
+      lat: "31.934846637757847"
+      areaCode: "320115"
     status: 201
     response_json_paths:
-      $.name: '测试地图01'
-      $.intersectionCode: '32011501'
-      $.desc: '这是测试的地图'
+      code: "123126"
+      name: "测试路口"
+      lng: "118.8213963998263"
+      lat: "31.934846637757847"
+      areaCode: "320115"
 
-  - name: map_list
-    url: /api/v1/maps
+  - name: intersection_list
+    url: /api/v1/intersections
     method: GET
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
     query_parameters:
-      name: '测试地图'
+      areaCode: '320115'
       pageNum: 1
       pageSize: 10
     status: 200
 
-  - name: map_info
-    url: /api/v1/maps/$HISTORY['create_map'].$RESPONSE['$.id']
+  - name: intersection_get
+    url: /api/v1/intersections/$HISTORY['intersection_create'].$RESPONSE['$.id']
     method: GET
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
     status: 200
     response_json_paths:
-      $.name: '测试地图01'
-      $.intersectionCode: '32011501'
-      $.desc: '这是测试的地图'
+      code: "123126"
+      name: "测试路口"
+      lng: "118.8213963998263"
+      lat: "31.934846637757847"
+      areaCode: "320115"
 
-  - name: update_map
-    url: /api/v1/maps/$HISTORY['create_map'].$RESPONSE['$.id']
-    method: PUT
-    request_headers:
-      Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
-    data:
-      name: '测试地图02'
-      intersectionCode: '32011501'
-      desc: '这是测试的地图'
-      data:
-        id:
-          id: 0
-          region: 0
-        name: 'TEST_MAP01'
-        timestamp: 1652371164
-        refPos:
-          lon: 118.840897
-          lat: 31.88335
-          ele: 625
-    status: 200
-    response_json_paths:
-      $.name: '测试地图02'
-
-  - name: delete_map
-    url: /api/v1/maps/$HISTORY['create_map'].$RESPONSE['$.id']
+  - name: intersection_delete
+    url: /api/v1/intersections/$HISTORY['intersection_create'].$RESPONSE['$.id']
     method: DELETE
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']

@@ -20,6 +20,7 @@ from .crud_city import city
 from .crud_country import country
 from .crud_edge_node import edge_node
 from .crud_edge_node_rsu import edge_node_rsu
+from .crud_intersection import intersection
 from .crud_lidar import lidar
 from .crud_map import map
 from .crud_map_rsu import map_rsu
@@ -78,4 +79,5 @@ __all__ = [
     "edge_node_rsu",
     "rsu_query_result_data",
     "spat",
+    "intersection",
 ]

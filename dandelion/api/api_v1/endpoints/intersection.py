@@ -32,13 +32,13 @@ LOG: LoggerAdapter = log.getLogger(__name__)
 
 @router.post(
     "",
-    response_model=schemas.Radar,
+    response_model=schemas.Intersection,
     status_code=status.HTTP_201_CREATED,
     description="""
-Create a new Radar.
+Create a new intersection.
 """,
     responses={
-        status.HTTP_201_CREATED: {"model": schemas.Radar, "description": "Created"},
+        status.HTTP_201_CREATED: {"model": schemas.Intersection, "description": "Created"},
         status.HTTP_400_BAD_REQUEST: {"model": schemas.ErrorMessage, "description": "Bad Request"},
         status.HTTP_401_UNAUTHORIZED: {
             "model": schemas.ErrorMessage,
@@ -49,23 +49,23 @@ Create a new Radar.
     },
 )
 def create(
-    radar_in: schemas.RadarCreate,
+    intersection_in: schemas.IntersectionCreate,
     *,
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
-) -> schemas.Radar:
+) -> schemas.Intersection:
     try:
-        radar_in_db = crud.radar.create(db, obj_in=radar_in)
+        intersection_in_db = crud.intersection.create(db, obj_in=intersection_in)
     except (sql_exc.IntegrityError, sql_exc.DataError) as ex:
-        raise error_handle(ex, "sn", radar_in.sn)
-    return radar_in_db.to_dict()
+        raise error_handle(ex, "code", intersection_in.code)
+    return intersection_in_db.to_dict()
 
 
 @router.delete(
-    "/{radar_id}",
+    "/{intersection_id}",
     status_code=status.HTTP_204_NO_CONTENT,
     description="""
-Delete a Radar.
+Delete a intersection.
 """,
     responses={
         status.HTTP_401_UNAUTHORIZED: {
@@ -79,28 +79,29 @@ Delete a Radar.
     response_description="No Content",
 )
 def delete(
-    radar_id: int,
+    intersection_id: int,
     *,
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> Response:
-    if not crud.radar.get(db, id=radar_id):
+    if not crud.intersection.get(db, id=intersection_id):
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"Radar [id: {radar_id}] not found"
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Intersection [id: {intersection_id}] not found",
         )
-    crud.radar.remove(db, id=radar_id)
+    crud.intersection.remove(db, id=intersection_id)
     return Response(content=None, status_code=status.HTTP_204_NO_CONTENT)
 
 
 @router.get(
-    "/{radar_id}",
-    response_model=schemas.Radar,
+    "/{intersection_id}",
+    response_model=schemas.Intersection,
     status_code=status.HTTP_200_OK,
     description="""
-Get a Radar.
+Get a Intersection.
 """,
     responses={
-        status.HTTP_200_OK: {"model": schemas.Radar, "description": "OK"},
+        status.HTTP_200_OK: {"model": schemas.Intersection, "description": "OK"},
         status.HTTP_401_UNAUTHORIZED: {
             "model": schemas.ErrorMessage,
             "description": "Unauthorized",
@@ -110,29 +111,30 @@ Get a Radar.
     },
 )
 def get(
-    radar_id: int,
+    intersection_id: int,
     *,
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
-) -> schemas.Radar:
-    radar_in_db = crud.radar.get(db, id=radar_id)
-    if not radar_in_db:
+) -> schemas.Intersection:
+    intersection_in_db = crud.intersection.get(db, id=intersection_id)
+    if not intersection_in_db:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"Radar [id: {radar_id}] not found"
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Intersection [id: {intersection_id}] not found",
         )
-    return radar_in_db.to_dict()
+    return intersection_in_db.to_dict()
 
 
 @router.get(
     "",
-    response_model=schemas.Radars,
+    response_model=schemas.Intersections,
     status_code=status.HTTP_200_OK,
-    summary="List Radars",
+    summary="List Cameras",
     description="""
-Get all Radars.
+Get all Intersection.
 """,
     responses={
-        status.HTTP_200_OK: {"model": schemas.Radars, "description": "OK"},
+        status.HTTP_200_OK: {"model": schemas.Intersections, "description": "OK"},
         status.HTTP_401_UNAUTHORIZED: {
             "model": schemas.ErrorMessage,
             "description": "Unauthorized",
@@ -142,43 +144,41 @@ Get all Radars.
     },
 )
 def get_all(
-    sn: Optional[str] = Query(
-        None, alias="sn", description="Filter by radar sn. Fuzzy prefix query is supported"
-    ),
     name: Optional[str] = Query(
-        None, alias="name", description="Filter by radar name. Fuzzy prefix query is supported"
+        None,
+        alias="name",
+        description="Filter by intersection name. Fuzzy prefix query is supported",
     ),
-    rsu_id: Optional[int] = Query(None, alias="rsuId", description="Filter by rsuId"),
-    intersection_code: Optional[str] = Query(
-        None, alias="intersectionCode", description="Filter by radar intersection code"
+    area_code: Optional[str] = Query(
+        None, alias="areaCode", description="Filter by intersection area code"
     ),
     page_num: int = Query(1, alias="pageNum", ge=1, description="Page number"),
     page_size: int = Query(10, alias="pageSize", ge=-1, description="Page size"),
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
-) -> schemas.Radars:
+) -> schemas.Intersections:
     skip = page_size * (page_num - 1)
-    total, data = crud.radar.get_multi_with_total(
+    total, data = crud.intersection.get_multi_with_total(
         db,
         skip=skip,
         limit=page_size,
-        sn=sn,
         name=name,
-        rsu_id=rsu_id,
-        intersection_code=intersection_code,
+        area_code=area_code,
     )
-    return schemas.Radars(total=total, data=[radar.to_dict() for radar in data])
+    return schemas.Intersections(
+        total=total, data=[intersection.to_dict() for intersection in data]
+    )
 
 
 @router.put(
-    "/{radar_id}",
-    response_model=schemas.Radar,
+    "/{intersection_id}",
+    response_model=schemas.Intersection,
     status_code=status.HTTP_200_OK,
     description="""
-Update a Radar.
+Update a Intersection.
 """,
     responses={
-        status.HTTP_200_OK: {"model": schemas.Radar, "description": "OK"},
+        status.HTTP_200_OK: {"model": schemas.Intersection, "description": "OK"},
         status.HTTP_401_UNAUTHORIZED: {
             "model": schemas.ErrorMessage,
             "description": "Unauthorized",
@@ -188,19 +188,22 @@ Update a Radar.
     },
 )
 def update(
-    radar_id: int,
-    radar_in: schemas.RadarUpdate,
+    intersection_id: int,
+    intersection_in: schemas.IntersectionUpdate,
     *,
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
-) -> schemas.Radar:
-    radar_in_db = crud.radar.get(db, id=radar_id)
-    if not radar_in_db:
+) -> schemas.RSUModel:
+    intersection_in_db = crud.intersection.get(db, id=intersection_id)
+    if not intersection_in_db:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"Radar [id: {radar_id}] not found"
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Intersection [id: {intersection_in_db}] not found",
         )
     try:
-        new_radar_in_db = crud.radar.update(db, db_obj=radar_in_db, obj_in=radar_in)
+        new_intersection_in_db = crud.intersection.update(
+            db, db_obj=intersection_in_db, obj_in=intersection_in
+        )
     except (sql_exc.DataError, sql_exc.IntegrityError) as ex:
-        raise error_handle(ex, "sn", radar_in.sn)
-    return new_radar_in_db.to_dict()
+        raise error_handle(ex, "code", intersection_in.code)
+    return new_intersection_in_db.to_dict()

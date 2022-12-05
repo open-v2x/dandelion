@@ -25,8 +25,7 @@ class Map(Base, DandelionBase):
     __tablename__ = "map"
 
     name = Column(String(64), nullable=False, index=True, unique=True)
-    address = Column(String(255), nullable=False, default="", comment="specific location")
-    area_code = Column(String(64), ForeignKey("area.code"))
+    intersection_code = Column(String(64), ForeignKey("intersection.code"))
     desc = Column(String(255), nullable=False, default="")
     lat = Column(Float, nullable=False)
     lng = Column(Float, nullable=False)
@@ -42,12 +41,11 @@ class Map(Base, DandelionBase):
             **dict(
                 id=self.id,
                 name=self.name,
-                address=self.address,
                 desc=self.desc,
                 amount=len(self.rsus),
                 lat=self.lat,
                 lng=self.lng,
                 createTime=self.create_time,
             ),
-            **Optional_util.none(self.area).map(lambda v: v.to_all()).orElse({}),
+            **Optional_util.none(self.intersection).map(lambda v: v.to_all()).orElse({}),
         }
