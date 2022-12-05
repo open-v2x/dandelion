@@ -1,7 +1,7 @@
 name: test
 
 on:
-  pull_request:
+  pull_request_target:
     branches:
       - 'master'
 
@@ -51,4 +51,4 @@ jobs:
         shell: bash
         run: |
           pip install gabbi
-          ls apitest/*.yaml | xargs gabbi-run localhost:28300 --
+          other_node_ip=${{ secrets.AIO_MASTER_HOST }} other_node_password=${{ secrets.AIO_MASTER_PASSWORD_MQTT }} gabbi-run localhost:28300 -- apitest/*.yaml

@@ -11,8 +11,8 @@ defaults:
 vars:
   - &username 'gabbi_user_4'
   - &password 'dandelion'
-  - &other_node_ip '47.100.126.13'
-  - &other_node_password '346aedb3f3d0'
+  - &other_node_ip $ENVIRON['other_node_ip']
+  - &other_node_password $ENVIRON['other_node_password']
 
 tests:
   - name: create_user
