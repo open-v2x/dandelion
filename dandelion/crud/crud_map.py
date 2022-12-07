@@ -51,13 +51,15 @@ class CRUDMap(CRUDBase[Map, MapCreate, MapUpdate]):
         self,
         db: Session,
         *,
-        bitmap: str,
+        bitmap_filename: str,
     ) -> Optional[Map]:
-        return db.query(self.model).filter(self.model.bitmap == bitmap).first()
+        return db.query(self.model).filter(self.model.bitmap_filename == bitmap_filename).first()
 
     def get_list_bitmap(self, db: Session):
 
-        return db.execute(select(self.model.bitmap).where(self.model.bitmap.isnot(None))).all()
+        return db.execute(
+            select(self.model.bitmap_filename).where(self.model.bitmap_filename.isnot(None))
+        ).all()
 
 
 map = CRUDMap(Map)

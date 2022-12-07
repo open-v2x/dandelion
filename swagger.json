@@ -2129,35 +2129,28 @@
                 ]
             }
         },
-        "/api/v1/maps/bitmap": {
-            "post": {
+        "/api/v1/maps/{map_id}/bitmap": {
+            "get": {
                 "tags": [
                     "Map"
                 ],
-                "summary": "Add Bitmap",
-                "description": "Update a Map.",
-                "operationId": "add_bitmap_api_v1_maps_bitmap_post",
-                "requestBody": {
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Body_add_bitmap_api_v1_maps_bitmap_post"
-                            }
-                        }
-                    },
-                    "required": true
-                },
+                "summary": "Get Bitmap",
+                "description": "Get a bitmap data.",
+                "operationId": "get_bitmap_api_v1_maps__map_id__bitmap_get",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Map Id",
+                            "type": "integer"
+                        },
+                        "name": "map_id",
+                        "in": "path"
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "title": "Response 200 Add Bitmap Api V1 Maps Bitmap Post",
-                                    "type": "object"
-                                }
-                            }
-                        }
+                        "description": "OK"
                     },
                     "401": {
                         "description": "Unauthorized",
@@ -2205,16 +2198,14 @@
                         "OAuth2PasswordBearer": []
                     }
                 ]
-            }
-        },
-        "/api/v1/maps/{map_id}/bitmap": {
-            "get": {
+            },
+            "put": {
                 "tags": [
                     "Map"
                 ],
-                "summary": "Get Bitmap",
-                "description": "Get a bitmap data.",
-                "operationId": "get_bitmap_api_v1_maps__map_id__bitmap_get",
+                "summary": "Update Bitmap",
+                "description": "update map bitmap.",
+                "operationId": "update_bitmap_api_v1_maps__map_id__bitmap_put",
                 "parameters": [
                     {
                         "required": true,
@@ -2226,9 +2217,24 @@
                         "in": "path"
                     }
                 ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Body_update_bitmap_api_v1_maps__map_id__bitmap_put"
+                            }
+                        }
+                    },
+                    "required": true
+                },
                 "responses": {
                     "200": {
-                        "description": "OK"
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
                     },
                     "401": {
                         "description": "Unauthorized",
@@ -8643,20 +8649,6 @@
                     }
                 }
             },
-            "Body_add_bitmap_api_v1_maps_bitmap_post": {
-                "title": "Body_add_bitmap_api_v1_maps_bitmap_post",
-                "required": [
-                    "bitmap"
-                ],
-                "type": "object",
-                "properties": {
-                    "bitmap": {
-                        "title": "Bitmap",
-                        "type": "string",
-                        "format": "binary"
-                    }
-                }
-            },
             "Body_login_api_v1_login_post": {
                 "title": "Body_login_api_v1_login_post",
                 "required": [
@@ -8672,6 +8664,20 @@
                     "password": {
                         "title": "Password",
                         "type": "string"
+                    }
+                }
+            },
+            "Body_update_bitmap_api_v1_maps__map_id__bitmap_put": {
+                "title": "Body_update_bitmap_api_v1_maps__map_id__bitmap_put",
+                "required": [
+                    "bitmap"
+                ],
+                "type": "object",
+                "properties": {
+                    "bitmap": {
+                        "title": "Bitmap",
+                        "type": "string",
+                        "format": "binary"
                     }
                 }
             },
@@ -10203,11 +10209,6 @@
                         "title": "Intersectionname",
                         "type": "string",
                         "description": "Intersection Name"
-                    },
-                    "bitmap": {
-                        "title": "Bitmap",
-                        "type": "string",
-                        "description": "Bitmap"
                     }
                 }
             },
@@ -10240,11 +10241,6 @@
                         "title": "Data",
                         "type": "object",
                         "description": "Data"
-                    },
-                    "bitmap": {
-                        "title": "Bitmap",
-                        "type": "string",
-                        "description": "bitmap"
                     }
                 }
             },
@@ -10408,11 +10404,6 @@
                         "title": "Data",
                         "type": "object",
                         "description": "Data"
-                    },
-                    "bitmap": {
-                        "title": "Bitmap",
-                        "type": "string",
-                        "description": "bitmap"
                     }
                 }
             },

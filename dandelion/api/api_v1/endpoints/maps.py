@@ -63,7 +63,6 @@ def create(
         data=map_in.data,
         lng=Optional_util.none(map_in.data.get("refPos")).map(lambda v: v.get("lon")).orElse(0),
         lat=Optional_util.none(map_in.data.get("refPos")).map(lambda v: v.get("lat")).orElse(0),
-        bitmap=map_in.bitmap,
     )
     try:
         map_in_db = crud.map.create(db, obj_in=new_map_in)
@@ -205,7 +204,6 @@ def update(
     new_map_in.name = map_in.name
     new_map_in.intersection_code = map_in.intersection_code
     new_map_in.desc = map_in.desc
-    new_map_in.bitmap = map_in.bitmap
     if map_in.data:
         new_map_in.lng = map_in.data.get("refPos", {}).get("lon", 0.0)
         new_map_in.lat = map_in.data.get("refPos", {}).get("lat", 0.0)
@@ -248,15 +246,14 @@ def data(
     return map_in_db.data
 
 
-@router.post(
-    "/bitmap",
-    response_model=dict,
+@router.put(
+    "/{map_id}/bitmap",
     status_code=status.HTTP_200_OK,
     description="""
-Update a Map.
+update map bitmap.
 """,
     responses={
-        status.HTTP_200_OK: {"model": dict, "description": "OK"},
+        status.HTTP_200_OK: {"description": "OK"},
         status.HTTP_401_UNAUTHORIZED: {
             "model": schemas.ErrorMessage,
             "description": "Unauthorized",
@@ -265,20 +262,28 @@ Update a Map.
         status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
     },
 )
-def add_bitmap(
+def update_bitmap(
+    map_id: int,
     bitmap: UploadFile,
     *,
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
-) -> dict:
-    if crud.map.get_with_bitmap(db=db, bitmap=bitmap.filename):
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail=f"Map [bitmap filename: {bitmap.filename}] already exists",
-        )
-    with open(f"{constants.BITMAP_FILE_PATH}/{bitmap.filename}", "wb") as f:
+) -> Response:
+
+    with open(f"{constants.BITMAP_FILE_PATH}/{map_id}.png", "wb") as f:
         f.write(bitmap.file.read())
-    return {"bitmap": bitmap.filename}
+
+    map_in_db = crud.map.get(db, id=map_id)
+    if not map_in_db:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail=f"Map [id: {map_id}] not found"
+        )
+
+    new_map_in = models.Map()
+    new_map_in.bitmap_filename = f"{map_id}.png"
+    crud.map.update(db, db_obj=map_in_db, obj_in=new_map_in.__dict__)
+
+    return Response(content=None, status_code=status.HTTP_200_OK)
 
 
 @router.get(
@@ -305,6 +310,6 @@ def get_bitmap(
     current_user: models.User = Depends(deps.get_current_user),
 ) -> FileResponse:
     map_in_db = crud.map.get(db, id=map_id)
-    if not map_in_db or not map_in_db.bitmap:
+    if not map_in_db or not map_in_db.bitmap_filename:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="bitmap not found")
-    return FileResponse(f"{constants.BITMAP_FILE_PATH}/{map_in_db.bitmap}")
+    return FileResponse(f"{constants.BITMAP_FILE_PATH}/{map_in_db.bitmap_filename}")

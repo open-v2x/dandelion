@@ -12,7 +12,7 @@ vars:
   - &username 'gabbi_user_4'
   - &password 'dandelion'
   - &other_node_ip '47.100.126.13'
-  - &other_node_password '346aedb3f3d0'
+  - &other_node_password ''
 
 tests:
   - name: create_user

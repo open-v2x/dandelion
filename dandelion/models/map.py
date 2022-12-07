@@ -31,7 +31,7 @@ class Map(Base, DandelionBase):
     lng = Column(Float, nullable=False)
     data = deferred(Column(JSON, nullable=True))
     rsus = relationship("MapRSU", backref="map")
-    bitmap = Column(String(64), nullable=True)
+    bitmap_filename = Column(String(64), nullable=True)
 
     def __repr__(self) -> str:
         return f"<Map(name='{self.name}')>"
@@ -46,7 +46,6 @@ class Map(Base, DandelionBase):
                 lat=self.lat,
                 lng=self.lng,
                 createTime=self.create_time,
-                bitmap=self.bitmap,
             ),
             **Optional_util.none(self.intersection).map(lambda v: v.to_all()).orElse({}),
         }

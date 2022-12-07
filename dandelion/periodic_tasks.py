@@ -133,7 +133,7 @@ def delete_unused_bitmap() -> None:
     LOG.info("Bitmap delete...")
     db: Session = session.DB_SESSION_LOCAL()
     bitmaps = crud.map.get_list_bitmap(db)
-    bitmaps_set = {bitmap.bitmap for bitmap in bitmaps}
+    bitmaps_set = {bitmap.bitmap_filename for bitmap in bitmaps}
     for filename in os.listdir(constants.BITMAP_FILE_PATH):
         if filename not in bitmaps_set:
             os.remove(f"{constants.BITMAP_FILE_PATH}/{filename}")
