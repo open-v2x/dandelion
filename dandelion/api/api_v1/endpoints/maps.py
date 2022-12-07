@@ -17,12 +17,13 @@ from __future__ import annotations
 from logging import LoggerAdapter
 from typing import Any, Dict, Optional
 
-from fastapi import APIRouter, Depends, Query, Response, status
+from fastapi import APIRouter, Depends, Query, Response, UploadFile, status
+from fastapi.responses import FileResponse
 from oslo_log import log
 from sqlalchemy import exc as sql_exc
 from sqlalchemy.orm import Session
 
-from dandelion import crud, models, schemas
+from dandelion import constants, crud, models, schemas
 from dandelion.api import deps
 from dandelion.api.deps import OpenV2XHTTPException as HTTPException, error_handle
 from dandelion.util import Optional as Optional_util
@@ -243,3 +244,72 @@ def data(
             status_code=status.HTTP_404_NOT_FOUND, detail=f"Map [id: {map_id}] not found"
         )
     return map_in_db.data
+
+
+@router.put(
+    "/{map_id}/bitmap",
+    status_code=status.HTTP_200_OK,
+    description="""
+update map bitmap.
+""",
+    responses={
+        status.HTTP_200_OK: {"description": "OK"},
+        status.HTTP_401_UNAUTHORIZED: {
+            "model": schemas.ErrorMessage,
+            "description": "Unauthorized",
+        },
+        status.HTTP_403_FORBIDDEN: {"model": schemas.ErrorMessage, "description": "Forbidden"},
+        status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
+    },
+)
+def update_bitmap(
+    map_id: int,
+    bitmap: UploadFile,
+    *,
+    db: Session = Depends(deps.get_db),
+    current_user: models.User = Depends(deps.get_current_user),
+) -> Response:
+
+    with open(f"{constants.BITMAP_FILE_PATH}/{map_id}.png", "wb") as f:
+        f.write(bitmap.file.read())
+
+    map_in_db = crud.map.get(db, id=map_id)
+    if not map_in_db:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail=f"Map [id: {map_id}] not found"
+        )
+
+    new_map_in = models.Map()
+    new_map_in.bitmap_filename = f"{map_id}.png"
+    crud.map.update(db, db_obj=map_in_db, obj_in=new_map_in.__dict__)
+
+    return Response(content=None, status_code=status.HTTP_200_OK)
+
+
+@router.get(
+    "/{map_id}/bitmap",
+    status_code=status.HTTP_200_OK,
+    response_class=FileResponse,
+    description="""
+Get a bitmap data.
+""",
+    responses={
+        status.HTTP_200_OK: {"description": "OK"},
+        status.HTTP_401_UNAUTHORIZED: {
+            "model": schemas.ErrorMessage,
+            "description": "Unauthorized",
+        },
+        status.HTTP_403_FORBIDDEN: {"model": schemas.ErrorMessage, "description": "Forbidden"},
+        status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
+    },
+)
+def get_bitmap(
+    map_id: int,
+    *,
+    db: Session = Depends(deps.get_db),
+    current_user: models.User = Depends(deps.get_current_user),
+) -> FileResponse:
+    map_in_db = crud.map.get(db, id=map_id)
+    if not map_in_db or not map_in_db.bitmap_filename:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="bitmap not found")
+    return FileResponse(f"{constants.BITMAP_FILE_PATH}/{map_in_db.bitmap_filename}")

@@ -2129,6 +2129,161 @@
                 ]
             }
         },
+        "/api/v1/maps/{map_id}/bitmap": {
+            "get": {
+                "tags": [
+                    "Map"
+                ],
+                "summary": "Get Bitmap",
+                "description": "Get a bitmap data.",
+                "operationId": "get_bitmap_api_v1_maps__map_id__bitmap_get",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Map Id",
+                            "type": "integer"
+                        },
+                        "name": "map_id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Map"
+                ],
+                "summary": "Update Bitmap",
+                "description": "update map bitmap.",
+                "operationId": "update_bitmap_api_v1_maps__map_id__bitmap_put",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Map Id",
+                            "type": "integer"
+                        },
+                        "name": "map_id",
+                        "in": "path"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Body_update_bitmap_api_v1_maps__map_id__bitmap_put"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            }
+        },
         "/api/v1/mngs": {
             "get": {
                 "tags": [
@@ -8509,6 +8664,20 @@
                     "password": {
                         "title": "Password",
                         "type": "string"
+                    }
+                }
+            },
+            "Body_update_bitmap_api_v1_maps__map_id__bitmap_put": {
+                "title": "Body_update_bitmap_api_v1_maps__map_id__bitmap_put",
+                "required": [
+                    "bitmap"
+                ],
+                "type": "object",
+                "properties": {
+                    "bitmap": {
+                        "title": "Bitmap",
+                        "type": "string",
+                        "format": "binary"
                     }
                 }
             },

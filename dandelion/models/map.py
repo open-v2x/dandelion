@@ -30,8 +30,8 @@ class Map(Base, DandelionBase):
     lat = Column(Float, nullable=False)
     lng = Column(Float, nullable=False)
     data = deferred(Column(JSON, nullable=True))
-
     rsus = relationship("MapRSU", backref="map")
+    bitmap_filename = Column(String(64), nullable=True)
 
     def __repr__(self) -> str:
         return f"<Map(name='{self.name}')>"
