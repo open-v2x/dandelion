@@ -34,6 +34,8 @@ class Camera(Base, DandelionBase):
     rsu_id = Column(Integer, ForeignKey("rsu.id"))
     desc = Column(String(255), nullable=False, default="")
 
+    intersection_code = Column(String(64), ForeignKey("intersection.code"))
+
     def __repr__(self) -> str:
         return f"<Camera(sn='{self.sn}', name='{self.name}')>"
 
@@ -53,8 +55,5 @@ class Camera(Base, DandelionBase):
                 desc=self.desc,
                 createTime=self.create_time,
             ),
-            **Optional_util.none(self.rsu)
-            .map(lambda v: v.intersection)
-            .map(lambda v: v.to_all())
-            .get(),
+            **Optional_util.none(self.intersection).map(lambda v: v.to_all()).get(),
         }

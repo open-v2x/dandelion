@@ -20,7 +20,7 @@ from fastapi.encoders import jsonable_encoder
 from sqlalchemy.orm import Session
 
 from dandelion.crud.base import CRUDBase
-from dandelion.models import RSU, Camera
+from dandelion.models import Camera
 from dandelion.schemas import CameraCreate, CameraUpdate
 
 
@@ -44,20 +44,17 @@ class CRUDCamera(CRUDBase[Camera, CameraCreate, CameraUpdate]):
         sn: Optional[str] = None,
         name: Optional[str] = None,
         rsu_id: Optional[int] = None,
-        area_code: Optional[str] = None,
-        rsu_esn: Optional[str] = None,
+        intersection_code: Optional[str] = None,
     ) -> Tuple[int, List[Camera]]:
-        query_ = db.query(self.model).join(RSU, self.model.rsu_id == RSU.id)
+        query_ = db.query(self.model)
         if sn is not None:
             query_ = self.fuzz_filter(query_, self.model.sn, sn)
         if name is not None:
             query_ = self.fuzz_filter(query_, self.model.name, name)
         if rsu_id is not None:
             query_ = query_.filter(self.model.rsu_id == rsu_id)
-        if area_code is not None:
-            query_ = query_.filter(RSU.area_code == area_code)
-        if rsu_esn is not None:
-            query_ = query_.filter(RSU.rsu_esn.like(f"%{rsu_esn}%"))
+        if intersection_code is not None:
+            query_ = query_.filter(self.model.intersection_code == intersection_code)
         total = query_.count()
         if limit != -1:
             query_ = query_.offset(skip).limit(limit)

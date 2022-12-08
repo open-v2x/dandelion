@@ -20,7 +20,7 @@ from fastapi.encoders import jsonable_encoder
 from sqlalchemy.orm import Session
 
 from dandelion.crud.base import CRUDBase
-from dandelion.models import RSU, Radar
+from dandelion.models import Radar
 from dandelion.schemas import RadarCreate, RadarUpdate
 
 
@@ -46,7 +46,7 @@ class CRUDRadar(CRUDBase[Radar, RadarCreate, RadarUpdate]):
         rsu_id: Optional[int] = None,
         intersection_code: Optional[str] = None,
     ) -> Tuple[int, List[Radar]]:
-        query_ = db.query(self.model).join(RSU, self.model.rsu_id == RSU.id)
+        query_ = db.query(self.model)
         if sn is not None:
             query_ = self.fuzz_filter(query_, self.model.sn, sn)
         if name is not None:
@@ -54,7 +54,7 @@ class CRUDRadar(CRUDBase[Radar, RadarCreate, RadarUpdate]):
         if rsu_id is not None:
             query_ = query_.filter(self.model.rsu_id == rsu_id)
         if intersection_code is not None:
-            query_ = query_.filter(RSU.intersection_code == intersection_code)
+            query_ = query_.filter(self.model.intersection_code == intersection_code)
         total = query_.count()
         if limit != -1:
             query_ = query_.offset(skip).limit(limit)

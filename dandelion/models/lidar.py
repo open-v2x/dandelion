@@ -38,6 +38,8 @@ class Lidar(Base, DandelionBase):
     desc = Column(String(255), nullable=False, default="")
     ws_url = Column(String(50), nullable=False, default="")
 
+    intersection_code = Column(String(64), ForeignKey("intersection.code"))
+
     def __repr__(self) -> str:
         return f"<Lidar (sn='{self.sn}', name='{self.name}')>"
 
@@ -62,8 +64,5 @@ class Lidar(Base, DandelionBase):
                 createTime=self.create_time,
                 wsUrl=self.ws_url,
             ),
-            **Optional_util.none(self.rsu)
-            .map(lambda v: v.intersection)
-            .map(lambda v: v.to_all())
-            .get(),
+            **Optional_util.none(self.intersection).map(lambda v: v.to_all()).get(),
         }

@@ -149,7 +149,6 @@ def get_all(
         None, alias="name", description="Filter by lidar name. Fuzzy prefix query is supported"
     ),
     rsu_id: Optional[int] = Query(None, alias="rsuId", description="Filter by rsuId"),
-    rsu_esn: Optional[str] = Query(None, alias="rsuEsn", description="Filter by rsuEsn"),
     intersection_code: Optional[str] = Query(
         None, alias="intersectionCode", description="Filter by lidar intersection code"
     ),
@@ -167,7 +166,6 @@ def get_all(
         name=name,
         rsu_id=rsu_id,
         intersection_code=intersection_code,
-        rsu_esn=rsu_esn,
     )
     return schemas.Lidars(total=total, data=[lidar.to_dict() for lidar in data])
 

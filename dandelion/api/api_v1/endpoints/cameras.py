@@ -149,9 +149,8 @@ def get_all(
         None, alias="name", description="Filter by camera name. Fuzzy prefix query is supported"
     ),
     rsu_id: Optional[int] = Query(None, alias="rsuId", description="Filter by RSU ID"),
-    rsu_esn: Optional[str] = Query(None, alias="rsuEsn", description="Filter by rsuEsn"),
-    area_code: Optional[str] = Query(
-        None, alias="areaCode", description="Filter by camera area code"
+    intersection_code: Optional[str] = Query(
+        None, alias="intersectionCode", description="Filter by camera intersection code"
     ),
     page_num: int = Query(1, alias="pageNum", ge=1, description="Page number"),
     page_size: int = Query(10, alias="pageSize", ge=-1, description="Page size"),
@@ -166,8 +165,7 @@ def get_all(
         sn=sn,
         name=name,
         rsu_id=rsu_id,
-        area_code=area_code,
-        rsu_esn=rsu_esn,
+        intersection_code=intersection_code,
     )
     return schemas.Cameras(total=total, data=[camera.to_dict() for camera in data])
 

@@ -38,7 +38,8 @@ class LidarCreate(BaseModel):
     pole: str = Field(..., alias="pole", description="pole")
     rsu_id: Optional[int] = Field(None, alias="rsuId", description="RSU ID")
     desc: Optional[str] = Field("", alias="desc", description="Description")
-    ws_url: Optional[str] = Field("", alias="wsUrl", description="websocket url")
+    ws_url: Optional[str] = Field("", alias="wsUrl", description="Websocket url")
+    intersection_code: str = Field(..., alias="intersectionCode", description="Intersection Code")
 
 
 class LidarEnabledUpdate(BaseModel):
@@ -58,7 +59,10 @@ class LidarUpdate(LidarBase):
     pole: str = Field(..., alias="pole", description="pole")
     rsu_id: Optional[int] = Field(None, alias="rsuId", description="RSU ID")
     desc: Optional[str] = Field("", alias="desc", description="Description")
-    ws_url: Optional[str] = Field("", alias="wsUrl", description="websocket url")
+    ws_url: Optional[str] = Field("", alias="wsUrl", description="Websocket url")
+    intersection_code: Optional[str] = Field(
+        None, alias="intersectionCode", description="Intersection Code"
+    )
 
 
 class LidarInDBBase(LidarBase):
@@ -81,8 +85,8 @@ class Lidar(LidarInDBBase):
     enabled: bool = Field(..., alias="enabled", description="enabled")
     point: str = Field(..., alias="point", description="point")
     pole: str = Field(..., alias="pole", description="pole")
-    rsu_id: int = Field(..., alias="rsuId", description="RSU ID")
-    rsu_name: str = Field(..., alias="rsuName", description="RSU Name")
+    rsu_id: Optional[int] = Field(None, alias="rsuId", description="RSU ID")
+    rsu_name: Optional[str] = Field(None, alias="rsuName", description="RSU Name")
     country_code: str = Field(..., alias="countryCode", description="Country Code")
     country_name: str = Field(..., alias="countryName", description="Country Name")
     province_code: str = Field(..., alias="provinceCode", description="Province Code")

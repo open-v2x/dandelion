@@ -86,6 +86,7 @@ tests:
       light: "1"
       rsuId: $HISTORY['create_rsu'].$RESPONSE['$.id']
       desc: "test_spat"
+      intersectionCode : "32011501"
     status: 201
     response_json_paths:
       $.intersectionId: 'LD_Intersection_01'
