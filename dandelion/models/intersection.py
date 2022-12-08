@@ -34,6 +34,11 @@ class Intersection(Base, DandelionBase):
     rsus = relationship("RSU", backref="intersection")
     rsi_events = relationship("RSIEvent", backref="intersection")
 
+    cameras = relationship("Camera", backref="intersection")
+    radars = relationship("Radar", backref="intersection")
+    lidars = relationship("Lidar", backref="intersection")
+    spats = relationship("Spat", backref="intersection")
+
     def __repr__(self) -> str:
         return f"<Intersection(code='{self.code}', name='{self.name}')>"
 

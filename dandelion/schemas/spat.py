@@ -35,6 +35,7 @@ class SpatCreate(BaseModel):
     light: str = Field(..., alias="light", description="Light")
     rsu_id: Optional[int] = Field(None, alias="rsuId", description="RSU ID")
     desc: Optional[str] = Field("", alias="desc", description="Description")
+    intersection_code: str = Field(..., alias="intersectionCode", description="Intersection Code")
 
 
 class SpatEnabledUpdate(BaseModel):
@@ -51,6 +52,9 @@ class SpatUpdate(SpatBase):
     light: str = Field(..., alias="light", description="Light")
     rsu_id: Optional[int] = Field(None, alias="rsuId", description="RSU ID")
     desc: Optional[str] = Field("", alias="desc", description="Description")
+    intersection_code: Optional[str] = Field(
+        None, alias="intersectionCode", description="Intersection Code"
+    )
 
 
 class SpatInDBBase(SpatBase):
@@ -71,8 +75,8 @@ class Spat(SpatInDBBase):
     phase_id: str = Field(..., alias="phaseId", description="PhaseId")
     light: str = Field(..., alias="light", description="Light")
     timing: datetime = Field(..., alias="timing", description="Timing")
-    rsu_id: int = Field(..., alias="rsuId", description="RSU ID")
-    rsu_name: str = Field(..., alias="rsuName", description="RSU Name")
+    rsu_id: Optional[int] = Field(None, alias="rsuId", description="RSU ID")
+    rsu_name: Optional[str] = Field(None, alias="rsuName", description="RSU Name")
     country_code: str = Field(..., alias="countryCode", description="Country Code")
     country_name: str = Field(..., alias="countryName", description="Country Name")
     province_code: str = Field(..., alias="provinceCode", description="Province Code")

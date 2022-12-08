@@ -37,6 +37,8 @@ class Spat(Base, DandelionBase):
     timing = Column(DateTime, nullable=False, default=lambda: datetime.utcnow())
     desc = Column(String(255), nullable=False, default="")
 
+    intersection_code = Column(String(64), ForeignKey("intersection.code"))
+
     __table_args__ = (UniqueConstraint("intersection_id", "phase_id"),)
 
     def __repr__(self) -> str:
@@ -60,8 +62,5 @@ class Spat(Base, DandelionBase):
                 desc=self.desc,
                 createTime=self.create_time,
             ),
-            **Optional_util.none(self.rsu)
-            .map(lambda v: v.intersection)
-            .map(lambda v: v.to_all())
-            .get(),
+            **Optional_util.none(self.intersection).map(lambda v: v.to_all()).get(),
         }

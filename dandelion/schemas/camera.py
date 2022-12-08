@@ -34,8 +34,9 @@ class CameraCreate(BaseModel):
     lat: float = Field(..., alias="lat", description="Lat")
     elevation: float = Field(..., alias="elevation", description="Elevation")
     towards: float = Field(..., alias="towards", description="Towards")
-    rsu_id: int = Field(..., alias="rsuId", description="RSU ID")
+    rsu_id: Optional[int] = Field(None, alias="rsuId", description="RSU ID")
     desc: Optional[str] = Field(None, alias="desc", description="Description")
+    intersection_code: str = Field(..., alias="intersectionCode", description="Intersection Code")
 
 
 # Properties to receive via API on update
@@ -47,8 +48,11 @@ class CameraUpdate(CameraBase):
     lat: float = Field(..., alias="lat", description="Lat")
     elevation: float = Field(..., alias="elevation", description="Elevation")
     towards: float = Field(..., alias="towards", description="Towards")
-    rsu_id: int = Field(..., alias="rsuId", description="RSU ID")
+    rsu_id: Optional[int] = Field(None, alias="rsuId", description="RSU ID")
     desc: Optional[str] = Field(None, alias="desc", description="Description")
+    intersection_code: Optional[str] = Field(
+        None, alias="intersectionCode", description="Intersection Code"
+    )
 
 
 class CameraInDBBase(CameraBase):
@@ -67,8 +71,8 @@ class Camera(CameraInDBBase):
     lat: float = Field(..., alias="lat", description="Lat")
     elevation: float = Field(..., alias="elevation", description="Elevation")
     towards: float = Field(..., alias="towards", description="Towards")
-    rsu_id: int = Field(..., alias="rsuId", description="RSU ID")
-    rsu_name: str = Field(..., alias="rsuName", description="RSU Name")
+    rsu_id: Optional[int] = Field(None, alias="rsuId", description="RSU ID")
+    rsu_name: Optional[str] = Field(None, alias="rsuName", description="RSU Name")
     country_code: str = Field(..., alias="countryCode", description="Country Code")
     country_name: str = Field(..., alias="countryName", description="Country Name")
     province_code: str = Field(..., alias="provinceCode", description="Province Code")

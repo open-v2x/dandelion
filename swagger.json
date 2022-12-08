@@ -725,25 +725,14 @@
                         "in": "query"
                     },
                     {
-                        "description": "Filter by rsuEsn",
+                        "description": "Filter by camera intersection code",
                         "required": false,
                         "schema": {
-                            "title": "Rsuesn",
+                            "title": "Intersectioncode",
                             "type": "string",
-                            "description": "Filter by rsuEsn"
+                            "description": "Filter by camera intersection code"
                         },
-                        "name": "rsuEsn",
-                        "in": "query"
-                    },
-                    {
-                        "description": "Filter by camera area code",
-                        "required": false,
-                        "schema": {
-                            "title": "Areacode",
-                            "type": "string",
-                            "description": "Filter by camera area code"
-                        },
-                        "name": "areaCode",
+                        "name": "intersectionCode",
                         "in": "query"
                     },
                     {
@@ -4136,17 +4125,6 @@
                             "description": "Filter by rsuId"
                         },
                         "name": "rsuId",
-                        "in": "query"
-                    },
-                    {
-                        "description": "Filter by rsuEsn",
-                        "required": false,
-                        "schema": {
-                            "title": "Rsuesn",
-                            "type": "string",
-                            "description": "Filter by rsuEsn"
-                        },
-                        "name": "rsuEsn",
                         "in": "query"
                     },
                     {
@@ -8692,8 +8670,6 @@
                     "lat",
                     "elevation",
                     "towards",
-                    "rsuId",
-                    "rsuName",
                     "countryCode",
                     "countryName",
                     "provinceCode",
@@ -8832,7 +8808,7 @@
                     "lat",
                     "elevation",
                     "towards",
-                    "rsuId"
+                    "intersectionCode"
                 ],
                 "type": "object",
                 "properties": {
@@ -8880,6 +8856,11 @@
                         "title": "Desc",
                         "type": "string",
                         "description": "Description"
+                    },
+                    "intersectionCode": {
+                        "title": "Intersectioncode",
+                        "type": "string",
+                        "description": "Intersection Code"
                     }
                 }
             },
@@ -8918,8 +8899,7 @@
                     "lng",
                     "lat",
                     "elevation",
-                    "towards",
-                    "rsuId"
+                    "towards"
                 ],
                 "type": "object",
                 "properties": {
@@ -8967,6 +8947,11 @@
                         "title": "Desc",
                         "type": "string",
                         "description": "Description"
+                    },
+                    "intersectionCode": {
+                        "title": "Intersectioncode",
+                        "type": "string",
+                        "description": "Intersection Code"
                     }
                 }
             },
@@ -9444,8 +9429,6 @@
                     "enabled",
                     "point",
                     "pole",
-                    "rsuId",
-                    "rsuName",
                     "countryCode",
                     "countryName",
                     "provinceCode",
@@ -9610,7 +9593,8 @@
                     "elevation",
                     "towards",
                     "point",
-                    "pole"
+                    "pole",
+                    "intersectionCode"
                 ],
                 "type": "object",
                 "properties": {
@@ -9673,8 +9657,13 @@
                     "wsUrl": {
                         "title": "Wsurl",
                         "type": "string",
-                        "description": "websocket url",
+                        "description": "Websocket url",
                         "default": ""
+                    },
+                    "intersectionCode": {
+                        "title": "Intersectioncode",
+                        "type": "string",
+                        "description": "Intersection Code"
                     }
                 }
             },
@@ -9791,8 +9780,13 @@
                     "wsUrl": {
                         "title": "Wsurl",
                         "type": "string",
-                        "description": "websocket url",
+                        "description": "Websocket url",
                         "default": ""
+                    },
+                    "intersectionCode": {
+                        "title": "Intersectioncode",
+                        "type": "string",
+                        "description": "Intersection Code"
                     }
                 }
             },
@@ -12794,8 +12788,6 @@
                     "elevation",
                     "towards",
                     "status",
-                    "rsuId",
-                    "rsuName",
                     "countryCode",
                     "countryName",
                     "provinceCode",
@@ -12937,7 +12929,8 @@
                     "lng",
                     "lat",
                     "elevation",
-                    "towards"
+                    "towards",
+                    "intersectionCode"
                 ],
                 "type": "object",
                 "properties": {
@@ -12986,6 +12979,11 @@
                         "type": "string",
                         "description": "Description",
                         "default": ""
+                    },
+                    "intersectionCode": {
+                        "title": "Intersectioncode",
+                        "type": "string",
+                        "description": "Intersection Code"
                     }
                 }
             },
@@ -13072,6 +13070,11 @@
                         "type": "string",
                         "description": "Description",
                         "default": ""
+                    },
+                    "intersectionCode": {
+                        "title": "Intersectioncode",
+                        "type": "string",
+                        "description": "Intersection Code"
                     }
                 }
             },
@@ -13313,8 +13316,6 @@
                     "phaseId",
                     "light",
                     "timing",
-                    "rsuId",
-                    "rsuName",
                     "countryCode",
                     "countryName",
                     "provinceCode",
@@ -13461,7 +13462,8 @@
                     "name",
                     "point",
                     "phaseId",
-                    "light"
+                    "light",
+                    "intersectionCode"
                 ],
                 "type": "object",
                 "properties": {
@@ -13505,6 +13507,11 @@
                         "type": "string",
                         "description": "Description",
                         "default": ""
+                    },
+                    "intersectionCode": {
+                        "title": "Intersectioncode",
+                        "type": "string",
+                        "description": "Intersection Code"
                     }
                 }
             },
@@ -13599,6 +13606,11 @@
                         "type": "string",
                         "description": "Description",
                         "default": ""
+                    },
+                    "intersectionCode": {
+                        "title": "Intersectioncode",
+                        "type": "string",
+                        "description": "Intersection Code"
                     }
                 }
             },

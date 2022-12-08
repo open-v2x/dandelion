@@ -20,7 +20,7 @@ from fastapi.encoders import jsonable_encoder
 from sqlalchemy.orm import Session
 
 from dandelion.crud.base import CRUDBase
-from dandelion.models import RSU, Spat
+from dandelion.models import Spat
 from dandelion.schemas import SpatCreate, SpatEnabledUpdate, SpatUpdate
 
 
@@ -46,7 +46,7 @@ class CRUDSpat(CRUDBase[Spat, SpatCreate, Union[SpatUpdate, SpatEnabledUpdate]])
         rsu_id: Optional[int] = None,
         intersection_code: Optional[str] = None,
     ) -> Tuple[int, List[Spat]]:
-        query_ = db.query(self.model).join(RSU, self.model.rsu_id == RSU.id)
+        query_ = db.query(self.model)
         if intersection_id is not None:
             query_ = self.fuzz_filter(query_, self.model.intersection_id, intersection_id)
         if name is not None:
@@ -54,7 +54,7 @@ class CRUDSpat(CRUDBase[Spat, SpatCreate, Union[SpatUpdate, SpatEnabledUpdate]])
         if rsu_id is not None:
             query_ = query_.filter(self.model.rsu_id == rsu_id)
         if intersection_code is not None:
-            query_ = query_.filter(RSU.intersection_code == intersection_code)
+            query_ = query_.filter(self.model.intersection_code == intersection_code)
         total = query_.count()
         if limit != -1:
             query_ = query_.offset(skip).limit(limit)

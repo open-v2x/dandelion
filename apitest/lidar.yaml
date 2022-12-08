@@ -90,6 +90,7 @@ tests:
       rsuId: $HISTORY['create_rsu'].$RESPONSE['$.id']
       desc: 'test_leida'
       wsUrl: "ws://47.100.126.13:8000/ws/127.0.0.1"
+      intersectionCode : "32011501"
     status: 201
     response_json_paths:
       $.sn: 'LD_SN_01'
