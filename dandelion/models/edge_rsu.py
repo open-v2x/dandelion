@@ -36,6 +36,7 @@ class EdgeNodeRSU(Base, DandelionBase):
             esn=self.esn,
             location=self.location,
             createTime=self.create_time,
+            edge_rsu_id=self.edge_rsu_id,
         )
 
     def __repr__(self) -> str:

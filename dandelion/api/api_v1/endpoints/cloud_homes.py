@@ -15,6 +15,7 @@
 from __future__ import annotations
 
 from logging import LoggerAdapter
+from typing import Optional
 
 from fastapi import APIRouter, Body, Depends, Query, status
 from oslo_log import log
@@ -47,6 +48,7 @@ Get online rate of all devices.
     },
 )
 def online_rate(
+    edge_rsu_id: Optional[int] = Query(None, alias="edgeRsuId", description="Edge Rsu Id"),
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> schemas.OnlineRate:
@@ -57,18 +59,18 @@ def online_rate(
     }
     # temporarily unavailable data
     camera_online_rate = {
-        "online": crud.camera.get_multi_with_total(db)[0],
+        "online": crud.camera.get_multi_with_total(db, rsu_id=edge_rsu_id)[0],
         "offline": 0,
         "notRegister": 0,
     }
     # temporarily unavailable data
     radar_online_rate = {
-        "online": crud.radar.get_multi_with_total(db)[0],
+        "online": crud.radar.get_multi_with_total(db, rsu_id=edge_rsu_id)[0],
         "offline": 0,
         "notRegister": 0,
     }
     lidar_online_rate = {
-        "online": crud.lidar.get_multi_with_total(db)[0],
+        "online": crud.lidar.get_multi_with_total(db, rsu_id=edge_rsu_id)[0],
         "offline": 0,
         "notRegister": 0,
     }

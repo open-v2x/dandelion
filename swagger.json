@@ -1147,6 +1147,19 @@
                 "summary": "Online Rate",
                 "description": "Get online rate of all devices.",
                 "operationId": "online_rate_api_v1_homes_online_rate_get",
+                "parameters": [
+                    {
+                        "description": "Edge Rsu Id",
+                        "required": false,
+                        "schema": {
+                            "title": "Edgersuid",
+                            "type": "integer",
+                            "description": "Edge Rsu Id"
+                        },
+                        "name": "edgeRsuId",
+                        "in": "query"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -1184,6 +1197,16 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
                                 }
                             }
                         }
@@ -9056,7 +9079,8 @@
             "EdgeNodeRSU": {
                 "title": "EdgeNodeRSU",
                 "required": [
-                    "id"
+                    "id",
+                    "edge_rsu_id"
                 ],
                 "type": "object",
                 "properties": {
@@ -9083,6 +9107,11 @@
                         "title": "Id",
                         "type": "integer",
                         "description": "RSU ID"
+                    },
+                    "edge_rsu_id": {
+                        "title": "Edge Rsu Id",
+                        "type": "integer",
+                        "description": "Edge Rsu ID"
                     }
                 }
             },
