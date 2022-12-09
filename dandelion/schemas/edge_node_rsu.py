@@ -60,6 +60,8 @@ class EdgeNodeRSUInDBBase(EdgeNodeRSUBase):
 class EdgeNodeRSU(EdgeNodeRSUInDBBase):
     """"""
 
+    edgeRsuId: int = Field(..., alias="edge_rsu_id", description="Edge Rsu ID")
+
 
 class EdgeNodeRSUs(BaseModel):
     total: int = Field(..., alias="total", description="Total")
