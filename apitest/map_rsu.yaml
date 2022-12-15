@@ -14,7 +14,7 @@ vars:
 
 tests:
   - name: create_user
-    url: /api/v1/users
+    url: /api/omega/v1/users
     method: POST
     data:
       username: *username
@@ -25,7 +25,7 @@ tests:
       $.username: *username
 
   - name: user_login
-    url: /api/v1/login
+    url: /api/omega/v1/login
     method: POST
     data:
       username: *username
@@ -35,7 +35,7 @@ tests:
       $.token_type: bearer
 
   - name: create_map
-    url: /api/v1/maps
+    url: /api/omega/v1/maps
     method: POST
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
@@ -60,7 +60,7 @@ tests:
       $.desc: '这是测试的地图'
 
   - name: create_rsu_model
-    url: /api/v1/rsu_models
+    url: /api/omega/v1/rsu_models
     method: POST
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
@@ -75,7 +75,7 @@ tests:
       $.desc: 蓝天726
 
   - name: create_rsu
-    url: /api/v1/rsus
+    url: /api/omega/v1/rsus
     method: POST
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
@@ -98,7 +98,7 @@ tests:
       $.rsuModelId: $HISTORY['create_rsu_model'].$RESPONSE['$.id']
 
   - name: create_map_rsu_bind
-    url: /api/v1/maps/$HISTORY['create_map'].$RESPONSE['$.id']/rsus
+    url: /api/omega/v1/maps/$HISTORY['create_map'].$RESPONSE['$.id']/rsus
     method: POST
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
@@ -108,7 +108,7 @@ tests:
     status: 201
 
   - name: map_rsu_bind_list
-    url: /api/v1/maps/$HISTORY['create_map'].$RESPONSE['$.id']/rsus
+    url: /api/omega/v1/maps/$HISTORY['create_map'].$RESPONSE['$.id']/rsus
     method: GET
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
@@ -118,35 +118,35 @@ tests:
     status: 200
 
   - name: delete_map_rsu_bind
-    url: /api/v1/maps/$HISTORY['create_map'].$RESPONSE['$.id']/rsus/$HISTORY['map_rsu_bind_list'].$RESPONSE['$.data[0].id']
+    url: /api/omega/v1/maps/$HISTORY['create_map'].$RESPONSE['$.id']/rsus/$HISTORY['map_rsu_bind_list'].$RESPONSE['$.data[0].id']
     method: DELETE
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
     status: 204
 
   - name: delete_map
-    url: /api/v1/maps/$HISTORY['create_map'].$RESPONSE['$.id']
+    url: /api/omega/v1/maps/$HISTORY['create_map'].$RESPONSE['$.id']
     method: DELETE
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
     status: 204
 
   - name: delete_rsu
-    url: /api/v1/rsus/$HISTORY['create_rsu'].$RESPONSE['$.id']
+    url: /api/omega/v1/rsus/$HISTORY['create_rsu'].$RESPONSE['$.id']
     method: DELETE
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
     status: 204
 
   - name: delete_rsu_model
-    url: /api/v1/rsu_models/$HISTORY['create_rsu_model'].$RESPONSE['$.id']
+    url: /api/omega/v1/rsu_models/$HISTORY['create_rsu_model'].$RESPONSE['$.id']
     method: DELETE
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
     status: 204
 
   - name: delete_user
-    url: /api/v1/users/$HISTORY['create_user'].$RESPONSE['$.id']
+    url: /api/omega/v1/users/$HISTORY['create_user'].$RESPONSE['$.id']
     method: DELETE
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']

@@ -14,7 +14,7 @@ vars:
 
 tests:
   - name: create_user
-    url: /api/v1/users
+    url: /api/omega/v1/users
     method: POST
     data:
       username: *username
@@ -25,7 +25,7 @@ tests:
       $.username: *username
 
   - name: user_login
-    url: /api/v1/login
+    url: /api/omega/v1/login
     method: POST
     data:
       username: *username
@@ -35,7 +35,7 @@ tests:
       $.token_type: bearer
 
   - name: get_rsi_cwms
-    url: /api/v1/rsi_cwms
+    url: /api/omega/v1/rsi_cwms
     method: GET
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
@@ -45,7 +45,7 @@ tests:
     status: 200
 
   - name: delete_user
-    url: /api/v1/users/$HISTORY['create_user'].$RESPONSE['$.id']
+    url: /api/omega/v1/users/$HISTORY['create_user'].$RESPONSE['$.id']
     method: DELETE
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']

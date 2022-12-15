@@ -16,6 +16,6 @@ from __future__ import annotations
 
 PROJECT_NAME: str = "dandelion"
 CONFIG_FILE_PATH: str = "/etc/dandelion/dandelion.conf"
-API_V1_STR: str = "/api/v1"
+API_V1_STR: str = "/api/omega/v1"
 ALGORITHM: str = "HS256"
 BITMAP_FILE_PATH: str = "/openv2x/data/bitmap"

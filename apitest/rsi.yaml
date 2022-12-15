@@ -14,7 +14,7 @@ vars:
 
 tests:
   - name: create_user
-    url: /api/v1/users
+    url: /api/omega/v1/users
     method: POST
     data:
       username: *username
@@ -25,7 +25,7 @@ tests:
       $.username: *username
 
   - name: user_login
-    url: /api/v1/login
+    url: /api/omega/v1/login
     method: POST
     data:
       username: *username
@@ -35,7 +35,7 @@ tests:
       $.token_type: bearer
 
   - name: get_events
-    url: /api/v1/events
+    url: /api/omega/v1/events
     method: GET
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
@@ -45,14 +45,14 @@ tests:
     status: 200
 
 #  - name: get_once_event
-#    url: /api/v1/events/$HISTORY['get_events'].$RESPONSE['$.data[0].id']
+#    url: /api/omega/v1/events/$HISTORY['get_events'].$RESPONSE['$.data[0].id']
 #    method: GET
 #    request_headers:
 #      Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
 #    status: 200
 
   - name: delete_user
-    url: /api/v1/users/$HISTORY['create_user'].$RESPONSE['$.id']
+    url: /api/omega/v1/users/$HISTORY['create_user'].$RESPONSE['$.id']
     method: DELETE
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']

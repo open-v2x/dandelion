@@ -16,7 +16,7 @@ vars:
 
 tests:
   - name: create_user
-    url: /api/v1/users
+    url: /api/omega/v1/users
     method: POST
     data:
       username: *username
@@ -27,7 +27,7 @@ tests:
       $.username: *username
 
   - name: user_login
-    url: /api/v1/login
+    url: /api/omega/v1/login
     method: POST
     data:
       username: *username
@@ -37,7 +37,7 @@ tests:
       $.token_type: bearer
 
   - name: create_node
-    url: /api/v1/system_configs
+    url: /api/omega/v1/system_configs
     method: POST
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
@@ -67,7 +67,7 @@ tests:
       $.username: *username
 
   - name: login_other_node-user_login
-    url: http://$HISTORY['create_node'].$RESPONSE['$.mqtt_config.host']/api/v1/login
+    url: http://$HISTORY['create_node'].$RESPONSE['$.mqtt_config.host']/api/omega/v1/login
     method: POST
     data:
       username: *username
@@ -78,7 +78,7 @@ tests:
 
 
   - name: get_node
-    url: http://$HISTORY['create_node'].$RESPONSE['$.mqtt_config.host']/api/v1/edge_nodes?name=&pageNum=1&pageSize=10
+    url: http://$HISTORY['create_node'].$RESPONSE['$.mqtt_config.host']/api/omega/v1/edge_nodes?name=&pageNum=1&pageSize=10
     method: GET
     request_headers:
       Authorization: Bearer $HISTORY['login_other_node-user_login'].$RESPONSE['$.access_token']
@@ -87,14 +87,14 @@ tests:
       - testmqtt
 
   - name: delete_user
-    url: /api/v1/users/$HISTORY['create_user'].$RESPONSE['$.id']
+    url: /api/omega/v1/users/$HISTORY['create_user'].$RESPONSE['$.id']
     method: DELETE
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
     status: 204
 
   - name: delete_other_node_user
-    url: http://$HISTORY['create_node'].$RESPONSE['$.mqtt_config.host']/api/v1/users/$HISTORY['login_other_node-create_user'].$RESPONSE['$.id']
+    url: http://$HISTORY['create_node'].$RESPONSE['$.mqtt_config.host']/api/omega/v1/users/$HISTORY['login_other_node-create_user'].$RESPONSE['$.id']
     method: DELETE
     request_headers:
       Authorization: Bearer $HISTORY['login_other_node-user_login'].$RESPONSE['$.access_token']

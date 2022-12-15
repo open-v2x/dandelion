@@ -14,7 +14,7 @@ vars:
 
 tests:
   - name: create_user
-    url: /api/v1/users
+    url: /api/omega/v1/users
     method: POST
     data:
       username: *username
@@ -25,7 +25,7 @@ tests:
       $.username: *username
 
   - name: user_login
-    url: /api/v1/login
+    url: /api/omega/v1/login
     method: POST
     data:
       username: *username
@@ -35,7 +35,7 @@ tests:
       $.token_type: bearer
 
   - name: create_map
-    url: /api/v1/maps
+    url: /api/omega/v1/maps
     method: POST
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
@@ -60,7 +60,7 @@ tests:
       $.desc: '这是测试的地图'
 
   - name: map_list
-    url: /api/v1/maps
+    url: /api/omega/v1/maps
     method: GET
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
@@ -71,7 +71,7 @@ tests:
     status: 200
 
   - name: map_info
-    url: /api/v1/maps/$HISTORY['create_map'].$RESPONSE['$.id']
+    url: /api/omega/v1/maps/$HISTORY['create_map'].$RESPONSE['$.id']
     method: GET
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
@@ -82,7 +82,7 @@ tests:
       $.desc: '这是测试的地图'
 
   - name: update_map
-    url: /api/v1/maps/$HISTORY['create_map'].$RESPONSE['$.id']
+    url: /api/omega/v1/maps/$HISTORY['create_map'].$RESPONSE['$.id']
     method: PUT
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
@@ -105,14 +105,14 @@ tests:
       $.name: '测试地图02'
 
   - name: delete_map
-    url: /api/v1/maps/$HISTORY['create_map'].$RESPONSE['$.id']
+    url: /api/omega/v1/maps/$HISTORY['create_map'].$RESPONSE['$.id']
     method: DELETE
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
     status: 204
 
   - name: delete_user
-    url: /api/v1/users/$HISTORY['create_user'].$RESPONSE['$.id']
+    url: /api/omega/v1/users/$HISTORY['create_user'].$RESPONSE['$.id']
     method: DELETE
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']

@@ -14,7 +14,7 @@ vars:
 
 tests:
   - name: create_user
-    url: /api/v1/users
+    url: /api/omega/v1/users
     method: POST
     data:
       username: *username
@@ -25,7 +25,7 @@ tests:
       $.username: *username
 
   - name: user_login
-    url: /api/v1/login
+    url: /api/omega/v1/login
     method: POST
     data:
       username: *username
@@ -35,7 +35,7 @@ tests:
       $.token_type: bearer
 
   - name: edge_node
-    url: /api/v1/edge_nodes
+    url: /api/omega/v1/edge_nodes
     method: POST
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
@@ -44,7 +44,7 @@ tests:
     status: 201
 
   - name: edge_node_rsu_create
-    url: /api/v1/edge_node_rsus/$HISTORY['edge_node'].$RESPONSE['$.id']
+    url: /api/omega/v1/edge_node_rsus/$HISTORY['edge_node'].$RESPONSE['$.id']
     method: PUT
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
@@ -59,7 +59,7 @@ tests:
       $.esn: "RSU_ESN02"
 
   - name: edge_node_rsu_update
-    url: /api/v1/edge_node_rsus/$HISTORY['edge_node'].$RESPONSE['$.id']
+    url: /api/omega/v1/edge_node_rsus/$HISTORY['edge_node'].$RESPONSE['$.id']
     method: PUT
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
@@ -74,7 +74,7 @@ tests:
       $.esn: "RSU_ESN03"
 
   - name: delete_user
-    url: /api/v1/users/$HISTORY['create_user'].$RESPONSE['$.id']
+    url: /api/omega/v1/users/$HISTORY['create_user'].$RESPONSE['$.id']
     method: DELETE
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']

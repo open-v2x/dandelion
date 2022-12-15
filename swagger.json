@@ -5,19 +5,19 @@
         "version": "0.1.0"
     },
     "paths": {
-        "/api/v1/login": {
+        "/api/omega/v1/login": {
             "post": {
                 "tags": [
                     "User"
                 ],
                 "summary": "Login",
                 "description": "User login with username and password.",
-                "operationId": "login_api_v1_login_post",
+                "operationId": "login_api_omega_v1_login_post",
                 "requestBody": {
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/Body_login_api_v1_login_post"
+                                "$ref": "#/components/schemas/Body_login_api_omega_v1_login_post"
                             }
                         }
                     },
@@ -57,19 +57,19 @@
                 }
             }
         },
-        "/api/v1/login/access-token": {
+        "/api/omega/v1/login/access-token": {
             "post": {
                 "tags": [
                     "User"
                 ],
                 "summary": "Login Access Token(DO NOT USE IN PRODUCTION)",
                 "description": "- `DO NOT USE IN PRODUCTION !!!`\n- `JUST FOR TESTING PURPOSE !!!`",
-                "operationId": "access_token_api_v1_login_access_token_post",
+                "operationId": "access_token_api_omega_v1_login_access_token_post",
                 "requestBody": {
                     "content": {
                         "application/x-www-form-urlencoded": {
                             "schema": {
-                                "$ref": "#/components/schemas/Body_access_token_api_v1_login_access_token_post"
+                                "$ref": "#/components/schemas/Body_access_token_api_omega_v1_login_access_token_post"
                             }
                         }
                     },
@@ -109,14 +109,14 @@
                 }
             }
         },
-        "/api/v1/login/iam": {
+        "/api/omega/v1/login/iam": {
             "post": {
                 "tags": [
                     "User"
                 ],
                 "summary": "Iam Login",
                 "description": "User login with iam token.",
-                "operationId": "iam_login_api_v1_login_iam_post",
+                "operationId": "iam_login_api_omega_v1_login_iam_post",
                 "parameters": [
                     {
                         "description": "Iam token",
@@ -164,14 +164,14 @@
                 }
             }
         },
-        "/api/v1/users": {
+        "/api/omega/v1/users": {
             "post": {
                 "tags": [
                     "User"
                 ],
                 "summary": "Create",
                 "description": "Create new user.",
-                "operationId": "create_api_v1_users_post",
+                "operationId": "create_api_omega_v1_users_post",
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -206,14 +206,14 @@
                 }
             }
         },
-        "/api/v1/users/me": {
+        "/api/omega/v1/users/me": {
             "get": {
                 "tags": [
                     "User"
                 ],
                 "summary": "Get",
                 "description": "Get detailed info of me(current login user).",
-                "operationId": "get_api_v1_users_me_get",
+                "operationId": "get_api_omega_v1_users_me_get",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -263,14 +263,14 @@
                 ]
             }
         },
-        "/api/v1/users/{user_id}": {
+        "/api/omega/v1/users/{user_id}": {
             "delete": {
                 "tags": [
                     "User"
                 ],
                 "summary": "Delete",
                 "description": "Delete a User.",
-                "operationId": "delete_api_v1_users__user_id__delete",
+                "operationId": "delete_api_omega_v1_users__user_id__delete",
                 "parameters": [
                     {
                         "required": true,
@@ -334,14 +334,14 @@
                 ]
             }
         },
-        "/api/v1/countries": {
+        "/api/omega/v1/countries": {
             "get": {
                 "tags": [
                     "Area"
                 ],
                 "summary": "List Countries",
                 "description": "Get all countries.",
-                "operationId": "get_all_api_v1_countries_get",
+                "operationId": "get_all_api_omega_v1_countries_get",
                 "parameters": [
                     {
                         "description": "Cascade to list all countries.",
@@ -373,7 +373,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "title": "Response 200 Get All Api V1 Countries Get",
+                                    "title": "Response 200 Get All Api Omega V1 Countries Get",
                                     "type": "array",
                                     "items": {
                                         "$ref": "#/components/schemas/Country"
@@ -430,14 +430,14 @@
                 ]
             }
         },
-        "/api/v1/provinces": {
+        "/api/omega/v1/provinces": {
             "get": {
                 "tags": [
                     "Area"
                 ],
                 "summary": "List Provinces",
                 "description": "Search province by country.",
-                "operationId": "get_all_api_v1_provinces_get",
+                "operationId": "get_all_api_omega_v1_provinces_get",
                 "parameters": [
                     {
                         "description": "Filter by countryCode",
@@ -457,7 +457,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "title": "Response 200 Get All Api V1 Provinces Get",
+                                    "title": "Response 200 Get All Api Omega V1 Provinces Get",
                                     "type": "array",
                                     "items": {
                                         "$ref": "#/components/schemas/Province"
@@ -514,14 +514,14 @@
                 ]
             }
         },
-        "/api/v1/cities": {
+        "/api/omega/v1/cities": {
             "get": {
                 "tags": [
                     "Area"
                 ],
                 "summary": "List Cities",
                 "description": "Search city by province.",
-                "operationId": "get_all_api_v1_cities_get",
+                "operationId": "get_all_api_omega_v1_cities_get",
                 "parameters": [
                     {
                         "description": "Filter by provinceCode",
@@ -541,7 +541,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "title": "Response 200 Get All Api V1 Cities Get",
+                                    "title": "Response 200 Get All Api Omega V1 Cities Get",
                                     "type": "array",
                                     "items": {
                                         "$ref": "#/components/schemas/City"
@@ -598,14 +598,14 @@
                 ]
             }
         },
-        "/api/v1/areas": {
+        "/api/omega/v1/areas": {
             "get": {
                 "tags": [
                     "Area"
                 ],
                 "summary": "List Areas",
                 "description": "Search area by city.",
-                "operationId": "get_all_api_v1_areas_get",
+                "operationId": "get_all_api_omega_v1_areas_get",
                 "parameters": [
                     {
                         "description": "Filter by cityCode",
@@ -625,7 +625,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "title": "Response 200 Get All Api V1 Areas Get",
+                                    "title": "Response 200 Get All Api Omega V1 Areas Get",
                                     "type": "array",
                                     "items": {
                                         "$ref": "#/components/schemas/Area"
@@ -682,14 +682,14 @@
                 ]
             }
         },
-        "/api/v1/cameras": {
+        "/api/omega/v1/cameras": {
             "get": {
                 "tags": [
                     "Camera"
                 ],
                 "summary": "List Cameras",
                 "description": "Get all Cameras.",
-                "operationId": "get_all_api_v1_cameras_get",
+                "operationId": "get_all_api_omega_v1_cameras_get",
                 "parameters": [
                     {
                         "description": "Filter by camera sn. Fuzzy prefix query is supported",
@@ -826,7 +826,7 @@
                 ],
                 "summary": "Create",
                 "description": "Create a new Camera.",
-                "operationId": "create_api_v1_cameras_post",
+                "operationId": "create_api_omega_v1_cameras_post",
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -906,14 +906,14 @@
                 ]
             }
         },
-        "/api/v1/cameras/{camera_id}": {
+        "/api/omega/v1/cameras/{camera_id}": {
             "get": {
                 "tags": [
                     "Camera"
                 ],
                 "summary": "Get",
                 "description": "Get a Camera.",
-                "operationId": "get_api_v1_cameras__camera_id__get",
+                "operationId": "get_api_omega_v1_cameras__camera_id__get",
                 "parameters": [
                     {
                         "required": true,
@@ -989,7 +989,7 @@
                 ],
                 "summary": "Update",
                 "description": "Update a Camera.",
-                "operationId": "update_api_v1_cameras__camera_id__put",
+                "operationId": "update_api_omega_v1_cameras__camera_id__put",
                 "parameters": [
                     {
                         "required": true,
@@ -1075,7 +1075,7 @@
                 ],
                 "summary": "Delete",
                 "description": "Delete a Camera.",
-                "operationId": "delete_api_v1_cameras__camera_id__delete",
+                "operationId": "delete_api_omega_v1_cameras__camera_id__delete",
                 "parameters": [
                     {
                         "required": true,
@@ -1139,14 +1139,14 @@
                 ]
             }
         },
-        "/api/v1/homes/online_rate": {
+        "/api/omega/v1/homes/online_rate": {
             "get": {
                 "tags": [
                     "Cloud Control Home"
                 ],
                 "summary": "Online Rate",
                 "description": "Get online rate of all devices.",
-                "operationId": "online_rate_api_v1_homes_online_rate_get",
+                "operationId": "online_rate_api_omega_v1_homes_online_rate_get",
                 "parameters": [
                     {
                         "description": "Edge Rsu Id",
@@ -1219,14 +1219,14 @@
                 ]
             }
         },
-        "/api/v1/homes/route_info": {
+        "/api/omega/v1/homes/route_info": {
             "get": {
                 "tags": [
                     "Cloud Control Home"
                 ],
                 "summary": "Route Info",
                 "description": "Get traffic situation.",
-                "operationId": "route_info_api_v1_homes_route_info_get",
+                "operationId": "route_info_api_omega_v1_homes_route_info_get",
                 "parameters": [
                     {
                         "description": "RSU ESN",
@@ -1299,14 +1299,14 @@
                 ]
             }
         },
-        "/api/v1/homes/route_info_push": {
+        "/api/omega/v1/homes/route_info_push": {
             "post": {
                 "tags": [
                     "Cloud Control Home"
                 ],
                 "summary": "Route Info Push",
                 "description": "Push traffic situation.",
-                "operationId": "route_info_push_api_v1_homes_route_info_push_post",
+                "operationId": "route_info_push_api_omega_v1_homes_route_info_push_post",
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -1347,14 +1347,14 @@
                 }
             }
         },
-        "/api/v1/maps/{map_id}/rsus": {
+        "/api/omega/v1/maps/{map_id}/rsus": {
             "get": {
                 "tags": [
                     "Map"
                 ],
                 "summary": "List Map RSUs",
                 "description": "Get all Map RSUs.",
-                "operationId": "get_all_api_v1_maps__map_id__rsus_get",
+                "operationId": "get_all_api_omega_v1_maps__map_id__rsus_get",
                 "parameters": [
                     {
                         "required": true,
@@ -1456,7 +1456,7 @@
                 ],
                 "summary": "Create",
                 "description": "Create a new Radar.",
-                "operationId": "create_api_v1_maps__map_id__rsus_post",
+                "operationId": "create_api_omega_v1_maps__map_id__rsus_post",
                 "parameters": [
                     {
                         "required": true,
@@ -1547,14 +1547,14 @@
                 ]
             }
         },
-        "/api/v1/maps/{map_id}/rsus/{map_rsu_id}": {
+        "/api/omega/v1/maps/{map_id}/rsus/{map_rsu_id}": {
             "delete": {
                 "tags": [
                     "Map"
                 ],
                 "summary": "Delete",
                 "description": "Delete a Map RSU.",
-                "operationId": "delete_api_v1_maps__map_id__rsus__map_rsu_id__delete",
+                "operationId": "delete_api_omega_v1_maps__map_id__rsus__map_rsu_id__delete",
                 "parameters": [
                     {
                         "required": true,
@@ -1627,14 +1627,14 @@
                 ]
             }
         },
-        "/api/v1/maps": {
+        "/api/omega/v1/maps": {
             "get": {
                 "tags": [
                     "Map"
                 ],
                 "summary": "List Maps",
                 "description": "Get all Maps.",
-                "operationId": "get_all_api_v1_maps_get",
+                "operationId": "get_all_api_omega_v1_maps_get",
                 "parameters": [
                     {
                         "description": "Filter by map name. Fuzzy prefix query is supported",
@@ -1749,7 +1749,7 @@
                 ],
                 "summary": "Create",
                 "description": "Create a new Map.",
-                "operationId": "create_api_v1_maps_post",
+                "operationId": "create_api_omega_v1_maps_post",
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -1829,14 +1829,14 @@
                 ]
             }
         },
-        "/api/v1/maps/{map_id}": {
+        "/api/omega/v1/maps/{map_id}": {
             "get": {
                 "tags": [
                     "Map"
                 ],
                 "summary": "Get",
                 "description": "Get a Radar.",
-                "operationId": "get_api_v1_maps__map_id__get",
+                "operationId": "get_api_omega_v1_maps__map_id__get",
                 "parameters": [
                     {
                         "required": true,
@@ -1912,7 +1912,7 @@
                 ],
                 "summary": "Update",
                 "description": "Update a Map.",
-                "operationId": "update_api_v1_maps__map_id__put",
+                "operationId": "update_api_omega_v1_maps__map_id__put",
                 "parameters": [
                     {
                         "required": true,
@@ -1998,7 +1998,7 @@
                 ],
                 "summary": "Delete",
                 "description": "Delete a Map.",
-                "operationId": "delete_api_v1_maps__map_id__delete",
+                "operationId": "delete_api_omega_v1_maps__map_id__delete",
                 "parameters": [
                     {
                         "required": true,
@@ -2062,14 +2062,14 @@
                 ]
             }
         },
-        "/api/v1/maps/{map_id}/data": {
+        "/api/omega/v1/maps/{map_id}/data": {
             "get": {
                 "tags": [
                     "Map"
                 ],
                 "summary": "Data",
                 "description": "Get a Map data.",
-                "operationId": "data_api_v1_maps__map_id__data_get",
+                "operationId": "data_api_omega_v1_maps__map_id__data_get",
                 "parameters": [
                     {
                         "required": true,
@@ -2087,7 +2087,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "title": "Response 200 Data Api V1 Maps  Map Id  Data Get",
+                                    "title": "Response 200 Data Api Omega V1 Maps  Map Id  Data Get",
                                     "type": "object"
                                 }
                             }
@@ -2141,14 +2141,14 @@
                 ]
             }
         },
-        "/api/v1/maps/{map_id}/bitmap": {
+        "/api/omega/v1/maps/{map_id}/bitmap": {
             "get": {
                 "tags": [
                     "Map"
                 ],
                 "summary": "Get Bitmap",
                 "description": "Get a bitmap data.",
-                "operationId": "get_bitmap_api_v1_maps__map_id__bitmap_get",
+                "operationId": "get_bitmap_api_omega_v1_maps__map_id__bitmap_get",
                 "parameters": [
                     {
                         "required": true,
@@ -2217,7 +2217,7 @@
                 ],
                 "summary": "Update Bitmap",
                 "description": "update map bitmap.",
-                "operationId": "update_bitmap_api_v1_maps__map_id__bitmap_put",
+                "operationId": "update_bitmap_api_omega_v1_maps__map_id__bitmap_put",
                 "parameters": [
                     {
                         "required": true,
@@ -2233,7 +2233,7 @@
                     "content": {
                         "multipart/form-data": {
                             "schema": {
-                                "$ref": "#/components/schemas/Body_update_bitmap_api_v1_maps__map_id__bitmap_put"
+                                "$ref": "#/components/schemas/Body_update_bitmap_api_omega_v1_maps__map_id__bitmap_put"
                             }
                         }
                     },
@@ -2296,14 +2296,14 @@
                 ]
             }
         },
-        "/api/v1/mngs": {
+        "/api/omega/v1/mngs": {
             "get": {
                 "tags": [
                     "MNG"
                 ],
                 "summary": "List MNGs",
                 "description": "Get all MNGs.",
-                "operationId": "get_all_api_v1_mngs_get",
+                "operationId": "get_all_api_omega_v1_mngs_get",
                 "parameters": [
                     {
                         "description": "Filter by rsuName. Fuzzy prefix query is supported",
@@ -2413,14 +2413,14 @@
                 ]
             }
         },
-        "/api/v1/mngs/{mng_id}": {
+        "/api/omega/v1/mngs/{mng_id}": {
             "put": {
                 "tags": [
                     "MNG"
                 ],
                 "summary": "Update",
                 "description": "Update a MNG.",
-                "operationId": "update_api_v1_mngs__mng_id__put",
+                "operationId": "update_api_omega_v1_mngs__mng_id__put",
                 "parameters": [
                     {
                         "required": true,
@@ -2501,14 +2501,14 @@
                 ]
             }
         },
-        "/api/v1/mngs/{mng_id}/down": {
+        "/api/omega/v1/mngs/{mng_id}/down": {
             "post": {
                 "tags": [
                     "MNG"
                 ],
                 "summary": "Down",
                 "description": "Down a MNG.",
-                "operationId": "down_api_v1_mngs__mng_id__down_post",
+                "operationId": "down_api_omega_v1_mngs__mng_id__down_post",
                 "parameters": [
                     {
                         "required": true,
@@ -2579,14 +2579,14 @@
                 ]
             }
         },
-        "/api/v1/mngs/{mng_id}/copy": {
+        "/api/omega/v1/mngs/{mng_id}/copy": {
             "post": {
                 "tags": [
                     "MNG"
                 ],
                 "summary": "Copy",
                 "description": "Copy a MNG.",
-                "operationId": "copy_api_v1_mngs__mng_id__copy_post",
+                "operationId": "copy_api_omega_v1_mngs__mng_id__copy_post",
                 "parameters": [
                     {
                         "required": true,
@@ -2673,14 +2673,14 @@
                 ]
             }
         },
-        "/api/v1/radars": {
+        "/api/omega/v1/radars": {
             "get": {
                 "tags": [
                     "Radar"
                 ],
                 "summary": "List Radars",
                 "description": "Get all Radars.",
-                "operationId": "get_all_api_v1_radars_get",
+                "operationId": "get_all_api_omega_v1_radars_get",
                 "parameters": [
                     {
                         "description": "Filter by radar sn. Fuzzy prefix query is supported",
@@ -2817,7 +2817,7 @@
                 ],
                 "summary": "Create",
                 "description": "Create a new Radar.",
-                "operationId": "create_api_v1_radars_post",
+                "operationId": "create_api_omega_v1_radars_post",
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -2897,14 +2897,14 @@
                 ]
             }
         },
-        "/api/v1/radars/{radar_id}": {
+        "/api/omega/v1/radars/{radar_id}": {
             "get": {
                 "tags": [
                     "Radar"
                 ],
                 "summary": "Get",
                 "description": "Get a Radar.",
-                "operationId": "get_api_v1_radars__radar_id__get",
+                "operationId": "get_api_omega_v1_radars__radar_id__get",
                 "parameters": [
                     {
                         "required": true,
@@ -2980,7 +2980,7 @@
                 ],
                 "summary": "Update",
                 "description": "Update a Radar.",
-                "operationId": "update_api_v1_radars__radar_id__put",
+                "operationId": "update_api_omega_v1_radars__radar_id__put",
                 "parameters": [
                     {
                         "required": true,
@@ -3066,7 +3066,7 @@
                 ],
                 "summary": "Delete",
                 "description": "Delete a Radar.",
-                "operationId": "delete_api_v1_radars__radar_id__delete",
+                "operationId": "delete_api_omega_v1_radars__radar_id__delete",
                 "parameters": [
                     {
                         "required": true,
@@ -3130,14 +3130,14 @@
                 ]
             }
         },
-        "/api/v1/spats": {
+        "/api/omega/v1/spats": {
             "get": {
                 "tags": [
                     "Spat"
                 ],
                 "summary": "List Spats",
                 "description": "Get all Spats.",
-                "operationId": "get_all_api_v1_spats_get",
+                "operationId": "get_all_api_omega_v1_spats_get",
                 "parameters": [
                     {
                         "description": "Filter by spat intersectionId. Fuzzy prefix query is supported",
@@ -3274,7 +3274,7 @@
                 ],
                 "summary": "Create",
                 "description": "Create a new Spat.",
-                "operationId": "create_api_v1_spats_post",
+                "operationId": "create_api_omega_v1_spats_post",
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -3354,14 +3354,14 @@
                 ]
             }
         },
-        "/api/v1/spats/{spat_id}": {
+        "/api/omega/v1/spats/{spat_id}": {
             "get": {
                 "tags": [
                     "Spat"
                 ],
                 "summary": "Get",
                 "description": "Get a Spat.",
-                "operationId": "get_api_v1_spats__spat_id__get",
+                "operationId": "get_api_omega_v1_spats__spat_id__get",
                 "parameters": [
                     {
                         "required": true,
@@ -3437,7 +3437,7 @@
                 ],
                 "summary": "Update",
                 "description": "Update a Spat.",
-                "operationId": "update_api_v1_spats__spat_id__put",
+                "operationId": "update_api_omega_v1_spats__spat_id__put",
                 "parameters": [
                     {
                         "required": true,
@@ -3523,7 +3523,7 @@
                 ],
                 "summary": "Update Enabled",
                 "description": "Enable/Disabled a Spat.",
-                "operationId": "update_enabled_api_v1_spats__spat_id__post",
+                "operationId": "update_enabled_api_omega_v1_spats__spat_id__post",
                 "parameters": [
                     {
                         "required": true,
@@ -3609,7 +3609,7 @@
                 ],
                 "summary": "Delete",
                 "description": "Delete a Spat.",
-                "operationId": "delete_api_v1_spats__spat_id__delete",
+                "operationId": "delete_api_omega_v1_spats__spat_id__delete",
                 "parameters": [
                     {
                         "required": true,
@@ -3673,14 +3673,14 @@
                 ]
             }
         },
-        "/api/v1/intersections": {
+        "/api/omega/v1/intersections": {
             "get": {
                 "tags": [
                     "Intersection"
                 ],
                 "summary": "List Cameras",
                 "description": "Get all Intersection.",
-                "operationId": "get_all_api_v1_intersections_get",
+                "operationId": "get_all_api_omega_v1_intersections_get",
                 "parameters": [
                     {
                         "description": "Filter by intersection name. Fuzzy prefix query is supported",
@@ -3795,7 +3795,7 @@
                 ],
                 "summary": "Create",
                 "description": "Create a new intersection.",
-                "operationId": "create_api_v1_intersections_post",
+                "operationId": "create_api_omega_v1_intersections_post",
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -3875,14 +3875,14 @@
                 ]
             }
         },
-        "/api/v1/intersections/{intersection_id}": {
+        "/api/omega/v1/intersections/{intersection_id}": {
             "get": {
                 "tags": [
                     "Intersection"
                 ],
                 "summary": "Get",
                 "description": "Get a Intersection.",
-                "operationId": "get_api_v1_intersections__intersection_id__get",
+                "operationId": "get_api_omega_v1_intersections__intersection_id__get",
                 "parameters": [
                     {
                         "required": true,
@@ -3958,7 +3958,7 @@
                 ],
                 "summary": "Update",
                 "description": "Update a Intersection.",
-                "operationId": "update_api_v1_intersections__intersection_id__put",
+                "operationId": "update_api_omega_v1_intersections__intersection_id__put",
                 "parameters": [
                     {
                         "required": true,
@@ -4044,7 +4044,7 @@
                 ],
                 "summary": "Delete",
                 "description": "Delete a intersection.",
-                "operationId": "delete_api_v1_intersections__intersection_id__delete",
+                "operationId": "delete_api_omega_v1_intersections__intersection_id__delete",
                 "parameters": [
                     {
                         "required": true,
@@ -4108,14 +4108,14 @@
                 ]
             }
         },
-        "/api/v1/lidars": {
+        "/api/omega/v1/lidars": {
             "get": {
                 "tags": [
                     "Lidar"
                 ],
                 "summary": "List Lidars",
                 "description": "Get all Lidars.",
-                "operationId": "get_all_api_v1_lidars_get",
+                "operationId": "get_all_api_omega_v1_lidars_get",
                 "parameters": [
                     {
                         "description": "Filter by Lidar sn. Fuzzy prefix query is supported",
@@ -4252,7 +4252,7 @@
                 ],
                 "summary": "Create",
                 "description": "Create a new Lidar.",
-                "operationId": "create_api_v1_lidars_post",
+                "operationId": "create_api_omega_v1_lidars_post",
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -4332,14 +4332,14 @@
                 ]
             }
         },
-        "/api/v1/lidars/{lidar_id}": {
+        "/api/omega/v1/lidars/{lidar_id}": {
             "get": {
                 "tags": [
                     "Lidar"
                 ],
                 "summary": "Get",
                 "description": "Get a Lidar.",
-                "operationId": "get_api_v1_lidars__lidar_id__get",
+                "operationId": "get_api_omega_v1_lidars__lidar_id__get",
                 "parameters": [
                     {
                         "required": true,
@@ -4415,7 +4415,7 @@
                 ],
                 "summary": "Update",
                 "description": "Update a Lidar.",
-                "operationId": "update_api_v1_lidars__lidar_id__put",
+                "operationId": "update_api_omega_v1_lidars__lidar_id__put",
                 "parameters": [
                     {
                         "required": true,
@@ -4501,7 +4501,7 @@
                 ],
                 "summary": "Update Enabled",
                 "description": "Enable/Disabled a Lidar.",
-                "operationId": "update_enabled_api_v1_lidars__lidar_id__post",
+                "operationId": "update_enabled_api_omega_v1_lidars__lidar_id__post",
                 "parameters": [
                     {
                         "required": true,
@@ -4587,7 +4587,7 @@
                 ],
                 "summary": "Delete",
                 "description": "Delete a Lidar.",
-                "operationId": "delete_api_v1_lidars__lidar_id__delete",
+                "operationId": "delete_api_omega_v1_lidars__lidar_id__delete",
                 "parameters": [
                     {
                         "required": true,
@@ -4651,14 +4651,14 @@
                 ]
             }
         },
-        "/api/v1/events/{event_id}": {
+        "/api/omega/v1/events/{event_id}": {
             "get": {
                 "tags": [
                     "Event"
                 ],
                 "summary": "Get",
                 "description": "Get a RSIEvent.",
-                "operationId": "get_api_v1_events__event_id__get",
+                "operationId": "get_api_omega_v1_events__event_id__get",
                 "parameters": [
                     {
                         "required": true,
@@ -4729,14 +4729,14 @@
                 ]
             }
         },
-        "/api/v1/events": {
+        "/api/omega/v1/events": {
             "get": {
                 "tags": [
                     "Event"
                 ],
                 "summary": "List RSI Events",
                 "description": "Get all RSI Events.",
-                "operationId": "get_all_api_v1_events_get",
+                "operationId": "get_all_api_omega_v1_events_get",
                 "parameters": [
                     {
                         "description": "Filter by eventType",
@@ -4861,14 +4861,14 @@
                 ]
             }
         },
-        "/api/v1/rsms": {
+        "/api/omega/v1/rsms": {
             "get": {
                 "tags": [
                     "RSM"
                 ],
                 "summary": "List RSMs",
                 "description": "Get all RSMs.",
-                "operationId": "get_all_api_v1_rsms_get",
+                "operationId": "get_all_api_omega_v1_rsms_get",
                 "parameters": [
                     {
                         "description": "Filter by ptcType",
@@ -4982,14 +4982,14 @@
                 ]
             }
         },
-        "/api/v1/rsu_configs": {
+        "/api/omega/v1/rsu_configs": {
             "get": {
                 "tags": [
                     "RSU Config"
                 ],
                 "summary": "List RSU Configs",
                 "description": "Get all RSUConfigs.",
-                "operationId": "get_all_api_v1_rsu_configs_get",
+                "operationId": "get_all_api_omega_v1_rsu_configs_get",
                 "parameters": [
                     {
                         "description": "Filter by name. Fuzzy prefix query is supported",
@@ -5093,7 +5093,7 @@
                 ],
                 "summary": "Create",
                 "description": "Create a new RSU Config.",
-                "operationId": "create_api_v1_rsu_configs_post",
+                "operationId": "create_api_omega_v1_rsu_configs_post",
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -5173,14 +5173,14 @@
                 ]
             }
         },
-        "/api/v1/rsu_configs/{rsu_config_id}": {
+        "/api/omega/v1/rsu_configs/{rsu_config_id}": {
             "get": {
                 "tags": [
                     "RSU Config"
                 ],
                 "summary": "Get",
                 "description": "Get a RSUConfig.",
-                "operationId": "get_api_v1_rsu_configs__rsu_config_id__get",
+                "operationId": "get_api_omega_v1_rsu_configs__rsu_config_id__get",
                 "parameters": [
                     {
                         "required": true,
@@ -5256,7 +5256,7 @@
                 ],
                 "summary": "Update",
                 "description": "Update a Radar.",
-                "operationId": "update_api_v1_rsu_configs__rsu_config_id__put",
+                "operationId": "update_api_omega_v1_rsu_configs__rsu_config_id__put",
                 "parameters": [
                     {
                         "required": true,
@@ -5342,7 +5342,7 @@
                 ],
                 "summary": "Delete",
                 "description": "Delete a RSUConfig.",
-                "operationId": "delete_api_v1_rsu_configs__rsu_config_id__delete",
+                "operationId": "delete_api_omega_v1_rsu_configs__rsu_config_id__delete",
                 "parameters": [
                     {
                         "required": true,
@@ -5406,14 +5406,14 @@
                 ]
             }
         },
-        "/api/v1/rsu_logs": {
+        "/api/omega/v1/rsu_logs": {
             "get": {
                 "tags": [
                     "RSU Log"
                 ],
                 "summary": "List RSU Logs",
                 "description": "Get all RSULogs.",
-                "operationId": "get_all_api_v1_rsu_logs_get",
+                "operationId": "get_all_api_omega_v1_rsu_logs_get",
                 "parameters": [
                     {
                         "description": "Page number",
@@ -5506,7 +5506,7 @@
                 ],
                 "summary": "Create",
                 "description": "Create a new RSU log.",
-                "operationId": "create_api_v1_rsu_logs_post",
+                "operationId": "create_api_omega_v1_rsu_logs_post",
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -5586,14 +5586,14 @@
                 ]
             }
         },
-        "/api/v1/rsu_logs/{rsu_log_id}": {
+        "/api/omega/v1/rsu_logs/{rsu_log_id}": {
             "get": {
                 "tags": [
                     "RSU Log"
                 ],
                 "summary": "Get",
                 "description": "Get a RSULog.",
-                "operationId": "get_api_v1_rsu_logs__rsu_log_id__get",
+                "operationId": "get_api_omega_v1_rsu_logs__rsu_log_id__get",
                 "parameters": [
                     {
                         "required": true,
@@ -5669,7 +5669,7 @@
                 ],
                 "summary": "Update",
                 "description": "Update a RSULog.",
-                "operationId": "update_api_v1_rsu_logs__rsu_log_id__put",
+                "operationId": "update_api_omega_v1_rsu_logs__rsu_log_id__put",
                 "parameters": [
                     {
                         "required": true,
@@ -5755,7 +5755,7 @@
                 ],
                 "summary": "Delete",
                 "description": "Delete a RSULog.",
-                "operationId": "delete_api_v1_rsu_logs__rsu_log_id__delete",
+                "operationId": "delete_api_omega_v1_rsu_logs__rsu_log_id__delete",
                 "parameters": [
                     {
                         "required": true,
@@ -5819,14 +5819,14 @@
                 ]
             }
         },
-        "/api/v1/rsu_models": {
+        "/api/omega/v1/rsu_models": {
             "get": {
                 "tags": [
                     "RSU Model"
                 ],
                 "summary": "List RSU Models",
                 "description": "Get all RSU Models.",
-                "operationId": "get_all_api_v1_rsu_models_get",
+                "operationId": "get_all_api_omega_v1_rsu_models_get",
                 "parameters": [
                     {
                         "description": "Filter by name. Fuzzy prefix query is supported",
@@ -5941,7 +5941,7 @@
                 ],
                 "summary": "Create",
                 "description": "Create a new RSU Model.",
-                "operationId": "create_api_v1_rsu_models_post",
+                "operationId": "create_api_omega_v1_rsu_models_post",
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -6021,14 +6021,14 @@
                 ]
             }
         },
-        "/api/v1/rsu_models/{rsu_model_id}": {
+        "/api/omega/v1/rsu_models/{rsu_model_id}": {
             "get": {
                 "tags": [
                     "RSU Model"
                 ],
                 "summary": "Get",
                 "description": "Get a RSU Model.",
-                "operationId": "get_api_v1_rsu_models__rsu_model_id__get",
+                "operationId": "get_api_omega_v1_rsu_models__rsu_model_id__get",
                 "parameters": [
                     {
                         "required": true,
@@ -6104,7 +6104,7 @@
                 ],
                 "summary": "Update",
                 "description": "Update a RSU Model.",
-                "operationId": "update_api_v1_rsu_models__rsu_model_id__put",
+                "operationId": "update_api_omega_v1_rsu_models__rsu_model_id__put",
                 "parameters": [
                     {
                         "required": true,
@@ -6190,7 +6190,7 @@
                 ],
                 "summary": "Delete",
                 "description": "Delete a RSU Model.",
-                "operationId": "delete_api_v1_rsu_models__rsu_model_id__delete",
+                "operationId": "delete_api_omega_v1_rsu_models__rsu_model_id__delete",
                 "parameters": [
                     {
                         "required": true,
@@ -6254,14 +6254,14 @@
                 ]
             }
         },
-        "/api/v1/rsu_queries": {
+        "/api/omega/v1/rsu_queries": {
             "get": {
                 "tags": [
                     "RSU Query"
                 ],
                 "summary": "List RSU Queries",
                 "description": "Get all RSUQueries.",
-                "operationId": "get_all_api_v1_rsu_queries_get",
+                "operationId": "get_all_api_omega_v1_rsu_queries_get",
                 "parameters": [
                     {
                         "description": "Filter by rsuId",
@@ -6365,7 +6365,7 @@
                 ],
                 "summary": "Create",
                 "description": "Create a new RSU Query.",
-                "operationId": "create_api_v1_rsu_queries_post",
+                "operationId": "create_api_omega_v1_rsu_queries_post",
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -6445,14 +6445,14 @@
                 ]
             }
         },
-        "/api/v1/rsu_queries/{rsu_query_id}": {
+        "/api/omega/v1/rsu_queries/{rsu_query_id}": {
             "get": {
                 "tags": [
                     "RSU Query"
                 ],
                 "summary": "Get",
                 "description": "Get a RSU Query.",
-                "operationId": "get_api_v1_rsu_queries__rsu_query_id__get",
+                "operationId": "get_api_omega_v1_rsu_queries__rsu_query_id__get",
                 "parameters": [
                     {
                         "required": true,
@@ -6523,14 +6523,14 @@
                 ]
             }
         },
-        "/api/v1/rsu_queries/{query_id}": {
+        "/api/omega/v1/rsu_queries/{query_id}": {
             "delete": {
                 "tags": [
                     "RSU Query"
                 ],
                 "summary": "Delete",
                 "description": "Delete a RSU Query.",
-                "operationId": "delete_api_v1_rsu_queries__query_id__delete",
+                "operationId": "delete_api_omega_v1_rsu_queries__query_id__delete",
                 "parameters": [
                     {
                         "required": true,
@@ -6594,14 +6594,14 @@
                 ]
             }
         },
-        "/api/v1/rsu_tmps": {
+        "/api/omega/v1/rsu_tmps": {
             "get": {
                 "tags": [
                     "RSU TMP"
                 ],
                 "summary": "List TMP RSUs",
                 "description": "Get all TMP RSUs.",
-                "operationId": "get_all_api_v1_rsu_tmps_get",
+                "operationId": "get_all_api_omega_v1_rsu_tmps_get",
                 "parameters": [
                     {
                         "description": "Filter by rsuName. Fuzzy prefix query is supported",
@@ -6711,14 +6711,14 @@
                 ]
             }
         },
-        "/api/v1/rsu_tmps/{rsu_id}": {
+        "/api/omega/v1/rsu_tmps/{rsu_id}": {
             "delete": {
                 "tags": [
                     "RSU TMP"
                 ],
                 "summary": "Delete",
                 "description": "Delete a TMP RSU.",
-                "operationId": "delete_api_v1_rsu_tmps__rsu_id__delete",
+                "operationId": "delete_api_omega_v1_rsu_tmps__rsu_id__delete",
                 "parameters": [
                     {
                         "required": true,
@@ -6782,14 +6782,14 @@
                 ]
             }
         },
-        "/api/v1/rsus": {
+        "/api/omega/v1/rsus": {
             "get": {
                 "tags": [
                     "RSU"
                 ],
                 "summary": "List RSUs",
                 "description": "Get all RSUs.",
-                "operationId": "get_all_api_v1_rsus_get",
+                "operationId": "get_all_api_omega_v1_rsus_get",
                 "parameters": [
                     {
                         "description": "Filter by rsuName. Fuzzy prefix query is supported",
@@ -6948,7 +6948,7 @@
                 ],
                 "summary": "Create",
                 "description": "Create a new RSU.",
-                "operationId": "create_api_v1_rsus_post",
+                "operationId": "create_api_omega_v1_rsus_post",
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -7028,14 +7028,14 @@
                 ]
             }
         },
-        "/api/v1/rsus/{rsu_id}": {
+        "/api/omega/v1/rsus/{rsu_id}": {
             "get": {
                 "tags": [
                     "RSU"
                 ],
                 "summary": "Get",
                 "description": "Get a RSU.",
-                "operationId": "get_api_v1_rsus__rsu_id__get",
+                "operationId": "get_api_omega_v1_rsus__rsu_id__get",
                 "parameters": [
                     {
                         "required": true,
@@ -7111,7 +7111,7 @@
                 ],
                 "summary": "Delete",
                 "description": "Delete a RSU.",
-                "operationId": "delete_api_v1_rsus__rsu_id__delete",
+                "operationId": "delete_api_omega_v1_rsus__rsu_id__delete",
                 "parameters": [
                     {
                         "required": true,
@@ -7180,7 +7180,7 @@
                 ],
                 "summary": "Update",
                 "description": "Update a RSU.",
-                "operationId": "update_api_v1_rsus__rsu_id__patch",
+                "operationId": "update_api_omega_v1_rsus__rsu_id__patch",
                 "parameters": [
                     {
                         "required": true,
@@ -7261,14 +7261,14 @@
                 ]
             }
         },
-        "/api/v1/rsus/{rsu_esn}/location": {
+        "/api/omega/v1/rsus/{rsu_esn}/location": {
             "get": {
                 "tags": [
                     "RSU"
                 ],
                 "summary": "Get Location",
                 "description": "Get a RSU Location.",
-                "operationId": "get_location_api_v1_rsus__rsu_esn__location_get",
+                "operationId": "get_location_api_omega_v1_rsus__rsu_esn__location_get",
                 "parameters": [
                     {
                         "required": true,
@@ -7339,14 +7339,14 @@
                 ]
             }
         },
-        "/api/v1/rsus/{rsu_id}/map": {
+        "/api/omega/v1/rsus/{rsu_id}/map": {
             "get": {
                 "tags": [
                     "RSU"
                 ],
                 "summary": "Get Map",
                 "description": "Get a RSU Map.",
-                "operationId": "get_map_api_v1_rsus__rsu_id__map_get",
+                "operationId": "get_map_api_omega_v1_rsus__rsu_id__map_get",
                 "parameters": [
                     {
                         "required": true,
@@ -7364,7 +7364,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "title": "Response 200 Get Map Api V1 Rsus  Rsu Id  Map Get",
+                                    "title": "Response 200 Get Map Api Omega V1 Rsus  Rsu Id  Map Get",
                                     "type": "object"
                                 }
                             }
@@ -7418,14 +7418,14 @@
                 ]
             }
         },
-        "/api/v1/rsus/{rsu_id}/running": {
+        "/api/omega/v1/rsus/{rsu_id}/running": {
             "get": {
                 "tags": [
                     "RSU"
                 ],
                 "summary": "Get Running",
                 "description": "Get a RSU Running Info.",
-                "operationId": "get_running_api_v1_rsus__rsu_id__running_get",
+                "operationId": "get_running_api_omega_v1_rsus__rsu_id__running_get",
                 "parameters": [
                     {
                         "required": true,
@@ -7496,14 +7496,14 @@
                 ]
             }
         },
-        "/api/v1/system_configs": {
+        "/api/omega/v1/system_configs": {
             "post": {
                 "tags": [
                     "System Config"
                 ],
                 "summary": "Create",
                 "description": "Get detailed info of System Config.",
-                "operationId": "create_api_v1_system_configs_post",
+                "operationId": "create_api_omega_v1_system_configs_post",
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -7573,14 +7573,14 @@
                 ]
             }
         },
-        "/api/v1/system_configs/{system_config_id}": {
+        "/api/omega/v1/system_configs/{system_config_id}": {
             "get": {
                 "tags": [
                     "System Config"
                 ],
                 "summary": "Get",
                 "description": "Get detailed info of System Config.",
-                "operationId": "get_api_v1_system_configs__system_config_id__get",
+                "operationId": "get_api_omega_v1_system_configs__system_config_id__get",
                 "parameters": [
                     {
                         "required": true,
@@ -7651,14 +7651,14 @@
                 ]
             }
         },
-        "/api/v1/rsi_dnps": {
+        "/api/omega/v1/rsi_dnps": {
             "get": {
                 "tags": [
                     "RSI DNP"
                 ],
                 "summary": "List RSI DNPs",
                 "description": "Get all RSI DNPs.",
-                "operationId": "get_all_api_v1_rsi_dnps_get",
+                "operationId": "get_all_api_omega_v1_rsi_dnps_get",
                 "parameters": [
                     {
                         "description": "UseCase type",
@@ -7772,14 +7772,14 @@
                 ]
             }
         },
-        "/api/v1/rsi_cwms": {
+        "/api/omega/v1/rsi_cwms": {
             "get": {
                 "tags": [
                     "RSI CWM"
                 ],
                 "summary": "List RSI CWMs",
                 "description": "Get all RSI CWMs.",
-                "operationId": "get_all_api_v1_rsi_cwms_get",
+                "operationId": "get_all_api_omega_v1_rsi_cwms_get",
                 "parameters": [
                     {
                         "description": "Event Type",
@@ -7904,14 +7904,14 @@
                 ]
             }
         },
-        "/api/v1/rsi_clcs": {
+        "/api/omega/v1/rsi_clcs": {
             "get": {
                 "tags": [
                     "RSI CLC"
                 ],
                 "summary": "List RSI CLCs",
                 "description": "Get all RSI CLCs.",
-                "operationId": "get_all_api_v1_rsi_clcs_get",
+                "operationId": "get_all_api_omega_v1_rsi_clcs_get",
                 "parameters": [
                     {
                         "description": "Sort by ID(asc/desc)",
@@ -8025,14 +8025,14 @@
                 ]
             }
         },
-        "/api/v1/rsi_sdss": {
+        "/api/omega/v1/rsi_sdss": {
             "get": {
                 "tags": [
                     "RSI SDS"
                 ],
                 "summary": "List RSI SDSs",
                 "description": "Get all RSI SDSs.",
-                "operationId": "get_all_api_v1_rsi_sdss_get",
+                "operationId": "get_all_api_omega_v1_rsi_sdss_get",
                 "parameters": [
                     {
                         "description": "Equipment Type",
@@ -8146,14 +8146,14 @@
                 ]
             }
         },
-        "/api/v1/edge_nodes": {
+        "/api/omega/v1/edge_nodes": {
             "get": {
                 "tags": [
                     "Edge Node"
                 ],
                 "summary": "List Edge Nodes",
                 "description": "Get all Edge Nodes.",
-                "operationId": "get_all_api_v1_edge_nodes_get",
+                "operationId": "get_all_api_omega_v1_edge_nodes_get",
                 "parameters": [
                     {
                         "required": false,
@@ -8255,7 +8255,7 @@
                 ],
                 "summary": "Create",
                 "description": "Create a new edge node.",
-                "operationId": "create_api_v1_edge_nodes_post",
+                "operationId": "create_api_omega_v1_edge_nodes_post",
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -8335,14 +8335,14 @@
                 ]
             }
         },
-        "/api/v1/edge_node_rsus": {
+        "/api/omega/v1/edge_node_rsus": {
             "get": {
                 "tags": [
                     "Edge Node RSU"
                 ],
                 "summary": "List Edge Node RSUs",
                 "description": "Get all Edge Node RSUs.",
-                "operationId": "get_all_api_v1_edge_node_rsus_get",
+                "operationId": "get_all_api_omega_v1_edge_node_rsus_get",
                 "parameters": [
                     {
                         "required": false,
@@ -8448,14 +8448,14 @@
                 ]
             }
         },
-        "/api/v1/edge_node_rsus/{edge_node_id}": {
+        "/api/omega/v1/edge_node_rsus/{edge_node_id}": {
             "put": {
                 "tags": [
                     "Edge Node RSU"
                 ],
                 "summary": "Update",
                 "description": "Update a RSU.",
-                "operationId": "update_api_v1_edge_node_rsus__edge_node_id__put",
+                "operationId": "update_api_omega_v1_edge_node_rsus__edge_node_id__put",
                 "parameters": [
                     {
                         "required": true,
@@ -8535,7 +8535,7 @@
                     }
                 ]
             }
-        }
+        },
     },
     "components": {
         "schemas": {
@@ -8614,8 +8614,8 @@
                     }
                 }
             },
-            "Body_access_token_api_v1_login_access_token_post": {
-                "title": "Body_access_token_api_v1_login_access_token_post",
+            "Body_access_token_api_omega_v1_login_access_token_post": {
+                "title": "Body_access_token_api_omega_v1_login_access_token_post",
                 "required": [
                     "username",
                     "password"
@@ -8650,8 +8650,8 @@
                     }
                 }
             },
-            "Body_login_api_v1_login_post": {
-                "title": "Body_login_api_v1_login_post",
+            "Body_login_api_omega_v1_login_post": {
+                "title": "Body_login_api_omega_v1_login_post",
                 "required": [
                     "username",
                     "password"
@@ -8668,8 +8668,8 @@
                     }
                 }
             },
-            "Body_update_bitmap_api_v1_maps__map_id__bitmap_put": {
-                "title": "Body_update_bitmap_api_v1_maps__map_id__bitmap_put",
+            "Body_update_bitmap_api_omega_v1_maps__map_id__bitmap_put": {
+                "title": "Body_update_bitmap_api_omega_v1_maps__map_id__bitmap_put",
                 "required": [
                     "bitmap"
                 ],
@@ -13979,7 +13979,7 @@
                 "flows": {
                     "password": {
                         "scopes": {},
-                        "tokenUrl": "/api/v1/login/access-token"
+                        "tokenUrl": "/api/omega/v1/login/access-token"
                     }
                 }
             }

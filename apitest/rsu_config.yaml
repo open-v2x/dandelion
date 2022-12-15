@@ -14,7 +14,7 @@ vars:
 
 tests:
   - name: create_user
-    url: /api/v1/users
+    url: /api/omega/v1/users
     method: POST
     data:
       username: *username
@@ -25,7 +25,7 @@ tests:
       $.username: *username
 
   - name: user_login
-    url: /api/v1/login
+    url: /api/omega/v1/login
     method: POST
     data:
       username: *username
@@ -35,7 +35,7 @@ tests:
       $.token_type: bearer
 
   - name: create_rsu_model
-    url: /api/v1/rsu_models
+    url: /api/omega/v1/rsu_models
     method: POST
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
@@ -50,7 +50,7 @@ tests:
       $.desc: 蓝天726
 
   - name: create_rsu
-    url: /api/v1/rsus
+    url: /api/omega/v1/rsus
     method: POST
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
@@ -73,7 +73,7 @@ tests:
       $.rsuModelId: $HISTORY['create_rsu_model'].$RESPONSE['$.id']
 
   - name: create_rsu_config_1
-    url: /api/v1/rsu_configs
+    url: /api/omega/v1/rsu_configs
     method: POST
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
@@ -98,7 +98,7 @@ tests:
     status: 201
 
   - name: create_rsu_config_2
-    url: /api/v1/rsu_configs
+    url: /api/omega/v1/rsu_configs
     method: POST
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
@@ -122,7 +122,7 @@ tests:
     status: 201
 
   - name: get_rsu_configs
-    url: /api/v1/rsu_configs
+    url: /api/omega/v1/rsu_configs
     method: GET
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
@@ -132,7 +132,7 @@ tests:
     status: 200
 
   - name: filter_rsu_configs
-    url: /api/v1/rsu_configs
+    url: /api/omega/v1/rsu_configs
     method: GET
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
@@ -145,14 +145,14 @@ tests:
       $.data.`len`: 1
 
   - name: get_once_rsu_config
-    url: /api/v1/rsu_configs/$HISTORY['create_rsu_config_1'].$RESPONSE['$.id']
+    url: /api/omega/v1/rsu_configs/$HISTORY['create_rsu_config_1'].$RESPONSE['$.id']
     method: GET
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
     status: 200
 
   - name: edit_rsu_config
-    url: /api/v1/rsu_configs/$HISTORY['create_rsu_config_1'].$RESPONSE['$.id']
+    url: /api/omega/v1/rsu_configs/$HISTORY['create_rsu_config_1'].$RESPONSE['$.id']
     method: PUT
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
@@ -182,35 +182,35 @@ tests:
       $.spatConfig.upLimit: 2
 
   - name: delete_rsu_config_1
-    url: /api/v1/rsu_configs/$HISTORY['create_rsu_config_1'].$RESPONSE['$.id']
+    url: /api/omega/v1/rsu_configs/$HISTORY['create_rsu_config_1'].$RESPONSE['$.id']
     method: DELETE
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
     status: 204
 
   - name: delete_rsu_config_2
-    url: /api/v1/rsu_configs/$HISTORY['create_rsu_config_2'].$RESPONSE['$.id']
+    url: /api/omega/v1/rsu_configs/$HISTORY['create_rsu_config_2'].$RESPONSE['$.id']
     method: DELETE
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
     status: 204
 
   - name: delete_rsu
-    url: /api/v1/rsus/$HISTORY['create_rsu'].$RESPONSE['$.id']
+    url: /api/omega/v1/rsus/$HISTORY['create_rsu'].$RESPONSE['$.id']
     method: DELETE
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
     status: 204
 
   - name: delete_rsu_model
-    url: /api/v1/rsu_models/$HISTORY['create_rsu_model'].$RESPONSE['$.id']
+    url: /api/omega/v1/rsu_models/$HISTORY['create_rsu_model'].$RESPONSE['$.id']
     method: DELETE
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
     status: 204
 
   - name: delete_user
-    url: /api/v1/users/$HISTORY['create_user'].$RESPONSE['$.id']
+    url: /api/omega/v1/users/$HISTORY['create_user'].$RESPONSE['$.id']
     method: DELETE
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']

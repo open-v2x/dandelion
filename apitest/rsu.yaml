@@ -14,7 +14,7 @@ vars:
 
 tests:
   - name: create_user
-    url: /api/v1/users
+    url: /api/omega/v1/users
     method: POST
     data:
       username: *username
@@ -25,7 +25,7 @@ tests:
       $.username: *username
 
   - name: user_login
-    url: /api/v1/login
+    url: /api/omega/v1/login
     method: POST
     data:
       username: *username
@@ -35,7 +35,7 @@ tests:
       $.token_type: bearer
 
   - name: create_rsu_model
-    url: /api/v1/rsu_models
+    url: /api/omega/v1/rsu_models
     method: POST
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
@@ -50,7 +50,7 @@ tests:
       $.desc: 蓝天726
 
   - name: create_rsu
-    url: /api/v1/rsus
+    url: /api/omega/v1/rsus
     method: POST
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
@@ -73,7 +73,7 @@ tests:
       $.rsuModelId: $HISTORY['create_rsu_model'].$RESPONSE['$.id']
 
   - name: rsu_list
-    url: /api/v1/rsus
+    url: /api/omega/v1/rsus
     method: GET
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
@@ -85,7 +85,7 @@ tests:
     status: 200
 
   - name: rsu_info
-    url: /api/v1/rsus/$HISTORY['create_rsu'].$RESPONSE['$.id']
+    url: /api/omega/v1/rsus/$HISTORY['create_rsu'].$RESPONSE['$.id']
     method: GET
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
@@ -99,7 +99,7 @@ tests:
 
 
   - name: update_rsu
-    url: /api/v1/rsus/$HISTORY['create_rsu'].$RESPONSE['$.id']
+    url: /api/omega/v1/rsus/$HISTORY['create_rsu'].$RESPONSE['$.id']
     method: PATCH
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
@@ -116,7 +116,7 @@ tests:
     status: 200
 
   - name: verify_update_info
-    url: /api/v1/rsus/$HISTORY['create_rsu'].$RESPONSE['$.id']
+    url: /api/omega/v1/rsus/$HISTORY['create_rsu'].$RESPONSE['$.id']
     method: GET
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
@@ -129,21 +129,21 @@ tests:
       $.rsuModelId: $HISTORY['create_rsu_model'].$RESPONSE['$.id']
 
   - name: delete_rsu
-    url: /api/v1/rsus/$HISTORY['create_rsu'].$RESPONSE['$.id']
+    url: /api/omega/v1/rsus/$HISTORY['create_rsu'].$RESPONSE['$.id']
     method: DELETE
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
     status: 204
 
   - name: delete_rsu_model
-    url: /api/v1/rsu_models/$HISTORY['create_rsu_model'].$RESPONSE['$.id']
+    url: /api/omega/v1/rsu_models/$HISTORY['create_rsu_model'].$RESPONSE['$.id']
     method: DELETE
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
     status: 204
 
   - name: delete_user
-    url: /api/v1/users/$HISTORY['create_user'].$RESPONSE['$.id']
+    url: /api/omega/v1/users/$HISTORY['create_user'].$RESPONSE['$.id']
     method: DELETE
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']

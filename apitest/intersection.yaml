@@ -14,7 +14,7 @@ vars:
 
 tests:
   - name: create_user
-    url: /api/v1/users
+    url: /api/omega/v1/users
     method: POST
     data:
       username: *username
@@ -25,7 +25,7 @@ tests:
       $.username: *username
 
   - name: user_login
-    url: /api/v1/login
+    url: /api/omega/v1/login
     method: POST
     data:
       username: *username
@@ -35,7 +35,7 @@ tests:
       $.token_type: bearer
 
   - name: intersection_create
-    url: /api/v1/intersections
+    url: /api/omega/v1/intersections
     method: POST
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
@@ -54,7 +54,7 @@ tests:
       areaCode: "320115"
 
   - name: intersection_list
-    url: /api/v1/intersections
+    url: /api/omega/v1/intersections
     method: GET
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
@@ -65,7 +65,7 @@ tests:
     status: 200
 
   - name: intersection_get
-    url: /api/v1/intersections/$HISTORY['intersection_create'].$RESPONSE['$.id']
+    url: /api/omega/v1/intersections/$HISTORY['intersection_create'].$RESPONSE['$.id']
     method: GET
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
@@ -78,14 +78,14 @@ tests:
       areaCode: "320115"
 
   - name: intersection_delete
-    url: /api/v1/intersections/$HISTORY['intersection_create'].$RESPONSE['$.id']
+    url: /api/omega/v1/intersections/$HISTORY['intersection_create'].$RESPONSE['$.id']
     method: DELETE
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
     status: 204
 
   - name: delete_user
-    url: /api/v1/users/$HISTORY['create_user'].$RESPONSE['$.id']
+    url: /api/omega/v1/users/$HISTORY['create_user'].$RESPONSE['$.id']
     method: DELETE
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']

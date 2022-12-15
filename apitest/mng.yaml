@@ -14,7 +14,7 @@ vars:
 
 tests:
   - name: create_user
-    url: /api/v1/users
+    url: /api/omega/v1/users
     method: POST
     data:
       username: *username
@@ -25,7 +25,7 @@ tests:
       $.username: *username
 
   - name: user_login
-    url: /api/v1/login
+    url: /api/omega/v1/login
     method: POST
     data:
       username: *username
@@ -35,7 +35,7 @@ tests:
       $.token_type: bearer
 
   - name: create_rsu_model
-    url: /api/v1/rsu_models
+    url: /api/omega/v1/rsu_models
     method: POST
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
@@ -50,7 +50,7 @@ tests:
       $.desc: 蓝天726
 
   - name: create_rsu1
-    url: /api/v1/rsus
+    url: /api/omega/v1/rsus
     method: POST
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
@@ -73,7 +73,7 @@ tests:
       $.rsuModelId: $HISTORY['create_rsu_model'].$RESPONSE['$.id']
 
   - name: create_rsu2
-    url: /api/v1/rsus
+    url: /api/omega/v1/rsus
     method: POST
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
@@ -96,7 +96,7 @@ tests:
       $.rsuModelId: $HISTORY['create_rsu_model'].$RESPONSE['$.id']
 
   - name: mng_list
-    url: /api/v1/mngs
+    url: /api/omega/v1/mngs
     method: GET
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
@@ -106,7 +106,7 @@ tests:
     status: 200
 
   - name: mng_edit
-    url: /api/v1/mngs/$HISTORY['mng_list'].$RESPONSE['$.data[0].id']
+    url: /api/omega/v1/mngs/$HISTORY['mng_list'].$RESPONSE['$.data[0].id']
     method: PUT
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
@@ -122,14 +122,14 @@ tests:
     status: 200
 
   - name: mng_down
-    url: /api/v1/mngs/$HISTORY['mng_list'].$RESPONSE['$.data[0].id']/down
+    url: /api/omega/v1/mngs/$HISTORY['mng_list'].$RESPONSE['$.data[0].id']/down
     method: POST
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
     status: 200
 
   - name: mng_copy
-    url: /api/v1/mngs/$HISTORY['mng_list'].$RESPONSE['$.data[0].id']/down
+    url: /api/omega/v1/mngs/$HISTORY['mng_list'].$RESPONSE['$.data[0].id']/down
     method: POST
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
@@ -139,28 +139,28 @@ tests:
     status: 200
 
   - name: delete_rsu1
-    url: /api/v1/rsus/$HISTORY['create_rsu1'].$RESPONSE['$.id']
+    url: /api/omega/v1/rsus/$HISTORY['create_rsu1'].$RESPONSE['$.id']
     method: DELETE
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
     status: 204
 
   - name: delete_rsu2
-    url: /api/v1/rsus/$HISTORY['create_rsu2'].$RESPONSE['$.id']
+    url: /api/omega/v1/rsus/$HISTORY['create_rsu2'].$RESPONSE['$.id']
     method: DELETE
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
     status: 204
 
   - name: delete_rsu_model
-    url: /api/v1/rsu_models/$HISTORY['create_rsu_model'].$RESPONSE['$.id']
+    url: /api/omega/v1/rsu_models/$HISTORY['create_rsu_model'].$RESPONSE['$.id']
     method: DELETE
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
     status: 204
 
   - name: delete_user
-    url: /api/v1/users/$HISTORY['create_user'].$RESPONSE['$.id']
+    url: /api/omega/v1/users/$HISTORY['create_user'].$RESPONSE['$.id']
     method: DELETE
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
