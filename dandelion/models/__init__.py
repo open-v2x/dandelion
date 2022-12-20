@@ -16,6 +16,9 @@
 
 from __future__ import annotations
 
+from .algos_module import AlgoModule
+from .algos_name import AlgoName
+from .algos_version import AlgoVersion
 from .area import Area
 from .camera import Camera
 from .city import City
