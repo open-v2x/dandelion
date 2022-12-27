@@ -1,0 +1,85 @@
+fixtures:
+  - ConfigFixture
+  - SampleDataFixture
+
+defaults:
+  ssl: False
+  request_headers:
+    content-type: application/json
+    accept: application/json
+
+vars:
+  - &username 'gabbi_user'
+  - &password 'dandelion'
+
+tests:
+  - name: create_user
+    url: /api/v1/users
+    method: POST
+    data:
+      username: *username
+      password: *password
+      is_active: true
+    status: 200
+    response_json_paths:
+      $.username: *username
+
+  - name: user_login
+    url: /api/v1/login
+    method: POST
+    data:
+      username: *username
+      password: *password
+    status: 200
+    response_json_paths:
+      $.token_type: bearer
+
+  - name: create_version
+    url: /api/v1/algos/version
+    method: POST
+    request_headers:
+      Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
+    data:
+      module: "rsi_formatter"
+      algo: "rsi_formatter"
+      enable: "true"
+      modulePath: "transform_driver.rsi_service"
+      version: "rsi_test"
+      inUse: "rsi"
+      versionPath: ""
+    status: 201
+    response_json_paths:
+      $.algo: "rsi_formatter"
+      $.version: "rsi_test"
+
+  - name: algo_list
+    url: /api/v1/algos
+    method: GET
+    request_headers:
+      Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
+    data:
+      algo: "rsi_formatter"
+    status: 200
+
+  - name: algo_update
+    url: /api/v1/algos/1
+    method: PATCH
+    request_headers:
+      Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
+    data:
+      inUse: "rsi"
+    status: 200
+
+  - name: delete_version
+    url: /api/v1/algos/version/$HISTORY['create_version'].$RESPONSE['$.id']
+    method: DELETE
+    request_headers:
+      Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
+    status: 204
+
+  - name: delete_user
+    url: /api/v1/users/$HISTORY['create_user'].$RESPONSE['$.id']
+    method: DELETE
+    request_headers:
+      Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
+    status: 204

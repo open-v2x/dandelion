@@ -87,3 +87,7 @@ def v2x_rsu_log_conf_down(rsu_esn):
 
 def v2x_rsu_log_conf_down_ack(rsu_esn):
     return f"V2X/RSU/{rsu_esn}/Log/UP/ACK"
+
+
+def v2x_rsu_pip_cfg(rsu_esn):
+    return f"V2X/RSU/{rsu_esn}/PIP/CFG"

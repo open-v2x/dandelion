@@ -8535,6 +8535,332 @@
                     }
                 ]
             }
+        },
+        "/api/v1/algos/version": {
+            "post": {
+                "tags": [
+                    "Algo"
+                ],
+                "summary": "Create",
+                "description": "Create a new version.",
+                "operationId": "create_api_v1_algos_version_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AlgoVersionCreateAll"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AlgoVersion"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/algos/version/{version_id}": {
+            "delete": {
+                "tags": [
+                    "Algo"
+                ],
+                "summary": "Delete",
+                "description": "Delete a version.",
+                "operationId": "delete_api_v1_algos_version__version_id__delete",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Version Id",
+                            "type": "integer"
+                        },
+                        "name": "version_id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/algos": {
+            "get": {
+                "tags": [
+                    "Algo"
+                ],
+                "summary": "List Algo",
+                "description": "Search algo by name.",
+                "operationId": "get_all_api_v1_algos_get",
+                "parameters": [
+                    {
+                        "description": "Filter by algo name",
+                        "required": false,
+                        "schema": {
+                            "title": "Algo",
+                            "type": "string",
+                            "description": "Filter by algo name"
+                        },
+                        "name": "algo",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AlgoNames"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/algos/{algo_id}": {
+            "patch": {
+                "tags": [
+                    "Algo"
+                ],
+                "summary": "Update",
+                "description": "patch a algo.",
+                "operationId": "update_api_v1_algos__algo_id__patch",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Algo Id",
+                            "type": "integer"
+                        },
+                        "name": "algo_id",
+                        "in": "path"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AlgoNameUpdate"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AlgoNameEdit"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            }
         }
     },
     "components": {
@@ -8556,6 +8882,227 @@
                         "title": "Time",
                         "type": "integer",
                         "description": "Time"
+                    }
+                }
+            },
+            "AlgoName": {
+                "title": "AlgoName",
+                "required": [
+                    "id",
+                    "module",
+                    "algo",
+                    "enable",
+                    "modulePath",
+                    "inUse",
+                    "version"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "title": "Id",
+                        "type": "integer",
+                        "description": "Algo id"
+                    },
+                    "module": {
+                        "title": "Module",
+                        "type": "string",
+                        "description": "Algo module"
+                    },
+                    "algo": {
+                        "title": "Algo",
+                        "type": "string",
+                        "description": "Algo name"
+                    },
+                    "enable": {
+                        "title": "Enable",
+                        "type": "boolean",
+                        "description": "Algo enable"
+                    },
+                    "modulePath": {
+                        "title": "Modulepath",
+                        "type": "string",
+                        "description": "Algo path"
+                    },
+                    "inUse": {
+                        "title": "Inuse",
+                        "type": "string",
+                        "description": "Algo in use"
+                    },
+                    "version": {
+                        "title": "Version",
+                        "type": "array",
+                        "items": {},
+                        "description": "Algo version list"
+                    },
+                    "updateTime": {
+                        "title": "Updatetime",
+                        "type": "string",
+                        "description": "Update Time",
+                        "format": "date-time"
+                    }
+                }
+            },
+            "AlgoNameEdit": {
+                "title": "AlgoNameEdit",
+                "required": [
+                    "module",
+                    "algo",
+                    "enable",
+                    "modulePath",
+                    "inUse"
+                ],
+                "type": "object",
+                "properties": {
+                    "module": {
+                        "title": "Module",
+                        "type": "string",
+                        "description": "Algo module"
+                    },
+                    "algo": {
+                        "title": "Algo",
+                        "type": "string",
+                        "description": "Algo name"
+                    },
+                    "enable": {
+                        "title": "Enable",
+                        "type": "boolean",
+                        "description": "Algo enable"
+                    },
+                    "modulePath": {
+                        "title": "Modulepath",
+                        "type": "string",
+                        "description": "Algo path"
+                    },
+                    "inUse": {
+                        "title": "Inuse",
+                        "type": "string",
+                        "description": "Algo in use"
+                    },
+                    "updateTime": {
+                        "title": "Updatetime",
+                        "type": "string",
+                        "description": "Update Time",
+                        "format": "date-time"
+                    }
+                }
+            },
+            "AlgoNameUpdate": {
+                "title": "AlgoNameUpdate",
+                "type": "object",
+                "properties": {
+                    "enable": {
+                        "title": "Enable",
+                        "type": "boolean",
+                        "description": "Algo enable"
+                    },
+                    "inUse": {
+                        "title": "Inuse",
+                        "type": "string",
+                        "description": "Algo in use",
+                        "default": ""
+                    }
+                }
+            },
+            "AlgoNames": {
+                "title": "AlgoNames",
+                "required": [
+                    "total",
+                    "data"
+                ],
+                "type": "object",
+                "properties": {
+                    "total": {
+                        "title": "Total",
+                        "type": "integer",
+                        "description": "Total"
+                    },
+                    "data": {
+                        "title": "Data",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/AlgoName"
+                        },
+                        "description": "Data"
+                    }
+                }
+            },
+            "AlgoVersion": {
+                "title": "AlgoVersion",
+                "required": [
+                    "id",
+                    "algo",
+                    "version"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "title": "Id",
+                        "type": "integer",
+                        "description": "Algo ID"
+                    },
+                    "algo": {
+                        "title": "Algo",
+                        "type": "string",
+                        "description": "Algo name"
+                    },
+                    "version": {
+                        "title": "Version",
+                        "type": "string",
+                        "description": "Algo Version"
+                    },
+                    "version_path": {
+                        "title": "Version Path",
+                        "type": "string",
+                        "description": "Algo version path"
+                    }
+                }
+            },
+            "AlgoVersionCreateAll": {
+                "title": "AlgoVersionCreateAll",
+                "required": [
+                    "module",
+                    "algo",
+                    "enable",
+                    "inUse",
+                    "modulePath",
+                    "version"
+                ],
+                "type": "object",
+                "properties": {
+                    "module": {
+                        "title": "Module",
+                        "type": "string",
+                        "description": "Algo Module"
+                    },
+                    "algo": {
+                        "title": "Algo",
+                        "type": "string",
+                        "description": "Algo Name"
+                    },
+                    "enable": {
+                        "title": "Enable",
+                        "type": "boolean",
+                        "description": "Algo enable"
+                    },
+                    "inUse": {
+                        "title": "Inuse",
+                        "type": "string",
+                        "description": "Algo in use"
+                    },
+                    "modulePath": {
+                        "title": "Modulepath",
+                        "type": "string",
+                        "description": "Algo module path"
+                    },
+                    "version": {
+                        "title": "Version",
+                        "type": "string",
+                        "description": "Algo Version"
+                    },
+                    "versionPath": {
+                        "title": "Versionpath",
+                        "type": "string",
+                        "description": "Algo version path"
                     }
                 }
             },

@@ -17,6 +17,7 @@ from __future__ import annotations
 from fastapi import APIRouter
 
 from dandelion.api.api_v1.endpoints import (
+    algos,
     areas,
     cameras,
     cities,
@@ -104,3 +105,4 @@ api_router.include_router(rsi_sdss.router, prefix="/rsi_sdss", tags=["RSI SDS"])
 api_router.include_router(edge_nodes.router, prefix="/edge_nodes", tags=["Edge Node"])
 
 api_router.include_router(edge_node_rsus.router, prefix="/edge_node_rsus", tags=["Edge Node RSU"])
+api_router.include_router(algos.router, prefix="/algos", tags=["Algo"])

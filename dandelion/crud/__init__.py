@@ -14,6 +14,9 @@
 
 from __future__ import annotations
 
+from .crud_algo_module import algo_module
+from .crud_algo_name import algo_name
+from .crud_algo_version import algo_version
 from .crud_area import area
 from .crud_camera import camera
 from .crud_city import city
@@ -80,4 +83,7 @@ __all__ = [
     "rsu_query_result_data",
     "spat",
     "intersection",
+    "algo_module",
+    "algo_name",
+    "algo_version",
 ]
