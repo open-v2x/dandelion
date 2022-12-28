@@ -27,7 +27,7 @@ iam related options.
 user_opts = [
     cfg.StrOpt(
         "get_auth_info_url",
-        default="https://localhost:28300/api/iam/?Action=GetAuthInfo",
+        default="http://203.166.165.251:16056/?Action=GetAuthInfo",
         help="""
 iam get_auth_info_url.
 """,

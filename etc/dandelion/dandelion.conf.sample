@@ -189,7 +189,7 @@
 #
 # iam get_auth_info_url.
 #  (string value)
-#get_auth_info_url = https://localhost:28300/api/iam/?Action=GetAuthInfo
+#get_auth_info_url = http://203.166.165.251:16056/?Action=GetAuthInfo
 
 
 [mode]
