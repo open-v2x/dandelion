@@ -41,18 +41,19 @@ class CameraCreate(BaseModel):
 
 # Properties to receive via API on update
 class CameraUpdate(CameraBase):
-    sn: str = Field(..., alias="sn", description="SN")
-    name: str = Field(..., alias="name", description="Name")
-    stream_url: str = Field(..., alias="streamUrl", description="Stream URL")
-    lng: float = Field(..., alias="lng", description="Lng")
-    lat: float = Field(..., alias="lat", description="Lat")
-    elevation: float = Field(..., alias="elevation", description="Elevation")
-    towards: float = Field(..., alias="towards", description="Towards")
+    sn: Optional[str] = Field(None, alias="sn", description="SN")
+    name: Optional[str] = Field(None, alias="name", description="Name")
+    stream_url: Optional[str] = Field(None, alias="streamUrl", description="Stream URL")
+    lng: Optional[float] = Field(None, alias="lng", description="Lng")
+    lat: Optional[float] = Field(None, alias="lat", description="Lat")
+    elevation: Optional[float] = Field(None, alias="elevation", description="Elevation")
+    towards: Optional[float] = Field(None, alias="towards", description="Towards")
     rsu_id: Optional[int] = Field(None, alias="rsuId", description="RSU ID")
     desc: Optional[str] = Field(None, alias="desc", description="Description")
     intersection_code: Optional[str] = Field(
         None, alias="intersectionCode", description="Intersection Code"
     )
+    enabled: Optional[bool] = Field(None, alias="enabled", description="enabled")
 
 
 class CameraInDBBase(CameraBase):
@@ -85,6 +86,7 @@ class Camera(CameraInDBBase):
     intersection_name: str = Field(..., alias="intersectionName", description="Intersection Name")
     desc: str = Field(..., alias="desc", description="Description")
     create_time: datetime = Field(..., alias="createTime", description="Create Time")
+    enabled: bool = Field(..., alias="enabled", description="Enabled camera or not")
 
 
 class Cameras(BaseModel):

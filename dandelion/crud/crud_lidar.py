@@ -14,17 +14,17 @@
 
 from __future__ import annotations
 
-from typing import List, Optional, Tuple, Union
+from typing import List, Optional, Tuple
 
 from fastapi.encoders import jsonable_encoder
 from sqlalchemy.orm import Session
 
 from dandelion.crud.base import CRUDBase
 from dandelion.models import Lidar
-from dandelion.schemas import LidarCreate, LidarEnabledUpdate, LidarUpdate
+from dandelion.schemas import LidarCreate, LidarUpdate
 
 
-class CRUDLidar(CRUDBase[Lidar, LidarCreate, Union[LidarUpdate, LidarEnabledUpdate]]):
+class CRUDLidar(CRUDBase[Lidar, LidarCreate, LidarUpdate]):
     """"""
 
     def create(self, db: Session, *, obj_in: LidarCreate) -> Lidar:

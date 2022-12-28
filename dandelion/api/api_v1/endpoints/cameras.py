@@ -170,7 +170,7 @@ def get_all(
     return schemas.Cameras(total=total, data=[camera.to_dict() for camera in data])
 
 
-@router.put(
+@router.patch(
     "/{camera_id}",
     response_model=schemas.Camera,
     status_code=status.HTTP_200_OK,

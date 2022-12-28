@@ -30,7 +30,7 @@ class Spat(Base, DandelionBase):
     spat_ip = Column(String(15), nullable=False, default="")
     point = Column(String(15), nullable=False, default="")
     online_status = Column(Boolean, nullable=False, default=False)
-    enabled = Column(Boolean, nullable=False, default=False)
+    enabled = Column(Boolean, nullable=False, default=True)
     phase_id = Column(String(64), nullable=False, index=True)
     light = Column(String(15), nullable=False, default="")
     rsu_id = Column(Integer, ForeignKey("rsu.id"))

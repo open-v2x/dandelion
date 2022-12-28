@@ -42,27 +42,24 @@ class LidarCreate(BaseModel):
     intersection_code: str = Field(..., alias="intersectionCode", description="Intersection Code")
 
 
-class LidarEnabledUpdate(BaseModel):
-    enabled: bool = Field(..., alias="enabled", description="enabled")
-
-
 # Properties to receive via API on update
 class LidarUpdate(LidarBase):
-    sn: str = Field(..., alias="sn", description="Lidar SN")
-    name: str = Field(..., alias="name", description="Lidar Name")
+    sn: Optional[str] = Field(None, alias="sn", description="Lidar SN")
+    name: Optional[str] = Field(None, alias="name", description="Lidar Name")
     lidar_ip: Optional[str] = Field(None, alias="lidarIP", description="Lidar IP")
-    lng: str = Field(..., alias="lng", description="Longitude")
-    lat: str = Field(..., alias="lat", description="Latitude")
-    elevation: str = Field(..., alias="elevation", description="Elevation")
-    towards: str = Field(..., alias="towards", description="Towards")
-    point: str = Field(..., alias="point", description="point")
-    pole: str = Field(..., alias="pole", description="pole")
+    lng: Optional[str] = Field(None, alias="lng", description="Longitude")
+    lat: Optional[str] = Field(None, alias="lat", description="Latitude")
+    elevation: Optional[str] = Field(None, alias="elevation", description="Elevation")
+    towards: Optional[str] = Field(None, alias="towards", description="Towards")
+    point: Optional[str] = Field(None, alias="point", description="point")
+    pole: Optional[str] = Field(None, alias="pole", description="pole")
     rsu_id: Optional[int] = Field(None, alias="rsuId", description="RSU ID")
     desc: Optional[str] = Field("", alias="desc", description="Description")
     ws_url: Optional[str] = Field("", alias="wsUrl", description="Websocket url")
     intersection_code: Optional[str] = Field(
         None, alias="intersectionCode", description="Intersection Code"
     )
+    enabled: Optional[bool] = Field(None, alias="enabled", description="enabled")
 
 
 class LidarInDBBase(LidarBase):

@@ -134,7 +134,7 @@ tests:
 
   - name: update_camera
     url: /api/v1/cameras/$HISTORY['create_camera'].$RESPONSE['$.id']
-    method: PUT
+    method: PATCH
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
     data:

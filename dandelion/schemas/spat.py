@@ -38,23 +38,22 @@ class SpatCreate(BaseModel):
     intersection_code: str = Field(..., alias="intersectionCode", description="Intersection Code")
 
 
-class SpatEnabledUpdate(BaseModel):
-    enabled: bool = Field(..., alias="enabled", description="Enabled")
-
-
 # Properties to receive via API on update
 class SpatUpdate(SpatBase):
-    intersection_id: str = Field(..., alias="intersectionId", description="Spat intersection id")
-    name: str = Field(..., alias="name", description="Spat Name")
+    intersection_id: Optional[str] = Field(
+        None, alias="intersectionId", description="Spat intersection id"
+    )
+    name: Optional[str] = Field(None, alias="name", description="Spat Name")
     spat_ip: Optional[str] = Field(None, alias="spatIP", description="Spat IP")
-    point: str = Field(..., alias="point", description="Point")
-    phase_id: str = Field(..., alias="phaseId", description="PhaseId")
-    light: str = Field(..., alias="light", description="Light")
+    point: Optional[str] = Field(None, alias="point", description="Point")
+    phase_id: Optional[str] = Field(None, alias="phaseId", description="PhaseId")
+    light: Optional[str] = Field(None, alias="light", description="Light")
     rsu_id: Optional[int] = Field(None, alias="rsuId", description="RSU ID")
     desc: Optional[str] = Field("", alias="desc", description="Description")
     intersection_code: Optional[str] = Field(
         None, alias="intersectionCode", description="Intersection Code"
     )
+    enabled: Optional[bool] = Field(None, alias="enabled", description="Enabled")
 
 
 class SpatInDBBase(SpatBase):

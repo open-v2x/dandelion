@@ -33,6 +33,7 @@ class Radar(Base, DandelionBase):
     status = Column(Boolean, nullable=False, default=False)
     rsu_id = Column(Integer, ForeignKey("rsu.id"))
     desc = Column(String(255), nullable=False, default="")
+    enabled = Column(Boolean, nullable=True, default=True)
 
     intersection_code = Column(String(64), ForeignKey("intersection.code"))
 
@@ -55,6 +56,7 @@ class Radar(Base, DandelionBase):
                 rsuName=Optional_util.none(self.rsu).map(lambda v: v.rsu_name).get(),
                 desc=self.desc,
                 createTime=self.create_time,
+                enabled=self.enabled,
             ),
             **Optional_util.none(self.intersection).map(lambda v: v.to_all()).get(),
         }

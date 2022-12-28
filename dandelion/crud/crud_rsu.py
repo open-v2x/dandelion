@@ -80,7 +80,11 @@ class CRUDRSU(CRUDBase[RSU, RSUCreate, RSUUpdate]):
     def update_with_location(self, db: Session, *, db_obj: RSU, obj_in: RSUUpdate) -> RSU:
         obj_data = jsonable_encoder(db_obj, by_alias=False)
         update_data = obj_in.dict(exclude_unset=True)
-        update_data["location"] = {"lon": update_data.pop("lon"), "lat": update_data.pop("lat")}
+        if update_data.get("lon") and update_data.get("lat"):
+            update_data["location"] = {
+                "lon": update_data.pop("lon"),
+                "lat": update_data.pop("lat"),
+            }
         for field in obj_data:
             if field in update_data:
                 setattr(db_obj, field, update_data[field])

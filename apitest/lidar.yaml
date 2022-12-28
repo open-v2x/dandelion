@@ -116,7 +116,7 @@ tests:
 
   - name: lidar_update
     url: /api/v1/lidars/$HISTORY['create_lidar'].$RESPONSE['$.id']
-    method: PUT
+    method: PATCH
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
     data:
@@ -145,17 +145,6 @@ tests:
       $.pole: "11"
       $.desc: 'test_update_lidar'
       wsUrl: "ws://47.100.126.13:8000/ws/127.0.0.2"
-
-  - name: lidar_enabled
-    url: /api/v1/lidars/$HISTORY['create_lidar'].$RESPONSE['$.id']
-    method: POST
-    request_headers:
-      Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
-    data:
-      enabled: false
-    status: 200
-    response_json_paths:
-      $.enabled: false
 
   - name: delete_lidar
     url: /api/v1/lidars/$HISTORY['create_lidar'].$RESPONSE['$.id']

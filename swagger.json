@@ -983,13 +983,13 @@
                     }
                 ]
             },
-            "put": {
+            "delete": {
                 "tags": [
                     "Camera"
                 ],
-                "summary": "Update",
-                "description": "Update a Camera.",
-                "operationId": "update_api_v1_cameras__camera_id__put",
+                "summary": "Delete",
+                "description": "Delete a Camera.",
+                "operationId": "delete_api_v1_cameras__camera_id__delete",
                 "parameters": [
                     {
                         "required": true,
@@ -1001,26 +1001,9 @@
                         "in": "path"
                     }
                 ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/CameraUpdate"
-                            }
-                        }
-                    },
-                    "required": true
-                },
                 "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Camera"
-                                }
-                            }
-                        }
+                    "204": {
+                        "description": "No Content"
                     },
                     "401": {
                         "description": "Unauthorized",
@@ -1069,13 +1052,13 @@
                     }
                 ]
             },
-            "delete": {
+            "patch": {
                 "tags": [
                     "Camera"
                 ],
-                "summary": "Delete",
-                "description": "Delete a Camera.",
-                "operationId": "delete_api_v1_cameras__camera_id__delete",
+                "summary": "Update",
+                "description": "Update a Camera.",
+                "operationId": "update_api_v1_cameras__camera_id__patch",
                 "parameters": [
                     {
                         "required": true,
@@ -1087,9 +1070,26 @@
                         "in": "path"
                     }
                 ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CameraUpdate"
+                            }
+                        }
+                    },
+                    "required": true
+                },
                 "responses": {
-                    "204": {
-                        "description": "No Content"
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Camera"
+                                }
+                            }
+                        }
                     },
                     "401": {
                         "description": "Unauthorized",
@@ -2974,13 +2974,13 @@
                     }
                 ]
             },
-            "put": {
+            "delete": {
                 "tags": [
                     "Radar"
                 ],
-                "summary": "Update",
-                "description": "Update a Radar.",
-                "operationId": "update_api_v1_radars__radar_id__put",
+                "summary": "Delete",
+                "description": "Delete a Radar.",
+                "operationId": "delete_api_v1_radars__radar_id__delete",
                 "parameters": [
                     {
                         "required": true,
@@ -2992,26 +2992,9 @@
                         "in": "path"
                     }
                 ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/RadarUpdate"
-                            }
-                        }
-                    },
-                    "required": true
-                },
                 "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Radar"
-                                }
-                            }
-                        }
+                    "204": {
+                        "description": "No Content"
                     },
                     "401": {
                         "description": "Unauthorized",
@@ -3060,13 +3043,13 @@
                     }
                 ]
             },
-            "delete": {
+            "patch": {
                 "tags": [
                     "Radar"
                 ],
-                "summary": "Delete",
-                "description": "Delete a Radar.",
-                "operationId": "delete_api_v1_radars__radar_id__delete",
+                "summary": "Update",
+                "description": "Update a Radar.",
+                "operationId": "update_api_v1_radars__radar_id__patch",
                 "parameters": [
                     {
                         "required": true,
@@ -3078,9 +3061,26 @@
                         "in": "path"
                     }
                 ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RadarUpdate"
+                            }
+                        }
+                    },
+                    "required": true
+                },
                 "responses": {
-                    "204": {
-                        "description": "No Content"
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Radar"
+                                }
+                            }
+                        }
                     },
                     "401": {
                         "description": "Unauthorized",
@@ -3431,13 +3431,82 @@
                     }
                 ]
             },
-            "put": {
+            "delete": {
+                "tags": [
+                    "Spat"
+                ],
+                "summary": "Delete",
+                "description": "Delete a Spat.",
+                "operationId": "delete_api_v1_spats__spat_id__delete",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Spat Id",
+                            "type": "integer"
+                        },
+                        "name": "spat_id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            },
+            "patch": {
                 "tags": [
                     "Spat"
                 ],
                 "summary": "Update",
                 "description": "Update a Spat.",
-                "operationId": "update_api_v1_spats__spat_id__put",
+                "operationId": "update_api_v1_spats__spat_id__patch",
                 "parameters": [
                     {
                         "required": true,
@@ -3469,161 +3538,6 @@
                                 }
                             }
                         }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "OAuth2PasswordBearer": []
-                    }
-                ]
-            },
-            "post": {
-                "tags": [
-                    "Spat"
-                ],
-                "summary": "Update Enabled",
-                "description": "Enable/Disabled a Spat.",
-                "operationId": "update_enabled_api_v1_spats__spat_id__post",
-                "parameters": [
-                    {
-                        "required": true,
-                        "schema": {
-                            "title": "Spat Id",
-                            "type": "integer"
-                        },
-                        "name": "spat_id",
-                        "in": "path"
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/SpatEnabledUpdate"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Spat"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "OAuth2PasswordBearer": []
-                    }
-                ]
-            },
-            "delete": {
-                "tags": [
-                    "Spat"
-                ],
-                "summary": "Delete",
-                "description": "Delete a Spat.",
-                "operationId": "delete_api_v1_spats__spat_id__delete",
-                "parameters": [
-                    {
-                        "required": true,
-                        "schema": {
-                            "title": "Spat Id",
-                            "type": "integer"
-                        },
-                        "name": "spat_id",
-                        "in": "path"
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "No Content"
                     },
                     "401": {
                         "description": "Unauthorized",
@@ -4409,13 +4323,82 @@
                     }
                 ]
             },
-            "put": {
+            "delete": {
+                "tags": [
+                    "Lidar"
+                ],
+                "summary": "Delete",
+                "description": "Delete a Lidar.",
+                "operationId": "delete_api_v1_lidars__lidar_id__delete",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Lidar Id",
+                            "type": "integer"
+                        },
+                        "name": "lidar_id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            },
+            "patch": {
                 "tags": [
                     "Lidar"
                 ],
                 "summary": "Update",
                 "description": "Update a Lidar.",
-                "operationId": "update_api_v1_lidars__lidar_id__put",
+                "operationId": "update_api_v1_lidars__lidar_id__patch",
                 "parameters": [
                     {
                         "required": true,
@@ -4447,161 +4430,6 @@
                                 }
                             }
                         }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "OAuth2PasswordBearer": []
-                    }
-                ]
-            },
-            "post": {
-                "tags": [
-                    "Lidar"
-                ],
-                "summary": "Update Enabled",
-                "description": "Enable/Disabled a Lidar.",
-                "operationId": "update_enabled_api_v1_lidars__lidar_id__post",
-                "parameters": [
-                    {
-                        "required": true,
-                        "schema": {
-                            "title": "Lidar Id",
-                            "type": "integer"
-                        },
-                        "name": "lidar_id",
-                        "in": "path"
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/LidarEnabledUpdate"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Lidar"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "OAuth2PasswordBearer": []
-                    }
-                ]
-            },
-            "delete": {
-                "tags": [
-                    "Lidar"
-                ],
-                "summary": "Delete",
-                "description": "Delete a Lidar.",
-                "operationId": "delete_api_v1_lidars__lidar_id__delete",
-                "parameters": [
-                    {
-                        "required": true,
-                        "schema": {
-                            "title": "Lidar Id",
-                            "type": "integer"
-                        },
-                        "name": "lidar_id",
-                        "in": "path"
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "No Content"
                     },
                     "401": {
                         "description": "Unauthorized",
@@ -9251,7 +9079,8 @@
                     "intersectionCode",
                     "intersectionName",
                     "desc",
-                    "createTime"
+                    "createTime",
+                    "enabled"
                 ],
                 "type": "object",
                 "properties": {
@@ -9365,6 +9194,11 @@
                         "type": "string",
                         "description": "Create Time",
                         "format": "date-time"
+                    },
+                    "enabled": {
+                        "title": "Enabled",
+                        "type": "boolean",
+                        "description": "Enabled camera or not"
                     }
                 }
             },
@@ -9462,15 +9296,6 @@
             },
             "CameraUpdate": {
                 "title": "CameraUpdate",
-                "required": [
-                    "sn",
-                    "name",
-                    "streamUrl",
-                    "lng",
-                    "lat",
-                    "elevation",
-                    "towards"
-                ],
                 "type": "object",
                 "properties": {
                     "sn": {
@@ -9522,6 +9347,11 @@
                         "title": "Intersectioncode",
                         "type": "string",
                         "description": "Intersection Code"
+                    },
+                    "enabled": {
+                        "title": "Enabled",
+                        "type": "boolean",
+                        "description": "enabled"
                     }
                 }
             },
@@ -10243,20 +10073,6 @@
                     }
                 }
             },
-            "LidarEnabledUpdate": {
-                "title": "LidarEnabledUpdate",
-                "required": [
-                    "enabled"
-                ],
-                "type": "object",
-                "properties": {
-                    "enabled": {
-                        "title": "Enabled",
-                        "type": "boolean",
-                        "description": "enabled"
-                    }
-                }
-            },
             "LidarOnlineRateBase": {
                 "title": "LidarOnlineRateBase",
                 "required": [
@@ -10285,16 +10101,6 @@
             },
             "LidarUpdate": {
                 "title": "LidarUpdate",
-                "required": [
-                    "sn",
-                    "name",
-                    "lng",
-                    "lat",
-                    "elevation",
-                    "towards",
-                    "point",
-                    "pole"
-                ],
                 "type": "object",
                 "properties": {
                     "sn": {
@@ -10363,6 +10169,11 @@
                         "title": "Intersectioncode",
                         "type": "string",
                         "description": "Intersection Code"
+                    },
+                    "enabled": {
+                        "title": "Enabled",
+                        "type": "boolean",
+                        "description": "enabled"
                     }
                 }
             },
@@ -13233,10 +13044,6 @@
             },
             "RSUUpdate": {
                 "title": "RSUUpdate",
-                "required": [
-                    "lat",
-                    "lon"
-                ],
                 "type": "object",
                 "properties": {
                     "rsuId": {
@@ -13375,7 +13182,8 @@
                     "intersectionCode",
                     "intersectionName",
                     "desc",
-                    "createTime"
+                    "createTime",
+                    "enabled"
                 ],
                 "type": "object",
                 "properties": {
@@ -13494,6 +13302,11 @@
                         "type": "string",
                         "description": "Create Time",
                         "format": "date-time"
+                    },
+                    "enabled": {
+                        "title": "Enabled",
+                        "type": "boolean",
+                        "description": "Enabled radar or not"
                     }
                 }
             },
@@ -13591,14 +13404,6 @@
             },
             "RadarUpdate": {
                 "title": "RadarUpdate",
-                "required": [
-                    "sn",
-                    "name",
-                    "lng",
-                    "lat",
-                    "elevation",
-                    "towards"
-                ],
                 "type": "object",
                 "properties": {
                     "sn": {
@@ -13651,6 +13456,11 @@
                         "title": "Intersectioncode",
                         "type": "string",
                         "description": "Intersection Code"
+                    },
+                    "enabled": {
+                        "title": "Enabled",
+                        "type": "boolean",
+                        "description": "enabled"
                     }
                 }
             },
@@ -14091,20 +13901,6 @@
                     }
                 }
             },
-            "SpatEnabledUpdate": {
-                "title": "SpatEnabledUpdate",
-                "required": [
-                    "enabled"
-                ],
-                "type": "object",
-                "properties": {
-                    "enabled": {
-                        "title": "Enabled",
-                        "type": "boolean",
-                        "description": "Enabled"
-                    }
-                }
-            },
             "SpatOnlineRateBase": {
                 "title": "SpatOnlineRateBase",
                 "required": [
@@ -14133,13 +13929,6 @@
             },
             "SpatUpdate": {
                 "title": "SpatUpdate",
-                "required": [
-                    "intersectionId",
-                    "name",
-                    "point",
-                    "phaseId",
-                    "light"
-                ],
                 "type": "object",
                 "properties": {
                     "intersectionId": {
@@ -14187,6 +13976,11 @@
                         "title": "Intersectioncode",
                         "type": "string",
                         "description": "Intersection Code"
+                    },
+                    "enabled": {
+                        "title": "Enabled",
+                        "type": "boolean",
+                        "description": "Enabled"
                     }
                 }
             },

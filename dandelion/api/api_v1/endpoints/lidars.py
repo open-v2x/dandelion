@@ -170,7 +170,7 @@ def get_all(
     return schemas.Lidars(total=total, data=[lidar.to_dict() for lidar in data])
 
 
-@router.put(
+@router.patch(
     "/{lidar_id}",
     response_model=schemas.Lidar,
     status_code=status.HTTP_200_OK,
@@ -203,43 +203,4 @@ def update(
         new_lidar_id_db = crud.lidar.update(db, db_obj=lidar_id_db, obj_in=lidar_in)
     except (sql_exc.DataError, sql_exc.IntegrityError) as ex:
         raise error_handle(ex, "sn", lidar_in.sn)
-    return new_lidar_id_db.to_dict()
-
-
-@router.post(
-    "/{lidar_id}",
-    response_model=schemas.Lidar,
-    status_code=status.HTTP_200_OK,
-    description="""
-Enable/Disabled a Lidar.
-""",
-    responses={
-        status.HTTP_200_OK: {"model": schemas.Lidar, "description": "OK"},
-        status.HTTP_401_UNAUTHORIZED: {
-            "model": schemas.ErrorMessage,
-            "description": "Unauthorized",
-        },
-        status.HTTP_403_FORBIDDEN: {"model": schemas.ErrorMessage, "description": "Forbidden"},
-        status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
-    },
-)
-def update_enabled(
-    lidar_id: int,
-    lidar_in: schemas.LidarEnabledUpdate,
-    *,
-    db: Session = Depends(deps.get_db),
-    current_user: models.User = Depends(deps.get_current_user),
-) -> schemas.Lidar:
-    lidar_id_db = crud.lidar.get(db, id=lidar_id)
-    if not lidar_id_db:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"Lidar [id: {lidar_id}] not found"
-        )
-    if lidar_id_db.enabled == lidar_in.enabled:
-        return lidar_id_db.to_dict()
-    try:
-        new_lidar_id_db = crud.lidar.update(db, db_obj=lidar_id_db, obj_in=lidar_in)
-    except sql_exc.DataError as ex:
-        LOG.error(ex.args[0])
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=ex.args[0])
     return new_lidar_id_db.to_dict()
