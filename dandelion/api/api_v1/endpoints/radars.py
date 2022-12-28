@@ -170,7 +170,7 @@ def get_all(
     return schemas.Radars(total=total, data=[radar.to_dict() for radar in data])
 
 
-@router.put(
+@router.patch(
     "/{radar_id}",
     response_model=schemas.Radar,
     status_code=status.HTTP_200_OK,

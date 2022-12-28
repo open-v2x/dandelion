@@ -33,7 +33,7 @@ from .edge_node_rsu import (
     Location,
 )
 from .intersection import Intersection, IntersectionCreate, Intersections, IntersectionUpdate
-from .lidar import Lidar, LidarCreate, LidarEnabledUpdate, Lidars, LidarUpdate
+from .lidar import Lidar, LidarCreate, Lidars, LidarUpdate
 from .map import Map, MapCreate, Maps, MapUpdate
 from .map_rsu import MapRSU, MapRSUCreate, MapRSUs, MapRSUUpdate
 from .message import ErrorMessage, Message
@@ -81,7 +81,7 @@ from .rsu_query_result import (
 )
 from .rsu_query_result_data import RSUQueryResultData, RSUQueryResultDataCreate
 from .rsu_tmp import RSUTMP, RSUTMPCreate, RSUTMPs, RSUTMPUpdate
-from .spat import Spat, SpatCreate, SpatEnabledUpdate, Spats, SpatUpdate
+from .spat import Spat, SpatCreate, Spats, SpatUpdate
 from .system_config import MQTTConfig, SystemConfig, SystemConfigCreate
 from .token import AccessToken, Token, TokenPayload
 from .user import User, UserCreate, UserUpdate

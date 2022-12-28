@@ -31,7 +31,7 @@ class Lidar(Base, DandelionBase):
     elevation = Column(Float, nullable=False)
     towards = Column(Float, nullable=False)
     online_status = Column(Boolean, nullable=False, default=False)
-    enabled = Column(Boolean, nullable=False, default=False)
+    enabled = Column(Boolean, nullable=False, default=True)
     point = Column(String(15), nullable=False)
     pole = Column(String(15), nullable=False)
     rsu_id = Column(Integer, ForeignKey("rsu.id"))

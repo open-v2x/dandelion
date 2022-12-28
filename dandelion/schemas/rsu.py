@@ -87,8 +87,8 @@ class RSUUpdate(BaseModel):
     desc: Optional[str] = Field(None, alias="desc", description="Description")
     rsu_status: Optional[str] = Field(None, alias="rsuStatus", description="RSU Status")
     enabled: Optional[bool] = Field(None, alias="enabled", description="Enable RSU or not")
-    lat: str = Field(..., alias="lat", description="Latitude")
-    lon: str = Field(..., alias="lon", description="Longitude")
+    lat: Optional[str] = Field(None, alias="lat", description="Latitude")
+    lon: Optional[str] = Field(None, alias="lon", description="Longitude")
 
 
 class RSUUpdateWithVersion(BaseModel):

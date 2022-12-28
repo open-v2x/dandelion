@@ -41,18 +41,19 @@ class RadarCreate(BaseModel):
 
 # Properties to receive via API on update
 class RadarUpdate(RadarBase):
-    sn: str = Field(..., alias="sn", description="Radar SN")
-    name: str = Field(..., alias="name", description="Radar Name")
+    sn: Optional[str] = Field(None, alias="sn", description="Radar SN")
+    name: Optional[str] = Field(None, alias="name", description="Radar Name")
     radar_ip: Optional[str] = Field(None, alias="radarIP", description="Radar IP")
-    lng: str = Field(..., alias="lng", description="Longitude")
-    lat: str = Field(..., alias="lat", description="Latitude")
-    elevation: str = Field(..., alias="elevation", description="Elevation")
-    towards: str = Field(..., alias="towards", description="Towards")
+    lng: Optional[str] = Field(None, alias="lng", description="Longitude")
+    lat: Optional[str] = Field(None, alias="lat", description="Latitude")
+    elevation: Optional[str] = Field(None, alias="elevation", description="Elevation")
+    towards: Optional[str] = Field(None, alias="towards", description="Towards")
     rsu_id: Optional[int] = Field(None, alias="rsuId", description="RSU ID")
     desc: Optional[str] = Field("", alias="desc", description="Description")
     intersection_code: Optional[str] = Field(
         None, alias="intersectionCode", description="Intersection Code"
     )
+    enabled: Optional[bool] = Field(None, alias="enabled", description="enabled")
 
 
 class RadarInDBBase(RadarBase):
@@ -86,6 +87,7 @@ class Radar(RadarInDBBase):
     intersection_name: str = Field(..., alias="intersectionName", description="Intersection Name")
     desc: str = Field(..., alias="desc", description="Description")
     create_time: datetime = Field(..., alias="createTime", description="Create Time")
+    enabled: bool = Field(..., alias="enabled", description="Enabled radar or not")
 
 
 class Radars(BaseModel):

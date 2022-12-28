@@ -21,10 +21,10 @@ from sqlalchemy.orm import Session
 
 from dandelion.crud.base import CRUDBase
 from dandelion.models import Spat
-from dandelion.schemas import SpatCreate, SpatEnabledUpdate, SpatUpdate
+from dandelion.schemas import SpatCreate, SpatUpdate
 
 
-class CRUDSpat(CRUDBase[Spat, SpatCreate, Union[SpatUpdate, SpatEnabledUpdate]]):
+class CRUDSpat(CRUDBase[Spat, SpatCreate, SpatUpdate]):
     """"""
 
     def create(self, db: Session, *, obj_in: Union[SpatCreate, Dict[str, Any]]) -> Spat:

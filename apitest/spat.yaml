@@ -112,7 +112,7 @@ tests:
 
   - name: spat_update
     url: /api/v1/spats/$HISTORY['create_spat'].$RESPONSE['$.id']
-    method: PUT
+    method: PATCH
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
     data:
@@ -133,17 +133,6 @@ tests:
       $.phaseId: '234'
       $.light: '2'
       $.desc: "test_spat_update"
-
-  - name: spat_enabled
-    url: /api/v1/spats/$HISTORY['create_spat'].$RESPONSE['$.id']
-    method: POST
-    request_headers:
-      Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
-    data:
-      enabled: false
-    status: 200
-    response_json_paths:
-      $.enabled: false
 
   - name: delete_spat
     url: /api/v1/spats/$HISTORY['create_spat'].$RESPONSE['$.id']

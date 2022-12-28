@@ -188,7 +188,7 @@ def get_all(
     return schemas.Spats(total=total, data=[spat.to_dict() for spat in data])
 
 
-@router.put(
+@router.patch(
     "/{spat_id}",
     response_model=schemas.Spat,
     status_code=status.HTTP_200_OK,
@@ -238,42 +238,3 @@ def update(
     spat_publish(spat_in_db)
 
     return new_spat_in_db.to_dict()
-
-
-@router.post(
-    "/{spat_id}",
-    response_model=schemas.Spat,
-    status_code=status.HTTP_200_OK,
-    description="""
-Enable/Disabled a Spat.
-""",
-    responses={
-        status.HTTP_200_OK: {"model": schemas.Spat, "description": "OK"},
-        status.HTTP_401_UNAUTHORIZED: {
-            "model": schemas.ErrorMessage,
-            "description": "Unauthorized",
-        },
-        status.HTTP_403_FORBIDDEN: {"model": schemas.ErrorMessage, "description": "Forbidden"},
-        status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
-    },
-)
-def update_enabled(
-    spat_id: int,
-    spat_in: schemas.SpatEnabledUpdate,
-    *,
-    db: Session = Depends(deps.get_db),
-    current_user: models.User = Depends(deps.get_current_user),
-) -> schemas.Spat:
-    spat_id_db = crud.spat.get(db, id=spat_id)
-    if not spat_id_db:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"Spat [id: {spat_id}] not found"
-        )
-    if spat_id_db.enabled == spat_in.enabled:
-        return spat_id_db.to_dict()
-    try:
-        new_spat_id_db = crud.spat.update(db, db_obj=spat_id_db, obj_in=spat_in)
-    except (sql_exc.DataError, sql_exc.IntegrityError) as ex:
-        LOG.error(ex.args[0])
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=ex.args[0])
-    return new_spat_id_db.to_dict()
