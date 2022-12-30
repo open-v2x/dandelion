@@ -82,7 +82,7 @@ def get_algo_config():
                 "enable": algo.get("enable"),
                 "modulePath": algo.get("module"),
                 "inUse": algo.get("algo"),
-                "version": [{"id": None, "version": v} for v in algo.get("version")],
+                "version": algo.get("version"),
             }
             i += 1
     return data
@@ -96,15 +96,14 @@ def get_all_algo_config(data: List[AlgoName]):
     for algo_name_in_db in data:
         key = f"{algo_name_in_db.module}_{algo_name_in_db.name}"
         if response_data.get(key):
-            response_data.get(key)["version"].extend(
-                [v.to_dict() for v in algo_name_in_db.algo_versions]
-            )
-            response_data.get(key)["enable"] = algo_name_in_db.enable
-            response_data.get(key)["inUse"] = algo_name_in_db.in_use
-            response_data.get(key)["updateTime"] = algo_name_in_db.update_time
             version = {
                 version.version: version.version_path for version in algo_name_in_db.algo_versions
             }
-            if algo_name_in_db.in_use in version.keys():
+            response_data.get(key)["version"].extend(version.keys())
+            response_data.get(key)["enable"] = algo_name_in_db.enable
+            if algo_name_in_db.in_use:
+                response_data.get(key)["inUse"] = algo_name_in_db.in_use
+            response_data.get(key)["updateTime"] = algo_name_in_db.update_time
+            if algo_name_in_db.in_use in version.keys() and version.get(algo_name_in_db.in_use):
                 response_data.get(key)["modulePath"] = version.get(algo_name_in_db.in_use)
     return response_data

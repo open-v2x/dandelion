@@ -82,8 +82,8 @@ class CRUDRSU(CRUDBase[RSU, RSUCreate, RSUUpdate]):
         update_data = obj_in.dict(exclude_unset=True)
         if update_data.get("lon") and update_data.get("lat"):
             update_data["location"] = {
-                "lon": update_data.pop("lon"),
-                "lat": update_data.pop("lat"),
+                "lon": float(update_data.pop("lon")),
+                "lat": float(update_data.pop("lat")),
             }
         for field in obj_data:
             if field in update_data:

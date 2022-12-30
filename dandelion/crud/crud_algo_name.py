@@ -37,16 +37,12 @@ class CRUDAlgo(CRUDBase[AlgoName, AlgoNameCreate, AlgoNameUpdate]):
         self,
         db: Session,
         *,
-        skip: int = 0,
-        limit: int = 100,
         algo: Optional[str] = None,
     ) -> Tuple[int, List[AlgoName]]:
         query_ = db.query(self.model)
         if algo is not None:
             query_ = self.fuzz_filter(query_, self.model.name, algo)
         total = query_.count()
-        if limit != -1:
-            query_ = query_.offset(skip).limit(limit)
         data = query_.all()
         return total, data
 

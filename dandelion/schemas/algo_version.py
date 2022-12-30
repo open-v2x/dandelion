@@ -14,7 +14,7 @@
 
 from __future__ import annotations
 
-from typing import Optional
+from typing import List, Optional
 
 from pydantic import BaseModel, Field
 
@@ -66,3 +66,18 @@ class AlgoVersion(AlgoVersionInDBBase):
     algo: str = Field(..., alias="algo", description="Algo name")
     version: str = Field(..., alias="version", description="Algo Version")
     versionPath: Optional[str] = Field(None, alias="version_path", description="Algo version path")
+
+
+class AlgoVersionGET(AlgoVersionBase):
+    """"""
+
+    id: Optional[int] = Field(None, alias="id", description="Algo id")
+    module: str = Field(..., alias="module", description="Algo module")
+    algo: str = Field(..., alias="algo", description="Algo name")
+    version: str = Field(..., alias="version", description="Algo version list")
+    versionPath: Optional[str] = Field(None, alias="version_path", description="Algo version path")
+
+
+class AlgoVersions(BaseModel):
+    total: int = Field(..., alias="total", description="Total")
+    data: List[AlgoVersionGET] = Field(..., alias="data", description="Data")

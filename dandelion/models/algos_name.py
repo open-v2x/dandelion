@@ -47,7 +47,7 @@ class AlgoName(Base, DandelionBase):
                 algo=self.name,
                 enable=self.enable,
                 modulePath=version.get(self.in_use)
-                if self.in_use in version.keys()
+                if self.in_use in version.keys() and version.get(self.in_use)
                 else self.module_path,
                 inUse=self.in_use,
                 version=[v.to_dict() for v in self.algo_versions],

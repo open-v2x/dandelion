@@ -41,7 +41,7 @@ class AlgoNameUpdate(AlgoNameBase):
     """"""
 
     enable: Optional[bool] = Field(None, alias="enable", description="Algo enable")
-    in_use: Optional[str] = Field("", alias="inUse", description="Algo in use")
+    in_use: Optional[str] = Field(None, alias="in_use", description="Algo in use")
 
 
 class AlgoNameInDBBase(AlgoNameBase):
@@ -75,3 +75,12 @@ class AlgoNameEdit(BaseModel):
     module_path: str = Field(..., alias="modulePath", description="Algo path")
     in_use: str = Field(..., alias="inUse", description="Algo in use")
     update_time: Optional[datetime] = Field(None, alias="updateTime", description="Update Time")
+
+
+class AlgoNameUpdateAll(AlgoNameBase):
+    """"""
+
+    module: str = Field(..., alias="module", description="Algo module")
+    algo: str = Field(..., alias="algo", description="Algo name")
+    enable: Optional[bool] = Field(None, alias="enable", description="Algo enable")
+    in_use: Optional[str] = Field(None, alias="inUse", description="Algo in use")

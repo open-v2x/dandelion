@@ -14,6 +14,8 @@
 
 from __future__ import annotations
 
+from typing import List, Optional, Tuple
+
 from sqlalchemy.orm import Session
 
 from dandelion.crud.base import CRUDBase
@@ -29,6 +31,19 @@ class CRUDAlgo(CRUDBase[AlgoVersion, AlgoVersionCreate, AlgoVersionUpdate]):
 
     def get_by_algo(self, db: Session, algo: str) -> AlgoVersion:
         return db.query(self.model).filter(self.model.algo == algo).all()
+
+    def get_multi_by_version(
+        self,
+        db: Session,
+        *,
+        version: Optional[str] = None,
+    ) -> Tuple[int, List[AlgoVersion]]:
+        query_ = db.query(self.model)
+        if version is not None:
+            query_ = self.fuzz_filter(query_, self.model.version, version)
+        total = query_.count()
+        data = query_.all()
+        return total, data
 
 
 algo_version = CRUDAlgo(AlgoVersion)

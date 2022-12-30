@@ -44,7 +44,7 @@ def algo_publish(db: Session):
                 "enable": algo.get("enable"),
                 "module": algo.get("modulePath"),
                 "algo": algo.get("inUse"),
-                "algo_version": [version.get("version") for version in algo.get("version")],
+                "algo_version": algo.get("version"),
             }
             redis_info[algo_name] = algo.get("inUse") if algo.get("enable") else "disable"
         payload = json.dumps({"yaml_info": yaml_info, "redis_info": redis_info})

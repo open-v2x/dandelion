@@ -17,8 +17,21 @@
 from __future__ import annotations
 
 from .algo_module import AlgoModule, AlgoModuleCreate, AlgoModuleUpdate
-from .algo_name import AlgoName, AlgoNameCreate, AlgoNameEdit, AlgoNames, AlgoNameUpdate
-from .algo_version import AlgoVersion, AlgoVersionCreate, AlgoVersionCreateAll, AlgoVersionUpdate
+from .algo_name import (
+    AlgoName,
+    AlgoNameCreate,
+    AlgoNameEdit,
+    AlgoNames,
+    AlgoNameUpdate,
+    AlgoNameUpdateAll,
+)
+from .algo_version import (
+    AlgoVersion,
+    AlgoVersionCreate,
+    AlgoVersionCreateAll,
+    AlgoVersions,
+    AlgoVersionUpdate,
+)
 from .area import Area, AreaCreate, AreaUpdate
 from .camera import Camera, CameraCreate, Cameras, CameraUpdate
 from .city import City, CityCreate, CityUpdate
