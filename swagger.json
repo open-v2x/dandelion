@@ -8365,6 +8365,84 @@
             }
         },
         "/api/v1/algos/version": {
+            "get": {
+                "tags": [
+                    "Algo"
+                ],
+                "summary": "List version",
+                "description": "Search version by name.",
+                "operationId": "get_all_version_api_v1_algos_version_get",
+                "parameters": [
+                    {
+                        "description": "Filter by algo version",
+                        "required": false,
+                        "schema": {
+                            "title": "Version",
+                            "type": "string",
+                            "description": "Filter by algo version"
+                        },
+                        "name": "version",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AlgoVersions"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            },
             "post": {
                 "tags": [
                     "Algo"
@@ -8600,32 +8678,23 @@
                         "OAuth2PasswordBearer": []
                     }
                 ]
-            }
-        },
-        "/api/v1/algos/{algo_id}": {
-            "patch": {
+            },
+            "post": {
                 "tags": [
                     "Algo"
                 ],
                 "summary": "Update",
-                "description": "patch a algo.",
-                "operationId": "update_api_v1_algos__algo_id__patch",
-                "parameters": [
-                    {
-                        "required": true,
-                        "schema": {
-                            "title": "Algo Id",
-                            "type": "integer"
-                        },
-                        "name": "algo_id",
-                        "in": "path"
-                    }
-                ],
+                "description": "update algos.",
+                "operationId": "update_api_v1_algos_post",
                 "requestBody": {
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/AlgoNameUpdate"
+                                "title": "Algo In",
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/components/schemas/AlgoNameUpdateAll"
+                                }
                             }
                         }
                     },
@@ -8637,7 +8706,11 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/AlgoNameEdit"
+                                    "title": "Response 200 Update Api V1 Algos Post",
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/AlgoNameEdit"
+                                    }
                                 }
                             }
                         }
@@ -8814,10 +8887,24 @@
                     }
                 }
             },
-            "AlgoNameUpdate": {
-                "title": "AlgoNameUpdate",
+            "AlgoNameUpdateAll": {
+                "title": "AlgoNameUpdateAll",
+                "required": [
+                    "module",
+                    "algo"
+                ],
                 "type": "object",
                 "properties": {
+                    "module": {
+                        "title": "Module",
+                        "type": "string",
+                        "description": "Algo module"
+                    },
+                    "algo": {
+                        "title": "Algo",
+                        "type": "string",
+                        "description": "Algo name"
+                    },
                     "enable": {
                         "title": "Enable",
                         "type": "boolean",
@@ -8826,8 +8913,7 @@
                     "inUse": {
                         "title": "Inuse",
                         "type": "string",
-                        "description": "Algo in use",
-                        "default": ""
+                        "description": "Algo in use"
                     }
                 }
             },
@@ -8931,6 +9017,65 @@
                         "title": "Versionpath",
                         "type": "string",
                         "description": "Algo version path"
+                    }
+                }
+            },
+            "AlgoVersionGET": {
+                "title": "AlgoVersionGET",
+                "required": [
+                    "module",
+                    "algo",
+                    "version"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "title": "Id",
+                        "type": "integer",
+                        "description": "Algo id"
+                    },
+                    "module": {
+                        "title": "Module",
+                        "type": "string",
+                        "description": "Algo module"
+                    },
+                    "algo": {
+                        "title": "Algo",
+                        "type": "string",
+                        "description": "Algo name"
+                    },
+                    "version": {
+                        "title": "Version",
+                        "type": "string",
+                        "description": "Algo version list"
+                    },
+                    "version_path": {
+                        "title": "Version Path",
+                        "type": "string",
+                        "description": "Algo version path"
+                    }
+                }
+            },
+            "AlgoVersions": {
+                "title": "AlgoVersions",
+                "required": [
+                    "total",
+                    "data"
+                ],
+                "type": "object",
+                "properties": {
+                    "total": {
+                        "title": "Total",
+                        "type": "integer",
+                        "description": "Total"
+                    },
+                    "data": {
+                        "title": "Data",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/AlgoVersionGET"
+                        },
+                        "description": "Data"
                     }
                 }
             },

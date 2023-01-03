@@ -61,13 +61,45 @@ tests:
       algo: "rsi_formatter"
     status: 200
 
-  - name: algo_update
-    url: /api/v1/algos/1
-    method: PATCH
+  - name: version_list
+    url: /api/v1/algos/version
+    method: GET
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
     data:
-      inUse: "rsi"
+      version: "rsi_formatter"
+    status: 200
+
+  - name: algo_update
+    url: /api/v1/algos
+    method: POST
+    request_headers:
+      Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
+    data:
+      [
+        {
+          "module": "rsi_formatter",
+          "algo": "rsi_formatter",
+          "enable": false,
+          "inUse": "rsi"
+        }
+      ]
+    status: 200
+
+  - name: algo_update
+    url: /api/v1/algos
+    method: POST
+    request_headers:
+      Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
+    data:
+      [
+        {
+          "module": "rsi_formatter",
+          "algo": "rsi_formatter",
+          "enable": true,
+          "inUse": "rsi"
+        }
+      ]
     status: 200
 
   - name: delete_version

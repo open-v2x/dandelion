@@ -43,6 +43,10 @@ class AlgoVersion(Base, DandelionBase):
     def to_all_dict(self):
         return {
             **dict(
-                id=self.id, version=self.version, version_path=self.version_path, algo=self.algo
+                id=self.id,
+                version=self.version,
+                version_path=self.version_path,
+                algo=self.algo,
+                module=self.algo_name.module,
             ),
         }
