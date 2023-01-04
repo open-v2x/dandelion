@@ -8762,6 +8762,67 @@
                     }
                 ]
             }
+        },
+        "/api/v1/algos/module": {
+            "get": {
+                "tags": [
+                    "Algo"
+                ],
+                "summary": "List module algo",
+                "description": "Get module algo.",
+                "operationId": "get_all_module_algo_api_v1_algos_module_get",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "title": "Response 200 Get All Module Algo Api V1 Algos Module Get",
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            }
         }
     },
     "components": {
@@ -8976,9 +9037,6 @@
                 "required": [
                     "module",
                     "algo",
-                    "enable",
-                    "inUse",
-                    "modulePath",
                     "version"
                 ],
                 "type": "object",

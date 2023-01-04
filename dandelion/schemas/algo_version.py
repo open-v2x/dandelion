@@ -40,9 +40,9 @@ class AlgoVersionCreateAll(BaseModel):
 
     module: str = Field(..., alias="module", description="Algo Module")
     algo: str = Field(..., alias="algo", description="Algo Name")
-    enable: bool = Field(..., alias="enable", description="Algo enable")
-    in_use: str = Field(..., alias="inUse", description="Algo in use")
-    module_path: str = Field(..., alias="modulePath", description="Algo module path")
+    enable: Optional[bool] = Field(None, alias="enable", description="Algo enable")
+    in_use: Optional[str] = Field(None, alias="inUse", description="Algo in use")
+    module_path: Optional[str] = Field(None, alias="modulePath", description="Algo module path")
     version: str = Field(..., alias="version", description="Algo Version")
     version_path: Optional[str] = Field(None, alias="versionPath", description="Algo version path")
 
