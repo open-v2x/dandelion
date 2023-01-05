@@ -70,6 +70,13 @@ tests:
       version: "rsi_formatter"
     status: 200
 
+  - name: module_algo
+    url: /api/v1/algos/module
+    method: GET
+    request_headers:
+      Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
+    status: 200
+
   - name: algo_update
     url: /api/v1/algos
     method: POST

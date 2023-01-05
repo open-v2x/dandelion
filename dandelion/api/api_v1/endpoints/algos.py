@@ -15,7 +15,7 @@
 from __future__ import annotations
 
 from logging import LoggerAdapter
-from typing import List, Optional
+from typing import Any, Dict, List, Optional
 
 from fastapi import APIRouter, Depends, Query, Response, status
 from oslo_log import log
@@ -65,9 +65,15 @@ def create(
             obj_in=schemas.AlgoNameCreate(
                 module=module,
                 name=algo,
-                enable=algo_version_in.enable,
-                in_use=algo_version_in.in_use,
-                module_path=algo_version_in.module_path,
+                enable=algo_version_in.enable
+                if algo_version_in.enable
+                else ALGO_CONFIG.get(f"{module}_{algo}").get("enable"),
+                in_use=algo_version_in.in_use
+                if algo_version_in.in_use
+                else ALGO_CONFIG.get(f"{module}_{algo}").get("inUse"),
+                module_path=algo_version_in.module_path
+                if algo_version_in.module_path
+                else ALGO_CONFIG.get(f"{module}_{algo}").get("modulePath"),
             ),
         )
 
@@ -246,3 +252,42 @@ def update(
         response_data.append(new_algo_in_db.to_dict())
     algo_publish(db=db)
     return response_data
+
+
+@router.get(
+    "/module",
+    response_model=List[Dict[str, Any]],
+    status_code=status.HTTP_200_OK,
+    summary="List module algo",
+    description="""
+Get module algo.
+""",
+    responses={
+        status.HTTP_200_OK: {"model": List[Dict[str, Any]], "description": "OK"},
+        status.HTTP_401_UNAUTHORIZED: {
+            "model": schemas.ErrorMessage,
+            "description": "Unauthorized",
+        },
+        status.HTTP_403_FORBIDDEN: {"model": schemas.ErrorMessage, "description": "Forbidden"},
+        status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
+    },
+)
+def get_all_module_algo(
+    db: Session = Depends(deps.get_db),
+    current_user: models.User = Depends(deps.get_current_user),
+) -> List[Dict[str, Any]]:
+    data = crud.algo_module.get_all(db)
+    response_data = {}
+    for default_algo in ALGO_CONFIG.values():
+        if default_algo.get("module") not in response_data:
+            response_data[default_algo.get("module")] = {
+                "module": default_algo.get("module"),
+                "algo": [],
+            }
+        response_data[default_algo.get("module")]["algo"].append(default_algo.get("algo"))
+    for algo_in_db in data:
+        response_data[algo_in_db.module]["algo"].extend(
+            [algo.name for algo in algo_in_db.algo_name]
+        )
+
+    return [value for value in response_data.values()]

@@ -27,5 +27,8 @@ class CRUDAlgo(CRUDBase[AlgoModule, AlgoModuleCreate, AlgoModuleUpdate]):
     def get_by_name(self, db: Session, module: str) -> AlgoModule:
         return db.query(self.model).filter(self.model.module == module).first()
 
+    def get_all(self, db: Session) -> AlgoModule:
+        return db.query(self.model).all()
+
 
 algo_module = CRUDAlgo(AlgoModule)
