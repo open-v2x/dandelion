@@ -46,7 +46,7 @@ class OpenV2XHTTPException(HTTPException):
         headers: Optional[Dict[str, Any]] = None,
     ) -> None:
         if isinstance(detail, str) and detail.startswith("(pymysql.err.DataError)"):
-            code, msg = eval(re.findall(r"\(.*?\)", detail)[1])
+            code, msg = eval(re.findall(r"\(pymysql.err.DataError\) (.*)", detail)[0])
             detail = {"code": code, "msg": re.findall("'.*?'", msg)[0]}
         if not isinstance(detail, dict):
             detail = {"code": status_code, "msg": detail}
@@ -96,13 +96,14 @@ def error_handle(err: sqlalchemy.exc.DatabaseError, field: str, field_data: Opti
     err_msg = err.args[0]
     LOG.error(err_msg)
     if isinstance(err, sqlalchemy.exc.IntegrityError):
+        detail = {
+            "code": eval(re.findall(r"\(pymysql.err.IntegrityError\) (.*)", err_msg)[0])[0],
+            "msg": err_msg,
+        }
+        if detail["code"] == 1062:  # 重复
+            detail["detail"] = {field: field_data}
         return OpenV2XHTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail={
-                "code": 1062,
-                "msg": err_msg,
-                "detail": {field: field_data},
-            },
+            detail=detail,
         )
-    else:
-        return OpenV2XHTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=err_msg)
+    return OpenV2XHTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=err_msg)
