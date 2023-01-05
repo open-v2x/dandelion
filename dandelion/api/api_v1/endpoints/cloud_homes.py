@@ -24,6 +24,7 @@ from sqlalchemy.orm import Session
 
 from dandelion import crud, models, schemas
 from dandelion.api import deps
+from dandelion.api.deps import OpenV2XHTTPException as HTTPException
 from dandelion.util import Optional as Optional_util
 
 router = APIRouter()
@@ -110,26 +111,48 @@ Get traffic situation.
     },
 )
 def route_info(
-    rsu_esn: str = Query(..., alias="rsuEsn", description="RSU ESN"),
+    intersection_code: str = Query(..., alias="intersectionCode", description="Intersection Code"),
     *,
+    db: Session = Depends(deps.get_db),
     redis_conn: Redis = Depends(deps.get_redis_conn),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> schemas.RouteInfo:
-    key = f"ROUTE_INFO_{rsu_esn}"
+    intersection_in_db = crud.intersection.get_by_code(db=db, code=intersection_code)
+    if not intersection_in_db:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Intersection [code: {intersection_code}] not found",
+        )
+    vehicle_total, average_speed, pedestrian_total, congestion = 0, 0, 0, ""
+    for rsu in intersection_in_db.rsus:
+        key = f"ROUTE_INFO_{rsu.rsu_esn}"
+        vehicle_total += (
+            Optional_util.none(redis_conn.hget(key, "vehicleTotal"))
+            .map(lambda v: int(v))
+            .orElse(0)
+        )
+        average_speed += (
+            Optional_util.none(redis_conn.hget(key, "averageSpeed"))
+            .map(lambda v: float(v))
+            .map(lambda v: round(v, 1))
+            .orElse(0)
+        )
+        pedestrian_total += (
+            Optional_util.none(redis_conn.hget(key, "pedestrianTotal"))
+            .map(lambda v: int(v))
+            .orElse(0)
+        )
+        congestion = (
+            Optional_util.none(redis_conn.hget(key, "congestion"))
+            .map(lambda v: str(v, encoding="utf-8"))
+            .orElse("Unknown")
+        )
+
     return schemas.RouteInfo(
-        vehicleTotal=Optional_util.none(redis_conn.hget(key, "vehicleTotal"))
-        .map(lambda v: int(v))
-        .orElse(0),
-        averageSpeed=Optional_util.none(redis_conn.hget(key, "averageSpeed"))
-        .map(lambda v: float(v))
-        .map(lambda v: round(v, 1))
-        .orElse(0),
-        pedestrianTotal=Optional_util.none(redis_conn.hget(key, "pedestrianTotal"))
-        .map(lambda v: int(v))
-        .orElse(0),
-        congestion=Optional_util.none(redis_conn.hget(key, "congestion"))
-        .map(lambda v: str(v, encoding="utf-8"))
-        .orElse("Unknown"),
+        vehicleTotal=vehicle_total,
+        averageSpeed=average_speed,
+        pedestrianTotal=pedestrian_total,
+        congestion=congestion,
     )
 
 
