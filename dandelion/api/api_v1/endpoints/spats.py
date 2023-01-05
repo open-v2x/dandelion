@@ -14,6 +14,7 @@
 
 from __future__ import annotations
 
+import re
 from logging import LoggerAdapter
 from typing import Optional
 
@@ -58,18 +59,20 @@ def create(
     try:
         spat_in_db = crud.spat.create(db, obj_in=spat_in)
     except sql_exc.IntegrityError as ex:
+        error_code = eval(re.findall(r"\(pymysql.err.IntegrityError\) (.*)", ex.args[0])[0])[0]
         LOG.error(ex.args[0])
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail={
-                "code": 1116,
-                "msg": ex.args[0],
-                "detail": {
-                    "intersection_id": spat_in.intersection_id,
-                    "phase_id": spat_in.phase_id,
-                },
-            },
-        )
+        detail = {
+            "code": error_code,
+            "msg": ex.args[0],
+        }
+        if error_code == 1062:
+            detail["detail"] = {
+                "intersection_id": spat_in.intersection_id,
+                "phase_id": spat_in.phase_id,
+            }
+            detail["code"] = 1116
+
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=detail)
     except sql_exc.DataError as ex:
         LOG.error(ex.args[0])
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=ex.args[0])
@@ -220,18 +223,20 @@ def update(
     try:
         new_spat_in_db = crud.spat.update(db, db_obj=spat_in_db, obj_in=spat_in)
     except sql_exc.IntegrityError as ex:
+        error_code = eval(re.findall(r"\(pymysql.err.IntegrityError\) (.*)", ex.args[0])[0])[0]
         LOG.error(ex.args[0])
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail={
-                "code": 1116,
-                "msg": "error",
-                "detail": {
-                    "intersection_id": spat_in.intersection_id,
-                    "phase_id": spat_in.phase_id,
-                },
-            },
-        )
+        detail = {
+            "code": error_code,
+            "msg": ex.args[0],
+        }
+        if error_code == 1062:
+            detail["detail"] = {
+                "intersection_id": spat_in.intersection_id,
+                "phase_id": spat_in.phase_id,
+            }
+            detail["code"] = 1116
+
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=detail)
     except sql_exc.DataError as ex:
         LOG.error(ex.args[0])
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=ex.args[0])
