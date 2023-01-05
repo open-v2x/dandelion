@@ -287,7 +287,11 @@ def get_all_module_algo(
         response_data[default_algo.get("module")]["algo"].append(default_algo.get("algo"))
     for algo_in_db in data:
         response_data[algo_in_db.module]["algo"].extend(
-            [algo.name for algo in algo_in_db.algo_name]
+            [
+                algo.name
+                for algo in algo_in_db.algo_name
+                if algo.name not in response_data[algo_in_db.module]["algo"]
+            ]
         )
 
     return [value for value in response_data.values()]

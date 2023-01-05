@@ -1229,14 +1229,14 @@
                 "operationId": "route_info_api_v1_homes_route_info_get",
                 "parameters": [
                     {
-                        "description": "RSU ESN",
+                        "description": "Intersection Code",
                         "required": true,
                         "schema": {
-                            "title": "Rsuesn",
+                            "title": "Intersectioncode",
                             "type": "string",
-                            "description": "RSU ESN"
+                            "description": "Intersection Code"
                         },
-                        "name": "rsuEsn",
+                        "name": "intersectionCode",
                         "in": "query"
                     }
                 ],
