@@ -40,5 +40,9 @@ class Country(Base, DandelionBase):
     def to_all_dict(self, need_intersection):
         return {
             **self.to_dict(),
-            "children": [v.to_all_dict(need_intersection) for v in self.provinces],
+            "children": [
+                v.to_all_dict(need_intersection)
+                for v in self.provinces
+                if not need_intersection or v.to_all_dict(need_intersection).get("children")
+            ],
         }
