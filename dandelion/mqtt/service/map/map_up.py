@@ -31,12 +31,10 @@ LOG: LoggerAdapter = log.getLogger(__name__)
 class MapRouterHandler(RouterHandler):
     def handler(self, client: mqtt.MQTT_CLIENT, topic: str, data: Dict[str, Any]) -> None:
         db: Session = session.DB_SESSION_LOCAL()
-
         rsu = crud.rsu.get_first(db)
         map_ = models.Map(
             name=data.get("mapSlice"),
-            address=rsu.address,
-            area_code=rsu.area_code,
+            intersection_code=rsu.intersection_code,
             desc=data.get("eTag"),
             data=data.get("map"),
             lng=data.get("map", {}).get("refPos", {}).get("lon", 0),
