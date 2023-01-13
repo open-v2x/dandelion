@@ -31,14 +31,20 @@ class MapCreate(BaseModel):
     intersection_code: str = Field(..., alias="intersectionCode", description="Intersection Code")
     desc: Optional[str] = Field("", alias="desc", description="Description")
     data: Dict[str, Any] = Field(..., alias="data", description="Data")
+    bitmap_filename: str = Field(..., alias="bitmapFilename", description="Bitmap Filename")
 
 
 # Properties to receive via API on update
 class MapUpdate(MapBase):
-    name: str = Field(..., alias="name", description="Name")
-    intersection_code: str = Field(..., alias="intersectionCode", description="Intersection Code")
-    desc: Optional[str] = Field("", alias="desc", description="Description")
+    name: Optional[str] = Field(None, alias="name", description="Name")
+    intersection_code: Optional[str] = Field(
+        None, alias="intersectionCode", description="Intersection Code"
+    )
+    desc: Optional[str] = Field(None, alias="desc", description="Description")
     data: Optional[Dict[str, Any]] = Field(None, alias="data", description="Data")
+    bitmap_filename: Optional[str] = Field(
+        None, alias="bitmapFilename", description="Bitmap Filename"
+    )
 
 
 class MapInDBBase(MapBase):

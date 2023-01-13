@@ -53,6 +53,7 @@ tests:
           lon: 118.840897
           lat: 31.88335
           ele: 625
+      bitmapFilename: "map_bg.jpg"
     status: 201
     response_json_paths:
       $.name: '测试地图01'

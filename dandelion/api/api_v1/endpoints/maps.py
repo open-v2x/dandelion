@@ -14,6 +14,7 @@
 
 from __future__ import annotations
 
+import os
 from logging import LoggerAdapter
 from typing import Any, Dict, Optional
 
@@ -56,11 +57,17 @@ def create(
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> schemas.Map:
+    if not os.path.exists(f"{constants.BITMAP_FILE_PATH}/{map_in.bitmap_filename}"):
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"bitmap [filename: {map_in.bitmap_filename}] not found",
+        )
     new_map_in = models.Map(
         name=map_in.name,
         intersection_code=map_in.intersection_code,
         desc=map_in.desc,
         data=map_in.data,
+        bitmap_filename=map_in.bitmap_filename,
         lng=Optional_util.none(map_in.data.get("refPos")).map(lambda v: v.get("lon")).orElse(0),
         lat=Optional_util.none(map_in.data.get("refPos")).map(lambda v: v.get("lat")).orElse(0),
     )
@@ -107,7 +114,7 @@ def delete(
     response_model=schemas.Map,
     status_code=status.HTTP_200_OK,
     description="""
-Get a Radar.
+Get a Map.
 """,
     responses={
         status.HTTP_200_OK: {"model": schemas.Map, "description": "OK"},
@@ -170,7 +177,7 @@ def get_all(
     return schemas.Maps(total=total, data=[map.to_dict() for map in data])
 
 
-@router.put(
+@router.patch(
     "/{map_id}",
     response_model=schemas.Map,
     status_code=status.HTTP_200_OK,
@@ -199,17 +206,15 @@ def update(
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail=f"Map [id: {map_id}] not found"
         )
-
-    new_map_in = models.Map()
-    new_map_in.name = map_in.name
-    new_map_in.intersection_code = map_in.intersection_code
-    new_map_in.desc = map_in.desc
-    if map_in.data:
-        new_map_in.lng = map_in.data.get("refPos", {}).get("lon", 0.0)
-        new_map_in.lat = map_in.data.get("refPos", {}).get("lat", 0.0)
-
+    if map_in.bitmap_filename and not os.path.exists(
+        f"{constants.BITMAP_FILE_PATH}/{map_in.bitmap_filename}"
+    ):
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"bitmap [filename: {map_in.bitmap_filename}] not found",
+        )
     try:
-        new_map_in_db = crud.map.update(db, db_obj=map_in_db, obj_in=new_map_in.__dict__)
+        new_map_in_db = crud.map.update_map(db, db_obj=map_in_db, obj_in=map_in)
     except (sql_exc.DataError, sql_exc.IntegrityError) as ex:
         raise error_handle(ex, "name", map_in.name)
     return new_map_in_db.to_dict()
@@ -246,11 +251,11 @@ def data(
     return map_in_db.data
 
 
-@router.put(
-    "/{map_id}/bitmap",
+@router.post(
+    "/bitmap",
     status_code=status.HTTP_200_OK,
     description="""
-update map bitmap.
+add map bitmap.
 """,
     responses={
         status.HTTP_200_OK: {"description": "OK"},
@@ -262,28 +267,22 @@ update map bitmap.
         status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
     },
 )
-def update_bitmap(
-    map_id: int,
+def add_bitmap(
     bitmap: UploadFile,
     *,
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
-) -> Response:
-
-    with open(f"{constants.BITMAP_FILE_PATH}/{map_id}.png", "wb") as f:
+) -> dict:
+    filename = bitmap.filename
+    if os.path.exists(f"{constants.BITMAP_FILE_PATH}/{filename}"):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"bitmap filename:{filename} already exist",
+        )
+    with open(f"{constants.BITMAP_FILE_PATH}/{filename}", "wb") as f:
         f.write(bitmap.file.read())
 
-    map_in_db = crud.map.get(db, id=map_id)
-    if not map_in_db:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"Map [id: {map_id}] not found"
-        )
-
-    new_map_in = models.Map()
-    new_map_in.bitmap_filename = f"{map_id}.png"
-    crud.map.update(db, db_obj=map_in_db, obj_in=new_map_in.__dict__)
-
-    return Response(content=None, status_code=status.HTTP_200_OK)
+    return {"bitmapFilename": filename}
 
 
 @router.get(
