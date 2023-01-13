@@ -135,6 +135,6 @@ def delete_unused_bitmap() -> None:
     bitmaps = crud.map.get_list_bitmap(db)
     bitmaps_set = {bitmap.bitmap_filename for bitmap in bitmaps}
     for filename in os.listdir(constants.BITMAP_FILE_PATH):
-        if filename not in bitmaps_set:
+        if filename != "map_bg.jpg" and filename not in bitmaps_set:
             os.remove(f"{constants.BITMAP_FILE_PATH}/{filename}")
             LOG.info(f"removed bitmap file {filename}")

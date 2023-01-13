@@ -35,6 +35,8 @@ jobs:
           sudo touch /var/log/dandelion/dandelion.log
           sudo mkdir -pv /etc/dandelion
           sudo cp src/deploy/dandelion/dandelion.conf /etc/dandelion/dandelion.conf
+          sudo mkdir /openv2x/data/bitmap
+          sudo cp map_bg.jpg /openv2x/data/bitmap/map_bg.jpg
       - name: Run dandelion
         shell: bash
         run: |

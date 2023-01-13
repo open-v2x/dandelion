@@ -14,8 +14,10 @@
 
 from __future__ import annotations
 
+from datetime import datetime
 from typing import List, Optional, Tuple
 
+from fastapi.encoders import jsonable_encoder
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -26,6 +28,21 @@ from dandelion.schemas import MapCreate, MapUpdate
 
 class CRUDMap(CRUDBase[Map, MapCreate, MapUpdate]):
     """"""
+
+    def update_map(self, db: Session, *, db_obj: Map, obj_in: MapUpdate) -> Map:
+        obj_data = jsonable_encoder(db_obj, by_alias=False)
+        update_data = obj_in.dict(exclude_unset=True)
+        if update_data.get("data"):
+            update_data["lng"] = update_data.get("data", {}).get("refPos", {}).get("lon", 0.0)
+            update_data["lat"] = update_data.get("data", {}).get("refPos", {}).get("lat", 0.0)
+        for field in obj_data:
+            if field in update_data:
+                setattr(db_obj, field, update_data[field])
+        db_obj.update_time = datetime.utcnow()
+        db.add(db_obj)
+        db.commit()
+        db.refresh(db_obj)
+        return db_obj
 
     def get_multi_with_total(
         self,
