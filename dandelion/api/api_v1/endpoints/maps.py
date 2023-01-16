@@ -14,6 +14,7 @@
 
 from __future__ import annotations
 
+import datetime
 import os
 from logging import LoggerAdapter
 from typing import Any, Dict, Optional
@@ -57,10 +58,15 @@ def create(
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> schemas.Map:
+    if crud.map.get_with_intersection_code(db=db, intersection_code=map_in.intersection_code):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"map [intersectionCode: {map_in.intersection_code}] Already have a map",
+        )
     if not os.path.exists(f"{constants.BITMAP_FILE_PATH}/{map_in.bitmap_filename}"):
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"bitmap [filename: {map_in.bitmap_filename}] not found",
+            detail=f"map [filename: {map_in.bitmap_filename}] not found",
         )
     new_map_in = models.Map(
         name=map_in.name,
@@ -213,6 +219,15 @@ def update(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"bitmap [filename: {map_in.bitmap_filename}] not found",
         )
+    if (
+        map_in.intersection_code
+        and map_in.intersection_code != map_in_db.intersection_code
+        and crud.map.get_with_intersection_code(db=db, intersection_code=map_in.intersection_code)
+    ):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"map [intersectionCode: {map_in.intersection_code}] Already have a map",
+        )
     try:
         new_map_in_db = crud.map.update_map(db, db_obj=map_in_db, obj_in=map_in)
     except (sql_exc.DataError, sql_exc.IntegrityError) as ex:
@@ -273,7 +288,7 @@ def add_bitmap(
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> dict:
-    filename = bitmap.filename
+    filename = f"{datetime.datetime.now().strftime('%Y%m%d%H%M%S%f')}.jpg"
     if os.path.exists(f"{constants.BITMAP_FILE_PATH}/{filename}"):
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,

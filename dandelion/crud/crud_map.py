@@ -78,5 +78,15 @@ class CRUDMap(CRUDBase[Map, MapCreate, MapUpdate]):
             select(self.model.bitmap_filename).where(self.model.bitmap_filename.isnot(None))
         ).all()
 
+    def get_with_intersection_code(
+        self,
+        db: Session,
+        *,
+        intersection_code: str,
+    ) -> Optional[Map]:
+        return (
+            db.query(self.model).filter(self.model.intersection_code == intersection_code).first()
+        )
+
 
 map = CRUDMap(Map)
