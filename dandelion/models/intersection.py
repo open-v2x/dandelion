@@ -14,7 +14,7 @@
 
 from __future__ import annotations
 
-from sqlalchemy import Column, ForeignKey, String
+from sqlalchemy import Column, ForeignKey, String, UniqueConstraint
 from sqlalchemy.orm import relationship
 
 from dandelion.db.base_class import Base, DandelionBase
@@ -38,6 +38,8 @@ class Intersection(Base, DandelionBase):
     radars = relationship("Radar", backref="intersection")
     lidars = relationship("Lidar", backref="intersection")
     spats = relationship("Spat", backref="intersection")
+
+    __table_args__ = (UniqueConstraint("area_code", "name"),)
 
     def __repr__(self) -> str:
         return f"<Intersection(code='{self.code}', name='{self.name}')>"

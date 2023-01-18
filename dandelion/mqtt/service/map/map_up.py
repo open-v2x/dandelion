@@ -14,6 +14,7 @@
 
 from __future__ import annotations
 
+import re
 from logging import LoggerAdapter
 from typing import Any, Dict
 
@@ -31,14 +32,14 @@ LOG: LoggerAdapter = log.getLogger(__name__)
 class MapRouterHandler(RouterHandler):
     def handler(self, client: mqtt.MQTT_CLIENT, topic: str, data: Dict[str, Any]) -> None:
         db: Session = session.DB_SESSION_LOCAL()
-        rsu = crud.rsu.get_first(db)
+        rsu_esn = re.findall("V2X/RSU/(.*)/MAP/UP", topic)[0]
+        rsu = crud.rsu.get_by_rsu_esn(db, rsu_esn=rsu_esn)
         map_ = models.Map(
-            name=data.get("mapSlice"),
+            name=rsu_esn,
             intersection_code=rsu.intersection_code,
-            desc=data.get("eTag"),
-            data=data.get("map"),
-            lng=data.get("map", {}).get("refPos", {}).get("lon", 0),
-            lat=data.get("map", {}).get("refPos", {}).get("lat", 0),
+            data=data,
+            lng=rsu.location.get("lon"),
+            lat=rsu.location.get("lat"),
         )
         crud.map.create(db, obj_in=map_)
         LOG.info(f"{topic} => Map [name: {map_.name}] created")

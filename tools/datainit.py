@@ -97,8 +97,8 @@ def init_db() -> None:
     intersection1 = Intersection()
     intersection1.code = "32010601"
     intersection1.name = "鼓楼交叉路口"
-    intersection1.lat = 31.934846637757847
-    intersection1.lng = 118.8213963998263
+    intersection1.lat = 31.9348466377
+    intersection1.lng = 118.8213963998
     intersection1.area_code = "320106"
     session_.add(intersection1)
 
