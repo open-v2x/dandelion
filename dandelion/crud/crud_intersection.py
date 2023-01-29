@@ -58,5 +58,17 @@ class CRUDIntersection(CRUDBase[Intersection, IntersectionCreate, IntersectionUp
     def get_by_code(self, db: Session, code: str) -> Optional[Intersection]:
         return db.query(self.model).filter(self.model.code == code).first()
 
+    def get_by_code_and_area(
+        self,
+        db: Session,
+        name: str,
+        area_code: str,
+    ) -> Optional[Intersection]:
+        return (
+            db.query(self.model)
+            .filter(self.model.name == name, self.model.area_code == area_code)
+            .first()
+        )
+
 
 intersection = CRUDIntersection(Intersection)

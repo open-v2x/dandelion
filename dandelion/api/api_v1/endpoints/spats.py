@@ -171,7 +171,7 @@ def get_all(
     ),
     rsu_id: Optional[int] = Query(None, alias="rsuId", description="Filter by rsuId"),
     intersection_code: Optional[str] = Query(
-        None, alias="areaCode", description="Filter by spat intersection code"
+        None, alias="intersectionCode", description="Filter by spat intersection code"
     ),
     page_num: int = Query(1, alias="pageNum", ge=1, description="Page number"),
     page_size: int = Query(10, alias="pageSize", ge=-1, description="Page size"),

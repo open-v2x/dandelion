@@ -49,34 +49,42 @@ Get online rate of all devices.
     },
 )
 def online_rate(
-    edge_rsu_id: Optional[int] = Query(None, alias="edgeRsuId", description="Edge Rsu Id"),
+    intersection_code: Optional[str] = Query(
+        None, alias="intersectionCode", description="intersection code"
+    ),
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> schemas.OnlineRate:
     rsu_online_rate = {
-        "online": crud.rsu.get_multi_with_total(db, online_status=True)[0],
-        "offline": crud.rsu.get_multi_with_total(db, online_status=False)[0],
-        "notRegister": crud.rsu_tmp.get_multi_with_total(db)[0],
+        "online": crud.rsu.get_multi_with_total(
+            db, online_status=True, intersection_code=intersection_code
+        )[0],
+        "offline": crud.rsu.get_multi_with_total(
+            db, online_status=False, intersection_code=intersection_code
+        )[0],
+        "notRegister": crud.rsu_tmp.get_multi_with_total(db, intersection_code=intersection_code)[
+            0
+        ],
     }
     # temporarily unavailable data
     camera_online_rate = {
-        "online": crud.camera.get_multi_with_total(db, rsu_id=edge_rsu_id)[0],
+        "online": crud.camera.get_multi_with_total(db, intersection_code=intersection_code)[0],
         "offline": 0,
         "notRegister": 0,
     }
     # temporarily unavailable data
     radar_online_rate = {
-        "online": crud.radar.get_multi_with_total(db, rsu_id=edge_rsu_id)[0],
+        "online": crud.radar.get_multi_with_total(db, intersection_code=intersection_code)[0],
         "offline": 0,
         "notRegister": 0,
     }
     lidar_online_rate = {
-        "online": crud.lidar.get_multi_with_total(db, rsu_id=edge_rsu_id)[0],
+        "online": crud.lidar.get_multi_with_total(db, intersection_code=intersection_code)[0],
         "offline": 0,
         "notRegister": 0,
     }
     spat_online_rate = {
-        "online": crud.spat.get_multi_with_total(db)[0],
+        "online": crud.spat.get_multi_with_total(db, intersection_code=intersection_code)[0],
         "offline": 0,
         "notRegister": 0,
     }

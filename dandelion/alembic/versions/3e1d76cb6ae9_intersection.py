@@ -46,6 +46,7 @@ def upgrade():
         sa.Column("lat", sa.String(length=64), nullable=False),
         sa.ForeignKeyConstraint(["area_code"], ["area.code"], name="intersection_fk_area"),
         sa.PrimaryKeyConstraint("id"),
+        sa.UniqueConstraint("area_code", "name"),
     )
     op.create_index(op.f("ix_intersection_code"), "intersection", ["code"], unique=True)
     op.create_index(op.f("ix_intersection_id"), "intersection", ["id"], unique=False)

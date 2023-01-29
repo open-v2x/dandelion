@@ -14,7 +14,7 @@
 
 from __future__ import annotations
 
-from typing import List
+from typing import List, Optional
 
 from pydantic import BaseModel, Field
 
@@ -34,8 +34,13 @@ class IntersectionCreate(IntersectionBase):
 
 
 # Properties to receive via API on update
-class IntersectionUpdate(IntersectionBase):
+class IntersectionUpdate(BaseModel):
     """"""
+
+    name: Optional[str] = Field(None, alias="name", description="Intersection name")
+    lat: Optional[str] = Field(None, alias="lat", description="Intersection latitude")
+    lng: Optional[str] = Field(None, alias="lng", description="Intersection longitude")
+    area_code: Optional[str] = Field(None, alias="areaCode", description="Area Code")
 
 
 class IntersectionInDBBase(IntersectionBase):

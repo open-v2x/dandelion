@@ -14,6 +14,7 @@
 
 from __future__ import annotations
 
+import re
 from logging import LoggerAdapter
 from typing import Optional
 
@@ -54,6 +55,14 @@ def create(
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> schemas.Intersection:
+    if crud.intersection.get_by_code_and_area(
+        db=db, name=intersection_in.name, area_code=intersection_in.area_code
+    ):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Intersection [name: {intersection_in.name}, "
+            f"area_code: {intersection_in.area_code}] already exist",
+        )
     try:
         intersection_in_db = crud.intersection.create(db, obj_in=intersection_in)
     except (sql_exc.IntegrityError, sql_exc.DataError) as ex:
@@ -89,7 +98,10 @@ def delete(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Intersection [id: {intersection_id}] not found",
         )
-    crud.intersection.remove(db, id=intersection_id)
+    try:
+        crud.intersection.remove(db, id=intersection_id)
+    except sql_exc.IntegrityError as ex:
+        raise error_handle(ex, "id", str(intersection_id))
     return Response(content=None, status_code=status.HTTP_204_NO_CONTENT)
 
 
@@ -170,7 +182,7 @@ def get_all(
     )
 
 
-@router.put(
+@router.patch(
     "/{intersection_id}",
     response_model=schemas.Intersection,
     status_code=status.HTTP_200_OK,
@@ -200,10 +212,20 @@ def update(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Intersection [id: {intersection_in_db}] not found",
         )
+    name = intersection_in.name if intersection_in.name else intersection_in_db.name
+    area_code = (
+        intersection_in.area_code if intersection_in.area_code else intersection_in_db.area_code
+    )
     try:
         new_intersection_in_db = crud.intersection.update(
             db, db_obj=intersection_in_db, obj_in=intersection_in
         )
-    except (sql_exc.DataError, sql_exc.IntegrityError) as ex:
-        raise error_handle(ex, "code", intersection_in.code)
+    except sql_exc.IntegrityError as ex:
+        if eval(re.findall(r"\(pymysql.err.IntegrityError\) (.*)", ex.args[0])[0])[0] == 1062:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=f"Intersection [name: {name}, area_code: {area_code}] already exist",
+            )
+        else:
+            raise error_handle(ex, "name", name)
     return new_intersection_in_db.to_dict()
