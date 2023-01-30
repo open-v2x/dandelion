@@ -34,7 +34,11 @@ class RSU(Base, DandelionBase):
     config = Column(JSON, nullable=False)
     online_status = Column(Boolean, index=True, nullable=False, default=False)
     rsu_model_id = Column(Integer, ForeignKey("rsu_model.id"))
-    intersection_code = Column(String(64), ForeignKey("intersection.code"))
+    intersection_code = Column(
+        String(64),
+        ForeignKey("intersection.code", onupdate="CASCADE", ondelete="RESTRICT"),
+        nullable=False,
+    )
     desc = Column(String(255), nullable=True, default="")
     log_id = Column(Integer, ForeignKey("rsu_log.id"))
 

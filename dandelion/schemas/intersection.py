@@ -37,6 +37,7 @@ class IntersectionCreate(IntersectionBase):
 class IntersectionUpdate(BaseModel):
     """"""
 
+    code: Optional[str] = Field(None, alias="code", description="Intersection code")
     name: Optional[str] = Field(None, alias="name", description="Intersection name")
     lat: Optional[str] = Field(None, alias="lat", description="Intersection latitude")
     lng: Optional[str] = Field(None, alias="lng", description="Intersection longitude")

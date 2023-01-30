@@ -47,7 +47,11 @@ class RSIEvent(Base, DandelionBase):
     __tablename__ = "rsi_event"
 
     rsu_id = Column(Integer, ForeignKey("rsu.id"))
-    intersection_code = Column(String(64), ForeignKey("intersection.code"))
+    intersection_code = Column(
+        String(64),
+        ForeignKey("intersection.code", onupdate="CASCADE", ondelete="RESTRICT"),
+        nullable=False,
+    )
     alert_id = Column(String(64), nullable=True, default="")
     duration = Column(Integer, nullable=True)
     event_status = Column(Boolean, nullable=True, default=True)

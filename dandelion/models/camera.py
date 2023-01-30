@@ -35,7 +35,11 @@ class Camera(Base, DandelionBase):
     desc = Column(String(255), nullable=False, default="")
     enabled = Column(Boolean, nullable=True, default=True)
 
-    intersection_code = Column(String(64), ForeignKey("intersection.code"))
+    intersection_code = Column(
+        String(64),
+        ForeignKey("intersection.code", onupdate="CASCADE", ondelete="RESTRICT"),
+        nullable=False,
+    )
 
     def __repr__(self) -> str:
         return f"<Camera(sn='{self.sn}', name='{self.name}')>"
