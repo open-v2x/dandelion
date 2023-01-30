@@ -55,7 +55,7 @@ def create(
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> schemas.Intersection:
-    if crud.intersection.get_by_code_and_area(
+    if crud.intersection.get_by_name_and_area(
         db=db, name=intersection_in.name, area_code=intersection_in.area_code
     ):
         raise HTTPException(
@@ -101,6 +101,11 @@ def delete(
     try:
         crud.intersection.remove(db, id=intersection_id)
     except sql_exc.IntegrityError as ex:
+        if eval(re.findall(r"\(pymysql.err.IntegrityError\) (.*)", ex.args[0])[0])[0] == 1048:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Intersection [id: {intersection_id}] cannot delete",
+            )
         raise error_handle(ex, "id", str(intersection_id))
     return Response(content=None, status_code=status.HTTP_204_NO_CONTENT)
 
@@ -182,7 +187,7 @@ def get_all(
     )
 
 
-@router.patch(
+@router.put(
     "/{intersection_id}",
     response_model=schemas.Intersection,
     status_code=status.HTTP_200_OK,
@@ -216,6 +221,13 @@ def update(
     area_code = (
         intersection_in.area_code if intersection_in.area_code else intersection_in_db.area_code
     )
+    if crud.intersection.get_by_code_and_id(
+        db=db, code=str(intersection_in.code), intersection_id=intersection_id
+    ):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Intersection [code: {intersection_in.code}] already exist",
+        )
     try:
         new_intersection_in_db = crud.intersection.update(
             db, db_obj=intersection_in_db, obj_in=intersection_in

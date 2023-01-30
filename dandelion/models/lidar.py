@@ -38,7 +38,11 @@ class Lidar(Base, DandelionBase):
     desc = Column(String(255), nullable=False, default="")
     ws_url = Column(String(50), nullable=False, default="")
 
-    intersection_code = Column(String(64), ForeignKey("intersection.code"))
+    intersection_code = Column(
+        String(64),
+        ForeignKey("intersection.code", onupdate="CASCADE", ondelete="RESTRICT"),
+        nullable=False,
+    )
 
     def __repr__(self) -> str:
         return f"<Lidar (sn='{self.sn}', name='{self.name}')>"

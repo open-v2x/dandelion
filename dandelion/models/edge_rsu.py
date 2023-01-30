@@ -23,7 +23,11 @@ class EdgeNodeRSU(Base, DandelionBase):
     __tablename__ = "edge_node_rsu"
 
     edge_node_id = Column(Integer, ForeignKey("edge_node.id"))
-    intersection_code = Column(String(64), ForeignKey("intersection.code"))
+    intersection_code = Column(
+        String(64),
+        ForeignKey("intersection.code", onupdate="CASCADE", ondelete="RESTRICT"),
+        nullable=False,
+    )
     name = Column(String(64), nullable=False, index=True)
     esn = Column(String(64), nullable=False, index=True)
     location = Column(JSON, nullable=False)

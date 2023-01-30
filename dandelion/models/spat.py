@@ -37,7 +37,11 @@ class Spat(Base, DandelionBase):
     timing = Column(DateTime, nullable=False, default=lambda: datetime.utcnow())
     desc = Column(String(255), nullable=False, default="")
 
-    intersection_code = Column(String(64), ForeignKey("intersection.code"))
+    intersection_code = Column(
+        String(64),
+        ForeignKey("intersection.code", onupdate="CASCADE", ondelete="RESTRICT"),
+        nullable=False,
+    )
 
     __table_args__ = (UniqueConstraint("intersection_id", "phase_id"),)
 

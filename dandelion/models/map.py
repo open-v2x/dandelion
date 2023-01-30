@@ -25,7 +25,11 @@ class Map(Base, DandelionBase):
     __tablename__ = "map"
 
     name = Column(String(64), nullable=False, index=True, unique=True)
-    intersection_code = Column(String(64), ForeignKey("intersection.code"))
+    intersection_code = Column(
+        String(64),
+        ForeignKey("intersection.code", onupdate="CASCADE", ondelete="RESTRICT"),
+        nullable=False,
+    )
     desc = Column(String(255), nullable=False, default="")
     lat = Column(Float, nullable=False)
     lng = Column(Float, nullable=False)

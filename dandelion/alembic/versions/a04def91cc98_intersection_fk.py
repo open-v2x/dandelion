@@ -58,37 +58,41 @@ def upgrade():
 
     with op.batch_alter_table("map", schema=None) as batch_op:
         batch_op.add_column(  # type: ignore[attr-defined]
-            sa.Column("intersection_code", sa.String(length=64), nullable=True))
+            sa.Column("intersection_code", sa.String(length=64), nullable=False))
         batch_op.drop_column("address")  # type: ignore[attr-defined]
         batch_op.drop_column("area_code")  # type: ignore[attr-defined]
         batch_op.create_foreign_key(  # type: ignore[attr-defined]
-            "intersection_fk_code_map", "intersection", ["intersection_code"], ["code"]
+            "intersection_fk_code_map", "intersection", ["intersection_code"], ["code"],
+            onupdate='CASCADE', ondelete='RESTRICT'
         )
 
     with op.batch_alter_table("rsi_event", schema=None) as batch_op:
         batch_op.add_column( # type: ignore[attr-defined]
-            sa.Column("intersection_code", sa.String(length=64), nullable=True))
+            sa.Column("intersection_code", sa.String(length=64), nullable=False))
         batch_op.drop_column("address")  # type: ignore[attr-defined]
         batch_op.drop_column("area_code")  # type: ignore[attr-defined]
         batch_op.create_foreign_key(  # type: ignore[attr-defined]
-            "intersection_fk_code_rsi_event", "intersection", ["intersection_code"], ["code"]
+            "intersection_fk_code_rsi_event", "intersection", ["intersection_code"], ["code"],
+            onupdate='CASCADE', ondelete='RESTRICT'
         )
 
     with op.batch_alter_table("rsu", schema=None) as batch_op:
         batch_op.add_column(  # type: ignore[attr-defined]
-            sa.Column("intersection_code", sa.String(length=64), nullable=True))
+            sa.Column("intersection_code", sa.String(length=64), nullable=False))
         batch_op.drop_column("address")  # type: ignore[attr-defined]
         batch_op.drop_column("area_code")  # type: ignore[attr-defined]
         batch_op.create_foreign_key(  # type: ignore[attr-defined]
-            "intersection_fk_code_rsu", "intersection", ["intersection_code"], ["code"]
+            "intersection_fk_code_rsu", "intersection", ["intersection_code"], ["code"],
+            onupdate='CASCADE', ondelete='RESTRICT'
         )
 
     with op.batch_alter_table("edge_node_rsu", schema=None) as batch_op:
         batch_op.add_column(  # type: ignore[attr-defined]
-            sa.Column("intersection_code", sa.String(length=64), nullable=True))
+            sa.Column("intersection_code", sa.String(length=64), nullable=False))
         batch_op.drop_column("area_code")  # type: ignore[attr-defined]
         batch_op.create_foreign_key(  # type: ignore[attr-defined]
-            "intersection_fk_code_edge_node_rsu", "intersection", ["intersection_code"], ["code"]
+            "intersection_fk_code_edge_node_rsu", "intersection", ["intersection_code"], ["code"],
+            onupdate='CASCADE', ondelete='RESTRICT'
         )
     # mypy: end ignore
     # ### end Alembic commands ###
