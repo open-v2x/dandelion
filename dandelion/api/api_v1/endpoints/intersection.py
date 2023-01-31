@@ -23,7 +23,7 @@ from oslo_log import log
 from sqlalchemy import exc as sql_exc
 from sqlalchemy.orm import Session
 
-from dandelion import crud, models, schemas
+from dandelion import constants, crud, models, schemas
 from dandelion.api import deps
 from dandelion.api.deps import OpenV2XHTTPException as HTTPException, error_handle
 
@@ -60,8 +60,11 @@ def create(
     ):
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail=f"Intersection [name: {intersection_in.name}, "
-            f"area_code: {intersection_in.area_code}] already exist",
+            detail={
+                "code": constants.HTTP_REPEAT_CODE,
+                "msg": "Intersection [_name, _areaCode] already exist",
+                "detail": {"name": intersection_in.name, "areaCode": intersection_in.area_code},
+            },
         )
     try:
         intersection_in_db = crud.intersection.create(db, obj_in=intersection_in)
@@ -226,7 +229,13 @@ def update(
     ):
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail=f"Intersection [code: {intersection_in.code}] already exist",
+            detail={
+                "code": constants.HTTP_REPEAT_CODE,
+                "msg": "Intersection [_code] already exist",
+                "detail": {
+                    "code": intersection_in.code,
+                },
+            },
         )
     try:
         new_intersection_in_db = crud.intersection.update(
@@ -236,7 +245,11 @@ def update(
         if eval(re.findall(r"\(pymysql.err.IntegrityError\) (.*)", ex.args[0])[0])[0] == 1062:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
-                detail=f"Intersection [name: {name}, area_code: {area_code}] already exist",
+                detail={
+                    "code": constants.HTTP_REPEAT_CODE,
+                    "msg": "Intersection [_name, _areaCode] already exist",
+                    "detail": {"name": name, "areaCode": area_code},
+                },
             )
         else:
             raise error_handle(ex, "name", name)

@@ -18,6 +18,7 @@ PROJECT_NAME: str = "dandelion"
 CONFIG_FILE_PATH: str = "/etc/dandelion/dandelion.conf"
 API_V1_STR: str = "/api/v1"
 ALGORITHM: str = "HS256"
+HTTP_REPEAT_CODE: int = 499
 BITMAP_FILE_PATH: str = "/openv2x/data/bitmap"
 DEFAULT_ALGO: str = """
 rsi_formatter:
