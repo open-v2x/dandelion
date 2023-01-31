@@ -52,6 +52,7 @@ def online_rate(
     intersection_code: Optional[str] = Query(
         None, alias="intersectionCode", description="intersection code"
     ),
+    rsu_id: Optional[int] = Query(None, alias="rsuId", description="Rsu id"),
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> schemas.OnlineRate:
@@ -68,23 +69,31 @@ def online_rate(
     }
     # temporarily unavailable data
     camera_online_rate = {
-        "online": crud.camera.get_multi_with_total(db, intersection_code=intersection_code)[0],
+        "online": crud.camera.get_multi_with_total(
+            db, intersection_code=intersection_code, rsu_id=rsu_id
+        )[0],
         "offline": 0,
         "notRegister": 0,
     }
     # temporarily unavailable data
     radar_online_rate = {
-        "online": crud.radar.get_multi_with_total(db, intersection_code=intersection_code)[0],
+        "online": crud.radar.get_multi_with_total(
+            db, intersection_code=intersection_code, rsu_id=rsu_id
+        )[0],
         "offline": 0,
         "notRegister": 0,
     }
     lidar_online_rate = {
-        "online": crud.lidar.get_multi_with_total(db, intersection_code=intersection_code)[0],
+        "online": crud.lidar.get_multi_with_total(
+            db, intersection_code=intersection_code, rsu_id=rsu_id
+        )[0],
         "offline": 0,
         "notRegister": 0,
     }
     spat_online_rate = {
-        "online": crud.spat.get_multi_with_total(db, intersection_code=intersection_code)[0],
+        "online": crud.spat.get_multi_with_total(
+            db, intersection_code=intersection_code, rsu_id=rsu_id
+        )[0],
         "offline": 0,
         "notRegister": 0,
     }
