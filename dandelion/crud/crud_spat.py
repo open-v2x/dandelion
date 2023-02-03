@@ -62,7 +62,6 @@ class CRUDSpat(CRUDBase[Spat, SpatCreate, SpatUpdate]):
         return total, data
 
     def filter(self, db: Session, intersection_id, phase_id) -> Spat:
-
         return (
             db.query(self.model)
             .filter(self.model.intersection_id == intersection_id, self.model.phase_id == phase_id)
