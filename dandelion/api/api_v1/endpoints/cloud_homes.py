@@ -164,7 +164,11 @@ def route_info(
             .map(lambda v: str(v, encoding="utf-8"))
             .orElse("Unknown")
         )
-    average_speed = int(average_speed / len(intersection_in_db.rsus))
+    average_speed = (
+        int(average_speed / len(intersection_in_db.rsus))
+        if len(intersection_in_db.rsus)
+        else average_speed
+    )
     return schemas.RouteInfo(
         vehicleTotal=vehicle_total,
         averageSpeed=average_speed,
