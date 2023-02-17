@@ -21,6 +21,7 @@ from .algos_name import AlgoName
 from .algos_version import AlgoVersion
 from .area import Area
 from .camera import Camera
+from .cgw import CGW
 from .city import City
 from .country import Country
 from .edge import EdgeNode

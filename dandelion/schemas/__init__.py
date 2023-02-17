@@ -34,6 +34,7 @@ from .algo_version import (
 )
 from .area import Area, AreaCreate, AreaUpdate
 from .camera import Camera, CameraCreate, Cameras, CameraUpdate
+from .cgw import CGW, CGWCreate, CGWs, CGWUpdate
 from .city import City, CityCreate, CityUpdate
 from .cloud_home import OnlineRate, RouteInfo, RouteInfoCreate
 from .country import Country, CountryCreate, CountryUpdate
