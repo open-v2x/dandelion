@@ -20,6 +20,7 @@ from dandelion.api.api_v1.endpoints import (
     algos,
     areas,
     cameras,
+    cgw,
     cities,
     cloud_homes,
     countries,
@@ -101,6 +102,7 @@ api_router.include_router(rsi_cwms.router, prefix="/rsi_cwms", tags=["RSI CWM"])
 api_router.include_router(rsi_clcs.router, prefix="/rsi_clcs", tags=["RSI CLC"])
 
 api_router.include_router(rsi_sdss.router, prefix="/rsi_sdss", tags=["RSI SDS"])
+api_router.include_router(cgw.router, prefix="/cgw", tags=["CGW"])
 
 api_router.include_router(edge_nodes.router, prefix="/edge_nodes", tags=["Edge Node"])
 

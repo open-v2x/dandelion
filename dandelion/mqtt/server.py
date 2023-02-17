@@ -24,6 +24,7 @@ from oslo_log import log
 
 from dandelion import conf
 from dandelion.mqtt.service import RouterHandler
+from dandelion.mqtt.service.algorithm.cgw import CGWRouterHandler
 from dandelion.mqtt.service.algorithm.rsi import RSIRouterHandler
 from dandelion.mqtt.service.algorithm.rsi_clc import RSICLCRouterHandler
 from dandelion.mqtt.service.algorithm.rsi_cwm import RSICWMRouterHandler
@@ -68,6 +69,7 @@ topic_router: Dict[str, RouterHandler] = {
     v2x_rsu.V2X_RSU_PLUS_CLC_DOWN: RSICLCRouterHandler(),
     v2x_rsu.V2X_RSU_PLUS_SDS_DOWN: RSISDSRouterHandler(),
     v2x_rsu.V2X_RSU_PLUS_SPAT_UP: RSUSpatHandler(),
+    v2x_rsu.V2X_RSU_PLUS_CGW_DOWN: CGWRouterHandler(),
 }
 MQTT_CLIENT: mqtt.Client = None
 

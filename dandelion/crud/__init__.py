@@ -19,6 +19,7 @@ from .crud_algo_name import algo_name
 from .crud_algo_version import algo_version
 from .crud_area import area
 from .crud_camera import camera
+from .crud_cgw import cgw
 from .crud_city import city
 from .crud_country import country
 from .crud_edge_node import edge_node
@@ -86,4 +87,5 @@ __all__ = [
     "algo_module",
     "algo_name",
     "algo_version",
+    "cgw",
 ]
