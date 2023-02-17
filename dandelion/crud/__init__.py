@@ -29,8 +29,10 @@ from .crud_lidar import lidar
 from .crud_map import map
 from .crud_map_rsu import map_rsu
 from .crud_mng import mng
+from .crud_osw import osw
 from .crud_province import province
 from .crud_radar import radar
+from .crud_rdw import rdw
 from .crud_rsi_clc import rsi_clc
 from .crud_rsi_cwm import rsi_cwm
 from .crud_rsi_dnp import rsi_dnp
@@ -48,6 +50,7 @@ from .crud_rsu_query_result import rsu_query_result
 from .crud_rsu_query_result_data import rsu_query_result_data
 from .crud_rsu_tmp import rsu_tmp
 from .crud_spat import spat
+from .crud_ssw import ssw
 from .crud_system_config import system_config
 from .crud_user import user
 
@@ -88,4 +91,7 @@ __all__ = [
     "algo_name",
     "algo_version",
     "cgw",
+    "rdw",
+    "osw",
+    "ssw",
 ]

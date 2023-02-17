@@ -14,8 +14,6 @@
 
 from __future__ import annotations
 
-from typing import Optional
-
 from fastapi import APIRouter, Depends, Query, status
 from sqlalchemy.orm import Session
 
@@ -27,14 +25,14 @@ router = APIRouter()
 
 @router.get(
     "",
-    response_model=schemas.CGWs,
+    response_model=schemas.SSWs,
     status_code=status.HTTP_200_OK,
-    summary="List CGWs",
+    summary="List SSWs",
     description="""
-Get all CGW.
+Get all SSW.
 """,
     responses={
-        status.HTTP_200_OK: {"model": schemas.CGWs, "description": "OK"},
+        status.HTTP_200_OK: {"model": schemas.SSWs, "description": "OK"},
         status.HTTP_401_UNAUTHORIZED: {
             "model": schemas.ErrorMessage,
             "description": "Unauthorized",
@@ -44,14 +42,11 @@ Get all CGW.
     },
 )
 def get_all(
-    cgw_level: Optional[int] = Query(None, alias="cgwLevel", description="CWG Level"),
     page_num: int = Query(1, alias="pageNum", ge=1, description="Page number"),
     page_size: int = Query(10, alias="pageSize", ge=-1, description="Page size"),
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
-) -> schemas.CGWs:
+) -> schemas.SSWs:
     skip = page_size * (page_num - 1)
-    total, data = crud.cgw.get_multi_with_total(
-        db, skip=skip, limit=page_size, cgw_level=cgw_level
-    )
-    return schemas.CGWs(total=total, data=[cgw.to_all_dict() for cgw in data])
+    total, data = crud.ssw.get_multi_with_total(db, skip=skip, limit=page_size)
+    return schemas.SSWs(total=total, data=[ssw.to_all_dict() for ssw in data])
