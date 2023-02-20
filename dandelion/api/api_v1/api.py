@@ -32,8 +32,10 @@ from dandelion.api.api_v1.endpoints import (
     map_rsus,
     maps,
     mngs,
+    osw,
     provinces,
     radars,
+    rdw,
     rsi_clcs,
     rsi_cwms,
     rsi_dnps,
@@ -47,6 +49,7 @@ from dandelion.api.api_v1.endpoints import (
     rsu_tmps,
     rsus,
     spats,
+    ssw,
     system_configs,
     users,
 )
@@ -103,7 +106,9 @@ api_router.include_router(rsi_clcs.router, prefix="/rsi_clcs", tags=["RSI CLC"])
 
 api_router.include_router(rsi_sdss.router, prefix="/rsi_sdss", tags=["RSI SDS"])
 api_router.include_router(cgw.router, prefix="/cgw", tags=["CGW"])
-
+api_router.include_router(rdw.router, prefix="/rdw", tags=["RDW"])
+api_router.include_router(osw.router, prefix="/osw", tags=["OSW"])
+api_router.include_router(ssw.router, prefix="/ssw", tags=["SSW"])
 api_router.include_router(edge_nodes.router, prefix="/edge_nodes", tags=["Edge Node"])
 
 api_router.include_router(edge_node_rsus.router, prefix="/edge_node_rsus", tags=["Edge Node RSU"])

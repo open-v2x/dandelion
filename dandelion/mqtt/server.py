@@ -25,12 +25,15 @@ from oslo_log import log
 from dandelion import conf
 from dandelion.mqtt.service import RouterHandler
 from dandelion.mqtt.service.algorithm.cgw import CGWRouterHandler
+from dandelion.mqtt.service.algorithm.osw import OSWRouterHandler
+from dandelion.mqtt.service.algorithm.rdw import RDWRouterHandler
 from dandelion.mqtt.service.algorithm.rsi import RSIRouterHandler
 from dandelion.mqtt.service.algorithm.rsi_clc import RSICLCRouterHandler
 from dandelion.mqtt.service.algorithm.rsi_cwm import RSICWMRouterHandler
 from dandelion.mqtt.service.algorithm.rsi_dnp import RSIDNPRouterHandler
 from dandelion.mqtt.service.algorithm.rsi_sds import RSISDSRouterHandler
 from dandelion.mqtt.service.algorithm.rsm import RSMRouterHandler
+from dandelion.mqtt.service.algorithm.ssw import SSWRouterHandler
 from dandelion.mqtt.service.cloud.edge_delete import EdgeDeleteRouterHandler
 from dandelion.mqtt.service.cloud.edge_hb import EdgeHBRouterHandler
 from dandelion.mqtt.service.cloud.edge_info import EdgeInfoRouterHandler
@@ -70,6 +73,9 @@ topic_router: Dict[str, RouterHandler] = {
     v2x_rsu.V2X_RSU_PLUS_SDS_DOWN: RSISDSRouterHandler(),
     v2x_rsu.V2X_RSU_PLUS_SPAT_UP: RSUSpatHandler(),
     v2x_rsu.V2X_RSU_PLUS_CGW_DOWN: CGWRouterHandler(),
+    v2x_rsu.V2X_RSU_PLUS_RDW_DOWN: RDWRouterHandler(),
+    v2x_rsu.V2X_RSU_PLUS_OSW_DOWN: OSWRouterHandler(),
+    v2x_rsu.V2X_RSU_PLUS_SSW_DOWN: SSWRouterHandler(),
 }
 MQTT_CLIENT: mqtt.Client = None
 

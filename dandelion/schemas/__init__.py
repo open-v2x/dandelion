@@ -52,8 +52,10 @@ from .map import Map, MapCreate, Maps, MapUpdate
 from .map_rsu import MapRSU, MapRSUCreate, MapRSUs, MapRSUUpdate
 from .message import ErrorMessage, Message
 from .mng import MNG, MNGCopy, MNGCreate, MNGs, MNGUpdate
+from .osw import OSW, OSWCreate, OSWs, OSWUpdate
 from .province import Province, ProvinceCreate, ProvinceUpdate
 from .radar import Radar, RadarCreate, Radars, RadarUpdate
+from .rdw import RDW, RDWCreate, RDWs, RDWUpdate
 from .rsi_clc import RSICLCCreate, RSICLCs
 from .rsi_cwm import RSICWMCreate, RSICWMs
 from .rsi_dnp import RSIDNPCreate, RSIDNPs
@@ -96,6 +98,7 @@ from .rsu_query_result import (
 from .rsu_query_result_data import RSUQueryResultData, RSUQueryResultDataCreate
 from .rsu_tmp import RSUTMP, RSUTMPCreate, RSUTMPs, RSUTMPUpdate
 from .spat import Spat, SpatCreate, Spats, SpatUpdate
+from .ssw import SSW, SSWCreate, SSWs, SSWUpdate
 from .system_config import MQTTConfig, SystemConfig, SystemConfigCreate
 from .token import AccessToken, Token, TokenPayload
 from .user import User, UserCreate, UserUpdate
