@@ -34,6 +34,25 @@ tests:
     response_json_paths:
       $.token_type: bearer
 
+  - name: intersection_create
+    url: /api/v1/intersections
+    method: POST
+    request_headers:
+      Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
+    data:
+      code: "123126"
+      name: "测试路口"
+      lng: "118.8213963998263"
+      lat: "31.934846637757847"
+      areaCode: "320115"
+    status: 201
+    response_json_paths:
+      code: "123126"
+      name: "测试路口"
+      lng: "118.8213963998263"
+      lat: "31.934846637757847"
+      areaCode: "320115"
+
   - name: create_map
     url: /api/v1/maps
     method: POST
@@ -41,7 +60,7 @@ tests:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
     data:
       name: '测试地图01'
-      intersectionCode: '32011501'
+      intersectionCode: '123126'
       desc: '这是测试的地图'
       data:
         id:
@@ -57,7 +76,7 @@ tests:
     status: 201
     response_json_paths:
       $.name: '测试地图01'
-      $.intersectionCode: '32011501'
+      $.intersectionCode: '123126'
       $.desc: '这是测试的地图'
 
   - name: map_list
@@ -79,7 +98,7 @@ tests:
     status: 200
     response_json_paths:
       $.name: '测试地图01'
-      $.intersectionCode: '32011501'
+      $.intersectionCode: '123126'
       $.desc: '这是测试的地图'
 
   - name: update_map
@@ -89,7 +108,7 @@ tests:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
     data:
       name: '测试地图02'
-      intersectionCode: '32011501'
+      intersectionCode: '123126'
       desc: '这是测试的地图'
       data:
         id:
@@ -107,6 +126,13 @@ tests:
 
   - name: delete_map
     url: /api/v1/maps/$HISTORY['create_map'].$RESPONSE['$.id']
+    method: DELETE
+    request_headers:
+      Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
+    status: 204
+
+  - name: delete_intersection
+    url: /api/v1/intersections/$HISTORY['intersection_create'].$RESPONSE['$.id']
     method: DELETE
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
