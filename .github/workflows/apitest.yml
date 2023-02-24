@@ -43,6 +43,7 @@ jobs:
           pip install -r requirements.txt
           python setup.py install
           alembic upgrade head
+          sudo chmod -R 777 /openv2x/data/bitmap/
           python tools/datainit.py
           pip install tox
           tox -e venv

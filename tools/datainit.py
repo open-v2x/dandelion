@@ -11,6 +11,11 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+import datetime
+import json
+import os
+import shutil
+from pathlib import Path
 
 from oslo_config import cfg
 from sqlalchemy.orm import Session
@@ -25,6 +30,7 @@ from dandelion.models import (
     City,
     Country,
     Intersection,
+    Map,
     Province,
     RSUConfig,
     RSUConfigRSU,
@@ -246,6 +252,22 @@ def init_db() -> None:
     system_config.name = ""
     system_config.mqtt_config = None
     session_.add(system_config)
+
+    base_path = Path(__file__).resolve().parent.parent
+    map1 = Map()
+    map1.intersection_code = "32011501"
+    map1.name = "默认地图"
+    map1.desc = "默认地图"
+    map1.lat = 0
+    map1.lng = 0
+    with open(Path(base_path) / "default_map.json") as f:
+        data = json.loads(f.read())
+    map1.data = data
+    filename = f"{datetime.datetime.now().strftime('%Y%m%d%H%M%S%f')}.jpg"
+    if not os.path.exists(f"{constants.BITMAP_FILE_PATH}/{filename}"):
+        shutil.copyfile(Path(base_path) / "map_bg.jpg", f"{constants.BITMAP_FILE_PATH}/{filename}")
+    map1.bitmap_filename = filename
+    session_.add(map1)
 
     session_.commit()
 
