@@ -96,10 +96,16 @@ def delete(
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> Response:
-    if not crud.intersection.get(db, id=intersection_id):
+    intersection_in_db = crud.intersection.get(db, id=intersection_id)
+    if not intersection_in_db:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Intersection [id: {intersection_id}] not found",
+        )
+    if intersection_in_db.is_default:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Intersection [{intersection_in_db}] can not delete",
         )
     try:
         crud.intersection.remove(db, id=intersection_id)
@@ -149,7 +155,7 @@ def get(
     "",
     response_model=schemas.Intersections,
     status_code=status.HTTP_200_OK,
-    summary="List Cameras",
+    summary="List Intersections",
     description="""
 Get all Intersection.
 """,
@@ -218,7 +224,12 @@ def update(
     if not intersection_in_db:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Intersection [id: {intersection_in_db}] not found",
+            detail=f"Intersection [id: {intersection_id}] not found",
+        )
+    if intersection_in_db.is_default:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Intersection [{intersection_in_db}] can not update",
         )
     name = intersection_in.name if intersection_in.name else intersection_in_db.name
     area_code = (
@@ -254,3 +265,34 @@ def update(
         else:
             raise error_handle(ex, "name", name)
     return new_intersection_in_db.to_dict()
+
+
+@router.get(
+    "/default/",
+    response_model=dict,
+    status_code=status.HTTP_200_OK,
+    summary="Get default Intersection",
+    description="""
+Get default Intersection.
+""",
+    responses={
+        status.HTTP_200_OK: {"model": dict, "description": "OK"},
+        status.HTTP_401_UNAUTHORIZED: {
+            "model": schemas.ErrorMessage,
+            "description": "Unauthorized",
+        },
+        status.HTTP_403_FORBIDDEN: {"model": schemas.ErrorMessage, "description": "Forbidden"},
+        status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
+    },
+)
+def get_default_intersection(
+    db: Session = Depends(deps.get_db),
+    current_user: models.User = Depends(deps.get_current_user),
+) -> dict:
+    intersection_in_db = crud.intersection.get_default(db)
+    system_config_in_db = crud.system_config.get(db=db, id=1)
+    return {
+        "intersectionCode": intersection_in_db.code,
+        "mapID": intersection_in_db.maps[0].id,
+        "nodeID": system_config_in_db.node_id if system_config_in_db else 1,
+    }

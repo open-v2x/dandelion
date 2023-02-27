@@ -84,9 +84,14 @@ def delete(
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> Response:
-    if not crud.camera.get(db, id=camera_id):
+    camera_in_db = crud.camera.get(db, id=camera_id)
+    if not camera_in_db:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail=f"Camera [id: {camera_id}] not found"
+        )
+    if camera_in_db.is_default:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail=f"Camera [{camera_in_db}] can not delete"
         )
     crud.camera.remove(db, id=camera_id)
     return Response(content=None, status_code=status.HTTP_204_NO_CONTENT)
@@ -198,6 +203,11 @@ def update(
     if not camera_in_db:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail=f"Camera [id: {camera_id}] not found"
+        )
+    if camera_in_db.is_default:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Camera [{camera_in_db}] can not update",
         )
     try:
         new_camera_in_db = crud.camera.update(db, db_obj=camera_in_db, obj_in=camera_in)

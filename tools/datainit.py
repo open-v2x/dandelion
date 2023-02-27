@@ -27,13 +27,17 @@ from dandelion.models import (
     MNG,
     RSU,
     Area,
+    Camera,
     City,
     Country,
     Intersection,
+    Lidar,
     Map,
     Province,
+    Radar,
     RSUConfig,
     RSUConfigRSU,
+    Spat,
     SystemConfig,
     User,
 )
@@ -116,6 +120,15 @@ def init_db() -> None:
     intersection2.area_code = "320115"
     session_.add(intersection2)
 
+    intersection_d = Intersection()
+    intersection_d.code = "32010600"
+    intersection_d.name = "模拟路口"
+    intersection_d.lat = 31.9348466377
+    intersection_d.lng = 118.8213963998
+    intersection_d.area_code = "320106"
+    intersection_d.is_default = True
+    session_.add(intersection_d)
+
     rsu_model1 = RSUModel()
     rsu_model1.name = "RSU1"
     rsu_model1.manufacturer = "华为"
@@ -178,6 +191,62 @@ def init_db() -> None:
     mng1.extend_config = ""
     rsu1.mng = mng1
     session_.add(rsu1)
+
+    rsu_d = RSU()
+    rsu_d.rsu_id = "1234"
+    rsu_d.rsu_esn = "R000000"
+    rsu_d.rsu_name = "默认RSU"
+    rsu_d.rsu_ip = "192.168.0.102"
+    rsu_d.version = "v1"
+    rsu_d.rsu_status = "Normal"
+    rsu_d.online_status = True
+    rsu_d.location = {"lon": 118.8213963998, "lat": 31.9348466377}
+    rsu_d.config = {}
+    rsu_d.rsu_model_id = rsu_model1.id
+    rsu_d.intersection_code = "32010600"
+    rsu_d.desc = ""
+    rsu_d.bias_x = 0.0
+    rsu_d.bias_y = 0.0
+    rsu_d.rotation = 0.0
+    rsu_d.reverse = False
+    rsu_d.scale = 0.09
+    rsu_d.lane_info = {
+        "1": 1,
+        "2": -1,
+        "3": -1,
+        "4": 1,
+        "5": 1,
+        "6": 1,
+        "7": 1,
+        "8": -1,
+        "9": -1,
+        "10": -1,
+        "11": 1,
+        "12": 1,
+        "13": 1,
+        "14": -1,
+        "15": -1,
+        "16": 1,
+        "17": 1,
+        "18": 1,
+        "19": 1,
+        "20": -1,
+        "21": -1,
+        "22": -1,
+        "23": 1,
+        "24": 1,
+    }
+
+    mng_d = MNG()
+    mng_d.heartbeat_rate = 0
+    mng_d.running_info_rate = 0
+    mng_d.log_level = "NOLog"
+    mng_d.reboot = "not_reboot"
+    mng_d.address_change = dict(cssUrl="", time=0)
+    mng_d.extend_config = ""
+    mng_d.mng = mng_d
+    rsu_d.is_default = True
+    session_.add(rsu_d)
 
     rsu2 = RSU()
     rsu2.rsu_id = "8361"
@@ -250,7 +319,7 @@ def init_db() -> None:
 
     system_config = SystemConfig()
     system_config.name = ""
-    system_config.mqtt_config = None
+    system_config.mqtt_config = {}
     session_.add(system_config)
 
     base_path = Path(__file__).resolve().parent.parent
@@ -268,6 +337,88 @@ def init_db() -> None:
         shutil.copyfile(Path(base_path) / "map_bg.jpg", f"{constants.BITMAP_FILE_PATH}/{filename}")
     map1.bitmap_filename = filename
     session_.add(map1)
+
+    map_d = Map()
+    map_d.intersection_code = "32010600"
+    map_d.name = "模拟地图"
+    map_d.desc = "模拟地图"
+    map_d.lat = 0
+    map_d.lng = 0
+    with open(Path(base_path) / "default_map.json") as f:
+        data = json.loads(f.read())
+    map_d.data = data
+    filename = f"{datetime.datetime.now().strftime('%Y%m%d%H%M%S%f')}.jpg"
+    if not os.path.exists(f"{constants.BITMAP_FILE_PATH}/{filename}"):
+        shutil.copyfile(Path(base_path) / "map_bg.jpg", f"{constants.BITMAP_FILE_PATH}/{filename}")
+    map_d.bitmap_filename = filename
+    map_d.is_default = True
+    session_.add(map_d)
+
+    camera_d = Camera()
+    camera_d.sn = "1234"
+    camera_d.name = "模拟摄像头"
+    camera_d.stream_url = "http://47.100.126.13:7001/live/cam_0.flv"
+    camera_d.lng = 1
+    camera_d.lat = 1
+    camera_d.elevation = 1
+    camera_d.towards = 1
+    camera_d.status = True
+    camera_d.rsu_id = rsu_d.id
+    camera_d.desc = "模拟摄像头"
+    camera_d.enabled = True
+    camera_d.is_default = True
+    camera_d.intersection_code = "32010600"
+    session_.add(camera_d)
+
+    radar_d = Radar()
+    radar_d.sn = "1234"
+    radar_d.name = "模拟毫米波雷达"
+    radar_d.radar_ip = "1.1.1.1"
+    radar_d.lng = 1
+    radar_d.lat = 1
+    radar_d.elevation = 1
+    radar_d.towards = 1
+    radar_d.status = True
+    radar_d.rsu_id = rsu_d.id
+    radar_d.desc = "模拟毫米波雷达"
+    radar_d.enabled = True
+    radar_d.is_default = True
+    radar_d.intersection_code = "32010600"
+    session_.add(radar_d)
+
+    lidar_d = Lidar()
+    lidar_d.sn = "1234"
+    lidar_d.name = "模拟激光雷达"
+    lidar_d.lidar_ip = "1.1.1.1"
+    lidar_d.lng = 1
+    lidar_d.lat = 1
+    lidar_d.elevation = 1
+    lidar_d.towards = 1
+    lidar_d.online_status = True
+    lidar_d.enabled = True
+    lidar_d.point = 1
+    lidar_d.pole = 1
+    lidar_d.rsu_id = rsu_d.id
+    lidar_d.desc = "模拟激光雷达"
+    lidar_d.ws_url = "ws://47.100.126.13:8000/ws/127.0.0.1"
+    lidar_d.is_default = True
+    lidar_d.intersection_code = "32010600"
+    session_.add(lidar_d)
+
+    spat_d = Spat()
+    spat_d.intersection_id = "1234"
+    spat_d.name = "模拟信号灯"
+    spat_d.spat_ip = "1.1.1.1"
+    spat_d.point = 1
+    spat_d.online_status = True
+    spat_d.enabled = True
+    spat_d.phase_id = 1
+    spat_d.light = "通行允许相位（通行绿）"
+    spat_d.rsu_id = rsu_d.id
+    spat_d.desc = "模拟信号灯"
+    spat_d.is_default = True
+    spat_d.intersection_code = "32010600"
+    session_.add(spat_d)
 
     session_.commit()
 
