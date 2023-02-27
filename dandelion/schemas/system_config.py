@@ -25,10 +25,10 @@ class SystemConfigBase(BaseModel):
 
 
 class MQTTConfig(BaseModel):
-    host: str = Field(..., alias="host", description="MQTT Host")
-    port: int = Field(..., alias="port", description="MQTT Port")
-    username: str = Field(..., alias="username", description="Username")
-    password: str = Field(..., alias="password", description="Password")
+    host: Optional[str] = Field(None, alias="host", description="MQTT Host")
+    port: Optional[int] = Field(None, alias="port", description="MQTT Port")
+    username: Optional[str] = Field(None, alias="username", description="Username")
+    password: Optional[str] = Field(None, alias="password", description="Password")
 
 
 class SystemConfigCreate(SystemConfigBase):

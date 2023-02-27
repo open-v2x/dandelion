@@ -84,9 +84,14 @@ def delete(
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> Response:
-    if not crud.radar.get(db, id=radar_id):
+    radar_in_db = crud.radar.get(db, id=radar_id)
+    if not radar_in_db:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail=f"Radar [id: {radar_id}] not found"
+        )
+    if radar_in_db.is_default:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail=f"Radar [{radar_in_db}] can not delete"
         )
     crud.radar.remove(db, id=radar_id)
     return Response(content=None, status_code=status.HTTP_204_NO_CONTENT)
@@ -199,6 +204,11 @@ def update(
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail=f"Radar [id: {radar_id}] not found"
         )
+    if radar_in_db.is_default:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail=f"Radar [{radar_in_db}] can not update"
+        )
+
     try:
         new_radar_in_db = crud.radar.update(db, db_obj=radar_in_db, obj_in=radar_in)
     except (sql_exc.DataError, sql_exc.IntegrityError) as ex:
