@@ -36,7 +36,7 @@ class Spat(Base, DandelionBase):
     rsu_id = Column(Integer, ForeignKey("rsu.id"))
     timing = Column(DateTime, nullable=False, default=lambda: datetime.utcnow())
     desc = Column(String(255), nullable=False, default="")
-
+    is_default = Column(Boolean, nullable=False, default=False)
     intersection_code = Column(
         String(64),
         ForeignKey("intersection.code", onupdate="CASCADE", ondelete="RESTRICT"),

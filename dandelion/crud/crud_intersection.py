@@ -17,6 +17,7 @@ from __future__ import annotations
 from typing import List, Optional, Tuple
 
 from fastapi.encoders import jsonable_encoder
+from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from dandelion.crud.base import CRUDBase
@@ -81,6 +82,12 @@ class CRUDIntersection(CRUDBase[Intersection, IntersectionCreate, IntersectionUp
             .filter(self.model.code == code, self.model.id != intersection_id)
             .first()
         )
+
+    def get_default(
+        self,
+        db: Session,
+    ) -> Intersection:
+        return db.scalars(select(self.model).where(self.model.is_default)).first()
 
 
 intersection = CRUDIntersection(Intersection)

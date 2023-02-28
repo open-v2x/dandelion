@@ -107,9 +107,14 @@ def delete(
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> Response:
-    if not crud.map.get(db, id=map_id):
+    map_in_db = crud.map.get(db, id=map_id)
+    if not map_in_db:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail=f"Map [id: {map_id}] not found"
+        )
+    if map_in_db.is_default:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail=f"Map [{map_in_db}] can not delete"
         )
     crud.map.remove(db, id=map_id)
     return Response(content=None, status_code=status.HTTP_204_NO_CONTENT)
@@ -211,6 +216,10 @@ def update(
     if not map_in_db:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail=f"Map [id: {map_id}] not found"
+        )
+    if map_in_db.is_default:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail=f"Map [{map_in_db}] can not update"
         )
     if map_in.bitmap_filename and not os.path.exists(
         f"{constants.BITMAP_FILE_PATH}/{map_in.bitmap_filename}"

@@ -14,7 +14,7 @@
 
 from __future__ import annotations
 
-from sqlalchemy import JSON, Column, Float, ForeignKey, String
+from sqlalchemy import JSON, Boolean, Column, Float, ForeignKey, String
 from sqlalchemy.orm import deferred, relationship
 
 from dandelion.db.base_class import Base, DandelionBase
@@ -36,6 +36,7 @@ class Map(Base, DandelionBase):
     data = deferred(Column(JSON, nullable=True))
     rsus = relationship("MapRSU", backref="map")
     bitmap_filename = Column(String(64), nullable=True)
+    is_default = Column(Boolean, nullable=False, default=False)
 
     def __repr__(self) -> str:
         return f"<Map(name='{self.name}')>"

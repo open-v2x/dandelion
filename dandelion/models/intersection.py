@@ -14,7 +14,7 @@
 
 from __future__ import annotations
 
-from sqlalchemy import Column, ForeignKey, String, UniqueConstraint
+from sqlalchemy import Boolean, Column, ForeignKey, String, UniqueConstraint
 from sqlalchemy.orm import relationship
 
 from dandelion.db.base_class import Base, DandelionBase
@@ -29,6 +29,8 @@ class Intersection(Base, DandelionBase):
     name = Column(String(64), nullable=False)
     lng = Column(String(64), nullable=False)
     lat = Column(String(64), nullable=False)
+
+    is_default = Column(Boolean, nullable=False, default=False)
 
     maps = relationship("Map", backref="intersection")
     rsus = relationship("RSU", backref="intersection")

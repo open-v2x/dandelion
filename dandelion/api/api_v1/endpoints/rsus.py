@@ -231,6 +231,10 @@ def update(
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail=f"RSU [id: {rsu_id}] not found"
         )
+    if rsu_in_db.is_default:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail=f"RSU [{rsu_in_db}] can not update"
+        )
     try:
         new_rsu_in_db = crud.rsu.update_with_location(db, db_obj=rsu_in_db, obj_in=rsu_in)
         if mqtt_cloud_server.MQTT_CLIENT is not None:
@@ -281,9 +285,14 @@ def delete(
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> Response:
-    if not crud.rsu.get(db, id=rsu_id):
+    rsu_in_db = crud.rsu.get(db, id=rsu_id)
+    if not rsu_in_db:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail=f"RSU [id: {rsu_id}] not found"
+        )
+    if rsu_in_db.is_default:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail=f"RSU [{rsu_in_db}] can not delete"
         )
     results = crud.rsu_query_result.get_multi_by_rsu_id(db, rsu_id=rsu_id)
     for result in results:

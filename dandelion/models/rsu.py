@@ -62,6 +62,7 @@ class RSU(Base, DandelionBase):
     radars = relationship("Radar", backref="rsu")
     lidars = relationship("Lidar", backref="rsu")
     spats = relationship("Spat", backref="rsu")
+    is_default = Column(Boolean, nullable=False, default=False)
 
     def __repr__(self) -> str:
         return f"<RSU(id='{self.id}', rsuId='{self.rsu_id}')>"
