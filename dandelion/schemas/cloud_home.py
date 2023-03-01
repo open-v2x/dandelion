@@ -67,4 +67,4 @@ class RouteInfoCreate(BaseModel):
     pedestrian_total: Optional[int] = Field(
         0, alias="pedestrianTotal", description="Pedestrian Total"
     )
-    congestion: Optional[str] = Field("Unknown", alias="congestion", description="Congestion")
+    congestion: Optional[str] = Field("free flow", alias="congestion", description="Congestion")

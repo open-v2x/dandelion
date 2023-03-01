@@ -140,9 +140,11 @@ def route_info(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Intersection [code: {intersection_code}] not found",
         )
-    vehicle_total, average_speed, pedestrian_total, congestion = 0, 0, 0, ""
+    vehicle_total, average_speed, pedestrian_total, congestion, rsu_num = 0, 0, 0, "free flow", 0
     for rsu in intersection_in_db.rsus:
         key = f"ROUTE_INFO_{rsu.rsu_esn}"
+        if not redis_conn.exists(key):
+            continue
         vehicle_total += (
             Optional_util.none(redis_conn.hget(key, "vehicleTotal"))
             .map(lambda v: int(v))
@@ -159,16 +161,14 @@ def route_info(
             .map(lambda v: int(v))
             .orElse(0)
         )
-        congestion = (
-            Optional_util.none(redis_conn.hget(key, "congestion"))
-            .map(lambda v: str(v, encoding="utf-8"))
-            .orElse("Unknown")
-        )
-    average_speed = (
-        int(average_speed / len(intersection_in_db.rsus))
-        if len(intersection_in_db.rsus)
-        else average_speed
-    )
+        if congestion != "congestion":
+            congestion = (
+                Optional_util.none(redis_conn.hget(key, "congestion"))
+                .map(lambda v: str(v, encoding="utf-8"))
+                .orElse("free flow")
+            )
+        rsu_num += 1
+    average_speed = int(average_speed / rsu_num) if rsu_num else average_speed
     return schemas.RouteInfo(
         vehicleTotal=vehicle_total,
         averageSpeed=average_speed,
