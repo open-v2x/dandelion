@@ -35,7 +35,7 @@ class RDWRouterHandler(RouterHandler):
         sensor_pos = data.get("sensorPos", {})
         contents = data.get("content", [])
         for content in contents:
-            rdw = schemas.OSWCreate()
+            rdw = schemas.RDWCreate()
             sec_mark = content.get("secMark")
             rdw.sensor_pos = sensor_pos
             ego_info = content.get("egoInfo")
@@ -48,5 +48,5 @@ class RDWRouterHandler(RouterHandler):
             rdw.height = ego_info.get("height")
             rdw.sec_mark = sec_mark
 
-            crud.osw.create(db=db, obj_in=rdw)
+            crud.rdw.create(db=db, obj_in=rdw)
         LOG.info(f"{topic} => RDW created")
