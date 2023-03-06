@@ -44,8 +44,11 @@ class CRUDIntersection(CRUDBase[Intersection, IntersectionCreate, IntersectionUp
         limit: int = 10,
         name: Optional[str] = None,
         area_code: Optional[str] = None,
+        is_default: Optional[bool] = None,
     ) -> Tuple[int, List[Intersection]]:
-        query_ = db.query(self.model).filter()
+        query_ = db.query(self.model)
+        if not is_default:
+            query_ = query_.filter(self.model.is_default.is_(is_default))
         if name is not None:
             query_ = self.fuzz_filter(query_, self.model.name, name)
         if area_code is not None:
@@ -83,11 +86,22 @@ class CRUDIntersection(CRUDBase[Intersection, IntersectionCreate, IntersectionUp
             .first()
         )
 
-    def get_default(
+    def get_link(
         self,
         db: Session,
+        code: Optional[str] = None,
     ) -> Intersection:
-        return db.scalars(select(self.model).where(self.model.is_default)).first()
+        query_ = select(self.model)
+        if code:
+            query_ = query_.where(self.model.code == code)
+        else:
+            query_ = query_.where(self.model.is_default)
+        return db.scalars(query_).first()
+
+    def get_list_bitmap(self, db: Session):
+        return db.execute(
+            select(self.model.bitmap_filename).where(self.model.bitmap_filename.isnot(None))
+        ).all()
 
 
 intersection = CRUDIntersection(Intersection)

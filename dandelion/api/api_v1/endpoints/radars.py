@@ -157,6 +157,9 @@ def get_all(
     intersection_code: Optional[str] = Query(
         None, alias="intersectionCode", description="Filter by radar intersection code"
     ),
+    is_default: Optional[bool] = Query(
+        False, alias="isDefault", description="Filter by radar is default"
+    ),
     page_num: int = Query(1, alias="pageNum", ge=1, description="Page number"),
     page_size: int = Query(10, alias="pageSize", ge=-1, description="Page size"),
     db: Session = Depends(deps.get_db),
@@ -171,6 +174,7 @@ def get_all(
         name=name,
         rsu_id=rsu_id,
         intersection_code=intersection_code,
+        is_default=is_default,
     )
     return schemas.Radars(total=total, data=[radar.to_dict() for radar in data])
 

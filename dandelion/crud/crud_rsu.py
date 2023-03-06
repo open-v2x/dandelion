@@ -129,8 +129,11 @@ class CRUDRSU(CRUDBase[RSU, RSUCreate, RSUUpdate]):
         online_status: Optional[bool] = None,
         rsu_status: Optional[str] = None,
         enabled: Optional[bool] = None,
+        is_default: Optional[bool] = None,
     ) -> Tuple[int, List[RSU]]:
         query_ = db.query(self.model)
+        if not is_default:
+            query_ = query_.filter(self.model.is_default.is_(is_default))
         if rsu_name is not None:
             query_ = self.fuzz_filter(query_, self.model.rsu_name, rsu_name)
         if rsu_esn is not None:
