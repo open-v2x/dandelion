@@ -14,7 +14,7 @@
 
 from __future__ import annotations
 
-from typing import List, Optional
+from typing import Any, Dict, List, Optional
 
 from pydantic import BaseModel, Field
 
@@ -32,6 +32,9 @@ class IntersectionBase(BaseModel):
 class IntersectionCreate(IntersectionBase):
     """"""
 
+    map_data: Dict[str, Any] = Field(..., alias="mapData", description="Intersection Map Data")
+    bitmap_filename: str = Field(..., alias="bitmapFilename", description="Bitmap Filename")
+
 
 # Properties to receive via API on update
 class IntersectionUpdate(BaseModel):
@@ -42,6 +45,12 @@ class IntersectionUpdate(BaseModel):
     lat: Optional[str] = Field(None, alias="lat", description="Intersection latitude")
     lng: Optional[str] = Field(None, alias="lng", description="Intersection longitude")
     area_code: Optional[str] = Field(None, alias="areaCode", description="Area Code")
+    map_data: Optional[Dict[str, Any]] = Field(
+        None, alias="mapData", description="Intersection Map Data"
+    )
+    bitmap_filename: Optional[str] = Field(
+        None, alias="bitmapFilename", description="Intersection Bitmap Filename"
+    )
 
 
 class IntersectionInDBBase(IntersectionBase):

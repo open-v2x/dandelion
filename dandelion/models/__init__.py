@@ -28,8 +28,6 @@ from .edge import EdgeNode
 from .edge_rsu import EdgeNodeRSU
 from .intersection import Intersection
 from .lidar import Lidar
-from .map import Map
-from .map_rsu import MapRSU
 from .mng import MNG
 from .osw import OSW
 from .province import Province

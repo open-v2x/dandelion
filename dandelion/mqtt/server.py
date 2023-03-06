@@ -41,7 +41,6 @@ from dandelion.mqtt.service.cloud.edge_rsu import EdgeRSURouterHandler
 from dandelion.mqtt.service.cloud.edge_rsu_add import EdgeRSUAddRouterHandler
 from dandelion.mqtt.service.cloud.edge_rsu_delete import EdgeRSUDeleteRouterHandler
 from dandelion.mqtt.service.cloud.edge_rsu_location import EdgeRSULocationRouterHandler
-from dandelion.mqtt.service.map.map_down import MapDownACKRouterHandler
 from dandelion.mqtt.service.map.map_up import MapRouterHandler
 from dandelion.mqtt.service.query.rsu_query_up import RSUQueryUPRouterHandler
 from dandelion.mqtt.service.rsu.rsu_base_info import RSUBaseINFORouterHandler
@@ -62,7 +61,6 @@ topic_router: Dict[str, RouterHandler] = {
     v2x_rsu.V2X_RSU_BaseINFO_UP: RSUBaseINFORouterHandler(),
     v2x_rsu.V2X_RSU_RunningInfo_UP: RSURunningInfoRouterHandler(),
     v2x_rsu.V2X_RSU_INFOQuery_Response: RSUQueryUPRouterHandler(),
-    v2x_rsu.V2X_RSU_PLUS_MAP_DOWN_ACK: MapDownACKRouterHandler(),
     v2x_rsu.V2X_RSU_PLUS_CONFIG_DOWN_ACK: RSUConfigDownACKRouterHandler(),
     v2x_rsu.V2X_RSU_PLUS_MAP_UP: MapRouterHandler(),
     v2x_rsu.V2X_RSU_PLUS_RSM_DOWN: RSMRouterHandler(),

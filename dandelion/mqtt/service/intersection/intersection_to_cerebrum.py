@@ -14,28 +14,23 @@
 
 from __future__ import annotations
 
-import re
+import json
 from logging import LoggerAdapter
-from typing import Any, Dict
 
-import paho.mqtt.client as mqtt
 from oslo_log import log
-from sqlalchemy.orm import Session
 
-from dandelion import crud
-from dandelion.db import session
-from dandelion.mqtt.service import RouterHandler
+from dandelion.mqtt import server as mqtt_server
+from dandelion.mqtt.topic import v2x_rsu
 
 LOG: LoggerAdapter = log.getLogger(__name__)
 
 
-class MapRouterHandler(RouterHandler):
-    def handler(self, client: mqtt.MQTT_CLIENT, topic: str, data: Dict[str, Any]) -> None:
-        db: Session = session.DB_SESSION_LOCAL()
-        rsu_esn = re.findall("V2X/RSU/(.*)/MAP/UP", topic)[0]
-        rsu = crud.rsu.get_by_rsu_esn(db, rsu_esn=rsu_esn)
-        rsu.intersection.map_data = data
-        db.add(rsu.intersection)
-        db.commit()
-        db.refresh(rsu.intersection)
-        LOG.info(f"{topic} =>Intersection map [code: {rsu.intersection_code}] updated")
+def intersection_publish(payload):
+    if mqtt_server.MQTT_CLIENT is not None:
+        payload = json.dumps(payload)
+        mqtt_server.get_mqtt_client().publish(
+            topic=v2x_rsu.V2X_INTERSECTION_CHANGE,
+            payload=payload,
+            qos=0,
+        )
+        LOG.info(f"publish to topic: {v2x_rsu.V2X_INTERSECTION_CHANGE},payload:{payload}")

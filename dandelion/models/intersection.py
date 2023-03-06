@@ -14,8 +14,8 @@
 
 from __future__ import annotations
 
-from sqlalchemy import Boolean, Column, ForeignKey, String, UniqueConstraint
-from sqlalchemy.orm import relationship
+from sqlalchemy import JSON, Boolean, Column, ForeignKey, String, UniqueConstraint
+from sqlalchemy.orm import deferred, relationship
 
 from dandelion.db.base_class import Base, DandelionBase
 from dandelion.util import Optional as Optional_util
@@ -32,7 +32,6 @@ class Intersection(Base, DandelionBase):
 
     is_default = Column(Boolean, nullable=False, default=False)
 
-    maps = relationship("Map", backref="intersection")
     rsus = relationship("RSU", backref="intersection")
     rsi_events = relationship("RSIEvent", backref="intersection")
 
@@ -40,6 +39,9 @@ class Intersection(Base, DandelionBase):
     radars = relationship("Radar", backref="intersection")
     lidars = relationship("Lidar", backref="intersection")
     spats = relationship("Spat", backref="intersection")
+
+    map_data = deferred(Column(JSON, nullable=False))
+    bitmap_filename = Column(String(64), nullable=False)
 
     __table_args__ = (UniqueConstraint("area_code", "name"),)
 

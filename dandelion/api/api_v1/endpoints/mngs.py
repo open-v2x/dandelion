@@ -55,6 +55,9 @@ def get_all(
         None, alias="rsuName", description="Filter by rsuName. Fuzzy prefix query is supported"
     ),
     rsu_esn: Optional[str] = Query(None, alias="rsuEsn", description="Filter by rsuEsn"),
+    is_default: Optional[bool] = Query(
+        False, alias="isDefault", description="Filter by rsu is default"
+    ),
     page_num: int = Query(1, alias="pageNum", ge=1, description="Page number"),
     page_size: int = Query(10, alias="pageSize", ge=-1, description="Page size"),
     db: Session = Depends(deps.get_db),
@@ -62,7 +65,7 @@ def get_all(
 ) -> schemas.MNGs:
     skip = page_size * (page_num - 1)
     total, data = crud.rsu.get_multi_with_total(
-        db, skip=skip, limit=page_size, rsu_name=rsu_name, rsu_esn=rsu_esn
+        db, skip=skip, limit=page_size, rsu_name=rsu_name, rsu_esn=rsu_esn, is_default=is_default
     )
     return schemas.MNGs(total=total, data=[rsu.mng.all_dict() for rsu in data])
 

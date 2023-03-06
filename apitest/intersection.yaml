@@ -45,6 +45,8 @@ tests:
       lng: "118.8213963998263"
       lat: "31.934846637757847"
       areaCode: "320115"
+      bitmapFilename: "map_bg.jpg"
+      mapData: {}
     status: 201
     response_json_paths:
       code: "123126"
@@ -78,7 +80,7 @@ tests:
       areaCode: "320115"
 
   - name: default_intersection_get
-    url: /api/v1/intersections/default/
+    url: /api/v1/intersections/link/data
     method: GET
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']

@@ -16,7 +16,7 @@ from __future__ import annotations
 
 import json
 from logging import LoggerAdapter
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
 
 import requests
 from fastapi import APIRouter, Depends, Query, Response, status
@@ -130,6 +130,9 @@ def get_all(
     ),
     enabled: Optional[bool] = Query(None, alias="enabled", description="Filter by enabled"),
     rsu_status: Optional[str] = Query(None, alias="rsuStatus", description="Filter by rsuStatus"),
+    is_default: Optional[bool] = Query(
+        False, alias="isDefault", description="Filter by rsu is default"
+    ),
     page_num: int = Query(1, alias="pageNum", ge=1, description="Page number"),
     page_size: int = Query(10, alias="pageSize", ge=-1, description="Page size"),
     db: Session = Depends(deps.get_db),
@@ -146,6 +149,7 @@ def get_all(
         online_status=online_status,
         rsu_status=rsu_status,
         enabled=enabled,
+        is_default=is_default,
     )
     return schemas.RSUs(total=total, data=[rsu.to_all_dict() for rsu in data])
 
@@ -340,38 +344,6 @@ def get_location(
             detail=f"RSU [rsu_esn: {rsu_esn}] not found",
         )
     return Optional_util.none(rsu_in_db).map(lambda v: v.location).get()
-
-
-@router.get(
-    "/{rsu_id}/map",
-    response_model=Dict[str, Any],
-    status_code=status.HTTP_200_OK,
-    description="""
-Get a RSU Map.
-""",
-    responses={
-        status.HTTP_200_OK: {"model": Dict[str, Any], "description": "OK"},
-        status.HTTP_401_UNAUTHORIZED: {
-            "model": schemas.ErrorMessage,
-            "description": "Unauthorized",
-        },
-        status.HTTP_403_FORBIDDEN: {"model": schemas.ErrorMessage, "description": "Forbidden"},
-        status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
-    },
-)
-def get_map(
-    rsu_id: int,
-    *,
-    db: Session = Depends(deps.get_db),
-    current_user: models.User = Depends(deps.get_current_user),
-) -> Dict[str, Any]:
-    map_rsu_in_db = crud.map_rsu.get_by_rsu_id(db, rsu_id=rsu_id)
-    if not map_rsu_in_db:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Map RSU [rsu_id: {rsu_id}] not found",
-        )
-    return Optional_util.none(map_rsu_in_db).map(lambda v: v.map).map(lambda v: v.data).get()
 
 
 @router.get(

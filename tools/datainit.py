@@ -32,7 +32,6 @@ from dandelion.models import (
     Country,
     Intersection,
     Lidar,
-    Map,
     Province,
     Radar,
     RSUConfig,
@@ -104,12 +103,21 @@ def init_db() -> None:
     area3.name = "滨湖区"
     session_.add(area3)
 
+    base_path = Path(__file__).resolve().parent.parent
+    with open(Path(base_path) / "default_map.json") as f:
+        data = json.loads(f.read())
+    filename = f"{datetime.datetime.now().strftime('%Y%m%d%H%M%S%f')}.jpg"
+    if not os.path.exists(f"{constants.BITMAP_FILE_PATH}/{filename}"):
+        shutil.copyfile(Path(base_path) / "map_bg.jpg", f"{constants.BITMAP_FILE_PATH}/{filename}")
+
     intersection1 = Intersection()
     intersection1.code = "32010601"
     intersection1.name = "鼓楼交叉路口"
     intersection1.lat = 31.9348466377
     intersection1.lng = 118.8213963998
     intersection1.area_code = "320106"
+    intersection1.map_data = data
+    intersection1.bitmap_filename = filename
     session_.add(intersection1)
 
     intersection2 = Intersection()
@@ -118,6 +126,8 @@ def init_db() -> None:
     intersection2.lat = 31.929900
     intersection2.lng = 118.862336
     intersection2.area_code = "320115"
+    intersection2.map_data = data
+    intersection2.bitmap_filename = filename
     session_.add(intersection2)
 
     intersection_d = Intersection()
@@ -127,6 +137,8 @@ def init_db() -> None:
     intersection_d.lng = 118.8213963998
     intersection_d.area_code = "320106"
     intersection_d.is_default = True
+    intersection_d.map_data = data
+    intersection_d.bitmap_filename = filename
     session_.add(intersection_d)
 
     rsu_model1 = RSUModel()
@@ -321,38 +333,6 @@ def init_db() -> None:
     system_config.name = ""
     system_config.mqtt_config = {}
     session_.add(system_config)
-
-    base_path = Path(__file__).resolve().parent.parent
-    map1 = Map()
-    map1.intersection_code = "32011501"
-    map1.name = "默认地图"
-    map1.desc = "默认地图"
-    map1.lat = 0
-    map1.lng = 0
-    with open(Path(base_path) / "default_map.json") as f:
-        data = json.loads(f.read())
-    map1.data = data
-    filename = f"{datetime.datetime.now().strftime('%Y%m%d%H%M%S%f')}.jpg"
-    if not os.path.exists(f"{constants.BITMAP_FILE_PATH}/{filename}"):
-        shutil.copyfile(Path(base_path) / "map_bg.jpg", f"{constants.BITMAP_FILE_PATH}/{filename}")
-    map1.bitmap_filename = filename
-    session_.add(map1)
-
-    map_d = Map()
-    map_d.intersection_code = "32010600"
-    map_d.name = "模拟地图"
-    map_d.desc = "模拟地图"
-    map_d.lat = 0
-    map_d.lng = 0
-    with open(Path(base_path) / "default_map.json") as f:
-        data = json.loads(f.read())
-    map_d.data = data
-    filename = f"{datetime.datetime.now().strftime('%Y%m%d%H%M%S%f')}.jpg"
-    if not os.path.exists(f"{constants.BITMAP_FILE_PATH}/{filename}"):
-        shutil.copyfile(Path(base_path) / "map_bg.jpg", f"{constants.BITMAP_FILE_PATH}/{filename}")
-    map_d.bitmap_filename = filename
-    map_d.is_default = True
-    session_.add(map_d)
 
     camera_d = Camera()
     camera_d.sn = "1234"

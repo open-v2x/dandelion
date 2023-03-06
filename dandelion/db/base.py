@@ -23,8 +23,6 @@ from dandelion.models.area import Area
 from dandelion.models.camera import Camera
 from dandelion.models.city import City
 from dandelion.models.country import Country
-from dandelion.models.map import Map
-from dandelion.models.map_rsu import MapRSU
 from dandelion.models.mng import MNG
 from dandelion.models.province import Province
 from dandelion.models.radar import Radar
