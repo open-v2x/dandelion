@@ -14,9 +14,10 @@
 
 from __future__ import annotations
 
+from datetime import datetime
 from typing import List
 
-from sqlalchemy import Boolean, Column, ForeignKey, String, UniqueConstraint
+from sqlalchemy import Boolean, Column, DateTime, ForeignKey, String, UniqueConstraint
 from sqlalchemy.orm import relationship
 
 from dandelion.db.base_class import Base, DandelionBase
@@ -33,6 +34,12 @@ class AlgoName(Base, DandelionBase):
     in_use = Column(String(64), nullable=True)
     algo_versions: List[AlgoVersion] = relationship("AlgoVersion", backref="algo_name")
 
+    update_time = Column(
+        DateTime,
+        nullable=True,
+        default=None,
+        onupdate=lambda: datetime.utcnow(),
+    )
     __table_args__ = (UniqueConstraint("name", "module"),)
 
     def __repr__(self) -> str:

@@ -19,6 +19,7 @@ from typing import Any, Dict, List, Optional
 
 from fastapi import APIRouter, Depends, Query, Response, status
 from oslo_log import log
+from sqlalchemy import exc as sql_exc
 from sqlalchemy.orm import Session
 
 from dandelion import crud, models, schemas
@@ -66,23 +67,42 @@ def create(
                 module=module,
                 name=algo,
                 enable=algo_version_in.enable
-                if algo_version_in.enable
+                if algo_version_in.enable is not None
                 else ALGO_CONFIG.get(f"{module}_{algo}").get("enable"),
                 in_use=algo_version_in.in_use
-                if algo_version_in.in_use
+                if algo_version_in.in_use is not None
                 else ALGO_CONFIG.get(f"{module}_{algo}").get("inUse"),
                 module_path=algo_version_in.module_path
-                if algo_version_in.module_path
+                if algo_version_in.module_path is not None
                 else ALGO_CONFIG.get(f"{module}_{algo}").get("modulePath"),
             ),
         )
-
-    new_algo_version_in_db = crud.algo_version.create(
-        db,
-        obj_in=schemas.AlgoVersionCreate(
-            algo=algo, version=algo_version_in.version, version_path=algo_version_in.version_path
-        ),
-    )
+    if algo_version_in.version in ALGO_CONFIG.get(f"{module}_{algo}").get("version"):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Version {algo_version_in.version} already exist",
+        )
+    try:
+        new_algo_version_in_db = crud.algo_version.create(
+            db,
+            obj_in=schemas.AlgoVersionCreate(
+                algo=algo,
+                version=algo_version_in.version,
+                version_path=algo_version_in.version_path,
+            ),
+        )
+    except sql_exc.IntegrityError as ex:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail={
+                "code": 1062,
+                "msg": ex.args[0],
+                "detail": {
+                    "version": algo_version_in.version,
+                    "algo": algo,
+                },
+            },
+        )
     return new_algo_version_in_db.to_all_dict()
 
 
@@ -116,7 +136,8 @@ def delete(
         )
     if algo_version_db.algo_name.in_use == algo_version_db.version:
         raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, detail=f"Version [id: {version_id}] is in use"
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Version {algo_version_db.version} is in use",
         )
     crud.algo_version.remove(db, id=version_id)
     return Response(content=None, status_code=status.HTTP_204_NO_CONTENT)
@@ -235,10 +256,10 @@ def update(
                     module=module,
                     name=algo,
                     enable=algo_obj.enable
-                    if algo_obj.enable
+                    if algo_obj.enable is not None
                     else default_algo.get(f"{module}_{algo}").get("enable"),
                     in_use=algo_obj.in_use
-                    if algo_obj.in_use
+                    if algo_obj.in_use is not None
                     else default_algo.get(f"{module}_{algo}").get("inUse"),
                     module_path=default_algo.get(f"{module}_{algo}").get("modulePath"),
                 ),
