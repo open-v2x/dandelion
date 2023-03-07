@@ -18,7 +18,7 @@ import datetime
 import os
 import re
 from logging import LoggerAdapter
-from typing import Optional
+from typing import Any, Dict, Optional
 
 from fastapi import APIRouter, Depends, Query, Response, UploadFile, status
 from fastapi.responses import FileResponse
@@ -390,3 +390,35 @@ def get_bitmap(
     if not intersection_in_db or not intersection_in_db.bitmap_filename:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="bitmap not found")
     return FileResponse(f"{constants.BITMAP_FILE_PATH}/{intersection_in_db.bitmap_filename}")
+
+
+@router.get(
+    "/{intersection_id}/data",
+    response_model=Dict[str, Any],
+    status_code=status.HTTP_200_OK,
+    description="""
+Get a Intersection Map data.
+""",
+    responses={
+        status.HTTP_200_OK: {"model": Dict[str, Any], "description": "OK"},
+        status.HTTP_401_UNAUTHORIZED: {
+            "model": schemas.ErrorMessage,
+            "description": "Unauthorized",
+        },
+        status.HTTP_403_FORBIDDEN: {"model": schemas.ErrorMessage, "description": "Forbidden"},
+        status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
+    },
+)
+def data(
+    intersection_id: int,
+    *,
+    db: Session = Depends(deps.get_db),
+    current_user: models.User = Depends(deps.get_current_user),
+) -> Dict[str, Any]:
+    intersection_in_db = crud.intersection.get(db, id=intersection_id)
+    if not intersection_in_db:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Intersection [id: {intersection_id}] not found",
+        )
+    return intersection_in_db.map_data

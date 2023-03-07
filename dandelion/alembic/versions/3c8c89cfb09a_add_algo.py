@@ -31,7 +31,7 @@ def upgrade():
         "algo_name",
         sa.Column("id", sa.Integer(), autoincrement=True, nullable=False),
         sa.Column("create_time", sa.DateTime(), nullable=False),
-        sa.Column("update_time", sa.DateTime(), nullable=False),
+        sa.Column("update_time", sa.DateTime(), nullable=True),
         sa.Column("module", sa.String(length=64), nullable=True),
         sa.Column("name", sa.String(length=64), nullable=False),
         sa.Column("enable", sa.Boolean(), nullable=False),

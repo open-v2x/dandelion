@@ -11,7 +11,7 @@
                     "User"
                 ],
                 "summary": "Login",
-                "description": "User login with username and password.",
+                "description": "\nUser login with username and password.\n",
                 "operationId": "login_api_v1_login_post",
                 "requestBody": {
                     "content": {
@@ -63,7 +63,7 @@
                     "User"
                 ],
                 "summary": "Login Access Token(DO NOT USE IN PRODUCTION)",
-                "description": "- `DO NOT USE IN PRODUCTION !!!`\n- `JUST FOR TESTING PURPOSE !!!`",
+                "description": "\n- `DO NOT USE IN PRODUCTION !!!`\n- `JUST FOR TESTING PURPOSE !!!`\n",
                 "operationId": "access_token_api_v1_login_access_token_post",
                 "requestBody": {
                     "content": {
@@ -115,7 +115,7 @@
                     "User"
                 ],
                 "summary": "Iam Login",
-                "description": "User login with iam token.",
+                "description": "\nUser login with iam token.\n",
                 "operationId": "iam_login_api_v1_login_iam_post",
                 "parameters": [
                     {
@@ -212,7 +212,7 @@
                     "User"
                 ],
                 "summary": "Get",
-                "description": "Get detailed info of me(current login user).",
+                "description": "\nGet detailed info of me(current login user).\n",
                 "operationId": "get_api_v1_users_me_get",
                 "responses": {
                     "200": {
@@ -269,7 +269,7 @@
                     "User"
                 ],
                 "summary": "Delete",
-                "description": "Delete a User.",
+                "description": "\nDelete a User.\n",
                 "operationId": "delete_api_v1_users__user_id__delete",
                 "parameters": [
                     {
@@ -340,7 +340,7 @@
                     "Area"
                 ],
                 "summary": "List Countries",
-                "description": "Get all countries.",
+                "description": "\nGet all countries.\n",
                 "operationId": "get_all_api_v1_countries_get",
                 "parameters": [
                     {
@@ -436,7 +436,7 @@
                     "Area"
                 ],
                 "summary": "List Provinces",
-                "description": "Search province by country.",
+                "description": "\nSearch province by country.\n",
                 "operationId": "get_all_api_v1_provinces_get",
                 "parameters": [
                     {
@@ -520,7 +520,7 @@
                     "Area"
                 ],
                 "summary": "List Cities",
-                "description": "Search city by province.",
+                "description": "\nSearch city by province.\n",
                 "operationId": "get_all_api_v1_cities_get",
                 "parameters": [
                     {
@@ -604,7 +604,7 @@
                     "Area"
                 ],
                 "summary": "List Areas",
-                "description": "Search area by city.",
+                "description": "\nSearch area by city.\n",
                 "operationId": "get_all_api_v1_areas_get",
                 "parameters": [
                     {
@@ -688,7 +688,7 @@
                     "Camera"
                 ],
                 "summary": "List Cameras",
-                "description": "Get all Cameras.",
+                "description": "\nGet all Cameras.\n",
                 "operationId": "get_all_api_v1_cameras_get",
                 "parameters": [
                     {
@@ -733,6 +733,18 @@
                             "description": "Filter by camera intersection code"
                         },
                         "name": "intersectionCode",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Filter by camera is default",
+                        "required": false,
+                        "schema": {
+                            "title": "Isdefault",
+                            "type": "boolean",
+                            "description": "Filter by camera is default",
+                            "default": false
+                        },
+                        "name": "isDefault",
                         "in": "query"
                     },
                     {
@@ -825,7 +837,7 @@
                     "Camera"
                 ],
                 "summary": "Create",
-                "description": "Create a new Camera.",
+                "description": "\nCreate a new Camera.\n",
                 "operationId": "create_api_v1_cameras_post",
                 "requestBody": {
                     "content": {
@@ -912,7 +924,7 @@
                     "Camera"
                 ],
                 "summary": "Get",
-                "description": "Get a Camera.",
+                "description": "\nGet a Camera.\n",
                 "operationId": "get_api_v1_cameras__camera_id__get",
                 "parameters": [
                     {
@@ -988,7 +1000,7 @@
                     "Camera"
                 ],
                 "summary": "Delete",
-                "description": "Delete a Camera.",
+                "description": "\nDelete a Camera.\n",
                 "operationId": "delete_api_v1_cameras__camera_id__delete",
                 "parameters": [
                     {
@@ -1057,7 +1069,7 @@
                     "Camera"
                 ],
                 "summary": "Update",
-                "description": "Update a Camera.",
+                "description": "\nUpdate a Camera.\n",
                 "operationId": "update_api_v1_cameras__camera_id__patch",
                 "parameters": [
                     {
@@ -1145,18 +1157,29 @@
                     "Cloud Control Home"
                 ],
                 "summary": "Online Rate",
-                "description": "Get online rate of all devices.",
+                "description": "\nGet online rate of all devices.\n",
                 "operationId": "online_rate_api_v1_homes_online_rate_get",
                 "parameters": [
                     {
-                        "description": "Edge Rsu Id",
+                        "description": "intersection code",
                         "required": false,
                         "schema": {
-                            "title": "Edgersuid",
-                            "type": "integer",
-                            "description": "Edge Rsu Id"
+                            "title": "Intersectioncode",
+                            "type": "string",
+                            "description": "intersection code"
                         },
-                        "name": "edgeRsuId",
+                        "name": "intersectionCode",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Rsu id",
+                        "required": false,
+                        "schema": {
+                            "title": "Rsuid",
+                            "type": "integer",
+                            "description": "Rsu id"
+                        },
+                        "name": "rsuId",
                         "in": "query"
                     }
                 ],
@@ -1225,7 +1248,7 @@
                     "Cloud Control Home"
                 ],
                 "summary": "Route Info",
-                "description": "Get traffic situation.",
+                "description": "\nGet traffic situation.\n",
                 "operationId": "route_info_api_v1_homes_route_info_get",
                 "parameters": [
                     {
@@ -1305,7 +1328,7 @@
                     "Cloud Control Home"
                 ],
                 "summary": "Route Info Push",
-                "description": "Push traffic situation.",
+                "description": "\nPush traffic situation.\n",
                 "operationId": "route_info_push_api_v1_homes_route_info_push_post",
                 "requestBody": {
                     "content": {
@@ -1347,962 +1370,13 @@
                 }
             }
         },
-        "/api/v1/maps/{map_id}/rsus": {
-            "get": {
-                "tags": [
-                    "Map"
-                ],
-                "summary": "List Map RSUs",
-                "description": "Get all Map RSUs.",
-                "operationId": "get_all_api_v1_maps__map_id__rsus_get",
-                "parameters": [
-                    {
-                        "required": true,
-                        "schema": {
-                            "title": "Map Id",
-                            "type": "integer"
-                        },
-                        "name": "map_id",
-                        "in": "path"
-                    },
-                    {
-                        "description": "Page number",
-                        "required": false,
-                        "schema": {
-                            "title": "Pagenum",
-                            "minimum": 1.0,
-                            "type": "integer",
-                            "description": "Page number",
-                            "default": 1
-                        },
-                        "name": "pageNum",
-                        "in": "query"
-                    },
-                    {
-                        "description": "Page size",
-                        "required": false,
-                        "schema": {
-                            "title": "Pagesize",
-                            "minimum": -1.0,
-                            "type": "integer",
-                            "description": "Page size",
-                            "default": 10
-                        },
-                        "name": "pageSize",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/MapRSUs"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "OAuth2PasswordBearer": []
-                    }
-                ]
-            },
-            "post": {
-                "tags": [
-                    "Map"
-                ],
-                "summary": "Create",
-                "description": "Create a new Radar.",
-                "operationId": "create_api_v1_maps__map_id__rsus_post",
-                "parameters": [
-                    {
-                        "required": true,
-                        "schema": {
-                            "title": "Map Id",
-                            "type": "integer"
-                        },
-                        "name": "map_id",
-                        "in": "path"
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/MapRSUCreate"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "201": {
-                        "description": "Created",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/MapRSU"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "OAuth2PasswordBearer": []
-                    }
-                ]
-            }
-        },
-        "/api/v1/maps/{map_id}/rsus/{map_rsu_id}": {
-            "delete": {
-                "tags": [
-                    "Map"
-                ],
-                "summary": "Delete",
-                "description": "Delete a Map RSU.",
-                "operationId": "delete_api_v1_maps__map_id__rsus__map_rsu_id__delete",
-                "parameters": [
-                    {
-                        "required": true,
-                        "schema": {
-                            "title": "Map Id",
-                            "type": "integer"
-                        },
-                        "name": "map_id",
-                        "in": "path"
-                    },
-                    {
-                        "required": true,
-                        "schema": {
-                            "title": "Map Rsu Id",
-                            "type": "integer"
-                        },
-                        "name": "map_rsu_id",
-                        "in": "path"
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "No Content"
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "OAuth2PasswordBearer": []
-                    }
-                ]
-            }
-        },
-        "/api/v1/maps": {
-            "get": {
-                "tags": [
-                    "Map"
-                ],
-                "summary": "List Maps",
-                "description": "Get all Maps.",
-                "operationId": "get_all_api_v1_maps_get",
-                "parameters": [
-                    {
-                        "description": "Filter by map name. Fuzzy prefix query is supported",
-                        "required": false,
-                        "schema": {
-                            "title": "Name",
-                            "type": "string",
-                            "description": "Filter by map name. Fuzzy prefix query is supported"
-                        },
-                        "name": "name",
-                        "in": "query"
-                    },
-                    {
-                        "description": "Filter by map intersectionCode",
-                        "required": false,
-                        "schema": {
-                            "title": "Intersectioncode",
-                            "type": "string",
-                            "description": "Filter by map intersectionCode"
-                        },
-                        "name": "intersectionCode",
-                        "in": "query"
-                    },
-                    {
-                        "description": "Page number",
-                        "required": false,
-                        "schema": {
-                            "title": "Pagenum",
-                            "minimum": 1.0,
-                            "type": "integer",
-                            "description": "Page number",
-                            "default": 1
-                        },
-                        "name": "pageNum",
-                        "in": "query"
-                    },
-                    {
-                        "description": "Page size",
-                        "required": false,
-                        "schema": {
-                            "title": "Pagesize",
-                            "minimum": -1.0,
-                            "type": "integer",
-                            "description": "Page size",
-                            "default": 10
-                        },
-                        "name": "pageSize",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Maps"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "OAuth2PasswordBearer": []
-                    }
-                ]
-            },
-            "post": {
-                "tags": [
-                    "Map"
-                ],
-                "summary": "Create",
-                "description": "Create a new Map.",
-                "operationId": "create_api_v1_maps_post",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/MapCreate"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "201": {
-                        "description": "Created",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Map"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "OAuth2PasswordBearer": []
-                    }
-                ]
-            }
-        },
-        "/api/v1/maps/{map_id}": {
-            "get": {
-                "tags": [
-                    "Map"
-                ],
-                "summary": "Get",
-                "description": "Get a Radar.",
-                "operationId": "get_api_v1_maps__map_id__get",
-                "parameters": [
-                    {
-                        "required": true,
-                        "schema": {
-                            "title": "Map Id",
-                            "type": "integer"
-                        },
-                        "name": "map_id",
-                        "in": "path"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Map"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "OAuth2PasswordBearer": []
-                    }
-                ]
-            },
-            "put": {
-                "tags": [
-                    "Map"
-                ],
-                "summary": "Update",
-                "description": "Update a Map.",
-                "operationId": "update_api_v1_maps__map_id__put",
-                "parameters": [
-                    {
-                        "required": true,
-                        "schema": {
-                            "title": "Map Id",
-                            "type": "integer"
-                        },
-                        "name": "map_id",
-                        "in": "path"
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/MapUpdate"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Map"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "OAuth2PasswordBearer": []
-                    }
-                ]
-            },
-            "delete": {
-                "tags": [
-                    "Map"
-                ],
-                "summary": "Delete",
-                "description": "Delete a Map.",
-                "operationId": "delete_api_v1_maps__map_id__delete",
-                "parameters": [
-                    {
-                        "required": true,
-                        "schema": {
-                            "title": "Map Id",
-                            "type": "integer"
-                        },
-                        "name": "map_id",
-                        "in": "path"
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "No Content"
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "OAuth2PasswordBearer": []
-                    }
-                ]
-            }
-        },
-        "/api/v1/maps/{map_id}/data": {
-            "get": {
-                "tags": [
-                    "Map"
-                ],
-                "summary": "Data",
-                "description": "Get a Map data.",
-                "operationId": "data_api_v1_maps__map_id__data_get",
-                "parameters": [
-                    {
-                        "required": true,
-                        "schema": {
-                            "title": "Map Id",
-                            "type": "integer"
-                        },
-                        "name": "map_id",
-                        "in": "path"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "title": "Response 200 Data Api V1 Maps  Map Id  Data Get",
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "OAuth2PasswordBearer": []
-                    }
-                ]
-            }
-        },
-        "/api/v1/maps/{map_id}/bitmap": {
-            "get": {
-                "tags": [
-                    "Map"
-                ],
-                "summary": "Get Bitmap",
-                "description": "Get a bitmap data.",
-                "operationId": "get_bitmap_api_v1_maps__map_id__bitmap_get",
-                "parameters": [
-                    {
-                        "required": true,
-                        "schema": {
-                            "title": "Map Id",
-                            "type": "integer"
-                        },
-                        "name": "map_id",
-                        "in": "path"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "OAuth2PasswordBearer": []
-                    }
-                ]
-            },
-            "put": {
-                "tags": [
-                    "Map"
-                ],
-                "summary": "Update Bitmap",
-                "description": "update map bitmap.",
-                "operationId": "update_bitmap_api_v1_maps__map_id__bitmap_put",
-                "parameters": [
-                    {
-                        "required": true,
-                        "schema": {
-                            "title": "Map Id",
-                            "type": "integer"
-                        },
-                        "name": "map_id",
-                        "in": "path"
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Body_update_bitmap_api_v1_maps__map_id__bitmap_put"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {}
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "OAuth2PasswordBearer": []
-                    }
-                ]
-            }
-        },
         "/api/v1/mngs": {
             "get": {
                 "tags": [
                     "MNG"
                 ],
                 "summary": "List MNGs",
-                "description": "Get all MNGs.",
+                "description": "\nGet all MNGs.\n",
                 "operationId": "get_all_api_v1_mngs_get",
                 "parameters": [
                     {
@@ -2325,6 +1399,18 @@
                             "description": "Filter by rsuEsn"
                         },
                         "name": "rsuEsn",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Filter by rsu is default",
+                        "required": false,
+                        "schema": {
+                            "title": "Isdefault",
+                            "type": "boolean",
+                            "description": "Filter by rsu is default",
+                            "default": false
+                        },
+                        "name": "isDefault",
                         "in": "query"
                     },
                     {
@@ -2419,7 +1505,7 @@
                     "MNG"
                 ],
                 "summary": "Update",
-                "description": "Update a MNG.",
+                "description": "\nUpdate a MNG.\n",
                 "operationId": "update_api_v1_mngs__mng_id__put",
                 "parameters": [
                     {
@@ -2507,7 +1593,7 @@
                     "MNG"
                 ],
                 "summary": "Down",
-                "description": "Down a MNG.",
+                "description": "\nDown a MNG.\n",
                 "operationId": "down_api_v1_mngs__mng_id__down_post",
                 "parameters": [
                     {
@@ -2585,7 +1671,7 @@
                     "MNG"
                 ],
                 "summary": "Copy",
-                "description": "Copy a MNG.",
+                "description": "\nCopy a MNG.\n",
                 "operationId": "copy_api_v1_mngs__mng_id__copy_post",
                 "parameters": [
                     {
@@ -2679,7 +1765,7 @@
                     "Radar"
                 ],
                 "summary": "List Radars",
-                "description": "Get all Radars.",
+                "description": "\nGet all Radars.\n",
                 "operationId": "get_all_api_v1_radars_get",
                 "parameters": [
                     {
@@ -2724,6 +1810,18 @@
                             "description": "Filter by radar intersection code"
                         },
                         "name": "intersectionCode",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Filter by radar is default",
+                        "required": false,
+                        "schema": {
+                            "title": "Isdefault",
+                            "type": "boolean",
+                            "description": "Filter by radar is default",
+                            "default": false
+                        },
+                        "name": "isDefault",
                         "in": "query"
                     },
                     {
@@ -2816,7 +1914,7 @@
                     "Radar"
                 ],
                 "summary": "Create",
-                "description": "Create a new Radar.",
+                "description": "\nCreate a new Radar.\n",
                 "operationId": "create_api_v1_radars_post",
                 "requestBody": {
                     "content": {
@@ -2903,7 +2001,7 @@
                     "Radar"
                 ],
                 "summary": "Get",
-                "description": "Get a Radar.",
+                "description": "\nGet a Radar.\n",
                 "operationId": "get_api_v1_radars__radar_id__get",
                 "parameters": [
                     {
@@ -2979,7 +2077,7 @@
                     "Radar"
                 ],
                 "summary": "Delete",
-                "description": "Delete a Radar.",
+                "description": "\nDelete a Radar.\n",
                 "operationId": "delete_api_v1_radars__radar_id__delete",
                 "parameters": [
                     {
@@ -3048,7 +2146,7 @@
                     "Radar"
                 ],
                 "summary": "Update",
-                "description": "Update a Radar.",
+                "description": "\nUpdate a Radar.\n",
                 "operationId": "update_api_v1_radars__radar_id__patch",
                 "parameters": [
                     {
@@ -3136,7 +2234,7 @@
                     "Spat"
                 ],
                 "summary": "List Spats",
-                "description": "Get all Spats.",
+                "description": "\nGet all Spats.\n",
                 "operationId": "get_all_api_v1_spats_get",
                 "parameters": [
                     {
@@ -3176,11 +2274,23 @@
                         "description": "Filter by spat intersection code",
                         "required": false,
                         "schema": {
-                            "title": "Areacode",
+                            "title": "Intersectioncode",
                             "type": "string",
                             "description": "Filter by spat intersection code"
                         },
-                        "name": "areaCode",
+                        "name": "intersectionCode",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Filter by spat is default",
+                        "required": false,
+                        "schema": {
+                            "title": "Isdefault",
+                            "type": "boolean",
+                            "description": "Filter by spat is default",
+                            "default": false
+                        },
+                        "name": "isDefault",
                         "in": "query"
                     },
                     {
@@ -3273,7 +2383,7 @@
                     "Spat"
                 ],
                 "summary": "Create",
-                "description": "Create a new Spat.",
+                "description": "\nCreate a new Spat.\n",
                 "operationId": "create_api_v1_spats_post",
                 "requestBody": {
                     "content": {
@@ -3360,7 +2470,7 @@
                     "Spat"
                 ],
                 "summary": "Get",
-                "description": "Get a Spat.",
+                "description": "\nGet a Spat.\n",
                 "operationId": "get_api_v1_spats__spat_id__get",
                 "parameters": [
                     {
@@ -3436,7 +2546,7 @@
                     "Spat"
                 ],
                 "summary": "Delete",
-                "description": "Delete a Spat.",
+                "description": "\nDelete a Spat.\n",
                 "operationId": "delete_api_v1_spats__spat_id__delete",
                 "parameters": [
                     {
@@ -3505,7 +2615,7 @@
                     "Spat"
                 ],
                 "summary": "Update",
-                "description": "Update a Spat.",
+                "description": "\nUpdate a Spat.\n",
                 "operationId": "update_api_v1_spats__spat_id__patch",
                 "parameters": [
                     {
@@ -3592,8 +2702,8 @@
                 "tags": [
                     "Intersection"
                 ],
-                "summary": "List Cameras",
-                "description": "Get all Intersection.",
+                "summary": "List Intersections",
+                "description": "\nGet all Intersection.\n",
                 "operationId": "get_all_api_v1_intersections_get",
                 "parameters": [
                     {
@@ -3616,6 +2726,18 @@
                             "description": "Filter by intersection area code"
                         },
                         "name": "areaCode",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Filter by intersection is default",
+                        "required": false,
+                        "schema": {
+                            "title": "Isdefault",
+                            "type": "boolean",
+                            "description": "Filter by intersection is default",
+                            "default": false
+                        },
+                        "name": "isDefault",
                         "in": "query"
                     },
                     {
@@ -3708,7 +2830,7 @@
                     "Intersection"
                 ],
                 "summary": "Create",
-                "description": "Create a new intersection.",
+                "description": "\nCreate a new intersection.\n",
                 "operationId": "create_api_v1_intersections_post",
                 "requestBody": {
                     "content": {
@@ -3795,7 +2917,7 @@
                     "Intersection"
                 ],
                 "summary": "Get",
-                "description": "Get a Intersection.",
+                "description": "\nGet a Intersection.\n",
                 "operationId": "get_api_v1_intersections__intersection_id__get",
                 "parameters": [
                     {
@@ -3871,7 +2993,7 @@
                     "Intersection"
                 ],
                 "summary": "Update",
-                "description": "Update a Intersection.",
+                "description": "\nUpdate a Intersection.\n",
                 "operationId": "update_api_v1_intersections__intersection_id__put",
                 "parameters": [
                     {
@@ -3957,7 +3079,7 @@
                     "Intersection"
                 ],
                 "summary": "Delete",
-                "description": "Delete a intersection.",
+                "description": "\nDelete a intersection.\n",
                 "operationId": "delete_api_v1_intersections__intersection_id__delete",
                 "parameters": [
                     {
@@ -4022,13 +3144,319 @@
                 ]
             }
         },
+        "/api/v1/intersections/link/data": {
+            "get": {
+                "tags": [
+                    "Intersection"
+                ],
+                "summary": "Get Intersection Link",
+                "description": "\nGet Intersection Link.\n",
+                "operationId": "get_intersection_link_api_v1_intersections_link_data_get",
+                "parameters": [
+                    {
+                        "description": "Filter by intersection  code",
+                        "required": false,
+                        "schema": {
+                            "title": "Intersectioncode",
+                            "type": "string",
+                            "description": "Filter by intersection  code"
+                        },
+                        "name": "intersectionCode",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "title": "Response 200 Get Intersection Link Api V1 Intersections Link Data Get",
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/intersections/bitmap": {
+            "post": {
+                "tags": [
+                    "Intersection"
+                ],
+                "summary": "Add Bitmap",
+                "description": "\nadd intersection map bitmap.\n",
+                "operationId": "add_bitmap_api_v1_intersections_bitmap_post",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Body_add_bitmap_api_v1_intersections_bitmap_post"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/intersections/{intersection_id}/bitmap": {
+            "get": {
+                "tags": [
+                    "Intersection"
+                ],
+                "summary": "Get Bitmap",
+                "description": "\nGet a bitmap data.\n",
+                "operationId": "get_bitmap_api_v1_intersections__intersection_id__bitmap_get",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Intersection Id",
+                            "type": "integer"
+                        },
+                        "name": "intersection_id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/intersections/{intersection_id}/data": {
+            "get": {
+                "tags": [
+                    "Intersection"
+                ],
+                "summary": "Data",
+                "description": "\nGet a Intersection Map data.\n",
+                "operationId": "data_api_v1_intersections__intersection_id__data_get",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Intersection Id",
+                            "type": "integer"
+                        },
+                        "name": "intersection_id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "title": "Response 200 Data Api V1 Intersections  Intersection Id  Data Get",
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            }
+        },
         "/api/v1/lidars": {
             "get": {
                 "tags": [
                     "Lidar"
                 ],
                 "summary": "List Lidars",
-                "description": "Get all Lidars.",
+                "description": "\nGet all Lidars.\n",
                 "operationId": "get_all_api_v1_lidars_get",
                 "parameters": [
                     {
@@ -4073,6 +3501,18 @@
                             "description": "Filter by lidar intersection code"
                         },
                         "name": "intersectionCode",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Filter by lidar is default",
+                        "required": false,
+                        "schema": {
+                            "title": "Isdefault",
+                            "type": "boolean",
+                            "description": "Filter by lidar is default",
+                            "default": false
+                        },
+                        "name": "isDefault",
                         "in": "query"
                     },
                     {
@@ -4165,7 +3605,7 @@
                     "Lidar"
                 ],
                 "summary": "Create",
-                "description": "Create a new Lidar.",
+                "description": "\nCreate a new Lidar.\n",
                 "operationId": "create_api_v1_lidars_post",
                 "requestBody": {
                     "content": {
@@ -4252,7 +3692,7 @@
                     "Lidar"
                 ],
                 "summary": "Get",
-                "description": "Get a Lidar.",
+                "description": "\nGet a Lidar.\n",
                 "operationId": "get_api_v1_lidars__lidar_id__get",
                 "parameters": [
                     {
@@ -4328,7 +3768,7 @@
                     "Lidar"
                 ],
                 "summary": "Delete",
-                "description": "Delete a Lidar.",
+                "description": "\nDelete a Lidar.\n",
                 "operationId": "delete_api_v1_lidars__lidar_id__delete",
                 "parameters": [
                     {
@@ -4397,7 +3837,7 @@
                     "Lidar"
                 ],
                 "summary": "Update",
-                "description": "Update a Lidar.",
+                "description": "\nUpdate a Lidar.\n",
                 "operationId": "update_api_v1_lidars__lidar_id__patch",
                 "parameters": [
                     {
@@ -4485,7 +3925,7 @@
                     "Event"
                 ],
                 "summary": "Get",
-                "description": "Get a RSIEvent.",
+                "description": "\nGet a RSIEvent.\n",
                 "operationId": "get_api_v1_events__event_id__get",
                 "parameters": [
                     {
@@ -4563,7 +4003,7 @@
                     "Event"
                 ],
                 "summary": "List RSI Events",
-                "description": "Get all RSI Events.",
+                "description": "\nGet all RSI Events.\n",
                 "operationId": "get_all_api_v1_events_get",
                 "parameters": [
                     {
@@ -4695,7 +4135,7 @@
                     "RSM"
                 ],
                 "summary": "List RSMs",
-                "description": "Get all RSMs.",
+                "description": "\nGet all RSMs.\n",
                 "operationId": "get_all_api_v1_rsms_get",
                 "parameters": [
                     {
@@ -4816,7 +4256,7 @@
                     "RSU Config"
                 ],
                 "summary": "List RSU Configs",
-                "description": "Get all RSUConfigs.",
+                "description": "\nGet all RSUConfigs.\n",
                 "operationId": "get_all_api_v1_rsu_configs_get",
                 "parameters": [
                     {
@@ -4920,7 +4360,7 @@
                     "RSU Config"
                 ],
                 "summary": "Create",
-                "description": "Create a new RSU Config.",
+                "description": "\nCreate a new RSU Config.\n",
                 "operationId": "create_api_v1_rsu_configs_post",
                 "requestBody": {
                     "content": {
@@ -5007,7 +4447,7 @@
                     "RSU Config"
                 ],
                 "summary": "Get",
-                "description": "Get a RSUConfig.",
+                "description": "\nGet a RSUConfig.\n",
                 "operationId": "get_api_v1_rsu_configs__rsu_config_id__get",
                 "parameters": [
                     {
@@ -5083,7 +4523,7 @@
                     "RSU Config"
                 ],
                 "summary": "Update",
-                "description": "Update a Radar.",
+                "description": "\nUpdate a Radar.\n",
                 "operationId": "update_api_v1_rsu_configs__rsu_config_id__put",
                 "parameters": [
                     {
@@ -5169,7 +4609,7 @@
                     "RSU Config"
                 ],
                 "summary": "Delete",
-                "description": "Delete a RSUConfig.",
+                "description": "\nDelete a RSUConfig.\n",
                 "operationId": "delete_api_v1_rsu_configs__rsu_config_id__delete",
                 "parameters": [
                     {
@@ -5240,7 +4680,7 @@
                     "RSU Log"
                 ],
                 "summary": "List RSU Logs",
-                "description": "Get all RSULogs.",
+                "description": "\nGet all RSULogs.\n",
                 "operationId": "get_all_api_v1_rsu_logs_get",
                 "parameters": [
                     {
@@ -5333,7 +4773,7 @@
                     "RSU Log"
                 ],
                 "summary": "Create",
-                "description": "Create a new RSU log.",
+                "description": "\nCreate a new RSU log.\n",
                 "operationId": "create_api_v1_rsu_logs_post",
                 "requestBody": {
                     "content": {
@@ -5420,7 +4860,7 @@
                     "RSU Log"
                 ],
                 "summary": "Get",
-                "description": "Get a RSULog.",
+                "description": "\nGet a RSULog.\n",
                 "operationId": "get_api_v1_rsu_logs__rsu_log_id__get",
                 "parameters": [
                     {
@@ -5496,7 +4936,7 @@
                     "RSU Log"
                 ],
                 "summary": "Update",
-                "description": "Update a RSULog.",
+                "description": "\nUpdate a RSULog.\n",
                 "operationId": "update_api_v1_rsu_logs__rsu_log_id__put",
                 "parameters": [
                     {
@@ -5582,7 +5022,7 @@
                     "RSU Log"
                 ],
                 "summary": "Delete",
-                "description": "Delete a RSULog.",
+                "description": "\nDelete a RSULog.\n",
                 "operationId": "delete_api_v1_rsu_logs__rsu_log_id__delete",
                 "parameters": [
                     {
@@ -5653,7 +5093,7 @@
                     "RSU Model"
                 ],
                 "summary": "List RSU Models",
-                "description": "Get all RSU Models.",
+                "description": "\nGet all RSU Models.\n",
                 "operationId": "get_all_api_v1_rsu_models_get",
                 "parameters": [
                     {
@@ -5768,7 +5208,7 @@
                     "RSU Model"
                 ],
                 "summary": "Create",
-                "description": "Create a new RSU Model.",
+                "description": "\nCreate a new RSU Model.\n",
                 "operationId": "create_api_v1_rsu_models_post",
                 "requestBody": {
                     "content": {
@@ -5855,7 +5295,7 @@
                     "RSU Model"
                 ],
                 "summary": "Get",
-                "description": "Get a RSU Model.",
+                "description": "\nGet a RSU Model.\n",
                 "operationId": "get_api_v1_rsu_models__rsu_model_id__get",
                 "parameters": [
                     {
@@ -5931,7 +5371,7 @@
                     "RSU Model"
                 ],
                 "summary": "Update",
-                "description": "Update a RSU Model.",
+                "description": "\nUpdate a RSU Model.\n",
                 "operationId": "update_api_v1_rsu_models__rsu_model_id__put",
                 "parameters": [
                     {
@@ -6017,7 +5457,7 @@
                     "RSU Model"
                 ],
                 "summary": "Delete",
-                "description": "Delete a RSU Model.",
+                "description": "\nDelete a RSU Model.\n",
                 "operationId": "delete_api_v1_rsu_models__rsu_model_id__delete",
                 "parameters": [
                     {
@@ -6088,7 +5528,7 @@
                     "RSU Query"
                 ],
                 "summary": "List RSU Queries",
-                "description": "Get all RSUQueries.",
+                "description": "\nGet all RSUQueries.\n",
                 "operationId": "get_all_api_v1_rsu_queries_get",
                 "parameters": [
                     {
@@ -6192,7 +5632,7 @@
                     "RSU Query"
                 ],
                 "summary": "Create",
-                "description": "Create a new RSU Query.",
+                "description": "\nCreate a new RSU Query.\n",
                 "operationId": "create_api_v1_rsu_queries_post",
                 "requestBody": {
                     "content": {
@@ -6279,7 +5719,7 @@
                     "RSU Query"
                 ],
                 "summary": "Get",
-                "description": "Get a RSU Query.",
+                "description": "\nGet a RSU Query.\n",
                 "operationId": "get_api_v1_rsu_queries__rsu_query_id__get",
                 "parameters": [
                     {
@@ -6357,7 +5797,7 @@
                     "RSU Query"
                 ],
                 "summary": "Delete",
-                "description": "Delete a RSU Query.",
+                "description": "\nDelete a RSU Query.\n",
                 "operationId": "delete_api_v1_rsu_queries__query_id__delete",
                 "parameters": [
                     {
@@ -6428,7 +5868,7 @@
                     "RSU TMP"
                 ],
                 "summary": "List TMP RSUs",
-                "description": "Get all TMP RSUs.",
+                "description": "\nGet all TMP RSUs.\n",
                 "operationId": "get_all_api_v1_rsu_tmps_get",
                 "parameters": [
                     {
@@ -6545,7 +5985,7 @@
                     "RSU TMP"
                 ],
                 "summary": "Delete",
-                "description": "Delete a TMP RSU.",
+                "description": "\nDelete a TMP RSU.\n",
                 "operationId": "delete_api_v1_rsu_tmps__rsu_id__delete",
                 "parameters": [
                     {
@@ -6616,7 +6056,7 @@
                     "RSU"
                 ],
                 "summary": "List RSUs",
-                "description": "Get all RSUs.",
+                "description": "\nGet all RSUs.\n",
                 "operationId": "get_all_api_v1_rsus_get",
                 "parameters": [
                     {
@@ -6683,6 +6123,18 @@
                             "description": "Filter by rsuStatus"
                         },
                         "name": "rsuStatus",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Filter by rsu is default",
+                        "required": false,
+                        "schema": {
+                            "title": "Isdefault",
+                            "type": "boolean",
+                            "description": "Filter by rsu is default",
+                            "default": false
+                        },
+                        "name": "isDefault",
                         "in": "query"
                     },
                     {
@@ -6775,7 +6227,7 @@
                     "RSU"
                 ],
                 "summary": "Create",
-                "description": "Create a new RSU.",
+                "description": "\nCreate a new RSU.\n",
                 "operationId": "create_api_v1_rsus_post",
                 "requestBody": {
                     "content": {
@@ -6862,7 +6314,7 @@
                     "RSU"
                 ],
                 "summary": "Get",
-                "description": "Get a RSU.",
+                "description": "\nGet a RSU.\n",
                 "operationId": "get_api_v1_rsus__rsu_id__get",
                 "parameters": [
                     {
@@ -6938,7 +6390,7 @@
                     "RSU"
                 ],
                 "summary": "Delete",
-                "description": "Delete a RSU.",
+                "description": "\nDelete a RSU.\n",
                 "operationId": "delete_api_v1_rsus__rsu_id__delete",
                 "parameters": [
                     {
@@ -7007,7 +6459,7 @@
                     "RSU"
                 ],
                 "summary": "Update",
-                "description": "Update a RSU.",
+                "description": "\nUpdate a RSU.\n",
                 "operationId": "update_api_v1_rsus__rsu_id__patch",
                 "parameters": [
                     {
@@ -7095,7 +6547,7 @@
                     "RSU"
                 ],
                 "summary": "Get Location",
-                "description": "Get a RSU Location.",
+                "description": "\nGet a RSU Location.\n",
                 "operationId": "get_location_api_v1_rsus__rsu_esn__location_get",
                 "parameters": [
                     {
@@ -7167,92 +6619,13 @@
                 ]
             }
         },
-        "/api/v1/rsus/{rsu_id}/map": {
-            "get": {
-                "tags": [
-                    "RSU"
-                ],
-                "summary": "Get Map",
-                "description": "Get a RSU Map.",
-                "operationId": "get_map_api_v1_rsus__rsu_id__map_get",
-                "parameters": [
-                    {
-                        "required": true,
-                        "schema": {
-                            "title": "Rsu Id",
-                            "type": "integer"
-                        },
-                        "name": "rsu_id",
-                        "in": "path"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "title": "Response 200 Get Map Api V1 Rsus  Rsu Id  Map Get",
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "OAuth2PasswordBearer": []
-                    }
-                ]
-            }
-        },
         "/api/v1/rsus/{rsu_id}/running": {
             "get": {
                 "tags": [
                     "RSU"
                 ],
                 "summary": "Get Running",
-                "description": "Get a RSU Running Info.",
+                "description": "\nGet a RSU Running Info.\n",
                 "operationId": "get_running_api_v1_rsus__rsu_id__running_get",
                 "parameters": [
                     {
@@ -7330,7 +6703,7 @@
                     "System Config"
                 ],
                 "summary": "Create",
-                "description": "Get detailed info of System Config.",
+                "description": "\nGet detailed info of System Config.\n",
                 "operationId": "create_api_v1_system_configs_post",
                 "requestBody": {
                     "content": {
@@ -7407,7 +6780,7 @@
                     "System Config"
                 ],
                 "summary": "Get",
-                "description": "Get detailed info of System Config.",
+                "description": "\nGet detailed info of System Config.\n",
                 "operationId": "get_api_v1_system_configs__system_config_id__get",
                 "parameters": [
                     {
@@ -7485,7 +6858,7 @@
                     "RSI DNP"
                 ],
                 "summary": "List RSI DNPs",
-                "description": "Get all RSI DNPs.",
+                "description": "\nGet all RSI DNPs.\n",
                 "operationId": "get_all_api_v1_rsi_dnps_get",
                 "parameters": [
                     {
@@ -7606,7 +6979,7 @@
                     "RSI CWM"
                 ],
                 "summary": "List RSI CWMs",
-                "description": "Get all RSI CWMs.",
+                "description": "\nGet all RSI CWMs.\n",
                 "operationId": "get_all_api_v1_rsi_cwms_get",
                 "parameters": [
                     {
@@ -7738,7 +7111,7 @@
                     "RSI CLC"
                 ],
                 "summary": "List RSI CLCs",
-                "description": "Get all RSI CLCs.",
+                "description": "\nGet all RSI CLCs.\n",
                 "operationId": "get_all_api_v1_rsi_clcs_get",
                 "parameters": [
                     {
@@ -7859,7 +7232,7 @@
                     "RSI SDS"
                 ],
                 "summary": "List RSI SDSs",
-                "description": "Get all RSI SDSs.",
+                "description": "\nGet all RSI SDSs.\n",
                 "operationId": "get_all_api_v1_rsi_sdss_get",
                 "parameters": [
                     {
@@ -7974,13 +7347,404 @@
                 ]
             }
         },
+        "/api/v1/cgw": {
+            "get": {
+                "tags": [
+                    "CGW"
+                ],
+                "summary": "List CGWs",
+                "description": "\nGet all CGW.\n",
+                "operationId": "get_all_api_v1_cgw_get",
+                "parameters": [
+                    {
+                        "description": "CWG Level",
+                        "required": false,
+                        "schema": {
+                            "title": "Cgwlevel",
+                            "type": "integer",
+                            "description": "CWG Level"
+                        },
+                        "name": "cgwLevel",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Page number",
+                        "required": false,
+                        "schema": {
+                            "title": "Pagenum",
+                            "minimum": 1.0,
+                            "type": "integer",
+                            "description": "Page number",
+                            "default": 1
+                        },
+                        "name": "pageNum",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Page size",
+                        "required": false,
+                        "schema": {
+                            "title": "Pagesize",
+                            "minimum": -1.0,
+                            "type": "integer",
+                            "description": "Page size",
+                            "default": 10
+                        },
+                        "name": "pageSize",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CGWs"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/rdw": {
+            "get": {
+                "tags": [
+                    "RDW"
+                ],
+                "summary": "List RDWs",
+                "description": "\nGet all RDW.\n",
+                "operationId": "get_all_api_v1_rdw_get",
+                "parameters": [
+                    {
+                        "description": "Page number",
+                        "required": false,
+                        "schema": {
+                            "title": "Pagenum",
+                            "minimum": 1.0,
+                            "type": "integer",
+                            "description": "Page number",
+                            "default": 1
+                        },
+                        "name": "pageNum",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Page size",
+                        "required": false,
+                        "schema": {
+                            "title": "Pagesize",
+                            "minimum": -1.0,
+                            "type": "integer",
+                            "description": "Page size",
+                            "default": 10
+                        },
+                        "name": "pageSize",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RDWs"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/osw": {
+            "get": {
+                "tags": [
+                    "OSW"
+                ],
+                "summary": "List OSWs",
+                "description": "\nGet all OSW.\n",
+                "operationId": "get_all_api_v1_osw_get",
+                "parameters": [
+                    {
+                        "description": "Page number",
+                        "required": false,
+                        "schema": {
+                            "title": "Pagenum",
+                            "minimum": 1.0,
+                            "type": "integer",
+                            "description": "Page number",
+                            "default": 1
+                        },
+                        "name": "pageNum",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Page size",
+                        "required": false,
+                        "schema": {
+                            "title": "Pagesize",
+                            "minimum": -1.0,
+                            "type": "integer",
+                            "description": "Page size",
+                            "default": 10
+                        },
+                        "name": "pageSize",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/OSWs"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/ssw": {
+            "get": {
+                "tags": [
+                    "SSW"
+                ],
+                "summary": "List SSWs",
+                "description": "\nGet all SSW.\n",
+                "operationId": "get_all_api_v1_ssw_get",
+                "parameters": [
+                    {
+                        "description": "Page number",
+                        "required": false,
+                        "schema": {
+                            "title": "Pagenum",
+                            "minimum": 1.0,
+                            "type": "integer",
+                            "description": "Page number",
+                            "default": 1
+                        },
+                        "name": "pageNum",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Page size",
+                        "required": false,
+                        "schema": {
+                            "title": "Pagesize",
+                            "minimum": -1.0,
+                            "type": "integer",
+                            "description": "Page size",
+                            "default": 10
+                        },
+                        "name": "pageSize",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SSWs"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            }
+        },
         "/api/v1/edge_nodes": {
             "get": {
                 "tags": [
                     "Edge Node"
                 ],
                 "summary": "List Edge Nodes",
-                "description": "Get all Edge Nodes.",
+                "description": "\nGet all Edge Nodes.\n",
                 "operationId": "get_all_api_v1_edge_nodes_get",
                 "parameters": [
                     {
@@ -8082,7 +7846,7 @@
                     "Edge Node"
                 ],
                 "summary": "Create",
-                "description": "Create a new edge node.",
+                "description": "\nCreate a new edge node.\n",
                 "operationId": "create_api_v1_edge_nodes_post",
                 "requestBody": {
                     "content": {
@@ -8169,7 +7933,7 @@
                     "Edge Node RSU"
                 ],
                 "summary": "List Edge Node RSUs",
-                "description": "Get all Edge Node RSUs.",
+                "description": "\nGet all Edge Node RSUs.\n",
                 "operationId": "get_all_api_v1_edge_node_rsus_get",
                 "parameters": [
                     {
@@ -8282,7 +8046,7 @@
                     "Edge Node RSU"
                 ],
                 "summary": "Update",
-                "description": "Update a RSU.",
+                "description": "\nUpdate a RSU.\n",
                 "operationId": "update_api_v1_edge_node_rsus__edge_node_id__put",
                 "parameters": [
                     {
@@ -8370,7 +8134,7 @@
                     "Algo"
                 ],
                 "summary": "List version",
-                "description": "Search version by name.",
+                "description": "\nSearch version by name.\n",
                 "operationId": "get_all_version_api_v1_algos_version_get",
                 "parameters": [
                     {
@@ -8448,7 +8212,7 @@
                     "Algo"
                 ],
                 "summary": "Create",
-                "description": "Create a new version.",
+                "description": "\nCreate a new version.\n",
                 "operationId": "create_api_v1_algos_version_post",
                 "requestBody": {
                     "content": {
@@ -8535,7 +8299,7 @@
                     "Algo"
                 ],
                 "summary": "Delete",
-                "description": "Delete a version.",
+                "description": "\nDelete a version.\n",
                 "operationId": "delete_api_v1_algos_version__version_id__delete",
                 "parameters": [
                     {
@@ -8606,7 +8370,7 @@
                     "Algo"
                 ],
                 "summary": "List Algo",
-                "description": "Search algo by name.",
+                "description": "\nSearch algo by name.\n",
                 "operationId": "get_all_api_v1_algos_get",
                 "parameters": [
                     {
@@ -8684,7 +8448,7 @@
                     "Algo"
                 ],
                 "summary": "Update",
-                "description": "update algos.",
+                "description": "\nupdate algos.\n",
                 "operationId": "update_api_v1_algos_post",
                 "requestBody": {
                     "content": {
@@ -8769,7 +8533,7 @@
                     "Algo"
                 ],
                 "summary": "List module algo",
-                "description": "Get module algo.",
+                "description": "\nGet module algo.\n",
                 "operationId": "get_all_module_algo_api_v1_algos_module_get",
                 "responses": {
                     "200": {
@@ -9228,6 +8992,20 @@
                     }
                 }
             },
+            "Body_add_bitmap_api_v1_intersections_bitmap_post": {
+                "title": "Body_add_bitmap_api_v1_intersections_bitmap_post",
+                "required": [
+                    "bitmap"
+                ],
+                "type": "object",
+                "properties": {
+                    "bitmap": {
+                        "title": "Bitmap",
+                        "type": "string",
+                        "format": "binary"
+                    }
+                }
+            },
             "Body_login_api_v1_login_post": {
                 "title": "Body_login_api_v1_login_post",
                 "required": [
@@ -9246,17 +9024,82 @@
                     }
                 }
             },
-            "Body_update_bitmap_api_v1_maps__map_id__bitmap_put": {
-                "title": "Body_update_bitmap_api_v1_maps__map_id__bitmap_put",
+            "CGW": {
+                "title": "CGW",
                 "required": [
-                    "bitmap"
+                    "id",
+                    "createTime"
                 ],
                 "type": "object",
                 "properties": {
-                    "bitmap": {
-                        "title": "Bitmap",
+                    "cgwLevel": {
+                        "title": "Cgwlevel",
+                        "type": "integer",
+                        "description": "CGW Level"
+                    },
+                    "laneID": {
+                        "title": "Laneid",
+                        "type": "integer",
+                        "description": "Lane ID"
+                    },
+                    "avgSpeed": {
+                        "title": "Avgspeed",
+                        "type": "integer",
+                        "description": "Average Speed"
+                    },
+                    "sensorPos": {
+                        "title": "Sensorpos",
+                        "type": "object",
+                        "description": "Sensor Position"
+                    },
+                    "startPoint": {
+                        "title": "Startpoint",
+                        "type": "object",
+                        "description": "Start Point"
+                    },
+                    "endPoint": {
+                        "title": "Endpoint",
+                        "type": "object",
+                        "description": "End Point"
+                    },
+                    "secMark": {
+                        "title": "Secmark",
+                        "type": "integer",
+                        "description": "Sec Mark"
+                    },
+                    "id": {
+                        "title": "Id",
+                        "type": "integer",
+                        "description": "CWM ID"
+                    },
+                    "createTime": {
+                        "title": "Createtime",
                         "type": "string",
-                        "format": "binary"
+                        "description": "Create Time",
+                        "format": "date-time"
+                    }
+                }
+            },
+            "CGWs": {
+                "title": "CGWs",
+                "required": [
+                    "total",
+                    "data"
+                ],
+                "type": "object",
+                "properties": {
+                    "total": {
+                        "title": "Total",
+                        "type": "integer",
+                        "description": "Total"
+                    },
+                    "data": {
+                        "title": "Data",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CGW"
+                        },
+                        "description": "Data"
                     }
                 }
             },
@@ -9905,7 +9748,9 @@
                     "name",
                     "lat",
                     "lng",
-                    "areaCode"
+                    "areaCode",
+                    "mapData",
+                    "bitmapFilename"
                 ],
                 "type": "object",
                 "properties": {
@@ -9933,18 +9778,21 @@
                         "title": "Areacode",
                         "type": "string",
                         "description": "Area Code"
+                    },
+                    "mapData": {
+                        "title": "Mapdata",
+                        "type": "object",
+                        "description": "Intersection Map Data"
+                    },
+                    "bitmapFilename": {
+                        "title": "Bitmapfilename",
+                        "type": "string",
+                        "description": "Bitmap Filename"
                     }
                 }
             },
             "IntersectionUpdate": {
                 "title": "IntersectionUpdate",
-                "required": [
-                    "code",
-                    "name",
-                    "lat",
-                    "lng",
-                    "areaCode"
-                ],
                 "type": "object",
                 "properties": {
                     "code": {
@@ -9971,6 +9819,16 @@
                         "title": "Areacode",
                         "type": "string",
                         "description": "Area Code"
+                    },
+                    "mapData": {
+                        "title": "Mapdata",
+                        "type": "object",
+                        "description": "Intersection Map Data"
+                    },
+                    "bitmapFilename": {
+                        "title": "Bitmapfilename",
+                        "type": "string",
+                        "description": "Intersection Bitmap Filename"
                     }
                 }
             },
@@ -10655,12 +10513,6 @@
             },
             "MQTTConfig": {
                 "title": "MQTTConfig",
-                "required": [
-                    "host",
-                    "port",
-                    "username",
-                    "password"
-                ],
                 "type": "object",
                 "properties": {
                     "host": {
@@ -10685,335 +10537,6 @@
                     }
                 }
             },
-            "Map": {
-                "title": "Map",
-                "required": [
-                    "id",
-                    "name",
-                    "desc",
-                    "amount",
-                    "lat",
-                    "lng",
-                    "createTime",
-                    "countryCode",
-                    "countryName",
-                    "provinceCode",
-                    "provinceName",
-                    "cityCode",
-                    "cityName",
-                    "areaCode",
-                    "areaName",
-                    "intersectionCode",
-                    "intersectionName"
-                ],
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "title": "Id",
-                        "type": "integer",
-                        "description": "Map ID"
-                    },
-                    "name": {
-                        "title": "Name",
-                        "type": "string",
-                        "description": "Map Name"
-                    },
-                    "desc": {
-                        "title": "Desc",
-                        "type": "string",
-                        "description": "Description"
-                    },
-                    "amount": {
-                        "title": "Amount",
-                        "type": "integer",
-                        "description": "Count of RSUs"
-                    },
-                    "lat": {
-                        "title": "Lat",
-                        "type": "number",
-                        "description": "Latitude"
-                    },
-                    "lng": {
-                        "title": "Lng",
-                        "type": "number",
-                        "description": "Longitude"
-                    },
-                    "createTime": {
-                        "title": "Createtime",
-                        "type": "string",
-                        "description": "Create Time",
-                        "format": "date-time"
-                    },
-                    "countryCode": {
-                        "title": "Countrycode",
-                        "type": "string",
-                        "description": "Country Code"
-                    },
-                    "countryName": {
-                        "title": "Countryname",
-                        "type": "string",
-                        "description": "Country Name"
-                    },
-                    "provinceCode": {
-                        "title": "Provincecode",
-                        "type": "string",
-                        "description": "Province Code"
-                    },
-                    "provinceName": {
-                        "title": "Provincename",
-                        "type": "string",
-                        "description": "Province Name"
-                    },
-                    "cityCode": {
-                        "title": "Citycode",
-                        "type": "string",
-                        "description": "City Code"
-                    },
-                    "cityName": {
-                        "title": "Cityname",
-                        "type": "string",
-                        "description": "City Name"
-                    },
-                    "areaCode": {
-                        "title": "Areacode",
-                        "type": "string",
-                        "description": "Area Code"
-                    },
-                    "areaName": {
-                        "title": "Areaname",
-                        "type": "string",
-                        "description": "Area Name"
-                    },
-                    "intersectionCode": {
-                        "title": "Intersectioncode",
-                        "type": "string",
-                        "description": "Intersection Code"
-                    },
-                    "intersectionName": {
-                        "title": "Intersectionname",
-                        "type": "string",
-                        "description": "Intersection Name"
-                    }
-                }
-            },
-            "MapCreate": {
-                "title": "MapCreate",
-                "required": [
-                    "name",
-                    "intersectionCode",
-                    "data"
-                ],
-                "type": "object",
-                "properties": {
-                    "name": {
-                        "title": "Name",
-                        "type": "string",
-                        "description": "Map Name"
-                    },
-                    "intersectionCode": {
-                        "title": "Intersectioncode",
-                        "type": "string",
-                        "description": "Intersection Code"
-                    },
-                    "desc": {
-                        "title": "Desc",
-                        "type": "string",
-                        "description": "Description",
-                        "default": ""
-                    },
-                    "data": {
-                        "title": "Data",
-                        "type": "object",
-                        "description": "Data"
-                    }
-                }
-            },
-            "MapRSU": {
-                "title": "MapRSU",
-                "required": [
-                    "data"
-                ],
-                "type": "object",
-                "properties": {
-                    "data": {
-                        "title": "Data",
-                        "allOf": [
-                            {
-                                "$ref": "#/components/schemas/MapRSUBase"
-                            }
-                        ],
-                        "description": "Data"
-                    }
-                }
-            },
-            "MapRSUBase": {
-                "title": "MapRSUBase",
-                "required": [
-                    "mapId",
-                    "rsus"
-                ],
-                "type": "object",
-                "properties": {
-                    "mapId": {
-                        "title": "Mapid",
-                        "type": "integer",
-                        "description": "Map ID"
-                    },
-                    "rsus": {
-                        "title": "Rsus",
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/RSUsInMapRSU"
-                        },
-                        "description": "RSUs"
-                    }
-                }
-            },
-            "MapRSUCreate": {
-                "title": "MapRSUCreate",
-                "required": [
-                    "rsus"
-                ],
-                "type": "object",
-                "properties": {
-                    "rsus": {
-                        "title": "Rsus",
-                        "type": "array",
-                        "items": {
-                            "type": "integer"
-                        },
-                        "description": "RSU ID"
-                    }
-                }
-            },
-            "MapRSUs": {
-                "title": "MapRSUs",
-                "required": [
-                    "total",
-                    "data"
-                ],
-                "type": "object",
-                "properties": {
-                    "total": {
-                        "title": "Total",
-                        "type": "integer",
-                        "description": "Total"
-                    },
-                    "data": {
-                        "title": "Data",
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/MapRSUsBase"
-                        },
-                        "description": "Data"
-                    }
-                }
-            },
-            "MapRSUsBase": {
-                "title": "MapRSUsBase",
-                "required": [
-                    "id",
-                    "rsuName",
-                    "rsuSn",
-                    "onlineStatus",
-                    "rsuStatus",
-                    "deliveryStatus",
-                    "createTime"
-                ],
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "title": "Id",
-                        "type": "integer",
-                        "description": "Map RSU ID"
-                    },
-                    "rsuName": {
-                        "title": "Rsuname",
-                        "type": "string",
-                        "description": "RSU Name"
-                    },
-                    "rsuSn": {
-                        "title": "Rsusn",
-                        "type": "string",
-                        "description": "RSU SN"
-                    },
-                    "onlineStatus": {
-                        "title": "Onlinestatus",
-                        "type": "boolean",
-                        "description": "Online Status"
-                    },
-                    "rsuStatus": {
-                        "title": "Rsustatus",
-                        "type": "string",
-                        "description": "RSU Status"
-                    },
-                    "deliveryStatus": {
-                        "title": "Deliverystatus",
-                        "type": "integer",
-                        "description": "Delivery Status"
-                    },
-                    "createTime": {
-                        "title": "Createtime",
-                        "type": "string",
-                        "description": "Create Time",
-                        "format": "date-time"
-                    }
-                }
-            },
-            "MapUpdate": {
-                "title": "MapUpdate",
-                "required": [
-                    "name",
-                    "intersectionCode"
-                ],
-                "type": "object",
-                "properties": {
-                    "name": {
-                        "title": "Name",
-                        "type": "string",
-                        "description": "Name"
-                    },
-                    "intersectionCode": {
-                        "title": "Intersectioncode",
-                        "type": "string",
-                        "description": "Intersection Code"
-                    },
-                    "desc": {
-                        "title": "Desc",
-                        "type": "string",
-                        "description": "Description",
-                        "default": ""
-                    },
-                    "data": {
-                        "title": "Data",
-                        "type": "object",
-                        "description": "Data"
-                    }
-                }
-            },
-            "Maps": {
-                "title": "Maps",
-                "required": [
-                    "total",
-                    "data"
-                ],
-                "type": "object",
-                "properties": {
-                    "total": {
-                        "title": "Total",
-                        "type": "integer",
-                        "description": "Total"
-                    },
-                    "data": {
-                        "title": "Data",
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/Map"
-                        },
-                        "description": "Data"
-                    }
-                }
-            },
             "Message": {
                 "title": "Message",
                 "required": [
@@ -11029,6 +10552,95 @@
                             }
                         ],
                         "description": "Message detail"
+                    }
+                }
+            },
+            "OSW": {
+                "title": "OSW",
+                "required": [
+                    "id",
+                    "createTime"
+                ],
+                "type": "object",
+                "properties": {
+                    "sensorPos": {
+                        "title": "Sensorpos",
+                        "type": "object",
+                        "description": "Sensor Position"
+                    },
+                    "egoID": {
+                        "title": "Egoid",
+                        "type": "string",
+                        "description": "ego ID"
+                    },
+                    "egoPos": {
+                        "title": "Egopos",
+                        "type": "object",
+                        "description": "Ego Position"
+                    },
+                    "speed": {
+                        "title": "Speed",
+                        "type": "integer",
+                        "description": "Speed"
+                    },
+                    "heading": {
+                        "title": "Heading",
+                        "type": "integer",
+                        "description": "Heading"
+                    },
+                    "width": {
+                        "title": "Width",
+                        "type": "integer",
+                        "description": "Width"
+                    },
+                    "length": {
+                        "title": "Length",
+                        "type": "integer",
+                        "description": "Length"
+                    },
+                    "height": {
+                        "title": "Height",
+                        "type": "integer",
+                        "description": "Height"
+                    },
+                    "secMark": {
+                        "title": "Secmark",
+                        "type": "integer",
+                        "description": "Sec Mark"
+                    },
+                    "id": {
+                        "title": "Id",
+                        "type": "integer",
+                        "description": "CWM ID"
+                    },
+                    "createTime": {
+                        "title": "Createtime",
+                        "type": "string",
+                        "description": "Create Time",
+                        "format": "date-time"
+                    }
+                }
+            },
+            "OSWs": {
+                "title": "OSWs",
+                "required": [
+                    "total",
+                    "data"
+                ],
+                "type": "object",
+                "properties": {
+                    "total": {
+                        "title": "Total",
+                        "type": "integer",
+                        "description": "Total"
+                    },
+                    "data": {
+                        "title": "Data",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/OSW"
+                        },
+                        "description": "Data"
                     }
                 }
             },
@@ -11155,6 +10767,95 @@
                         "title": "Name",
                         "type": "string",
                         "description": "Province name"
+                    }
+                }
+            },
+            "RDW": {
+                "title": "RDW",
+                "required": [
+                    "id",
+                    "createTime"
+                ],
+                "type": "object",
+                "properties": {
+                    "sensorPos": {
+                        "title": "Sensorpos",
+                        "type": "object",
+                        "description": "Sensor Position"
+                    },
+                    "egoID": {
+                        "title": "Egoid",
+                        "type": "string",
+                        "description": "ego ID"
+                    },
+                    "egoPos": {
+                        "title": "Egopos",
+                        "type": "object",
+                        "description": "Ego Position"
+                    },
+                    "speed": {
+                        "title": "Speed",
+                        "type": "integer",
+                        "description": "Speed"
+                    },
+                    "heading": {
+                        "title": "Heading",
+                        "type": "integer",
+                        "description": "Heading"
+                    },
+                    "width": {
+                        "title": "Width",
+                        "type": "integer",
+                        "description": "Width"
+                    },
+                    "length": {
+                        "title": "Length",
+                        "type": "integer",
+                        "description": "Length"
+                    },
+                    "height": {
+                        "title": "Height",
+                        "type": "integer",
+                        "description": "Height"
+                    },
+                    "secMark": {
+                        "title": "Secmark",
+                        "type": "integer",
+                        "description": "Sec Mark"
+                    },
+                    "id": {
+                        "title": "Id",
+                        "type": "integer",
+                        "description": "CWM ID"
+                    },
+                    "createTime": {
+                        "title": "Createtime",
+                        "type": "string",
+                        "description": "Create Time",
+                        "format": "date-time"
+                    }
+                }
+            },
+            "RDWs": {
+                "title": "RDWs",
+                "required": [
+                    "total",
+                    "data"
+                ],
+                "type": "object",
+                "properties": {
+                    "total": {
+                        "title": "Total",
+                        "type": "integer",
+                        "description": "Total"
+                    },
+                    "data": {
+                        "title": "Data",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/RDW"
+                        },
+                        "description": "Data"
                     }
                 }
             },
@@ -13329,39 +13030,6 @@
                     }
                 }
             },
-            "RSUsInMapRSU": {
-                "title": "RSUsInMapRSU",
-                "required": [
-                    "id",
-                    "rsuId",
-                    "status",
-                    "createTime"
-                ],
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "title": "Id",
-                        "type": "integer",
-                        "description": "ID"
-                    },
-                    "rsuId": {
-                        "title": "Rsuid",
-                        "type": "integer",
-                        "description": "RSU ID"
-                    },
-                    "status": {
-                        "title": "Status",
-                        "type": "integer",
-                        "description": "Status"
-                    },
-                    "createTime": {
-                        "title": "Createtime",
-                        "type": "string",
-                        "description": "Create Time",
-                        "format": "date-time"
-                    }
-                }
-            },
             "Radar": {
                 "title": "Radar",
                 "required": [
@@ -13765,7 +13433,7 @@
                         "title": "Congestion",
                         "type": "string",
                         "description": "Congestion",
-                        "default": "Unknown"
+                        "default": "free flow"
                     }
                 }
             },
@@ -13872,6 +13540,95 @@
                             }
                         },
                         "description": "The upper filters of the SPAT."
+                    }
+                }
+            },
+            "SSW": {
+                "title": "SSW",
+                "required": [
+                    "id",
+                    "createTime"
+                ],
+                "type": "object",
+                "properties": {
+                    "sensorPos": {
+                        "title": "Sensorpos",
+                        "type": "object",
+                        "description": "Sensor Position"
+                    },
+                    "egoID": {
+                        "title": "Egoid",
+                        "type": "string",
+                        "description": "ego ID"
+                    },
+                    "egoPos": {
+                        "title": "Egopos",
+                        "type": "object",
+                        "description": "Ego Position"
+                    },
+                    "speed": {
+                        "title": "Speed",
+                        "type": "integer",
+                        "description": "Speed"
+                    },
+                    "heading": {
+                        "title": "Heading",
+                        "type": "integer",
+                        "description": "Heading"
+                    },
+                    "width": {
+                        "title": "Width",
+                        "type": "integer",
+                        "description": "Width"
+                    },
+                    "length": {
+                        "title": "Length",
+                        "type": "integer",
+                        "description": "Length"
+                    },
+                    "height": {
+                        "title": "Height",
+                        "type": "integer",
+                        "description": "Height"
+                    },
+                    "secMark": {
+                        "title": "Secmark",
+                        "type": "integer",
+                        "description": "Sec Mark"
+                    },
+                    "id": {
+                        "title": "Id",
+                        "type": "integer",
+                        "description": "CWM ID"
+                    },
+                    "createTime": {
+                        "title": "Createtime",
+                        "type": "string",
+                        "description": "Create Time",
+                        "format": "date-time"
+                    }
+                }
+            },
+            "SSWs": {
+                "title": "SSWs",
+                "required": [
+                    "total",
+                    "data"
+                ],
+                "type": "object",
+                "properties": {
+                    "total": {
+                        "title": "Total",
+                        "type": "integer",
+                        "description": "Total"
+                    },
+                    "data": {
+                        "title": "Data",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SSW"
+                        },
+                        "description": "Data"
                     }
                 }
             },
