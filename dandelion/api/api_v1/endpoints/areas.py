@@ -15,7 +15,7 @@
 from __future__ import annotations
 
 from logging import LoggerAdapter
-from typing import List
+from typing import List, Optional
 
 from fastapi import APIRouter, Depends, Query, status
 from oslo_log import log
@@ -47,10 +47,10 @@ Search area by city.
     },
 )
 def get_all(
-    city_code: str = Query(..., description="Filter by cityCode", alias="cityCode"),
+    city_code: Optional[str] = Query(None, description="Filter by cityCode", alias="cityCode"),
     *,
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> List[schemas.Area]:
     areas = crud.area.get_multi_by_city_code(db, city_code)
-    return [area for area in areas]
+    return [area.to_all_dict(need_intersection=True) for area in areas if area.intersections]

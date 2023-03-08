@@ -14,7 +14,7 @@
 
 from __future__ import annotations
 
-from typing import List
+from typing import List, Optional
 
 from sqlalchemy.orm import Session
 
@@ -27,15 +27,12 @@ class CRUDArea(CRUDBase[Area, AreaCreate, AreaUpdate]):
     """"""
 
     def get_multi_by_city_code(
-        self, db: Session, city_code: str, *, skip: int = 0, limit: int = 100
+        self, db: Session, city_code: Optional[str] = None, *, skip: int = 0, limit: int = 100
     ) -> List[Area]:
-        return (
-            db.query(self.model)
-            .filter(Area.city_code == city_code)
-            .offset(skip)
-            .limit(limit)
-            .all()
-        )
+        query_ = db.query(self.model)
+        if city_code:
+            query_ = query_.filter(Area.city_code == city_code)
+        return query_.offset(skip).limit(limit).all()
 
 
 area = CRUDArea(Area)

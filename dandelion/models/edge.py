@@ -23,9 +23,10 @@ class EdgeNode(Base, DandelionBase):
     __tablename__ = "edge_node"
 
     name = Column(String(64), nullable=False, index=True)
+    ip = Column(String(64), nullable=False)
 
     def to_all_dict(self):
-        return dict(id=self.id, name=self.name, createTime=self.create_time)
+        return dict(id=self.id, name=self.name, createTime=self.create_time, ip=self.ip)
 
     def __repr__(self) -> str:
         return f"<EdgeNode(name='{self.name}')>"
