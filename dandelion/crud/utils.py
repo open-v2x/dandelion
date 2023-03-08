@@ -39,7 +39,7 @@ def get_mng_default() -> MNG:
 
 def refresh_cloud_rsu(db: Session):
     if mqtt_cloud_server.MQTT_CLIENT is not None:
-        _, rsus = crud.rsu.get_multi_with_total(db)
+        _, rsus = crud.rsu.get_multi_with_total(db, is_default=False)
         node_rsus: List[dict] = []
         for rsu in rsus:
             node_rsu = dict(
