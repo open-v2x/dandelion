@@ -79,7 +79,6 @@ def create(
         intersection_in_db = crud.intersection.create(db, obj_in=intersection_in)
     except (sql_exc.IntegrityError, sql_exc.DataError) as ex:
         raise error_handle(ex, "code", intersection_in.code)
-    intersection_publish({"type": "create"})
     return intersection_in_db.to_dict()
 
 
@@ -126,7 +125,6 @@ def delete(
                 detail=f"Intersection [id: {intersection_id}] cannot delete",
             )
         raise error_handle(ex, "id", str(intersection_id))
-    intersection_publish({"type": "delete"})
     return Response(content=None, status_code=status.HTTP_204_NO_CONTENT)
 
 
