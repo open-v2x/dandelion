@@ -156,3 +156,24 @@ def iam_login(
     access_token_expires = timedelta(seconds=CONF.token.expire_seconds)
     access_token = security.create_access_token(user.id, expires_delta=access_token_expires)
     return schemas.Token(access_token=access_token, token_type="bearer")
+
+
+@router.get(
+    "/check_token",
+    response_model=schemas.User,
+    status_code=status.HTTP_200_OK,
+    summary="Check Token",
+    description="""
+check token
+""",
+    responses={
+        200: {"model": schemas.User, "description": "OK"},
+        400: {"model": schemas.ErrorMessage, "description": "Bad Request"},
+    },
+)
+def check_token(
+    db: Session = Depends(deps.get_db),
+    token: str = Header(..., alias="token", description="edge token"),
+) -> schemas.User:
+    user = deps.check_token(db=db, token=token)
+    return user

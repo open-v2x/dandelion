@@ -22,6 +22,7 @@ from pydantic import BaseModel, Field
 # Shared properties
 class EdgeNodeBase(BaseModel):
     name: Optional[str] = Field(None, alias="name", description="Edge Node Name")
+    ip: Optional[str] = Field(None, alias="ip", description="Edge Node ip")
 
 
 # Properties to receive via API on creation
@@ -44,6 +45,7 @@ class EdgeNodeInDBBase(EdgeNodeBase):
 # Additional properties to return via API
 class EdgeNode(EdgeNodeInDBBase):
     name: str = Field(None, alias="name", description="Edge Node Name")
+    ip: str = Field(None, alias="ip", description="Edge Node ip")
 
 
 class EdgeNodes(BaseModel):

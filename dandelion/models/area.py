@@ -69,5 +69,10 @@ class Area(Base, DandelionBase):
         return (
             {**self.to_dict()}
             if not need_intersection
-            else {**self.to_dict(), "children": [v.to_intersection() for v in self.intersections]}
+            else {
+                **self.to_dict(),
+                "children": [
+                    v.to_intersection() for v in self.intersections if v.is_default is False
+                ],
+            }
         )

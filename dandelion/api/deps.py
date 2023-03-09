@@ -14,6 +14,7 @@
 
 from __future__ import annotations
 
+import os
 import re
 from logging import LoggerAdapter
 from typing import Any, Dict, Generator, Optional
@@ -65,9 +66,7 @@ def get_redis_conn() -> Redis:
     return redis_pool.REDIS_CONN
 
 
-def get_current_user(
-    db: Session = Depends(get_db), token: str = Depends(reusable_oauth2)
-) -> models.User:
+def check_token(db, token):
     try:
         payload = jwt.decode(token, CONF.token.secret_key, algorithms=[constants.ALGORITHM])
         token_data = schemas.TokenPayload(**payload)
@@ -81,6 +80,22 @@ def get_current_user(
         LOG.error(err)
         raise OpenV2XHTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=err)
     return user
+
+
+def get_current_user(
+    db: Session = Depends(get_db), token: str = Depends(reusable_oauth2)
+) -> models.User:
+    try:
+        return check_token(db=db, token=token)
+    except OpenV2XHTTPException as e:
+        error = e
+    res = requests.get(
+        url=f"http://{os.getenv('OPENV2X_EXTERNAL_IP')}:28300/api/v1/login/check_token",
+        headers={"token": token},
+    )
+    if res.status_code != status.HTTP_200_OK:
+        raise error
+    return res.json()
 
 
 def get_token(host: str) -> str:

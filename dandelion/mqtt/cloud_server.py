@@ -15,6 +15,7 @@
 from __future__ import annotations
 
 import json
+import os
 import uuid
 from logging import LoggerAdapter
 from typing import Any
@@ -67,7 +68,9 @@ def _on_connect(client: mqtt.Client, userdata: Any, flags: Any, rc: int) -> None
     client.message_callback_add(subscribe_topic, EdgeInfoACKRouterHandler().request)
     client.subscribe(topic=subscribe_topic, qos=0)
     client.publish(
-        topic=v2x_edge.V2X_EDGE_INFO_UP, payload=json.dumps(dict(key=key, name=EDGE_NAME)), qos=0
+        topic=v2x_edge.V2X_EDGE_INFO_UP,
+        payload=json.dumps(dict(key=key, name=EDGE_NAME, ip=os.getenv("OPENV2X_EXTERNAL_IP"))),
+        qos=0,
     )
 
 

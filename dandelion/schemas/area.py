@@ -14,6 +14,8 @@
 
 from __future__ import annotations
 
+from typing import List, Optional
+
 from pydantic import BaseModel, Field
 
 
@@ -41,3 +43,5 @@ class AreaInDBBase(AreaBase):
 # Additional properties to return via API
 class Area(AreaInDBBase):
     """"""
+
+    children: Optional[List] = None

@@ -41,6 +41,7 @@ tests:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
     data:
       name: test
+      ip: 127.0.0.1
     status: 201
 
   - name: edge_node_rsu_create
