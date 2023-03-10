@@ -29,6 +29,7 @@ from dandelion import constants, crud, models, schemas
 from dandelion.api import deps
 from dandelion.api.deps import OpenV2XHTTPException as HTTPException, error_handle
 from dandelion.mqtt import cloud_server as mqtt_cloud_server
+from dandelion.mqtt.service.intersection.intersection_to_cerebrum import intersection_publish
 from dandelion.mqtt.topic import v2x_edge
 from dandelion.util import Optional as Optional_util
 
@@ -94,6 +95,7 @@ def create(
             )
     except (sql_exc.IntegrityError, sql_exc.DataError) as ex:
         raise error_handle(ex, "rsu_esn", rsu_in.rsu_esn)
+    intersection_publish({"type": "create"})
     return rsu_in_db.to_all_dict()
 
 
@@ -263,6 +265,7 @@ def update(
             #     raise HTTPException(status_code=res.status_code, detail=res.text)
     except (sql_exc.DataError, sql_exc.IntegrityError) as ex:
         raise error_handle(ex, "rsu_esn", rsu_in.rsu_esn)
+    intersection_publish({"type": "update"})
     return new_rsu_in_db.to_all_dict()
 
 
@@ -311,6 +314,7 @@ def delete(
             payload=json.dumps(dict(id=mqtt_cloud_server.EDGE_ID, rsuEsn=rsu.rsu_esn)),
             qos=0,
         )
+    intersection_publish({"type": "delete"})
     return Response(content=None, status_code=status.HTTP_204_NO_CONTENT)
 
 
