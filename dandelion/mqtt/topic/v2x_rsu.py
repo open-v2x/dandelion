@@ -47,6 +47,7 @@ V2X_RSU_PLUS_SPAT_UP = "V2X/RSU/+/SPAT/UP"
 V2X_RSU_PLUS_OSW_DOWN = "V2X/RSU/+/OSW/DOWN"
 V2X_RSU_PLUS_SSW_DOWN = "V2X/RSU/+/SSW/DOWN"
 V2X_INTERSECTION_CHANGE = "V2X/INTERSECTION/CHANGE"
+V2X_RSU_PIP_CFG = "V2X/RSU/PIP/CFG"
 
 
 def v2x_rsu_map_up_ack(rsu_id):
@@ -91,7 +92,3 @@ def v2x_rsu_log_conf_down(rsu_esn):
 
 def v2x_rsu_log_conf_down_ack(rsu_esn):
     return f"V2X/RSU/{rsu_esn}/Log/UP/ACK"
-
-
-def v2x_rsu_pip_cfg(rsu_esn):
-    return f"V2X/RSU/{rsu_esn}/PIP/CFG"

@@ -49,8 +49,9 @@ def algo_publish(db: Session):
             redis_info[algo_name] = algo.get("inUse") if algo.get("enable") else "disable"
         payload = json.dumps({"yaml_info": yaml_info, "redis_info": redis_info})
         mqtt_cloud_server.get_mqtt_client().publish(
-            topic=v2x_rsu.v2x_rsu_pip_cfg("R328328"),
+            topic=v2x_rsu.V2X_RSU_PIP_CFG,
             payload=payload,
             qos=0,
         )
-        LOG.info(f"publish to topic: {v2x_rsu.v2x_rsu_pip_cfg('R328328')},payload:{payload}")
+
+        LOG.info(f"publish to topic: {v2x_rsu.V2X_RSU_PIP_CFG},payload:{payload}")
