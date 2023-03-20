@@ -15,11 +15,12 @@
 from __future__ import annotations
 
 import json
-from typing import List
+from typing import Dict, List
 
 from sqlalchemy.orm import Session
 
 from dandelion import crud
+from dandelion.api.deps import get_redis_conn
 from dandelion.models import MNG
 from dandelion.models.mng import Reboot
 from dandelion.mqtt import cloud_server as mqtt_cloud_server
@@ -39,13 +40,12 @@ def get_mng_default() -> MNG:
 
 def refresh_cloud_rsu(db: Session):
     if mqtt_cloud_server.MQTT_CLIENT is not None:
-        _, rsus = crud.rsu.get_multi_with_total(db, is_default=False)
+        _, rsus = crud.rsu.get_multi_with_total(db)
         node_rsus: List[dict] = []
         for rsu in rsus:
             node_rsu = dict(
                 name=rsu.rsu_name,
                 esn=rsu.rsu_esn,
-                intersectionCode=rsu.intersection_code,
                 location=rsu.location,
                 edge_rsu_id=rsu.id,
             )
@@ -55,3 +55,41 @@ def refresh_cloud_rsu(db: Session):
             payload=json.dumps(dict(id=mqtt_cloud_server.EDGE_ID, rsus=node_rsus)),
             qos=0,
         )
+
+
+def deal(data_all, code, next_=None):
+    # 省市区数据结构
+    data_: Dict = {}
+    for i in data_all:
+        key_code = i.__dict__.get(code)
+        if key_code not in data_:
+            data_[key_code] = []
+        data = {"name": i.name, "code": i.code}
+        if not next_:
+            data_[key_code].append(data)
+            continue
+        if next_.get(i.code):
+            data["children"] = next_.get(i.code, [])
+            data_[key_code].append(data)
+
+    return data_
+
+
+def pca_data(db: Session):
+    # 获取 省市区三级数据
+    redis_conn = get_redis_conn()
+    redis_data = redis_conn.get("PCD_DATA")
+    if not redis_data:
+        countries = crud.country.get_multi(db)
+        provinces = crud.province.get_multi(db)
+        citys = crud.city.get_multi_with_total(db)
+        areas = crud.area.get_multi_with_total(db)
+        area_ = deal(areas, "city_code")
+        city_ = deal(citys, "province_code", area_)
+        province_ = deal(provinces, "country_code", city_)
+        redis_data = json.dumps(
+            [{**co.to_dict(), "children": province_.get(co.code, [])} for co in countries]
+        )
+        redis_conn.set("PCD_DATA", redis_data)
+
+    return json.loads(redis_data)

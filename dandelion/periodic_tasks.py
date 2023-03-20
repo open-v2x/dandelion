@@ -132,7 +132,7 @@ def rsu_info():
 def delete_unused_bitmap() -> None:
     LOG.info("Bitmap delete...")
     db: Session = session.DB_SESSION_LOCAL()
-    bitmaps = crud.intersection.get_list_bitmap(db)
+    bitmaps = crud.map.get_list_bitmap(db)
     bitmaps_set = {bitmap.bitmap_filename for bitmap in bitmaps}
     for filename in os.listdir(constants.BITMAP_FILE_PATH):
         if filename != "map_bg.jpg" and filename not in bitmaps_set:

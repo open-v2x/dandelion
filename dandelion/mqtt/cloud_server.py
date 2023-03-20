@@ -36,6 +36,7 @@ mode_conf = CONF.mode
 MQTT_CLIENT: mqtt.Client = None
 EDGE_ID: int = 0
 EDGE_NAME: str = ""
+AREA_CODE: str = ""
 
 
 def get_mqtt_client() -> mqtt.Client:
@@ -69,7 +70,9 @@ def _on_connect(client: mqtt.Client, userdata: Any, flags: Any, rc: int) -> None
     client.subscribe(topic=subscribe_topic, qos=0)
     client.publish(
         topic=v2x_edge.V2X_EDGE_INFO_UP,
-        payload=json.dumps(dict(key=key, name=EDGE_NAME, ip=os.getenv("OPENV2X_EXTERNAL_IP"))),
+        payload=json.dumps(
+            dict(key=key, name=EDGE_NAME, ip=os.getenv("OPENV2X_EXTERNAL_IP"), area_code=AREA_CODE)
+        ),
         qos=0,
     )
 
@@ -92,6 +95,8 @@ def connect() -> None:
     if config:
         global EDGE_NAME
         EDGE_NAME = config.name
+        global AREA_CODE
+        AREA_CODE = config.area_code
 
     if config and config.mqtt_config:
         LOG.info("Starting Cloud MQTT...")

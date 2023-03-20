@@ -46,14 +46,11 @@ class CRUDRSIEvent(CRUDBase[RSIEvent, RSIEventCreate, RSIEventUpdate]):
         limit: int = 10,
         sort: Sort = Sort.desc,
         event_type: Optional[int] = None,
-        intersection_code: Optional[str] = None,
         address: Optional[str] = None,
     ) -> Tuple[int, List[RSIEvent]]:
         query_ = db.query(self.model)
         if event_type is not None:
             query_ = query_.filter(self.model.event_type == event_type)
-        if intersection_code is not None:
-            query_ = query_.filter(self.model.intersection_code == intersection_code)
         if address is not None:
             query_ = query_.filter(self.model.address.like(f"%{address}%"))
         total = query_.count()

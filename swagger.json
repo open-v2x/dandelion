@@ -164,6 +164,61 @@
                 }
             }
         },
+        "/api/v1/login/check_token": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Check Token",
+                "description": "\ncheck token\n",
+                "operationId": "check_token_api_v1_login_check_token_get",
+                "parameters": [
+                    {
+                        "description": "edge token",
+                        "required": true,
+                        "schema": {
+                            "title": "Token",
+                            "type": "string",
+                            "description": "edge token"
+                        },
+                        "name": "token",
+                        "in": "header"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/users": {
             "post": {
                 "tags": [
@@ -352,18 +407,6 @@
                             "description": "Cascade to list all countries."
                         },
                         "name": "cascade",
-                        "in": "query"
-                    },
-                    {
-                        "description": "Need intersection data.",
-                        "required": false,
-                        "schema": {
-                            "title": "Needintersection",
-                            "type": "boolean",
-                            "description": "Need intersection data.",
-                            "default": true
-                        },
-                        "name": "needIntersection",
                         "in": "query"
                     }
                 ],
@@ -609,7 +652,7 @@
                 "parameters": [
                     {
                         "description": "Filter by cityCode",
-                        "required": true,
+                        "required": false,
                         "schema": {
                             "title": "Citycode",
                             "type": "string",
@@ -722,29 +765,6 @@
                             "description": "Filter by RSU ID"
                         },
                         "name": "rsuId",
-                        "in": "query"
-                    },
-                    {
-                        "description": "Filter by camera intersection code",
-                        "required": false,
-                        "schema": {
-                            "title": "Intersectioncode",
-                            "type": "string",
-                            "description": "Filter by camera intersection code"
-                        },
-                        "name": "intersectionCode",
-                        "in": "query"
-                    },
-                    {
-                        "description": "Filter by camera is default",
-                        "required": false,
-                        "schema": {
-                            "title": "Isdefault",
-                            "type": "boolean",
-                            "description": "Filter by camera is default",
-                            "default": false
-                        },
-                        "name": "isDefault",
                         "in": "query"
                     },
                     {
@@ -1161,17 +1181,6 @@
                 "operationId": "online_rate_api_v1_homes_online_rate_get",
                 "parameters": [
                     {
-                        "description": "intersection code",
-                        "required": false,
-                        "schema": {
-                            "title": "Intersectioncode",
-                            "type": "string",
-                            "description": "intersection code"
-                        },
-                        "name": "intersectionCode",
-                        "in": "query"
-                    },
-                    {
                         "description": "Rsu id",
                         "required": false,
                         "schema": {
@@ -1250,19 +1259,6 @@
                 "summary": "Route Info",
                 "description": "\nGet traffic situation.\n",
                 "operationId": "route_info_api_v1_homes_route_info_get",
-                "parameters": [
-                    {
-                        "description": "Intersection Code",
-                        "required": true,
-                        "schema": {
-                            "title": "Intersectioncode",
-                            "type": "string",
-                            "description": "Intersection Code"
-                        },
-                        "name": "intersectionCode",
-                        "in": "query"
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -1300,16 +1296,6 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
                                 }
                             }
                         }
@@ -1399,18 +1385,6 @@
                             "description": "Filter by rsuEsn"
                         },
                         "name": "rsuEsn",
-                        "in": "query"
-                    },
-                    {
-                        "description": "Filter by rsu is default",
-                        "required": false,
-                        "schema": {
-                            "title": "Isdefault",
-                            "type": "boolean",
-                            "description": "Filter by rsu is default",
-                            "default": false
-                        },
-                        "name": "isDefault",
                         "in": "query"
                     },
                     {
@@ -1759,6 +1733,781 @@
                 ]
             }
         },
+        "/api/v1/maps/{map_id}/rsus": {
+            "get": {
+                "tags": [
+                    "Map"
+                ],
+                "summary": "List Map RSUs",
+                "description": "\nGet all Map RSUs.\n",
+                "operationId": "get_all_api_v1_maps__map_id__rsus_get",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Map Id",
+                            "type": "integer"
+                        },
+                        "name": "map_id",
+                        "in": "path"
+                    },
+                    {
+                        "description": "Page number",
+                        "required": false,
+                        "schema": {
+                            "title": "Pagenum",
+                            "minimum": 1.0,
+                            "type": "integer",
+                            "description": "Page number",
+                            "default": 1
+                        },
+                        "name": "pageNum",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Page size",
+                        "required": false,
+                        "schema": {
+                            "title": "Pagesize",
+                            "minimum": -1.0,
+                            "type": "integer",
+                            "description": "Page size",
+                            "default": 10
+                        },
+                        "name": "pageSize",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MapRSUs"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Map"
+                ],
+                "summary": "Create",
+                "description": "\nCreate a new rsu map.\n",
+                "operationId": "create_api_v1_maps__map_id__rsus_post",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Map Id",
+                            "type": "integer"
+                        },
+                        "name": "map_id",
+                        "in": "path"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/MapRSUCreate"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MapRSU"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/maps/{map_id}/rsus/{map_rsu_id}": {
+            "delete": {
+                "tags": [
+                    "Map"
+                ],
+                "summary": "Delete",
+                "description": "\nDelete a Map RSU.\n",
+                "operationId": "delete_api_v1_maps__map_id__rsus__map_rsu_id__delete",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Map Id",
+                            "type": "integer"
+                        },
+                        "name": "map_id",
+                        "in": "path"
+                    },
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Map Rsu Id",
+                            "type": "integer"
+                        },
+                        "name": "map_rsu_id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/maps/{map_id}": {
+            "get": {
+                "tags": [
+                    "Map"
+                ],
+                "summary": "Get",
+                "description": "\nGet a Map.\n",
+                "operationId": "get_api_v1_maps__map_id__get",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Map Id",
+                            "type": "integer"
+                        },
+                        "name": "map_id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Map"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Map"
+                ],
+                "summary": "Update",
+                "description": "\nUpdate a Map.\n",
+                "operationId": "update_api_v1_maps__map_id__patch",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Map Id",
+                            "type": "integer"
+                        },
+                        "name": "map_id",
+                        "in": "path"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/MapUpdate"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Map"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/maps": {
+            "get": {
+                "tags": [
+                    "Map"
+                ],
+                "summary": "List Maps",
+                "description": "\nGet all Maps.\n",
+                "operationId": "get_all_api_v1_maps_get",
+                "parameters": [
+                    {
+                        "description": "Filter by map name. Fuzzy prefix query is supported",
+                        "required": false,
+                        "schema": {
+                            "title": "Name",
+                            "type": "string",
+                            "description": "Filter by map name. Fuzzy prefix query is supported"
+                        },
+                        "name": "name",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Page number",
+                        "required": false,
+                        "schema": {
+                            "title": "Pagenum",
+                            "minimum": 1.0,
+                            "type": "integer",
+                            "description": "Page number",
+                            "default": 1
+                        },
+                        "name": "pageNum",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Page size",
+                        "required": false,
+                        "schema": {
+                            "title": "Pagesize",
+                            "minimum": -1.0,
+                            "type": "integer",
+                            "description": "Page size",
+                            "default": 10
+                        },
+                        "name": "pageSize",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Maps"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/maps/{map_id}/data": {
+            "get": {
+                "tags": [
+                    "Map"
+                ],
+                "summary": "Data",
+                "description": "\nGet a Map data.\n",
+                "operationId": "data_api_v1_maps__map_id__data_get",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Map Id",
+                            "type": "integer"
+                        },
+                        "name": "map_id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "title": "Response 200 Data Api V1 Maps  Map Id  Data Get",
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/maps/bitmap": {
+            "post": {
+                "tags": [
+                    "Map"
+                ],
+                "summary": "Add Bitmap",
+                "description": "\nadd map bitmap.\n",
+                "operationId": "add_bitmap_api_v1_maps_bitmap_post",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Body_add_bitmap_api_v1_maps_bitmap_post"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/maps/{map_id}/bitmap": {
+            "get": {
+                "tags": [
+                    "Map"
+                ],
+                "summary": "Get Bitmap",
+                "description": "\nGet a bitmap data.\n",
+                "operationId": "get_bitmap_api_v1_maps__map_id__bitmap_get",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Map Id",
+                            "type": "integer"
+                        },
+                        "name": "map_id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            }
+        },
         "/api/v1/radars": {
             "get": {
                 "tags": [
@@ -1799,29 +2548,6 @@
                             "description": "Filter by rsuId"
                         },
                         "name": "rsuId",
-                        "in": "query"
-                    },
-                    {
-                        "description": "Filter by radar intersection code",
-                        "required": false,
-                        "schema": {
-                            "title": "Intersectioncode",
-                            "type": "string",
-                            "description": "Filter by radar intersection code"
-                        },
-                        "name": "intersectionCode",
-                        "in": "query"
-                    },
-                    {
-                        "description": "Filter by radar is default",
-                        "required": false,
-                        "schema": {
-                            "title": "Isdefault",
-                            "type": "boolean",
-                            "description": "Filter by radar is default",
-                            "default": false
-                        },
-                        "name": "isDefault",
                         "in": "query"
                     },
                     {
@@ -2271,29 +2997,6 @@
                         "in": "query"
                     },
                     {
-                        "description": "Filter by spat intersection code",
-                        "required": false,
-                        "schema": {
-                            "title": "Intersectioncode",
-                            "type": "string",
-                            "description": "Filter by spat intersection code"
-                        },
-                        "name": "intersectionCode",
-                        "in": "query"
-                    },
-                    {
-                        "description": "Filter by spat is default",
-                        "required": false,
-                        "schema": {
-                            "title": "Isdefault",
-                            "type": "boolean",
-                            "description": "Filter by spat is default",
-                            "default": false
-                        },
-                        "name": "isDefault",
-                        "in": "query"
-                    },
-                    {
                         "description": "Page number",
                         "required": false,
                         "schema": {
@@ -2697,759 +3400,6 @@
                 ]
             }
         },
-        "/api/v1/intersections": {
-            "get": {
-                "tags": [
-                    "Intersection"
-                ],
-                "summary": "List Intersections",
-                "description": "\nGet all Intersection.\n",
-                "operationId": "get_all_api_v1_intersections_get",
-                "parameters": [
-                    {
-                        "description": "Filter by intersection name. Fuzzy prefix query is supported",
-                        "required": false,
-                        "schema": {
-                            "title": "Name",
-                            "type": "string",
-                            "description": "Filter by intersection name. Fuzzy prefix query is supported"
-                        },
-                        "name": "name",
-                        "in": "query"
-                    },
-                    {
-                        "description": "Filter by intersection area code",
-                        "required": false,
-                        "schema": {
-                            "title": "Areacode",
-                            "type": "string",
-                            "description": "Filter by intersection area code"
-                        },
-                        "name": "areaCode",
-                        "in": "query"
-                    },
-                    {
-                        "description": "Filter by intersection is default",
-                        "required": false,
-                        "schema": {
-                            "title": "Isdefault",
-                            "type": "boolean",
-                            "description": "Filter by intersection is default",
-                            "default": false
-                        },
-                        "name": "isDefault",
-                        "in": "query"
-                    },
-                    {
-                        "description": "Page number",
-                        "required": false,
-                        "schema": {
-                            "title": "Pagenum",
-                            "minimum": 1.0,
-                            "type": "integer",
-                            "description": "Page number",
-                            "default": 1
-                        },
-                        "name": "pageNum",
-                        "in": "query"
-                    },
-                    {
-                        "description": "Page size",
-                        "required": false,
-                        "schema": {
-                            "title": "Pagesize",
-                            "minimum": -1.0,
-                            "type": "integer",
-                            "description": "Page size",
-                            "default": 10
-                        },
-                        "name": "pageSize",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Intersections"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "OAuth2PasswordBearer": []
-                    }
-                ]
-            },
-            "post": {
-                "tags": [
-                    "Intersection"
-                ],
-                "summary": "Create",
-                "description": "\nCreate a new intersection.\n",
-                "operationId": "create_api_v1_intersections_post",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/IntersectionCreate"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "201": {
-                        "description": "Created",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Intersection"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "OAuth2PasswordBearer": []
-                    }
-                ]
-            }
-        },
-        "/api/v1/intersections/{intersection_id}": {
-            "get": {
-                "tags": [
-                    "Intersection"
-                ],
-                "summary": "Get",
-                "description": "\nGet a Intersection.\n",
-                "operationId": "get_api_v1_intersections__intersection_id__get",
-                "parameters": [
-                    {
-                        "required": true,
-                        "schema": {
-                            "title": "Intersection Id",
-                            "type": "integer"
-                        },
-                        "name": "intersection_id",
-                        "in": "path"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Intersection"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "OAuth2PasswordBearer": []
-                    }
-                ]
-            },
-            "put": {
-                "tags": [
-                    "Intersection"
-                ],
-                "summary": "Update",
-                "description": "\nUpdate a Intersection.\n",
-                "operationId": "update_api_v1_intersections__intersection_id__put",
-                "parameters": [
-                    {
-                        "required": true,
-                        "schema": {
-                            "title": "Intersection Id",
-                            "type": "integer"
-                        },
-                        "name": "intersection_id",
-                        "in": "path"
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/IntersectionUpdate"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Intersection"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "OAuth2PasswordBearer": []
-                    }
-                ]
-            },
-            "delete": {
-                "tags": [
-                    "Intersection"
-                ],
-                "summary": "Delete",
-                "description": "\nDelete a intersection.\n",
-                "operationId": "delete_api_v1_intersections__intersection_id__delete",
-                "parameters": [
-                    {
-                        "required": true,
-                        "schema": {
-                            "title": "Intersection Id",
-                            "type": "integer"
-                        },
-                        "name": "intersection_id",
-                        "in": "path"
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "No Content"
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "OAuth2PasswordBearer": []
-                    }
-                ]
-            }
-        },
-        "/api/v1/intersections/link/data": {
-            "get": {
-                "tags": [
-                    "Intersection"
-                ],
-                "summary": "Get Intersection Link",
-                "description": "\nGet Intersection Link.\n",
-                "operationId": "get_intersection_link_api_v1_intersections_link_data_get",
-                "parameters": [
-                    {
-                        "description": "Filter by intersection  code",
-                        "required": false,
-                        "schema": {
-                            "title": "Intersectioncode",
-                            "type": "string",
-                            "description": "Filter by intersection  code"
-                        },
-                        "name": "intersectionCode",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "title": "Response 200 Get Intersection Link Api V1 Intersections Link Data Get",
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "OAuth2PasswordBearer": []
-                    }
-                ]
-            }
-        },
-        "/api/v1/intersections/bitmap": {
-            "post": {
-                "tags": [
-                    "Intersection"
-                ],
-                "summary": "Add Bitmap",
-                "description": "\nadd intersection map bitmap.\n",
-                "operationId": "add_bitmap_api_v1_intersections_bitmap_post",
-                "requestBody": {
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Body_add_bitmap_api_v1_intersections_bitmap_post"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {}
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "OAuth2PasswordBearer": []
-                    }
-                ]
-            }
-        },
-        "/api/v1/intersections/{intersection_id}/bitmap": {
-            "get": {
-                "tags": [
-                    "Intersection"
-                ],
-                "summary": "Get Bitmap",
-                "description": "\nGet a bitmap data.\n",
-                "operationId": "get_bitmap_api_v1_intersections__intersection_id__bitmap_get",
-                "parameters": [
-                    {
-                        "required": true,
-                        "schema": {
-                            "title": "Intersection Id",
-                            "type": "integer"
-                        },
-                        "name": "intersection_id",
-                        "in": "path"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "OAuth2PasswordBearer": []
-                    }
-                ]
-            }
-        },
-        "/api/v1/intersections/{intersection_id}/data": {
-            "get": {
-                "tags": [
-                    "Intersection"
-                ],
-                "summary": "Data",
-                "description": "\nGet a Intersection Map data.\n",
-                "operationId": "data_api_v1_intersections__intersection_id__data_get",
-                "parameters": [
-                    {
-                        "required": true,
-                        "schema": {
-                            "title": "Intersection Id",
-                            "type": "integer"
-                        },
-                        "name": "intersection_id",
-                        "in": "path"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "title": "Response 200 Data Api V1 Intersections  Intersection Id  Data Get",
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "OAuth2PasswordBearer": []
-                    }
-                ]
-            }
-        },
         "/api/v1/lidars": {
             "get": {
                 "tags": [
@@ -3490,29 +3440,6 @@
                             "description": "Filter by rsuId"
                         },
                         "name": "rsuId",
-                        "in": "query"
-                    },
-                    {
-                        "description": "Filter by lidar intersection code",
-                        "required": false,
-                        "schema": {
-                            "title": "Intersectioncode",
-                            "type": "string",
-                            "description": "Filter by lidar intersection code"
-                        },
-                        "name": "intersectionCode",
-                        "in": "query"
-                    },
-                    {
-                        "description": "Filter by lidar is default",
-                        "required": false,
-                        "schema": {
-                            "title": "Isdefault",
-                            "type": "boolean",
-                            "description": "Filter by lidar is default",
-                            "default": false
-                        },
-                        "name": "isDefault",
                         "in": "query"
                     },
                     {
@@ -4015,17 +3942,6 @@
                             "description": "Filter by eventType"
                         },
                         "name": "eventType",
-                        "in": "query"
-                    },
-                    {
-                        "description": "Filter by intersectionCode",
-                        "required": false,
-                        "schema": {
-                            "title": "Intersectioncode",
-                            "type": "string",
-                            "description": "Filter by intersectionCode"
-                        },
-                        "name": "intersectionCode",
                         "in": "query"
                     },
                     {
@@ -5789,24 +5705,22 @@
                         "OAuth2PasswordBearer": []
                     }
                 ]
-            }
-        },
-        "/api/v1/rsu_queries/{query_id}": {
+            },
             "delete": {
                 "tags": [
                     "RSU Query"
                 ],
                 "summary": "Delete",
                 "description": "\nDelete a RSU Query.\n",
-                "operationId": "delete_api_v1_rsu_queries__query_id__delete",
+                "operationId": "delete_api_v1_rsu_queries__rsu_query_id__delete",
                 "parameters": [
                     {
                         "required": true,
                         "schema": {
-                            "title": "Query Id",
+                            "title": "Rsu Query Id",
                             "type": "integer"
                         },
-                        "name": "query_id",
+                        "name": "rsu_query_id",
                         "in": "path"
                     }
                 ],
@@ -6082,17 +5996,6 @@
                         "in": "query"
                     },
                     {
-                        "description": "Filter by intersectionCode",
-                        "required": false,
-                        "schema": {
-                            "title": "Intersectioncode",
-                            "type": "string",
-                            "description": "Filter by intersectionCode"
-                        },
-                        "name": "intersectionCode",
-                        "in": "query"
-                    },
-                    {
                         "description": "Filter by onlineStatus",
                         "required": false,
                         "schema": {
@@ -6123,18 +6026,6 @@
                             "description": "Filter by rsuStatus"
                         },
                         "name": "rsuStatus",
-                        "in": "query"
-                    },
-                    {
-                        "description": "Filter by rsu is default",
-                        "required": false,
-                        "schema": {
-                            "title": "Isdefault",
-                            "type": "boolean",
-                            "description": "Filter by rsu is default",
-                            "default": false
-                        },
-                        "name": "isDefault",
                         "in": "query"
                     },
                     {
@@ -7757,6 +7648,15 @@
                         "in": "query"
                     },
                     {
+                        "required": false,
+                        "schema": {
+                            "title": "Areacode",
+                            "type": "string"
+                        },
+                        "name": "areaCode",
+                        "in": "query"
+                    },
+                    {
                         "description": "Page number",
                         "required": false,
                         "schema": {
@@ -8918,6 +8818,11 @@
                         "title": "Name",
                         "type": "string",
                         "description": "Area name"
+                    },
+                    "children": {
+                        "title": "Children",
+                        "type": "array",
+                        "items": {}
                     }
                 }
             },
@@ -8992,8 +8897,8 @@
                     }
                 }
             },
-            "Body_add_bitmap_api_v1_intersections_bitmap_post": {
-                "title": "Body_add_bitmap_api_v1_intersections_bitmap_post",
+            "Body_add_bitmap_api_v1_maps_bitmap_post": {
+                "title": "Body_add_bitmap_api_v1_maps_bitmap_post",
                 "required": [
                     "bitmap"
                 ],
@@ -9114,16 +9019,6 @@
                     "lat",
                     "elevation",
                     "towards",
-                    "countryCode",
-                    "countryName",
-                    "provinceCode",
-                    "provinceName",
-                    "cityCode",
-                    "cityName",
-                    "areaCode",
-                    "areaName",
-                    "intersectionCode",
-                    "intersectionName",
                     "desc",
                     "createTime",
                     "enabled"
@@ -9180,56 +9075,6 @@
                         "type": "string",
                         "description": "RSU Name"
                     },
-                    "countryCode": {
-                        "title": "Countrycode",
-                        "type": "string",
-                        "description": "Country Code"
-                    },
-                    "countryName": {
-                        "title": "Countryname",
-                        "type": "string",
-                        "description": "Country Name"
-                    },
-                    "provinceCode": {
-                        "title": "Provincecode",
-                        "type": "string",
-                        "description": "Province Code"
-                    },
-                    "provinceName": {
-                        "title": "Provincename",
-                        "type": "string",
-                        "description": "Province Name"
-                    },
-                    "cityCode": {
-                        "title": "Citycode",
-                        "type": "string",
-                        "description": "City Code"
-                    },
-                    "cityName": {
-                        "title": "Cityname",
-                        "type": "string",
-                        "description": "City Name"
-                    },
-                    "areaCode": {
-                        "title": "Areacode",
-                        "type": "string",
-                        "description": "Area Code"
-                    },
-                    "areaName": {
-                        "title": "Areaname",
-                        "type": "string",
-                        "description": "Area Name"
-                    },
-                    "intersectionCode": {
-                        "title": "Intersectioncode",
-                        "type": "string",
-                        "description": "Intersection Code"
-                    },
-                    "intersectionName": {
-                        "title": "Intersectionname",
-                        "type": "string",
-                        "description": "Intersection Name"
-                    },
                     "desc": {
                         "title": "Desc",
                         "type": "string",
@@ -9257,8 +9102,7 @@
                     "lng",
                     "lat",
                     "elevation",
-                    "towards",
-                    "intersectionCode"
+                    "towards"
                 ],
                 "type": "object",
                 "properties": {
@@ -9306,11 +9150,6 @@
                         "title": "Desc",
                         "type": "string",
                         "description": "Description"
-                    },
-                    "intersectionCode": {
-                        "title": "Intersectioncode",
-                        "type": "string",
-                        "description": "Intersection Code"
                     }
                 }
             },
@@ -9388,11 +9227,6 @@
                         "title": "Desc",
                         "type": "string",
                         "description": "Description"
-                    },
-                    "intersectionCode": {
-                        "title": "Intersectioncode",
-                        "type": "string",
-                        "description": "Intersection Code"
                     },
                     "enabled": {
                         "title": "Enabled",
@@ -9481,6 +9315,11 @@
                         "type": "string",
                         "description": "Edge Node Name"
                     },
+                    "ip": {
+                        "title": "Ip",
+                        "type": "string",
+                        "description": "Edge Node ip"
+                    },
                     "id": {
                         "title": "Id",
                         "type": "integer",
@@ -9496,6 +9335,16 @@
                         "title": "Name",
                         "type": "string",
                         "description": "Edge Node Name"
+                    },
+                    "ip": {
+                        "title": "Ip",
+                        "type": "string",
+                        "description": "Edge Node ip"
+                    },
+                    "area_code": {
+                        "title": "Area Code",
+                        "type": "string",
+                        "description": "Area Code"
                     }
                 }
             },
@@ -9560,11 +9409,6 @@
                             }
                         ],
                         "description": "Location"
-                    },
-                    "intersectionCode": {
-                        "title": "Intersectioncode",
-                        "type": "string",
-                        "description": "Intersection Code"
                     },
                     "edgeNodeID": {
                         "title": "Edgenodeid",
@@ -9655,206 +9499,6 @@
                     }
                 }
             },
-            "Intersection": {
-                "title": "Intersection",
-                "required": [
-                    "code",
-                    "name",
-                    "lat",
-                    "lng",
-                    "areaCode",
-                    "id",
-                    "countryCode",
-                    "countryName",
-                    "provinceCode",
-                    "provinceName",
-                    "cityCode",
-                    "cityName",
-                    "areaName"
-                ],
-                "type": "object",
-                "properties": {
-                    "code": {
-                        "title": "Code",
-                        "type": "string",
-                        "description": "Intersection code"
-                    },
-                    "name": {
-                        "title": "Name",
-                        "type": "string",
-                        "description": "Intersection name"
-                    },
-                    "lat": {
-                        "title": "Lat",
-                        "type": "string",
-                        "description": "Intersection latitude"
-                    },
-                    "lng": {
-                        "title": "Lng",
-                        "type": "string",
-                        "description": "Intersection longitude"
-                    },
-                    "areaCode": {
-                        "title": "Areacode",
-                        "type": "string",
-                        "description": "Area Code"
-                    },
-                    "id": {
-                        "title": "Id",
-                        "type": "integer",
-                        "description": "Intersection ID"
-                    },
-                    "countryCode": {
-                        "title": "Countrycode",
-                        "type": "string",
-                        "description": "Country Code"
-                    },
-                    "countryName": {
-                        "title": "Countryname",
-                        "type": "string",
-                        "description": "Country Name"
-                    },
-                    "provinceCode": {
-                        "title": "Provincecode",
-                        "type": "string",
-                        "description": "Province Code"
-                    },
-                    "provinceName": {
-                        "title": "Provincename",
-                        "type": "string",
-                        "description": "Province Name"
-                    },
-                    "cityCode": {
-                        "title": "Citycode",
-                        "type": "string",
-                        "description": "City Code"
-                    },
-                    "cityName": {
-                        "title": "Cityname",
-                        "type": "string",
-                        "description": "City Name"
-                    },
-                    "areaName": {
-                        "title": "Areaname",
-                        "type": "string",
-                        "description": "Area Name"
-                    }
-                }
-            },
-            "IntersectionCreate": {
-                "title": "IntersectionCreate",
-                "required": [
-                    "code",
-                    "name",
-                    "lat",
-                    "lng",
-                    "areaCode",
-                    "mapData",
-                    "bitmapFilename"
-                ],
-                "type": "object",
-                "properties": {
-                    "code": {
-                        "title": "Code",
-                        "type": "string",
-                        "description": "Intersection code"
-                    },
-                    "name": {
-                        "title": "Name",
-                        "type": "string",
-                        "description": "Intersection name"
-                    },
-                    "lat": {
-                        "title": "Lat",
-                        "type": "string",
-                        "description": "Intersection latitude"
-                    },
-                    "lng": {
-                        "title": "Lng",
-                        "type": "string",
-                        "description": "Intersection longitude"
-                    },
-                    "areaCode": {
-                        "title": "Areacode",
-                        "type": "string",
-                        "description": "Area Code"
-                    },
-                    "mapData": {
-                        "title": "Mapdata",
-                        "type": "object",
-                        "description": "Intersection Map Data"
-                    },
-                    "bitmapFilename": {
-                        "title": "Bitmapfilename",
-                        "type": "string",
-                        "description": "Bitmap Filename"
-                    }
-                }
-            },
-            "IntersectionUpdate": {
-                "title": "IntersectionUpdate",
-                "type": "object",
-                "properties": {
-                    "code": {
-                        "title": "Code",
-                        "type": "string",
-                        "description": "Intersection code"
-                    },
-                    "name": {
-                        "title": "Name",
-                        "type": "string",
-                        "description": "Intersection name"
-                    },
-                    "lat": {
-                        "title": "Lat",
-                        "type": "string",
-                        "description": "Intersection latitude"
-                    },
-                    "lng": {
-                        "title": "Lng",
-                        "type": "string",
-                        "description": "Intersection longitude"
-                    },
-                    "areaCode": {
-                        "title": "Areacode",
-                        "type": "string",
-                        "description": "Area Code"
-                    },
-                    "mapData": {
-                        "title": "Mapdata",
-                        "type": "object",
-                        "description": "Intersection Map Data"
-                    },
-                    "bitmapFilename": {
-                        "title": "Bitmapfilename",
-                        "type": "string",
-                        "description": "Intersection Bitmap Filename"
-                    }
-                }
-            },
-            "Intersections": {
-                "title": "Intersections",
-                "required": [
-                    "total",
-                    "data"
-                ],
-                "type": "object",
-                "properties": {
-                    "total": {
-                        "title": "Total",
-                        "type": "integer",
-                        "description": "Total"
-                    },
-                    "data": {
-                        "title": "Data",
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/Intersection"
-                        },
-                        "description": "Data"
-                    }
-                }
-            },
             "KinematicsInfo": {
                 "title": "KinematicsInfo",
                 "required": [
@@ -9896,16 +9540,6 @@
                     "enabled",
                     "point",
                     "pole",
-                    "countryCode",
-                    "countryName",
-                    "provinceCode",
-                    "provinceName",
-                    "cityCode",
-                    "cityName",
-                    "areaCode",
-                    "areaName",
-                    "intersectionCode",
-                    "intersectionName",
                     "desc",
                     "createTime"
                 ],
@@ -9981,56 +9615,6 @@
                         "type": "string",
                         "description": "RSU Name"
                     },
-                    "countryCode": {
-                        "title": "Countrycode",
-                        "type": "string",
-                        "description": "Country Code"
-                    },
-                    "countryName": {
-                        "title": "Countryname",
-                        "type": "string",
-                        "description": "Country Name"
-                    },
-                    "provinceCode": {
-                        "title": "Provincecode",
-                        "type": "string",
-                        "description": "Province Code"
-                    },
-                    "provinceName": {
-                        "title": "Provincename",
-                        "type": "string",
-                        "description": "Province Name"
-                    },
-                    "cityCode": {
-                        "title": "Citycode",
-                        "type": "string",
-                        "description": "City Code"
-                    },
-                    "cityName": {
-                        "title": "Cityname",
-                        "type": "string",
-                        "description": "City Name"
-                    },
-                    "areaCode": {
-                        "title": "Areacode",
-                        "type": "string",
-                        "description": "Area Code"
-                    },
-                    "areaName": {
-                        "title": "Areaname",
-                        "type": "string",
-                        "description": "Area Name"
-                    },
-                    "intersectionCode": {
-                        "title": "Intersectioncode",
-                        "type": "string",
-                        "description": "Intersection Code"
-                    },
-                    "intersectionName": {
-                        "title": "Intersectionname",
-                        "type": "string",
-                        "description": "Intersection Name"
-                    },
                     "desc": {
                         "title": "Desc",
                         "type": "string",
@@ -10060,8 +9644,7 @@
                     "elevation",
                     "towards",
                     "point",
-                    "pole",
-                    "intersectionCode"
+                    "pole"
                 ],
                 "type": "object",
                 "properties": {
@@ -10126,11 +9709,6 @@
                         "type": "string",
                         "description": "Websocket url",
                         "default": ""
-                    },
-                    "intersectionCode": {
-                        "title": "Intersectioncode",
-                        "type": "string",
-                        "description": "Intersection Code"
                     }
                 }
             },
@@ -10225,11 +9803,6 @@
                         "type": "string",
                         "description": "Websocket url",
                         "default": ""
-                    },
-                    "intersectionCode": {
-                        "title": "Intersectioncode",
-                        "type": "string",
-                        "description": "Intersection Code"
                     },
                     "enabled": {
                         "title": "Enabled",
@@ -10534,6 +10107,226 @@
                         "title": "Password",
                         "type": "string",
                         "description": "Password"
+                    }
+                }
+            },
+            "Map": {
+                "title": "Map",
+                "required": [
+                    "id",
+                    "name",
+                    "desc",
+                    "amount",
+                    "createTime"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "title": "Id",
+                        "type": "integer",
+                        "description": "Map ID"
+                    },
+                    "name": {
+                        "title": "Name",
+                        "type": "string",
+                        "description": "Map Name"
+                    },
+                    "desc": {
+                        "title": "Desc",
+                        "type": "string",
+                        "description": "Description"
+                    },
+                    "amount": {
+                        "title": "Amount",
+                        "type": "integer",
+                        "description": "Count of RSUs"
+                    },
+                    "createTime": {
+                        "title": "Createtime",
+                        "type": "string",
+                        "description": "Create Time",
+                        "format": "date-time"
+                    }
+                }
+            },
+            "MapRSU": {
+                "title": "MapRSU",
+                "required": [
+                    "data"
+                ],
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "title": "Data",
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/MapRSUBase"
+                            }
+                        ],
+                        "description": "Data"
+                    }
+                }
+            },
+            "MapRSUBase": {
+                "title": "MapRSUBase",
+                "required": [
+                    "mapId",
+                    "rsus"
+                ],
+                "type": "object",
+                "properties": {
+                    "mapId": {
+                        "title": "Mapid",
+                        "type": "integer",
+                        "description": "Map ID"
+                    },
+                    "rsus": {
+                        "title": "Rsus",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/RSUsInMapRSU"
+                        },
+                        "description": "RSUs"
+                    }
+                }
+            },
+            "MapRSUCreate": {
+                "title": "MapRSUCreate",
+                "required": [
+                    "rsus"
+                ],
+                "type": "object",
+                "properties": {
+                    "rsus": {
+                        "title": "Rsus",
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        },
+                        "description": "RSU ID"
+                    }
+                }
+            },
+            "MapRSUs": {
+                "title": "MapRSUs",
+                "required": [
+                    "total",
+                    "data"
+                ],
+                "type": "object",
+                "properties": {
+                    "total": {
+                        "title": "Total",
+                        "type": "integer",
+                        "description": "Total"
+                    },
+                    "data": {
+                        "title": "Data",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/MapRSUsBase"
+                        },
+                        "description": "Data"
+                    }
+                }
+            },
+            "MapRSUsBase": {
+                "title": "MapRSUsBase",
+                "required": [
+                    "id",
+                    "rsuName",
+                    "rsuSn",
+                    "onlineStatus",
+                    "rsuStatus",
+                    "deliveryStatus",
+                    "createTime"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "title": "Id",
+                        "type": "integer",
+                        "description": "Map RSU ID"
+                    },
+                    "rsuName": {
+                        "title": "Rsuname",
+                        "type": "string",
+                        "description": "RSU Name"
+                    },
+                    "rsuSn": {
+                        "title": "Rsusn",
+                        "type": "string",
+                        "description": "RSU SN"
+                    },
+                    "onlineStatus": {
+                        "title": "Onlinestatus",
+                        "type": "boolean",
+                        "description": "Online Status"
+                    },
+                    "rsuStatus": {
+                        "title": "Rsustatus",
+                        "type": "string",
+                        "description": "RSU Status"
+                    },
+                    "deliveryStatus": {
+                        "title": "Deliverystatus",
+                        "type": "integer",
+                        "description": "Delivery Status"
+                    },
+                    "createTime": {
+                        "title": "Createtime",
+                        "type": "string",
+                        "description": "Create Time",
+                        "format": "date-time"
+                    }
+                }
+            },
+            "MapUpdate": {
+                "title": "MapUpdate",
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "title": "Name",
+                        "type": "string",
+                        "description": "Name"
+                    },
+                    "desc": {
+                        "title": "Desc",
+                        "type": "string",
+                        "description": "Description"
+                    },
+                    "data": {
+                        "title": "Data",
+                        "type": "object",
+                        "description": "Data"
+                    },
+                    "bitmapFilename": {
+                        "title": "Bitmapfilename",
+                        "type": "string",
+                        "description": "Bitmap Filename"
+                    }
+                }
+            },
+            "Maps": {
+                "title": "Maps",
+                "required": [
+                    "total",
+                    "data"
+                ],
+                "type": "object",
+                "properties": {
+                    "total": {
+                        "title": "Total",
+                        "type": "integer",
+                        "description": "Total"
+                    },
+                    "data": {
+                        "title": "Data",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Map"
+                        },
+                        "description": "Data"
                     }
                 }
             },
@@ -11210,16 +11003,6 @@
                     "rsuEsn",
                     "eventClass",
                     "createTime",
-                    "countryCode",
-                    "countryName",
-                    "provinceCode",
-                    "provinceName",
-                    "cityCode",
-                    "cityName",
-                    "areaCode",
-                    "areaName",
-                    "intersectionCode",
-                    "intersectionName",
                     "alertID",
                     "eventStatus",
                     "timestamp",
@@ -11257,56 +11040,6 @@
                         "type": "string",
                         "description": "Create time",
                         "format": "date-time"
-                    },
-                    "countryCode": {
-                        "title": "Countrycode",
-                        "type": "string",
-                        "description": "Country Code"
-                    },
-                    "countryName": {
-                        "title": "Countryname",
-                        "type": "string",
-                        "description": "Country Name"
-                    },
-                    "provinceCode": {
-                        "title": "Provincecode",
-                        "type": "string",
-                        "description": "Province Code"
-                    },
-                    "provinceName": {
-                        "title": "Provincename",
-                        "type": "string",
-                        "description": "Province Name"
-                    },
-                    "cityCode": {
-                        "title": "Citycode",
-                        "type": "string",
-                        "description": "City Code"
-                    },
-                    "cityName": {
-                        "title": "Cityname",
-                        "type": "string",
-                        "description": "City Name"
-                    },
-                    "areaCode": {
-                        "title": "Areacode",
-                        "type": "string",
-                        "description": "Area Code"
-                    },
-                    "areaName": {
-                        "title": "Areaname",
-                        "type": "string",
-                        "description": "Area Name"
-                    },
-                    "intersectionCode": {
-                        "title": "Intersectioncode",
-                        "type": "string",
-                        "description": "Intersection Code"
-                    },
-                    "intersectionName": {
-                        "title": "Intersectionname",
-                        "type": "string",
-                        "description": "Intersection Name"
                     },
                     "alertID": {
                         "title": "Alertid",
@@ -11611,16 +11344,6 @@
                     "rsuName",
                     "rsuEsn",
                     "rsuIP",
-                    "countryCode",
-                    "countryName",
-                    "provinceCode",
-                    "provinceName",
-                    "cityCode",
-                    "cityName",
-                    "areaCode",
-                    "areaName",
-                    "intersectionCode",
-                    "intersectionName",
                     "rsuStatus",
                     "onlineStatus",
                     "createTime",
@@ -11648,56 +11371,6 @@
                         "title": "Rsuip",
                         "type": "string",
                         "description": "RSU IP"
-                    },
-                    "countryCode": {
-                        "title": "Countrycode",
-                        "type": "string",
-                        "description": "Country Code"
-                    },
-                    "countryName": {
-                        "title": "Countryname",
-                        "type": "string",
-                        "description": "Country Name"
-                    },
-                    "provinceCode": {
-                        "title": "Provincecode",
-                        "type": "string",
-                        "description": "Province Code"
-                    },
-                    "provinceName": {
-                        "title": "Provincename",
-                        "type": "string",
-                        "description": "Province Name"
-                    },
-                    "cityCode": {
-                        "title": "Citycode",
-                        "type": "string",
-                        "description": "City Code"
-                    },
-                    "cityName": {
-                        "title": "Cityname",
-                        "type": "string",
-                        "description": "City Name"
-                    },
-                    "areaCode": {
-                        "title": "Areacode",
-                        "type": "string",
-                        "description": "Area Code"
-                    },
-                    "areaName": {
-                        "title": "Areaname",
-                        "type": "string",
-                        "description": "Area Name"
-                    },
-                    "intersectionCode": {
-                        "title": "Intersectioncode",
-                        "type": "string",
-                        "description": "Intersection Code"
-                    },
-                    "intersectionName": {
-                        "title": "Intersectionname",
-                        "type": "string",
-                        "description": "Intersection Name"
                     },
                     "rsuStatus": {
                         "title": "Rsustatus",
@@ -12092,7 +11765,6 @@
                     "rsuName",
                     "rsuEsn",
                     "rsuIP",
-                    "intersectionCode",
                     "lat",
                     "lon"
                 ],
@@ -12124,11 +11796,6 @@
                         "type": "string",
                         "description": "RSU IP"
                     },
-                    "intersectionCode": {
-                        "title": "Intersectioncode",
-                        "type": "string",
-                        "description": "Intersection Code"
-                    },
                     "rsuModelId": {
                         "title": "Rsumodelid",
                         "type": "integer",
@@ -12158,16 +11825,6 @@
                     "rsuName",
                     "rsuEsn",
                     "rsuIP",
-                    "countryCode",
-                    "countryName",
-                    "provinceCode",
-                    "provinceName",
-                    "cityCode",
-                    "cityName",
-                    "areaCode",
-                    "areaName",
-                    "intersectionCode",
-                    "intersectionName",
                     "rsuStatus",
                     "onlineStatus",
                     "createTime",
@@ -12195,56 +11852,6 @@
                         "title": "Rsuip",
                         "type": "string",
                         "description": "RSU IP"
-                    },
-                    "countryCode": {
-                        "title": "Countrycode",
-                        "type": "string",
-                        "description": "Country Code"
-                    },
-                    "countryName": {
-                        "title": "Countryname",
-                        "type": "string",
-                        "description": "Country Name"
-                    },
-                    "provinceCode": {
-                        "title": "Provincecode",
-                        "type": "string",
-                        "description": "Province Code"
-                    },
-                    "provinceName": {
-                        "title": "Provincename",
-                        "type": "string",
-                        "description": "Province Name"
-                    },
-                    "cityCode": {
-                        "title": "Citycode",
-                        "type": "string",
-                        "description": "City Code"
-                    },
-                    "cityName": {
-                        "title": "Cityname",
-                        "type": "string",
-                        "description": "City Name"
-                    },
-                    "areaCode": {
-                        "title": "Areacode",
-                        "type": "string",
-                        "description": "Area Code"
-                    },
-                    "areaName": {
-                        "title": "Areaname",
-                        "type": "string",
-                        "description": "Area Name"
-                    },
-                    "intersectionCode": {
-                        "title": "Intersectioncode",
-                        "type": "string",
-                        "description": "Intersection Code"
-                    },
-                    "intersectionName": {
-                        "title": "Intersectionname",
-                        "type": "string",
-                        "description": "Intersection Name"
                     },
                     "rsuStatus": {
                         "title": "Rsustatus",
@@ -12970,11 +12577,6 @@
                         "type": "string",
                         "description": "RSU IP"
                     },
-                    "intersectionCode": {
-                        "title": "Intersectioncode",
-                        "type": "string",
-                        "description": "intersection Code"
-                    },
                     "rsuModelId": {
                         "title": "Rsumodelid",
                         "type": "integer",
@@ -13030,6 +12632,39 @@
                     }
                 }
             },
+            "RSUsInMapRSU": {
+                "title": "RSUsInMapRSU",
+                "required": [
+                    "id",
+                    "rsuId",
+                    "status",
+                    "createTime"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "title": "Id",
+                        "type": "integer",
+                        "description": "ID"
+                    },
+                    "rsuId": {
+                        "title": "Rsuid",
+                        "type": "integer",
+                        "description": "RSU ID"
+                    },
+                    "status": {
+                        "title": "Status",
+                        "type": "integer",
+                        "description": "Status"
+                    },
+                    "createTime": {
+                        "title": "Createtime",
+                        "type": "string",
+                        "description": "Create Time",
+                        "format": "date-time"
+                    }
+                }
+            },
             "Radar": {
                 "title": "Radar",
                 "required": [
@@ -13042,16 +12677,6 @@
                     "elevation",
                     "towards",
                     "status",
-                    "countryCode",
-                    "countryName",
-                    "provinceCode",
-                    "provinceName",
-                    "cityCode",
-                    "cityName",
-                    "areaCode",
-                    "areaName",
-                    "intersectionCode",
-                    "intersectionName",
                     "desc",
                     "createTime",
                     "enabled"
@@ -13113,56 +12738,6 @@
                         "type": "string",
                         "description": "RSU Name"
                     },
-                    "countryCode": {
-                        "title": "Countrycode",
-                        "type": "string",
-                        "description": "Country Code"
-                    },
-                    "countryName": {
-                        "title": "Countryname",
-                        "type": "string",
-                        "description": "Country Name"
-                    },
-                    "provinceCode": {
-                        "title": "Provincecode",
-                        "type": "string",
-                        "description": "Province Code"
-                    },
-                    "provinceName": {
-                        "title": "Provincename",
-                        "type": "string",
-                        "description": "Province Name"
-                    },
-                    "cityCode": {
-                        "title": "Citycode",
-                        "type": "string",
-                        "description": "City Code"
-                    },
-                    "cityName": {
-                        "title": "Cityname",
-                        "type": "string",
-                        "description": "City Name"
-                    },
-                    "areaCode": {
-                        "title": "Areacode",
-                        "type": "string",
-                        "description": "Area Code"
-                    },
-                    "areaName": {
-                        "title": "Areaname",
-                        "type": "string",
-                        "description": "Area Name"
-                    },
-                    "intersectionCode": {
-                        "title": "Intersectioncode",
-                        "type": "string",
-                        "description": "Intersection Code"
-                    },
-                    "intersectionName": {
-                        "title": "Intersectionname",
-                        "type": "string",
-                        "description": "Intersection Name"
-                    },
                     "desc": {
                         "title": "Desc",
                         "type": "string",
@@ -13189,8 +12764,7 @@
                     "lng",
                     "lat",
                     "elevation",
-                    "towards",
-                    "intersectionCode"
+                    "towards"
                 ],
                 "type": "object",
                 "properties": {
@@ -13239,11 +12813,6 @@
                         "type": "string",
                         "description": "Description",
                         "default": ""
-                    },
-                    "intersectionCode": {
-                        "title": "Intersectioncode",
-                        "type": "string",
-                        "description": "Intersection Code"
                     }
                 }
             },
@@ -13322,11 +12891,6 @@
                         "type": "string",
                         "description": "Description",
                         "default": ""
-                    },
-                    "intersectionCode": {
-                        "title": "Intersectioncode",
-                        "type": "string",
-                        "description": "Intersection Code"
                     },
                     "enabled": {
                         "title": "Enabled",
@@ -13662,16 +13226,6 @@
                     "phaseId",
                     "light",
                     "timing",
-                    "countryCode",
-                    "countryName",
-                    "provinceCode",
-                    "provinceName",
-                    "cityCode",
-                    "cityName",
-                    "areaCode",
-                    "areaName",
-                    "intersectionCode",
-                    "intersectionName",
                     "desc",
                     "createTime"
                 ],
@@ -13738,56 +13292,6 @@
                         "type": "string",
                         "description": "RSU Name"
                     },
-                    "countryCode": {
-                        "title": "Countrycode",
-                        "type": "string",
-                        "description": "Country Code"
-                    },
-                    "countryName": {
-                        "title": "Countryname",
-                        "type": "string",
-                        "description": "Country Name"
-                    },
-                    "provinceCode": {
-                        "title": "Provincecode",
-                        "type": "string",
-                        "description": "Province Code"
-                    },
-                    "provinceName": {
-                        "title": "Provincename",
-                        "type": "string",
-                        "description": "Province Name"
-                    },
-                    "cityCode": {
-                        "title": "Citycode",
-                        "type": "string",
-                        "description": "City Code"
-                    },
-                    "cityName": {
-                        "title": "Cityname",
-                        "type": "string",
-                        "description": "City Name"
-                    },
-                    "areaCode": {
-                        "title": "Areacode",
-                        "type": "string",
-                        "description": "Area Code"
-                    },
-                    "areaName": {
-                        "title": "Areaname",
-                        "type": "string",
-                        "description": "Area Name"
-                    },
-                    "intersectionCode": {
-                        "title": "Intersectioncode",
-                        "type": "string",
-                        "description": "Intersection Code"
-                    },
-                    "intersectionName": {
-                        "title": "Intersectionname",
-                        "type": "string",
-                        "description": "Intersection Name"
-                    },
                     "desc": {
                         "title": "Desc",
                         "type": "string",
@@ -13808,8 +13312,7 @@
                     "name",
                     "point",
                     "phaseId",
-                    "light",
-                    "intersectionCode"
+                    "light"
                 ],
                 "type": "object",
                 "properties": {
@@ -13853,11 +13356,6 @@
                         "type": "string",
                         "description": "Description",
                         "default": ""
-                    },
-                    "intersectionCode": {
-                        "title": "Intersectioncode",
-                        "type": "string",
-                        "description": "Intersection Code"
                     }
                 }
             },
@@ -13932,11 +13430,6 @@
                         "description": "Description",
                         "default": ""
                     },
-                    "intersectionCode": {
-                        "title": "Intersectioncode",
-                        "type": "string",
-                        "description": "Intersection Code"
-                    },
                     "enabled": {
                         "title": "Enabled",
                         "type": "boolean",
@@ -13988,6 +13481,11 @@
                         ],
                         "description": "MQTT Config"
                     },
+                    "area_code": {
+                        "title": "Area Code",
+                        "type": "string",
+                        "description": "Area Code"
+                    },
                     "id": {
                         "title": "Id",
                         "type": "integer",
@@ -14017,6 +13515,11 @@
                             }
                         ],
                         "description": "MQTT Config"
+                    },
+                    "area_code": {
+                        "title": "Area Code",
+                        "type": "string",
+                        "description": "Area Code"
                     }
                 }
             },

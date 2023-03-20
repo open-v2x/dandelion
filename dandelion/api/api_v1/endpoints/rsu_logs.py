@@ -24,7 +24,6 @@ from sqlalchemy.orm import Session
 
 from dandelion import crud, models, schemas
 from dandelion.api import deps
-from dandelion.api.deps import OpenV2XHTTPException as HTTPException
 from dandelion.mqtt.service.log import log_down
 
 router = APIRouter()
@@ -57,12 +56,9 @@ def create(
 ) -> schemas.RSULog:
     rsus: List[models.RSU] = []
     for rsu_id in rsu_log_in.rsus:
-        rus_in_db = crud.rsu.get(db, id=rsu_id)
-        if not rus_in_db:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail=f"RSU [id: {rsu_id}] not found",
-            )
+        rus_in_db = deps.crud_get(
+            obj_id=rsu_id, crud_model=crud.rsu, detail="RSU [id: {}] not found"
+        )
         rsus.append(rus_in_db)
 
     log_in_db = crud.rsu_log.create_rsu_log(db, obj_in=rsu_log_in, rsus=rsus)
@@ -102,10 +98,7 @@ def delete(
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> Response:
-    if not crud.rsu_log.get(db, id=rsu_log_id):
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"RSULog [id: {rsu_log_id}] not found"
-        )
+    deps.crud_get(obj_id=rsu_log_id, crud_model=crud.rsu_log, detail="RSULog [id: {}] not found")
     crud.rsu_log.remove(db, id=rsu_log_id)
     return Response(content=None, status_code=status.HTTP_204_NO_CONTENT)
 
@@ -133,11 +126,9 @@ def get(
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> schemas.RSULog:
-    rsu_log_in_db = crud.rsu_log.get(db, id=rsu_log_id)
-    if not rsu_log_in_db:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"RSULog [id: {rsu_log_id}] not found"
-        )
+    rsu_log_in_db = deps.crud_get(
+        obj_id=rsu_log_id, crud_model=crud.rsu_log, detail="RSULog [id: {}] not found"
+    )
     return rsu_log_in_db.to_all_dict()
 
 
@@ -194,20 +185,15 @@ def update(
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> schemas.RSULog:
-    rsu_log_in_db = crud.rsu_log.get(db, id=rsu_log_id)
-    if not rsu_log_in_db:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"RSULog [id: {rsu_log_id}] not found"
-        )
+    rsu_log_in_db = deps.crud_get(
+        obj_id=rsu_log_id, crud_model=crud.rsu_log, detail="RSULog [id: {}] not found"
+    )
 
     rsus: List[models.RSU] = []
     for rsu_id in rsu_log_in.rsus:
-        rus_in_db = crud.rsu.get(db, id=rsu_id)
-        if not rus_in_db:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail=f"RSU [id: {rsu_id}] not found",
-            )
+        rus_in_db = deps.crud_get(
+            obj_id=rsu_id, crud_model=crud.rsu, detail="RSU [id: {}] not found"
+        )
         rsus.append(rus_in_db)
 
     log_in_db = crud.rsu_log.update_rsu_log(db, db_obj=rsu_log_in_db, obj_in=rsu_log_in, rsus=rsus)

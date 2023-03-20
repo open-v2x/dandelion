@@ -24,7 +24,7 @@ from sqlalchemy.orm import Session
 
 from dandelion import crud, models, schemas
 from dandelion.api import deps
-from dandelion.api.deps import OpenV2XHTTPException as HTTPException, error_handle
+from dandelion.api.deps import error_handle
 
 router = APIRouter()
 LOG: LoggerAdapter = log.getLogger(__name__)
@@ -84,15 +84,7 @@ def delete(
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> Response:
-    camera_in_db = crud.camera.get(db, id=camera_id)
-    if not camera_in_db:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"Camera [id: {camera_id}] not found"
-        )
-    if camera_in_db.is_default:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"Camera [{camera_in_db}] can not delete"
-        )
+    deps.crud_get(obj_id=camera_id, crud_model=crud.camera, detail="Camera [id: {}] not found")
     crud.camera.remove(db, id=camera_id)
     return Response(content=None, status_code=status.HTTP_204_NO_CONTENT)
 
@@ -120,11 +112,9 @@ def get(
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> schemas.Camera:
-    camera_in_db = crud.camera.get(db, id=camera_id)
-    if not camera_in_db:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"Camera [id: {camera_id}] not found"
-        )
+    camera_in_db = deps.crud_get(
+        obj_id=camera_id, crud_model=crud.camera, detail="Camera [id: {}] not found"
+    )
     return camera_in_db.to_dict()
 
 
@@ -154,12 +144,6 @@ def get_all(
         None, alias="name", description="Filter by camera name. Fuzzy prefix query is supported"
     ),
     rsu_id: Optional[int] = Query(None, alias="rsuId", description="Filter by RSU ID"),
-    intersection_code: Optional[str] = Query(
-        None, alias="intersectionCode", description="Filter by camera intersection code"
-    ),
-    is_default: Optional[bool] = Query(
-        False, alias="isDefault", description="Filter by camera is default"
-    ),
     page_num: int = Query(1, alias="pageNum", ge=1, description="Page number"),
     page_size: int = Query(10, alias="pageSize", ge=-1, description="Page size"),
     db: Session = Depends(deps.get_db),
@@ -173,8 +157,6 @@ def get_all(
         sn=sn,
         name=name,
         rsu_id=rsu_id,
-        intersection_code=intersection_code,
-        is_default=is_default,
     )
     return schemas.Cameras(total=total, data=[camera.to_dict() for camera in data])
 
@@ -203,16 +185,9 @@ def update(
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> schemas.RSUModel:
-    camera_in_db = crud.camera.get(db, id=camera_id)
-    if not camera_in_db:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"Camera [id: {camera_id}] not found"
-        )
-    if camera_in_db.is_default:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail=f"Camera [{camera_in_db}] can not update",
-        )
+    camera_in_db = deps.crud_get(
+        obj_id=camera_id, crud_model=crud.camera, detail="Camera [id: {}] not found"
+    )
     try:
         new_camera_in_db = crud.camera.update(db, db_obj=camera_in_db, obj_in=camera_in)
     except (sql_exc.DataError, sql_exc.IntegrityError) as ex:

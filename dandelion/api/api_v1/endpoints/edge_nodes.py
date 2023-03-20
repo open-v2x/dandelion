@@ -45,6 +45,7 @@ Get all Edge Nodes.
 )
 def get_all(
     name: str = Query(None, alias="name", description=""),
+    area_code: str = Query(None, alias="areaCode", description=""),
     page_num: int = Query(1, alias="pageNum", ge=1, description="Page number"),
     page_size: int = Query(10, alias="pageSize", ge=-1, description="Page size"),
     *,
@@ -53,10 +54,7 @@ def get_all(
 ) -> schemas.EdgeNodes:
     skip = page_size * (page_num - 1)
     total, data = crud.edge_node.get_multi_with_total(
-        db,
-        skip=skip,
-        limit=page_size,
-        name=name,
+        db, skip=skip, limit=page_size, name=name, area_code=area_code
     )
     return schemas.EdgeNodes(total=total, data=[node.to_all_dict() for node in data])
 

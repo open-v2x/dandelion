@@ -23,7 +23,6 @@ from sqlalchemy.orm import Session
 
 from dandelion import crud, models, schemas
 from dandelion.api import deps
-from dandelion.api.deps import OpenV2XHTTPException as HTTPException
 from dandelion.mqtt import cloud_server as mqtt_cloud_server
 from dandelion.mqtt.topic import v2x_edge
 
@@ -135,11 +134,10 @@ def get(
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> schemas.SystemConfig:
-    system_config = crud.system_config.get(db, id=system_config_id)
-    if not system_config:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"System config [id: {system_config_id}] not found.",
-        )
+    system_config = deps.crud_get(
+        obj_id=system_config_id,
+        crud_model=crud.system_config,
+        detail="System config [id: {}] not found",
+    )
     system_config.mode = mode_conf.mode
     return system_config

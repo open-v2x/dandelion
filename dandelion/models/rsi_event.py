@@ -47,11 +47,6 @@ class RSIEvent(Base, DandelionBase):
     __tablename__ = "rsi_event"
 
     rsu_id = Column(Integer, ForeignKey("rsu.id"))
-    intersection_code = Column(
-        String(64),
-        ForeignKey("intersection.code", onupdate="CASCADE", ondelete="RESTRICT"),
-        nullable=False,
-    )
     alert_id = Column(String(64), nullable=True, default="")
     duration = Column(Integer, nullable=True)
     event_status = Column(Boolean, nullable=True, default=True)
@@ -90,14 +85,11 @@ class RSIEvent(Base, DandelionBase):
         }
 
     def to_dict(self):
-        return {
-            **dict(
-                id=self.id,
-                rsuName=Optional_util.none(self.rsu).map(lambda v: v.rsu_name).get(),
-                rsuEsn=Optional_util.none(self.rsu).map(lambda v: v.rsu_esn).get(),
-                eventClass=self.event_class.name,
-                eventType=self.event_type,
-                createTime=self.create_time,
-            ),
-            **self.intersection.to_all(),
-        }
+        return dict(
+            id=self.id,
+            rsuName=Optional_util.none(self.rsu).map(lambda v: v.rsu_name).get(),
+            rsuEsn=Optional_util.none(self.rsu).map(lambda v: v.rsu_esn).get(),
+            eventClass=self.event_class.name,
+            eventType=self.event_type,
+            createTime=self.create_time,
+        )

@@ -26,9 +26,10 @@ from dandelion.api.api_v1.endpoints import (
     countries,
     edge_node_rsus,
     edge_nodes,
-    intersection,
     lidars,
     login,
+    map_rsus,
+    maps,
     mngs,
     osw,
     provinces,
@@ -67,11 +68,10 @@ api_router.include_router(cameras.router, prefix="/cameras", tags=["Camera"])
 api_router.include_router(cloud_homes.router, prefix="/homes", tags=["Cloud Control Home"])
 
 api_router.include_router(mngs.router, prefix="/mngs", tags=["MNG"])
-
+api_router.include_router(map_rsus.router, prefix="/maps", tags=["Map"])
+api_router.include_router(maps.router, prefix="/maps", tags=["Map"])
 api_router.include_router(radars.router, prefix="/radars", tags=["Radar"])
 api_router.include_router(spats.router, prefix="/spats", tags=["Spat"])
-
-api_router.include_router(intersection.router, prefix="/intersections", tags=["Intersection"])
 
 api_router.include_router(lidars.router, prefix="/lidars", tags=["Lidar"])
 

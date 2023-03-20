@@ -36,12 +36,6 @@ class Spat(Base, DandelionBase):
     rsu_id = Column(Integer, ForeignKey("rsu.id"))
     timing = Column(DateTime, nullable=False, default=lambda: datetime.utcnow())
     desc = Column(String(255), nullable=False, default="")
-    is_default = Column(Boolean, nullable=False, default=False)
-    intersection_code = Column(
-        String(64),
-        ForeignKey("intersection.code", onupdate="CASCADE", ondelete="RESTRICT"),
-        nullable=False,
-    )
 
     __table_args__ = (UniqueConstraint("intersection_id", "phase_id"),)
 
@@ -49,22 +43,19 @@ class Spat(Base, DandelionBase):
         return f"<Spat(intersection_id='{self.intersection_id}', name='{self.name}')>"
 
     def to_dict(self):
-        return {
-            **dict(
-                id=self.id,
-                intersectionId=self.intersection_id,
-                name=self.name,
-                spatIP=self.spat_ip,
-                point=self.point,
-                onlineStatus=self.online_status,
-                enabled=self.enabled,
-                phaseId=self.phase_id,
-                light=self.light,
-                rsuId=self.rsu_id,
-                timing=self.timing,
-                rsuName=Optional_util.none(self.rsu).map(lambda v: v.rsu_name).get(),
-                desc=self.desc,
-                createTime=self.create_time,
-            ),
-            **Optional_util.none(self.intersection).map(lambda v: v.to_all()).get(),
-        }
+        return dict(
+            id=self.id,
+            intersectionId=self.intersection_id,
+            name=self.name,
+            spatIP=self.spat_ip,
+            point=self.point,
+            onlineStatus=self.online_status,
+            enabled=self.enabled,
+            phaseId=self.phase_id,
+            light=self.light,
+            rsuId=self.rsu_id,
+            timing=self.timing,
+            rsuName=Optional_util.none(self.rsu).map(lambda v: v.rsu_name).get(),
+            desc=self.desc,
+            createTime=self.create_time,
+        )

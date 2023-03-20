@@ -40,6 +40,7 @@ class EdgeInfoRouterHandler(RouterHandler):
                 edge_node_in = schemas.EdgeNodeCreate()
                 edge_node_in.name = name
                 edge_node_in.ip = data.get("ip")
+                edge_node_in.area_code = data.get("area_code")
                 edge_node = crud.edge_node.create(db, obj_in=edge_node_in)
             client.publish(
                 topic=v2x_edge_key_info_up_ack(data.get("key")),

@@ -23,7 +23,6 @@ from sqlalchemy.orm import Session
 
 from dandelion import crud, models, schemas
 from dandelion.api import deps
-from dandelion.api.deps import OpenV2XHTTPException as HTTPException
 from dandelion.schemas.utils import Sort
 
 router = APIRouter()
@@ -53,11 +52,9 @@ def get(
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> schemas.RSIEvent:
-    rsi_event_in_db = crud.rsi_event.get(db, id=event_id)
-    if not rsi_event_in_db:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"RSIEvent [id: {event_id}] not found"
-        )
+    rsi_event_in_db = deps.crud_get(
+        obj_id=event_id, crud_model=crud.rsi_event, detail="RSIEvent [id: {}] not found"
+    )
     return rsi_event_in_db.to_all_dict()
 
 
@@ -81,9 +78,6 @@ Get all RSI Events.
 )
 def get_all(
     event_type: Optional[int] = Query(None, alias="eventType", description="Filter by eventType"),
-    intersection_code: Optional[str] = Query(
-        None, alias="intersectionCode", description="Filter by intersectionCode"
-    ),
     sort_dir: Sort = Query(Sort.desc, alias="sortDir", description="Sort by ID(asc/desc)"),
     page_num: int = Query(1, alias="pageNum", ge=1, description="Page number"),
     page_size: int = Query(10, alias="pageSize", ge=-1, description="Page size"),
@@ -97,6 +91,5 @@ def get_all(
         limit=page_size,
         sort=sort_dir,
         event_type=event_type,
-        intersection_code=intersection_code,
     )
     return schemas.RSIEvents(total=total, data=[rsi_event.to_all_dict() for rsi_event in data])

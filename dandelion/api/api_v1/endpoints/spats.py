@@ -103,15 +103,7 @@ def delete(
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> Response:
-    spat_in_db = crud.spat.get(db, id=spat_id)
-    if not spat_in_db:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"Spat [id: {spat_id}] not found"
-        )
-    if spat_in_db.is_default:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, detail=f"Spat [{spat_in_db}] can not delete"
-        )
+    deps.crud_get(obj_id=spat_id, crud_model=crud.spat, detail="Spat [id: {}] not found")
     crud.spat.remove(db, id=spat_id)
     return Response(content=None, status_code=status.HTTP_204_NO_CONTENT)
 
@@ -139,11 +131,9 @@ def get(
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> schemas.Spat:
-    spat_in_db = crud.spat.get(db, id=spat_id)
-    if not spat_in_db:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"Spat [id: {spat_id}] not found"
-        )
+    spat_in_db = deps.crud_get(
+        obj_id=spat_id, crud_model=crud.spat, detail="Spat [id: {}] not found"
+    )
     return spat_in_db.to_dict()
 
 
@@ -175,12 +165,6 @@ def get_all(
         None, alias="name", description="Filter by spat name. Fuzzy prefix query is supported"
     ),
     rsu_id: Optional[int] = Query(None, alias="rsuId", description="Filter by rsuId"),
-    intersection_code: Optional[str] = Query(
-        None, alias="intersectionCode", description="Filter by spat intersection code"
-    ),
-    is_default: Optional[bool] = Query(
-        False, alias="isDefault", description="Filter by spat is default"
-    ),
     page_num: int = Query(1, alias="pageNum", ge=1, description="Page number"),
     page_size: int = Query(10, alias="pageSize", ge=-1, description="Page size"),
     db: Session = Depends(deps.get_db),
@@ -194,8 +178,6 @@ def get_all(
         intersection_id=intersection_id,
         name=name,
         rsu_id=rsu_id,
-        intersection_code=intersection_code,
-        is_default=is_default,
     )
     return schemas.Spats(total=total, data=[spat.to_dict() for spat in data])
 
@@ -224,15 +206,9 @@ def update(
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> schemas.Spat:
-    spat_in_db = crud.spat.get(db, id=spat_id)
-    if not spat_in_db:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"Spat [id: {spat_id}] not found"
-        )
-    if spat_in_db.is_default:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, detail=f"Spat [{spat_in_db}] can not delete"
-        )
+    spat_in_db = deps.crud_get(
+        obj_id=spat_id, crud_model=crud.spat, detail="Spat [id: {}] not found"
+    )
     try:
         new_spat_in_db = crud.spat.update(db, db_obj=spat_in_db, obj_in=spat_in)
     except sql_exc.IntegrityError as ex:

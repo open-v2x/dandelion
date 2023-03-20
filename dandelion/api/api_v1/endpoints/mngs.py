@@ -55,9 +55,6 @@ def get_all(
         None, alias="rsuName", description="Filter by rsuName. Fuzzy prefix query is supported"
     ),
     rsu_esn: Optional[str] = Query(None, alias="rsuEsn", description="Filter by rsuEsn"),
-    is_default: Optional[bool] = Query(
-        False, alias="isDefault", description="Filter by rsu is default"
-    ),
     page_num: int = Query(1, alias="pageNum", ge=1, description="Page number"),
     page_size: int = Query(10, alias="pageSize", ge=-1, description="Page size"),
     db: Session = Depends(deps.get_db),
@@ -65,7 +62,7 @@ def get_all(
 ) -> schemas.MNGs:
     skip = page_size * (page_num - 1)
     total, data = crud.rsu.get_multi_with_total(
-        db, skip=skip, limit=page_size, rsu_name=rsu_name, rsu_esn=rsu_esn, is_default=is_default
+        db, skip=skip, limit=page_size, rsu_name=rsu_name, rsu_esn=rsu_esn
     )
     return schemas.MNGs(total=total, data=[rsu.mng.all_dict() for rsu in data])
 
@@ -94,11 +91,7 @@ def update(
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> schemas.MNG:
-    mng_in_db = crud.mng.get(db, id=mng_id)
-    if not mng_in_db:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"MNG [id: {mng_id}] not found"
-        )
+    mng_in_db = deps.crud_get(obj_id=mng_id, crud_model=crud.mng, detail="MNG [id: {}] not found")
     try:
         new_mng_in_db = crud.mng.update_mng(db, db_obj=mng_in_db, obj_in=mng_in)
     except sql_exc.DataError as ex:
@@ -130,11 +123,7 @@ def down(
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> schemas.Message:
-    mng_in_db = crud.mng.get(db, id=mng_id)
-    if not mng_in_db:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"MNG [id: {mng_id}] not found"
-        )
+    mng_in_db = deps.crud_get(obj_id=mng_id, crud_model=crud.mng, detail="MNG [id: {}] not found")
 
     data = mng_in_db.mqtt_dict()
     data["timestamp"] = int(time.time())
@@ -167,11 +156,7 @@ def copy(
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> schemas.Message:
-    mng_in_db = crud.mng.get(db, id=mng_id)
-    if not mng_in_db:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"MNG [id: {mng_id}] not found"
-        )
+    mng_in_db = deps.crud_get(obj_id=mng_id, crud_model=crud.mng, detail="MNG [id: {}] not found")
 
     new_mngs: List[models.MNG] = []
     for rsu_id in mng_copy_in.rsus:
