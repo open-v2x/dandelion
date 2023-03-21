@@ -24,7 +24,7 @@ from sqlalchemy.orm import Session
 
 from dandelion import crud, models, schemas
 from dandelion.api import deps
-from dandelion.api.deps import OpenV2XHTTPException as HTTPException, error_handle
+from dandelion.api.deps import error_handle
 
 router = APIRouter()
 LOG: LoggerAdapter = log.getLogger(__name__)
@@ -84,15 +84,7 @@ def delete(
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> Response:
-    radar_in_db = crud.radar.get(db, id=radar_id)
-    if not radar_in_db:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"Radar [id: {radar_id}] not found"
-        )
-    if radar_in_db.is_default:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, detail=f"Radar [{radar_in_db}] can not delete"
-        )
+    deps.crud_get(db=db, obj_id=radar_id, crud_model=crud.radar, detail="Radar")
     crud.radar.remove(db, id=radar_id)
     return Response(content=None, status_code=status.HTTP_204_NO_CONTENT)
 
@@ -120,11 +112,7 @@ def get(
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> schemas.Radar:
-    radar_in_db = crud.radar.get(db, id=radar_id)
-    if not radar_in_db:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"Radar [id: {radar_id}] not found"
-        )
+    radar_in_db = deps.crud_get(db=db, obj_id=radar_id, crud_model=crud.radar, detail="Radar")
     return radar_in_db.to_dict()
 
 
@@ -154,12 +142,6 @@ def get_all(
         None, alias="name", description="Filter by radar name. Fuzzy prefix query is supported"
     ),
     rsu_id: Optional[int] = Query(None, alias="rsuId", description="Filter by rsuId"),
-    intersection_code: Optional[str] = Query(
-        None, alias="intersectionCode", description="Filter by radar intersection code"
-    ),
-    is_default: Optional[bool] = Query(
-        False, alias="isDefault", description="Filter by radar is default"
-    ),
     page_num: int = Query(1, alias="pageNum", ge=1, description="Page number"),
     page_size: int = Query(10, alias="pageSize", ge=-1, description="Page size"),
     db: Session = Depends(deps.get_db),
@@ -173,8 +155,6 @@ def get_all(
         sn=sn,
         name=name,
         rsu_id=rsu_id,
-        intersection_code=intersection_code,
-        is_default=is_default,
     )
     return schemas.Radars(total=total, data=[radar.to_dict() for radar in data])
 
@@ -203,16 +183,7 @@ def update(
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> schemas.Radar:
-    radar_in_db = crud.radar.get(db, id=radar_id)
-    if not radar_in_db:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"Radar [id: {radar_id}] not found"
-        )
-    if radar_in_db.is_default:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, detail=f"Radar [{radar_in_db}] can not update"
-        )
-
+    radar_in_db = deps.crud_get(db=db, obj_id=radar_id, crud_model=crud.radar, detail="Radar")
     try:
         new_radar_in_db = crud.radar.update(db, db_obj=radar_in_db, obj_in=radar_in)
     except (sql_exc.DataError, sql_exc.IntegrityError) as ex:

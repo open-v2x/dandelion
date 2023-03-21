@@ -122,3 +122,13 @@ def error_handle(err: sqlalchemy.exc.DatabaseError, field: str, field_data: Opti
             detail=detail,
         )
     return OpenV2XHTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=err_msg)
+
+
+def crud_get(db, obj_id, crud_model, detail):
+    data = crud_model.get(db, id=obj_id)
+    if not data:
+        raise OpenV2XHTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"{detail}  [id: {obj_id}] not found",
+        )
+    return data

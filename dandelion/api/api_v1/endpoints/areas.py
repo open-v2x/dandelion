@@ -53,4 +53,4 @@ def get_all(
     current_user: models.User = Depends(deps.get_current_user),
 ) -> List[schemas.Area]:
     areas = crud.area.get_multi_by_city_code(db, city_code)
-    return [area.to_all_dict(need_intersection=True) for area in areas if area.intersections]
+    return [area.to_dict() for area in areas if area.intersections]

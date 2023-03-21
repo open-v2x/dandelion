@@ -34,5 +34,11 @@ class CRUDArea(CRUDBase[Area, AreaCreate, AreaUpdate]):
             query_ = query_.filter(Area.city_code == city_code)
         return query_.offset(skip).limit(limit).all()
 
+    def get_multi_with_total(
+        self,
+        db: Session,
+    ) -> List[Area]:
+        return db.query(self.model).all()
+
 
 area = CRUDArea(Area)

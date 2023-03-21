@@ -125,21 +125,15 @@ class CRUDRSU(CRUDBase[RSU, RSUCreate, RSUUpdate]):
         limit: int = 10,
         rsu_name: Optional[str] = None,
         rsu_esn: Optional[str] = None,
-        intersection_code: Optional[str] = None,
         online_status: Optional[bool] = None,
         rsu_status: Optional[str] = None,
         enabled: Optional[bool] = None,
-        is_default: Optional[bool] = None,
     ) -> Tuple[int, List[RSU]]:
         query_ = db.query(self.model)
-        if not is_default:
-            query_ = query_.filter(self.model.is_default.is_(is_default))
         if rsu_name is not None:
             query_ = self.fuzz_filter(query_, self.model.rsu_name, rsu_name)
         if rsu_esn is not None:
             query_ = self.fuzz_filter(query_, self.model.rsu_esn, rsu_esn)
-        if intersection_code is not None:
-            query_ = query_.filter(self.model.intersection_code == intersection_code)
         if online_status is not None:
             query_ = query_.filter(self.model.online_status == online_status)
         if rsu_status is not None:

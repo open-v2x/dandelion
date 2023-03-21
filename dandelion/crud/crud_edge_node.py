@@ -34,10 +34,13 @@ class CRUDEdgeNode(CRUDBase[EdgeNode, EdgeNodeCreate, EdgeNodeUpdate]):
         skip: int = 0,
         limit: int = -1,
         name: Optional[str] = None,
+        area_code: Optional[str] = None,
     ) -> Tuple[int, List[EdgeNode]]:
         query_ = db.query(self.model)
         if name is not None:
             query_ = self.fuzz_filter(query_, self.model.name, name)
+        if area_code is not None:
+            query_ = query_.filter(self.model.area_code == area_code)
         total = query_.count()
         if limit != -1:
             query_ = query_.offset(skip).limit(limit)

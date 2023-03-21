@@ -29,6 +29,8 @@ class EdgeNodeBase(BaseModel):
 class EdgeNodeCreate(EdgeNodeBase):
     """"""
 
+    area_code: Optional[str] = Field(None, alias="area_code", description="Area Code")
+
 
 # Properties to receive via API on update
 class EdgeNodeUpdate(EdgeNodeBase):

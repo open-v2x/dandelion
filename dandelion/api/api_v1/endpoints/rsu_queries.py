@@ -23,7 +23,6 @@ from sqlalchemy.orm import Session
 
 from dandelion import crud, models, schemas
 from dandelion.api import deps
-from dandelion.api.deps import OpenV2XHTTPException as HTTPException
 from dandelion.mqtt.service.query import down_query
 
 router = APIRouter()
@@ -56,20 +55,14 @@ def create(
 ) -> schemas.RSUQuery:
     rsu_query_in_db = crud.rsu_query.create(db, obj_in=rsu_query_in)
     for rsu_id in rsu_query_in.rsus:
-        rus = crud.rsu.get(db, id=rsu_id)
-        if not rus:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail=f"RSU [id: {rsu_id}] not found",
-            )
-
+        rsu_in_db = deps.crud_get(db=db, obj_id=rsu_id, crud_model=crud.rsu, detail="RSU")
         rsu_query_result = crud.rsu_query_result.create(
             db, obj_in=schemas.RSUQueryResultCreate(query_id=rsu_query_in_db.id, rsu_id=rsu_id)
         )
         down_query(
-            rus.rsu_id,
-            rus.rsu_esn,
-            rus.version,
+            rsu_in_db.rsu_id,
+            rsu_in_db.rsu_esn,
+            rsu_in_db.version,
             rsu_query_result.id,
             rsu_query_in.query_type,
             rsu_query_in.time_type,
@@ -100,12 +93,12 @@ def get(
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> schemas.RSUQueryDetail:
-    rsu_query_in_db = crud.rsu_query.get(db, id=rsu_query_id)
-    if not rsu_query_in_db:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"RSU Query [id: {rsu_query_id}] not found",
-        )
+    rsu_query_in_db = deps.crud_get(
+        db=db,
+        obj_id=rsu_query_id,
+        crud_model=crud.rsu_query,
+        detail="RSU Query",
+    )
     return schemas.RSUQueryDetail(**{"data": [v.to_all_dict() for v in rsu_query_in_db.results]})
 
 
@@ -142,7 +135,7 @@ def get_all(
 
 
 @router.delete(
-    "/{query_id}",
+    "/{rsu_query_id}",
     status_code=status.HTTP_204_NO_CONTENT,
     description="""
 Delete a RSU Query.
@@ -159,18 +152,21 @@ Delete a RSU Query.
     response_description="No Content",
 )
 def delete(
-    query_id: int,
+    rsu_query_id: int,
     *,
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> Response:
-    if not crud.rsu_query.get(db, id=query_id):
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"RSUQuery [id: {query_id}] not found"
-        )
-    results = crud.rsu_query_result.get_multi_by_query_id(db, query_id=query_id)
+    deps.crud_get(
+        db=db,
+        obj_id=rsu_query_id,
+        crud_model=crud.rsu_query,
+        detail="RSU Query",
+    )
+
+    results = crud.rsu_query_result.get_multi_by_query_id(db, query_id=rsu_query_id)
     for result in results:
         crud.rsu_query_result_data.remove_by_result_id(db, result_id=result.id)
         crud.rsu_query_result.remove(db, id=result.id)
-    crud.rsu_query.remove(db, id=query_id)
+    crud.rsu_query.remove(db, id=rsu_query_id)
     return Response(content=None, status_code=status.HTTP_204_NO_CONTENT)

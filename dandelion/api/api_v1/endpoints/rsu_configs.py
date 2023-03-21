@@ -59,12 +59,9 @@ def create(
     rsu_dict: Dict[int, str] = dict()
     if rsu_config_in.rsus:
         for rsu_id in rsu_config_in.rsus:
-            rsu_in_db = crud.rsu.get(db, id=rsu_id)
-            if not rsu_in_db:
-                raise HTTPException(
-                    status_code=status.HTTP_404_NOT_FOUND,
-                    detail=f"RSU [id: {rsu_id}] not found",
-                )
+            rsu_in_db = deps.crud_get(
+                db=db, obj_id=rsu_id, crud_model=crud.rsu, detail="RSU [id: {}] not found"
+            )
             crud.rsu_config_rsu.remove_by_rsu_id(db, rsu_id=rsu_id)
             rsu_dict[rsu_in_db.id] = rsu_in_db.rsu_esn
             rsus.append(rsu_in_db)
@@ -107,11 +104,12 @@ def delete(
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> Response:
-    if not crud.rsu_config.get(db, id=rsu_config_id):
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"RSUConfig [id: {rsu_config_id}] not found",
-        )
+    deps.crud_get(
+        db=db,
+        obj_id=rsu_config_id,
+        crud_model=crud.rsu_config,
+        detail="RSUConfig",
+    )
     crud.rsu_config.remove(db, id=rsu_config_id)
     return Response(content=None, status_code=status.HTTP_204_NO_CONTENT)
 
@@ -139,12 +137,12 @@ def get(
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> schemas.RSUConfigWithRSUs:
-    rsu_config_in_db = crud.rsu_config.get(db, id=rsu_config_id)
-    if not rsu_config_in_db:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"RSUConfig [id: {rsu_config_id}] not found",
-        )
+    rsu_config_in_db = deps.crud_get(
+        db=db,
+        obj_id=rsu_config_id,
+        crud_model=crud.rsu_config,
+        detail="RSUConfig",
+    )
     return rsu_config_in_db.to_all_dict()
 
 
@@ -204,22 +202,16 @@ def update(
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> schemas.RSUConfig:
-    rsu_config_in_db = crud.rsu_config.get(db, id=rsu_config_id)
-    if not rsu_config_in_db:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"RSUConfig [id: {rsu_config_id}] not found",
-        )
-
+    rsu_config_in_db = deps.crud_get(
+        db=db,
+        obj_id=rsu_config_id,
+        crud_model=crud.rsu_config,
+        detail="RSUConfig",
+    )
     rsus: List[models.RSU] = []
     if rsu_config_in.rsus:
         for rsu_id in rsu_config_in.rsus:
-            rus_in_db = crud.rsu.get(db, id=rsu_id)
-            if not rus_in_db:
-                raise HTTPException(
-                    status_code=status.HTTP_404_NOT_FOUND,
-                    detail=f"RSU [id: {rsu_id}] not found",
-                )
+            rus_in_db = deps.crud_get(db=db, obj_id=rsu_id, crud_model=crud.rsu, detail="RSU")
             rsus.append(rus_in_db)
 
     try:

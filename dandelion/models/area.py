@@ -20,7 +20,7 @@ from sqlalchemy import Column, ForeignKey, String
 from sqlalchemy.orm import relationship
 
 from dandelion.db.base_class import Base, DandelionBase
-from dandelion.models.intersection import Intersection
+from dandelion.models.edge import EdgeNode
 from dandelion.util import Optional as Optional_util
 
 
@@ -31,7 +31,7 @@ class Area(Base, DandelionBase):
     code = Column(String(64), unique=True, index=True, nullable=False)
     name = Column(String(64), nullable=False)
 
-    intersections: List[Intersection] = relationship("Intersection", backref="area")
+    edge_nodes: List[EdgeNode] = relationship("EdgeNode", backref="area")
 
     def __repr__(self) -> str:
         return f"<Area(code='{self.code}', name='{self.name}')>"
@@ -63,16 +63,4 @@ class Area(Base, DandelionBase):
             cityName=Optional_util.none(self.city).map(lambda v: v.name).get(),
             areaCode=self.code,
             areaName=self.name,
-        )
-
-    def to_all_dict(self, need_intersection):
-        return (
-            {**self.to_dict()}
-            if not need_intersection
-            else {
-                **self.to_dict(),
-                "children": [
-                    v.to_intersection() for v in self.intersections if v.is_default is False
-                ],
-            }
         )

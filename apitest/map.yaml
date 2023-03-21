@@ -34,64 +34,34 @@ tests:
     response_json_paths:
       $.token_type: bearer
 
-  - name: intersection_create
-    url: /api/v1/intersections
-    method: POST
-    request_headers:
-      Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
-    data:
-      code: "123126"
-      name: "测试路口"
-      lng: "118.8213963998263"
-      lat: "31.934846637757847"
-      areaCode: "320115"
-      bitmapFilename: "map_bg.jpg"
-      mapData: {}
-    status: 201
-    response_json_paths:
-      code: "123126"
-      name: "测试路口"
-      lng: "118.8213963998263"
-      lat: "31.934846637757847"
-      areaCode: "320115"
-
-  - name: intersection_list
-    url: /api/v1/intersections
+  - name: map_list
+    url: /api/v1/maps
     method: GET
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
     query_parameters:
-      areaCode: '320115'
+      name: '测试地图'
       pageNum: 1
       pageSize: 10
     status: 200
 
-  - name: intersection_get
-    url: /api/v1/intersections/$HISTORY['intersection_create'].$RESPONSE['$.id']
+  - name: map_info
+    url: /api/v1/maps/1
     method: GET
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
+    status: 200
+
+  - name: update_map
+    url: /api/v1/maps/1
+    method: PATCH
+    request_headers:
+      Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
+    data:
+      name: '测试地图02'
     status: 200
     response_json_paths:
-      code: "123126"
-      name: "测试路口"
-      lng: "118.8213963998263"
-      lat: "31.934846637757847"
-      areaCode: "320115"
-
-  - name: default_intersection_get
-    url: /api/v1/intersections/link/data
-    method: GET
-    request_headers:
-      Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
-    status: 200
-
-  - name: intersection_delete
-    url: /api/v1/intersections/$HISTORY['intersection_create'].$RESPONSE['$.id']
-    method: DELETE
-    request_headers:
-      Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
-    status: 204
+      $.name: '测试地图02'
 
   - name: delete_user
     url: /api/v1/users/$HISTORY['create_user'].$RESPONSE['$.id']

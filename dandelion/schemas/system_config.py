@@ -22,6 +22,7 @@ from pydantic import BaseModel, Field
 class SystemConfigBase(BaseModel):
     name: Optional[str] = Field(None, alias="name", description="Site Name")
     mqtt_config: Optional[MQTTConfig] = Field(None, alias="mqtt_config", description="MQTT Config")
+    area_code: Optional[str] = Field(None, alias="area_code", description="Area Code")
 
 
 class MQTTConfig(BaseModel):

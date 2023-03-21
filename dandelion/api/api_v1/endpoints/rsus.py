@@ -23,13 +23,12 @@ from fastapi import APIRouter, Depends, Query, Response, status
 from oslo_log import log
 from redis import Redis
 from sqlalchemy import exc as sql_exc
-from sqlalchemy.orm import Session, exc as orm_exc
+from sqlalchemy.orm import Session
 
 from dandelion import constants, crud, models, schemas
 from dandelion.api import deps
 from dandelion.api.deps import OpenV2XHTTPException as HTTPException, error_handle
 from dandelion.mqtt import cloud_server as mqtt_cloud_server
-from dandelion.mqtt.service.intersection.intersection_to_cerebrum import intersection_publish
 from dandelion.mqtt.topic import v2x_edge
 from dandelion.util import Optional as Optional_util
 
@@ -63,14 +62,14 @@ def create(
 ) -> schemas.RSU:
     rsu_tmp: Optional[models.RSUTMP] = None
     if rsu_in.tmp_id:
-        try:
-            rsu_tmp = crud.rsu_tmp.get(db, rsu_in.tmp_id)
-            crud.rsu_tmp.remove(db, id=rsu_in.tmp_id)
-        except orm_exc.UnmappedInstanceError:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail=f"RSU Temp [id: {rsu_in.tmp_id}] not found",
-            )
+        deps.crud_get(
+            db=db,
+            obj_id=rsu_in.tmp_id,
+            crud_model=crud.rsu_tmp,
+            detail="TMP RSU",
+        )
+        crud.rsu_tmp.remove(db, id=rsu_in.tmp_id)
+
     del rsu_in.tmp_id
     try:
         rsu_in_db = crud.rsu.create_rsu(db, obj_in=rsu_in, rsu_tmp_in_db=rsu_tmp)
@@ -84,7 +83,6 @@ def create(
                             edge_rsu_id=rsu_in_db.id,
                             name=rsu_in.rsu_name,
                             esn=rsu_in.rsu_esn,
-                            intersectionCode=rsu_in.intersection_code,
                             location=Optional_util.none(rsu_tmp)
                             .map(lambda v: v.location)
                             .orElse({}),
@@ -95,7 +93,6 @@ def create(
             )
     except (sql_exc.IntegrityError, sql_exc.DataError) as ex:
         raise error_handle(ex, "rsu_esn", rsu_in.rsu_esn)
-    intersection_publish({"type": "create"})
     return rsu_in_db.to_all_dict()
 
 
@@ -124,17 +121,11 @@ def get_all(
     rsu_esn: Optional[str] = Query(
         None, alias="rsuEsn", description="Filter by rsuEsn. Fuzzy prefix query is supported"
     ),
-    intersection_code: Optional[str] = Query(
-        None, alias="intersectionCode", description="Filter by intersectionCode"
-    ),
     online_status: Optional[bool] = Query(
         None, alias="onlineStatus", description="Filter by onlineStatus"
     ),
     enabled: Optional[bool] = Query(None, alias="enabled", description="Filter by enabled"),
     rsu_status: Optional[str] = Query(None, alias="rsuStatus", description="Filter by rsuStatus"),
-    is_default: Optional[bool] = Query(
-        False, alias="isDefault", description="Filter by rsu is default"
-    ),
     page_num: int = Query(1, alias="pageNum", ge=1, description="Page number"),
     page_size: int = Query(10, alias="pageSize", ge=-1, description="Page size"),
     db: Session = Depends(deps.get_db),
@@ -147,11 +138,9 @@ def get_all(
         limit=page_size,
         rsu_name=rsu_name,
         rsu_esn=rsu_esn,
-        intersection_code=intersection_code,
         online_status=online_status,
         rsu_status=rsu_status,
         enabled=enabled,
-        is_default=is_default,
     )
     return schemas.RSUs(total=total, data=[rsu.to_all_dict() for rsu in data])
 
@@ -180,12 +169,7 @@ def get(
     redis_conn: Redis = Depends(deps.get_redis_conn),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> schemas.RSUDetail:
-    rsu_in_db = crud.rsu.get(db, id=rsu_id)
-    if not rsu_in_db:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"RSU [id: {rsu_in_db}] not found",
-        )
+    rsu_in_db = deps.crud_get(db=db, obj_id=rsu_id, crud_model=crud.rsu, detail="RSU")
     result = rsu_in_db.to_info_dict()
     rsu_config_rsus: List[models.RSUConfigRSU] = result["config"]
     result["config"] = [rsu_config_rsu.to_config_dict() for rsu_config_rsu in rsu_config_rsus]
@@ -232,15 +216,7 @@ def update(
     current_user: models.User = Depends(deps.get_current_user),
 ) -> schemas.RSU:
     rsu_tmp: Optional[models.RSUTMP] = None
-    rsu_in_db = crud.rsu.get(db, id=rsu_id)
-    if not rsu_in_db:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"RSU [id: {rsu_id}] not found"
-        )
-    if rsu_in_db.is_default:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, detail=f"RSU [{rsu_in_db}] can not update"
-        )
+    rsu_in_db = deps.crud_get(db=db, obj_id=rsu_id, crud_model=crud.rsu, detail="RSU")
     try:
         new_rsu_in_db = crud.rsu.update_with_location(db, db_obj=rsu_in_db, obj_in=rsu_in)
         if mqtt_cloud_server.MQTT_CLIENT is not None:
@@ -257,7 +233,6 @@ def update(
                 edgeRsuID=rsu_in_db.id,
                 name=rsu_in.rsu_name,
                 esn=rsu_in.rsu_esn,
-                intersectionCode=rsu_in.intersection_code,
                 location=Optional_util.none(rsu_tmp).map(lambda v: v.location).orElse({}),
             )
             requests.put(url=update_url, json=data, headers={"Authorization": token})
@@ -265,7 +240,6 @@ def update(
             #     raise HTTPException(status_code=res.status_code, detail=res.text)
     except (sql_exc.DataError, sql_exc.IntegrityError) as ex:
         raise error_handle(ex, "rsu_esn", rsu_in.rsu_esn)
-    intersection_publish({"type": "update"})
     return new_rsu_in_db.to_all_dict()
 
 
@@ -292,15 +266,7 @@ def delete(
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> Response:
-    rsu_in_db = crud.rsu.get(db, id=rsu_id)
-    if not rsu_in_db:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"RSU [id: {rsu_id}] not found"
-        )
-    if rsu_in_db.is_default:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, detail=f"RSU [{rsu_in_db}] can not delete"
-        )
+    deps.crud_get(db=db, obj_id=rsu_id, crud_model=crud.rsu, detail="RSU")
     results = crud.rsu_query_result.get_multi_by_rsu_id(db, rsu_id=rsu_id)
     for result in results:
         crud.rsu_query_result_data.remove_by_result_id(db, result_id=result.id)
@@ -314,7 +280,6 @@ def delete(
             payload=json.dumps(dict(id=mqtt_cloud_server.EDGE_ID, rsuEsn=rsu.rsu_esn)),
             qos=0,
         )
-    intersection_publish({"type": "delete"})
     return Response(content=None, status_code=status.HTTP_204_NO_CONTENT)
 
 
@@ -374,14 +339,10 @@ def get_running(
     redis_conn: Redis = Depends(deps.get_redis_conn),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> schemas.RSURunning:
-    rsu = crud.rsu.get(db, id=rsu_id)
-    if not rsu:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"RSU [id: {rsu_id}] not found"
-        )
+    rsu_in_db = deps.crud_get(db=db, obj_id=rsu_id, crud_model=crud.rsu, detail="RSU")
     rsu_running = schemas.RSURunning()
     rsu_running.cpu = []
-    for cpu in redis_conn.zrevrange(f"RSU_RUNNING_CPU_{rsu.rsu_esn}", start=0, end=6):
+    for cpu in redis_conn.zrevrange(f"RSU_RUNNING_CPU_{rsu_in_db.rsu_esn}", start=0, end=6):
         data = json.loads(cpu)
         cpu_ = schemas.RunningCPU()
         cpu_.time = data.get("time")
@@ -390,7 +351,7 @@ def get_running(
         rsu_running.cpu.append(cpu_)
 
     rsu_running.mem = []
-    for mem in redis_conn.zrevrange(f"RSU_RUNNING_MEM_{rsu.rsu_esn}", start=0, end=6):
+    for mem in redis_conn.zrevrange(f"RSU_RUNNING_MEM_{rsu_in_db.rsu_esn}", start=0, end=6):
         data = json.loads(mem)
         mem_ = schemas.RunningMEM()
         mem_.time = data.get("time")
@@ -399,7 +360,7 @@ def get_running(
         rsu_running.mem.append(mem_)
 
     rsu_running.disk = []
-    for disk in redis_conn.zrevrange(f"RSU_RUNNING_DISK_{rsu.rsu_esn}", start=0, end=6):
+    for disk in redis_conn.zrevrange(f"RSU_RUNNING_DISK_{rsu_in_db.rsu_esn}", start=0, end=6):
         data = json.loads(disk)
         disk_ = schemas.RunningDisk()
         disk_.time = data.get("time")
@@ -408,7 +369,7 @@ def get_running(
         rsu_running.disk.append(disk_)
 
     rsu_running.net = []
-    for net in redis_conn.zrevrange(f"RSU_RUNNING_NET_{rsu.rsu_esn}", start=0, end=6):
+    for net in redis_conn.zrevrange(f"RSU_RUNNING_NET_{rsu_in_db.rsu_esn}", start=0, end=6):
         data = json.loads(net)
         net_ = schemas.RunningNet()
         net_.time = data.get("time")

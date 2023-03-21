@@ -44,20 +44,14 @@ class CRUDLidar(CRUDBase[Lidar, LidarCreate, LidarUpdate]):
         sn: Optional[str] = None,
         name: Optional[str] = None,
         rsu_id: Optional[int] = None,
-        intersection_code: Optional[str] = None,
-        is_default: Optional[bool] = None,
     ) -> Tuple[int, List[Lidar]]:
         query_ = db.query(self.model)
-        if not is_default:
-            query_ = query_.filter(self.model.is_default.is_(is_default))
         if sn is not None:
             query_ = self.fuzz_filter(query_, self.model.sn, sn)
         if name is not None:
             query_ = self.fuzz_filter(query_, self.model.name, name)
         if rsu_id is not None:
             query_ = query_.filter(self.model.rsu_id == rsu_id)
-        if intersection_code is not None:
-            query_ = query_.filter(self.model.intersection_code == intersection_code)
         total = query_.count()
         if limit != -1:
             query_ = query_.offset(skip).limit(limit)

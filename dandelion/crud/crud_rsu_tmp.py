@@ -20,7 +20,7 @@ from fastapi.encoders import jsonable_encoder
 from sqlalchemy.orm import Session
 
 from dandelion.crud.base import CRUDBase
-from dandelion.models import RSU, RSUTMP
+from dandelion.models import RSUTMP
 from dandelion.schemas import RSUTMPCreate, RSUTMPUpdate
 
 
@@ -43,17 +43,12 @@ class CRUDRSUTMP(CRUDBase[RSUTMP, RSUTMPCreate, RSUTMPUpdate]):
         limit: int = 10,
         rsu_name: Optional[str] = None,
         rsu_esn: Optional[str] = None,
-        intersection_code: Optional[str] = None,
     ) -> Tuple[int, List[RSUTMP]]:
         query_ = db.query(self.model)
         if rsu_name is not None:
             query_ = self.fuzz_filter(query_, self.model.rsu_name, rsu_name)
         if rsu_esn is not None:
             query_ = query_.filter(self.model.rsu_esn == rsu_esn)
-        if intersection_code is not None:
-            query_ = query_.join(RSU, self.model.rsu_id == RSU.id).filter(
-                RSU.intersection_code == intersection_code
-            )
         total = query_.count()
         if limit != -1:
             query_ = query_.offset(skip).limit(limit)
