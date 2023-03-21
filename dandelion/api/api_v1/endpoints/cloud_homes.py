@@ -24,7 +24,6 @@ from sqlalchemy.orm import Session
 
 from dandelion import crud, models, schemas
 from dandelion.api import deps
-from dandelion.api.deps import OpenV2XHTTPException as HTTPException
 from dandelion.util import Optional as Optional_util
 
 router = APIRouter()
@@ -49,51 +48,34 @@ Get online rate of all devices.
     },
 )
 def online_rate(
-    intersection_code: Optional[str] = Query(
-        None, alias="intersectionCode", description="intersection code"
-    ),
     rsu_id: Optional[int] = Query(None, alias="rsuId", description="Rsu id"),
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> schemas.OnlineRate:
     rsu_online_rate = {
-        "online": crud.rsu.get_multi_with_total(
-            db, online_status=True, intersection_code=intersection_code, is_default=False
-        )[0],
-        "offline": crud.rsu.get_multi_with_total(
-            db, online_status=False, intersection_code=intersection_code, is_default=False
-        )[0],
-        "notRegister": crud.rsu_tmp.get_multi_with_total(db, intersection_code=intersection_code)[
-            0
-        ],
+        "online": crud.rsu.get_multi_with_total(db, online_status=True)[0],
+        "offline": crud.rsu.get_multi_with_total(db, online_status=False)[0],
+        "notRegister": crud.rsu_tmp.get_multi_with_total(db)[0],
     }
     # temporarily unavailable data
     camera_online_rate = {
-        "online": crud.camera.get_multi_with_total(
-            db, intersection_code=intersection_code, rsu_id=rsu_id, is_default=False
-        )[0],
+        "online": crud.camera.get_multi_with_total(db, rsu_id=rsu_id)[0],
         "offline": 0,
         "notRegister": 0,
     }
     # temporarily unavailable data
     radar_online_rate = {
-        "online": crud.radar.get_multi_with_total(
-            db, intersection_code=intersection_code, rsu_id=rsu_id, is_default=False
-        )[0],
+        "online": crud.radar.get_multi_with_total(db, rsu_id=rsu_id)[0],
         "offline": 0,
         "notRegister": 0,
     }
     lidar_online_rate = {
-        "online": crud.lidar.get_multi_with_total(
-            db, intersection_code=intersection_code, rsu_id=rsu_id, is_default=False
-        )[0],
+        "online": crud.lidar.get_multi_with_total(db, rsu_id=rsu_id)[0],
         "offline": 0,
         "notRegister": 0,
     }
     spat_online_rate = {
-        "online": crud.spat.get_multi_with_total(
-            db, intersection_code=intersection_code, rsu_id=rsu_id, is_default=False
-        )[0],
+        "online": crud.spat.get_multi_with_total(db, rsu_id=rsu_id)[0],
         "offline": 0,
         "notRegister": 0,
     }
@@ -128,47 +110,29 @@ Get traffic situation.
     },
 )
 def route_info(
-    intersection_code: str = Query(..., alias="intersectionCode", description="Intersection Code"),
-    *,
-    db: Session = Depends(deps.get_db),
     redis_conn: Redis = Depends(deps.get_redis_conn),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> schemas.RouteInfo:
-    intersection_in_db = crud.intersection.get_by_code(db=db, code=intersection_code)
-    if not intersection_in_db:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Intersection [code: {intersection_code}] not found",
-        )
-    vehicle_total, average_speed, pedestrian_total, congestion, rsu_num = 0, 0, 0, "free flow", 0
-    for rsu in intersection_in_db.rsus:
-        key = f"ROUTE_INFO_{rsu.rsu_esn}"
-        if not redis_conn.exists(key):
-            continue
-        vehicle_total += (
-            Optional_util.none(redis_conn.hget(key, "vehicleTotal"))
-            .map(lambda v: int(v))
-            .orElse(0)
-        )
-        average_speed += (
-            Optional_util.none(redis_conn.hget(key, "averageSpeed"))
-            .map(lambda v: float(v))
-            .map(lambda v: round(v, 1))
-            .orElse(0)
-        )
-        pedestrian_total += (
-            Optional_util.none(redis_conn.hget(key, "pedestrianTotal"))
-            .map(lambda v: int(v))
-            .orElse(0)
-        )
-        if congestion != "congestion":
-            congestion = (
-                Optional_util.none(redis_conn.hget(key, "congestion"))
-                .map(lambda v: str(v, encoding="utf-8"))
-                .orElse("free flow")
-            )
-        rsu_num += 1
-    average_speed = int(average_speed / rsu_num) if rsu_num else average_speed
+
+    key = "ROUTE_INFO"
+    vehicle_total = (
+        Optional_util.none(redis_conn.hget(key, "vehicleTotal")).map(lambda v: int(v)).orElse(0)
+    )
+    average_speed = (
+        Optional_util.none(redis_conn.hget(key, "averageSpeed"))
+        .map(lambda v: float(v))
+        .map(lambda v: round(v, 1))
+        .orElse(0)
+    )
+    pedestrian_total = (
+        Optional_util.none(redis_conn.hget(key, "pedestrianTotal")).map(lambda v: int(v)).orElse(0)
+    )
+    congestion = (
+        Optional_util.none(redis_conn.hget(key, "congestion"))
+        .map(lambda v: str(v, encoding="utf-8"))
+        .orElse("free flow")
+    )
+
     return schemas.RouteInfo(
         vehicleTotal=vehicle_total,
         averageSpeed=average_speed,
@@ -193,8 +157,7 @@ def route_info_push(
     *,
     redis_conn: Redis = Depends(deps.get_redis_conn),
 ) -> schemas.RouteInfo:
-    rsu_esn = route_info_in.rsu_esn
-    key = f"ROUTE_INFO_{rsu_esn}"
+    key = "ROUTE_INFO"
     if route_info_in.vehicle_total:
         redis_conn.hset(key, "vehicleTotal", route_info_in.vehicle_total)
     if route_info_in.average_speed:

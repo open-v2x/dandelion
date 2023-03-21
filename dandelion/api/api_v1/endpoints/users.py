@@ -92,9 +92,6 @@ def delete(
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> Response:
-    if not crud.user.get(db, id=user_id):
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"User [id: {user_id}] not found"
-        )
+    deps.crud_get(db=db, obj_id=user_id, crud_model=crud.user, detail="User")
     crud.user.remove(db, id=user_id)
     return Response(content=None, status_code=status.HTTP_204_NO_CONTENT)

@@ -41,12 +41,12 @@ tests:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
     data: 200
 
-#  - name: route_info
-#    url: /api/v1/homes/route_info
-#    method: GET
-#    request_headers:
-#      Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
-#    data: 200
+  - name: route_info
+    url: /api/v1/homes/route_info
+    method: GET
+    request_headers:
+      Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
+    data: 200
 
   - name: delete_user
     url: /api/v1/users/$HISTORY['create_user'].$RESPONSE['$.id']

@@ -59,7 +59,6 @@ tests:
       rsuName: 'RSU_NAME_01'
       rsuEsn: 'RSU_ESN01'
       rsuIP: '192.168.0.101'
-      intersectionCode: '32011501'
       rsuModelId: $HISTORY['create_rsu_model'].$RESPONSE['$.id']
       desc: 'test_rsu'
       lon: 118.8213963998263
@@ -87,7 +86,6 @@ tests:
       towards: 90
       rsuId: $HISTORY['create_rsu'].$RESPONSE['$.id']
       desc: 'test_leida'
-      intersectionCode : "32011501"
     status: 201
 
   - name: radar_list

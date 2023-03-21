@@ -37,5 +37,11 @@ class CRUDCity(CRUDBase[City, CityCreate, CityUpdate]):
             .all()
         )
 
+    def get_multi_with_total(
+        self,
+        db: Session,
+    ) -> List[City]:
+        return db.query(self.model).all()
+
 
 city = CRUDCity(City)

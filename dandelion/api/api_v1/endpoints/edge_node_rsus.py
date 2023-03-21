@@ -56,7 +56,6 @@ def get_all(
         skip=skip,
         limit=page_size,
         node_id=node_id,
-        intersection_code=intersection_code,
     )
     return schemas.EdgeNodeRSUs(total=total, data=[rsu.to_all_dict() for rsu in data])
 

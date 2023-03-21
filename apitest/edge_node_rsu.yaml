@@ -55,7 +55,6 @@ tests:
       esn: "RSU_ESN02"
       areaCode: '320115'
       location: {}
-      intersectionCode: "32011501"
     response_json_paths:
       $.name: 'RSU_NAME_02'
       $.esn: "RSU_ESN02"
@@ -71,7 +70,6 @@ tests:
       esn: "RSU_ESN03"
       areaCode: '320115'
       location: { }
-      intersectionCode: "32011501"
     response_json_paths:
       $.name: 'RSU_NAME_03'
       $.esn: "RSU_ESN03"

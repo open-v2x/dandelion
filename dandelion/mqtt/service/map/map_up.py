@@ -22,7 +22,7 @@ import paho.mqtt.client as mqtt
 from oslo_log import log
 from sqlalchemy.orm import Session
 
-from dandelion import crud
+from dandelion import crud, models
 from dandelion.db import session
 from dandelion.mqtt.service import RouterHandler
 
@@ -33,9 +33,10 @@ class MapRouterHandler(RouterHandler):
     def handler(self, client: mqtt.MQTT_CLIENT, topic: str, data: Dict[str, Any]) -> None:
         db: Session = session.DB_SESSION_LOCAL()
         rsu_esn = re.findall("V2X/RSU/(.*)/MAP/UP", topic)[0]
-        rsu = crud.rsu.get_by_rsu_esn(db, rsu_esn=rsu_esn)
-        rsu.intersection.map_data = data
-        db.add(rsu.intersection)
-        db.commit()
-        db.refresh(rsu.intersection)
-        LOG.info(f"{topic} =>Intersection map [code: {rsu.intersection_code}] updated")
+        # rsu = crud.rsu.get_by_rsu_esn(db, rsu_esn=rsu_esn)
+        map_in_db = crud.map.get(db, id=1)
+        if not map_in_db:
+            return
+        map_in = models.Map(name=rsu_esn, data=data)
+        crud.map.update(db, db_obj=map_in_db, obj_in=map_in)
+        LOG.info(f"{topic} => Map [name: {rsu_esn}] updated")

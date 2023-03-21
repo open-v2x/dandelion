@@ -23,7 +23,6 @@ from sqlalchemy.orm import Session
 
 from dandelion import crud, models, schemas
 from dandelion.api import deps
-from dandelion.api.deps import OpenV2XHTTPException as HTTPException
 
 router = APIRouter()
 LOG: LoggerAdapter = log.getLogger(__name__)
@@ -87,9 +86,6 @@ def delete(
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> Response:
-    if not crud.rsu_tmp.get(db, id=rsu_id):
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"TMP RSU [id: {rsu_id}] not found"
-        )
+    deps.crud_get(db=db, obj_id=rsu_id, crud_model=crud.rsu_tmp, detail="TMP RSU")
     crud.rsu_tmp.remove(db, id=rsu_id)
     return Response(content=None, status_code=status.HTTP_204_NO_CONTENT)

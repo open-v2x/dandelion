@@ -33,13 +33,10 @@ class CRUDEdgeNodeRSU(CRUDBase[EdgeNodeRSU, EdgeNodeRSUCreate, EdgeNodeRSUUpdate
         skip: int = 0,
         limit: int = 10,
         node_id: int,
-        intersection_code: str,
     ) -> Tuple[int, List[EdgeNodeRSU]]:
         query_ = db.query(self.model)
         if node_id is not None:
             query_ = query_.filter(self.model.edge_node_id == node_id)
-        if intersection_code is not None:
-            query_ = query_.filter(self.model.intersection_code == intersection_code)
         query_ = query_.filter(self.model.location != "{}")
 
         total = query_.count()

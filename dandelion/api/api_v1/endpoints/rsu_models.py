@@ -24,7 +24,7 @@ from sqlalchemy.orm import Session
 
 from dandelion import crud, models, schemas
 from dandelion.api import deps
-from dandelion.api.deps import OpenV2XHTTPException as HTTPException, error_handle
+from dandelion.api.deps import error_handle
 
 router = APIRouter()
 LOG: LoggerAdapter = log.getLogger(__name__)
@@ -84,11 +84,12 @@ def delete(
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> Response:
-    if not crud.rsu_model.get(db, id=rsu_model_id):
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"RSU Model [id: {rsu_model_id}] not found",
-        )
+    deps.crud_get(
+        db=db,
+        obj_id=rsu_model_id,
+        crud_model=crud.rsu_model,
+        detail="RSU Model",
+    )
     crud.rsu_model.remove(db, id=rsu_model_id)
     return Response(content=None, status_code=status.HTTP_204_NO_CONTENT)
 
@@ -116,12 +117,12 @@ def get(
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> schemas.RSUModel:
-    rsu_model_in_db = crud.rsu_model.get(db, id=rsu_model_id)
-    if not rsu_model_in_db:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"RSU Model [id: {rsu_model_id}] not found",
-        )
+    rsu_model_in_db = deps.crud_get(
+        db=db,
+        obj_id=rsu_model_id,
+        crud_model=crud.rsu_model,
+        detail="RSU Model",
+    )
     return rsu_model_in_db.to_dict()
 
 
@@ -188,12 +189,12 @@ def update(
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> schemas.RSUModel:
-    rsu_model_in_db = crud.rsu_model.get(db, id=rsu_model_id)
-    if not rsu_model_in_db:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"RSU Model [id: {rsu_model_id}] not found",
-        )
+    rsu_model_in_db = deps.crud_get(
+        db=db,
+        obj_id=rsu_model_id,
+        crud_model=crud.rsu_model,
+        detail="RSU Model",
+    )
     try:
         new_rsu_model_in_db = crud.rsu_model.update(
             db, db_obj=rsu_model_in_db, obj_in=rsu_model_in

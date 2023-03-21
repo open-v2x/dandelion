@@ -14,7 +14,7 @@
 
 from __future__ import annotations
 
-from sqlalchemy import Column, String
+from sqlalchemy import Column, ForeignKey, String
 
 from dandelion.db.base_class import Base, DandelionBase
 
@@ -24,6 +24,7 @@ class EdgeNode(Base, DandelionBase):
 
     name = Column(String(64), nullable=False, index=True)
     ip = Column(String(64), nullable=False)
+    area_code = Column(String(64), ForeignKey("area.code", name="edgenode_fk_area"))
 
     def to_all_dict(self):
         return dict(id=self.id, name=self.name, createTime=self.create_time, ip=self.ip)

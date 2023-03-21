@@ -35,7 +35,6 @@ class SpatCreate(BaseModel):
     light: str = Field(..., alias="light", description="Light")
     rsu_id: Optional[int] = Field(None, alias="rsuId", description="RSU ID")
     desc: Optional[str] = Field("", alias="desc", description="Description")
-    intersection_code: str = Field(..., alias="intersectionCode", description="Intersection Code")
 
 
 # Properties to receive via API on update
@@ -50,9 +49,6 @@ class SpatUpdate(SpatBase):
     light: Optional[str] = Field(None, alias="light", description="Light")
     rsu_id: Optional[int] = Field(None, alias="rsuId", description="RSU ID")
     desc: Optional[str] = Field("", alias="desc", description="Description")
-    intersection_code: Optional[str] = Field(
-        None, alias="intersectionCode", description="Intersection Code"
-    )
     enabled: Optional[bool] = Field(None, alias="enabled", description="Enabled")
 
 
@@ -76,16 +72,6 @@ class Spat(SpatInDBBase):
     timing: datetime = Field(..., alias="timing", description="Timing")
     rsu_id: Optional[int] = Field(None, alias="rsuId", description="RSU ID")
     rsu_name: Optional[str] = Field(None, alias="rsuName", description="RSU Name")
-    country_code: str = Field(..., alias="countryCode", description="Country Code")
-    country_name: str = Field(..., alias="countryName", description="Country Name")
-    province_code: str = Field(..., alias="provinceCode", description="Province Code")
-    province_name: str = Field(..., alias="provinceName", description="Province Name")
-    city_code: str = Field(..., alias="cityCode", description="City Code")
-    city_name: str = Field(..., alias="cityName", description="City Name")
-    area_code: str = Field(..., alias="areaCode", description="Area Code")
-    area_name: str = Field(..., alias="areaName", description="Area Name")
-    intersection_code: str = Field(..., alias="intersectionCode", description="Intersection Code")
-    intersection_name: str = Field(..., alias="intersectionName", description="Intersection Name")
     desc: str = Field(..., alias="desc", description="Description")
     create_time: datetime = Field(..., alias="createTime", description="Create Time")
 

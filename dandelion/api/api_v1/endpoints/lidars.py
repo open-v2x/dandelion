@@ -24,7 +24,7 @@ from sqlalchemy.orm import Session
 
 from dandelion import crud, models, schemas
 from dandelion.api import deps
-from dandelion.api.deps import OpenV2XHTTPException as HTTPException, error_handle
+from dandelion.api.deps import error_handle
 
 router = APIRouter()
 LOG: LoggerAdapter = log.getLogger(__name__)
@@ -84,15 +84,7 @@ def delete(
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> Response:
-    lidar_in_db = crud.lidar.get(db, id=lidar_id)
-    if not lidar_in_db:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"Lidar [id: {lidar_id}] not found"
-        )
-    if lidar_in_db.is_default:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, detail=f"Lidar [{lidar_in_db}] can not delete"
-        )
+    deps.crud_get(db=db, obj_id=lidar_id, crud_model=crud.lidar, detail="Lidar")
     crud.lidar.remove(db, id=lidar_id)
     return Response(content=None, status_code=status.HTTP_204_NO_CONTENT)
 
@@ -120,11 +112,7 @@ def get(
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> schemas.Lidar:
-    lidar_in_db = crud.lidar.get(db, id=lidar_id)
-    if not lidar_in_db:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"Lidar [id: {lidar_id}] not found"
-        )
+    lidar_in_db = deps.crud_get(db=db, obj_id=lidar_id, crud_model=crud.lidar, detail="Lidar")
     return lidar_in_db.to_dict()
 
 
@@ -154,12 +142,6 @@ def get_all(
         None, alias="name", description="Filter by lidar name. Fuzzy prefix query is supported"
     ),
     rsu_id: Optional[int] = Query(None, alias="rsuId", description="Filter by rsuId"),
-    intersection_code: Optional[str] = Query(
-        None, alias="intersectionCode", description="Filter by lidar intersection code"
-    ),
-    is_default: Optional[bool] = Query(
-        False, alias="isDefault", description="Filter by lidar is default"
-    ),
     page_num: int = Query(1, alias="pageNum", ge=1, description="Page number"),
     page_size: int = Query(10, alias="pageSize", ge=-1, description="Page size"),
     db: Session = Depends(deps.get_db),
@@ -173,8 +155,6 @@ def get_all(
         sn=sn,
         name=name,
         rsu_id=rsu_id,
-        intersection_code=intersection_code,
-        is_default=is_default,
     )
     return schemas.Lidars(total=total, data=[lidar.to_dict() for lidar in data])
 
@@ -203,17 +183,9 @@ def update(
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> schemas.Lidar:
-    lidar_id_db = crud.lidar.get(db, id=lidar_id)
-    if not lidar_id_db:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"Lidar [id: {lidar_id}] not found"
-        )
-    if lidar_id_db.is_default:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, detail=f"Lidar [{lidar_id_db}] can not update"
-        )
+    lidar_in_db = deps.crud_get(db=db, obj_id=lidar_id, crud_model=crud.lidar, detail="Lidar")
     try:
-        new_lidar_id_db = crud.lidar.update(db, db_obj=lidar_id_db, obj_in=lidar_in)
+        new_lidar_in_db = crud.lidar.update(db, db_obj=lidar_in_db, obj_in=lidar_in)
     except (sql_exc.DataError, sql_exc.IntegrityError) as ex:
         raise error_handle(ex, "sn", lidar_in.sn)
-    return new_lidar_id_db.to_dict()
+    return new_lidar_in_db.to_dict()
