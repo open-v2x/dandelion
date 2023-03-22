@@ -71,7 +71,7 @@ def _on_connect(client: mqtt.Client, userdata: Any, flags: Any, rc: int) -> None
     client.publish(
         topic=v2x_edge.V2X_EDGE_INFO_UP,
         payload=json.dumps(
-            dict(key=key, name=EDGE_NAME, ip=os.getenv("OPENV2X_EXTERNAL_IP"), area_code=AREA_CODE)
+            dict(key=key, name=EDGE_NAME, ip=os.getenv("OPENV2X_ADMIN_IP"), area_code=AREA_CODE)
         ),
         qos=0,
     )
