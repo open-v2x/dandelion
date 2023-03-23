@@ -35,7 +35,7 @@ class MQTTConfig(BaseModel):
 class SystemConfigCreate(SystemConfigBase):
     """"""
 
-    local_ip: Optional[str] = Field(None, alias="localIP", description="Local IP")
+    local_ip: Optional[str] = Field(None, alias="local_ip", description="Local IP")
 
 
 class SystemConfigUpdateNodeId(BaseModel):
