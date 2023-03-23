@@ -15,7 +15,6 @@
 from __future__ import annotations
 
 import json
-import os
 import uuid
 from logging import LoggerAdapter
 from typing import Any
@@ -37,6 +36,7 @@ MQTT_CLIENT: mqtt.Client = None
 EDGE_ID: int = 0
 EDGE_NAME: str = ""
 AREA_CODE: str = ""
+LOCAL_IP: str = ""
 
 
 def get_mqtt_client() -> mqtt.Client:
@@ -70,9 +70,7 @@ def _on_connect(client: mqtt.Client, userdata: Any, flags: Any, rc: int) -> None
     client.subscribe(topic=subscribe_topic, qos=0)
     client.publish(
         topic=v2x_edge.V2X_EDGE_INFO_UP,
-        payload=json.dumps(
-            dict(key=key, name=EDGE_NAME, ip=os.getenv("OPENV2X_ADMIN_IP"), area_code=AREA_CODE)
-        ),
+        payload=json.dumps(dict(key=key, name=EDGE_NAME, ip=LOCAL_IP, area_code=AREA_CODE)),
         qos=0,
     )
 
@@ -97,6 +95,8 @@ def connect() -> None:
         EDGE_NAME = config.name
         global AREA_CODE
         AREA_CODE = config.area_code
+        global LOCAL_IP
+        LOCAL_IP = config.local_ip
 
     if config and config.mqtt_config:
         LOG.info("Starting Cloud MQTT...")
