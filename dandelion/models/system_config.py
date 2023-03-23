@@ -26,6 +26,7 @@ class SystemConfig(Base, DandelionBase):
     node_id = Column(Integer, nullable=True, default=0)
     mqtt_config = Column(JSON, nullable=True)
     area_code = Column(String(64), ForeignKey("area.code", name="edge_fk_area"))
+    local_ip = Column(String(64), nullable=True)
 
     def __repr__(self) -> str:
         return (

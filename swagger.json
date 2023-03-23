@@ -13520,6 +13520,11 @@
                         "title": "Area Code",
                         "type": "string",
                         "description": "Area Code"
+                    },
+                    "localIP": {
+                        "title": "Localip",
+                        "type": "string",
+                        "description": "Local IP"
                     }
                 }
             },
