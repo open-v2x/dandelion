@@ -13521,8 +13521,8 @@
                         "type": "string",
                         "description": "Area Code"
                     },
-                    "localIP": {
-                        "title": "Localip",
+                    "local_ip": {
+                        "title": "Local Ip",
                         "type": "string",
                         "description": "Local IP"
                     }

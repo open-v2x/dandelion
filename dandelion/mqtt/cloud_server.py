@@ -37,6 +37,7 @@ EDGE_ID: int = 0
 EDGE_NAME: str = ""
 AREA_CODE: str = ""
 LOCAL_IP: str = ""
+ERROR_CONFIG: bool = False
 
 
 def get_mqtt_client() -> mqtt.Client:
@@ -57,9 +58,12 @@ def get_edge_id() -> int:
 
 
 def _on_connect(client: mqtt.Client, userdata: Any, flags: Any, rc: int) -> None:
+    global ERROR_CONFIG
     if rc != 0:
+        ERROR_CONFIG = True
         raise SystemError("Cloud MQTT Connection failed")
     LOG.info("Cloud MQTT Connection succeeded")
+    ERROR_CONFIG = False
 
     global MQTT_CLIENT
     MQTT_CLIENT = client

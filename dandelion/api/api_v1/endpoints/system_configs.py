@@ -23,6 +23,7 @@ from sqlalchemy.orm import Session
 
 from dandelion import crud, models, schemas
 from dandelion.api import deps
+from dandelion.api.deps import OpenV2XHTTPException as HTTPException
 from dandelion.mqtt import cloud_server as mqtt_cloud_server
 from dandelion.mqtt.topic import v2x_edge
 
@@ -103,10 +104,16 @@ def create(
                     qos=0,
                 )
             mqtt_cloud_server.MQTT_CLIENT.disconnect()
-        mqtt_cloud_server.connect()
     else:
         system_config = crud.system_config.create(db, obj_in=user_in)
-        mqtt_cloud_server.connect()
+
+    mqtt_cloud_server.connect()
+    while not mqtt_cloud_server.MQTT_CLIENT:
+        if mqtt_cloud_server.ERROR_CONFIG:
+            mqtt_cloud_server.ERROR_CONFIG = False
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST, detail="Cloud MQTT Connection failed"
+            )
 
     return system_config
 
