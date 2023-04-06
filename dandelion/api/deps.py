@@ -98,6 +98,14 @@ def get_current_user(
     return res.json()
 
 
+def get_current_user_no_auth(db: Session = Depends(get_db), token: str = "") -> models.User:
+    return crud.user.get(db, id=1) or models.User()
+
+
+if os.getenv("OPENV2X_DANDELION_NO_AUTH", "") == "true":
+    get_current_user = get_current_user_no_auth  # noqa F811
+
+
 def get_token(host: str) -> str:
     login_url = f"http://{host}:28300/api/v1/login"
     login_res = requests.post(
