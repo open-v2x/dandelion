@@ -50,6 +50,7 @@ from .rsu_query import RSUQuery
 from .rsu_query_result import RSUQueryResult
 from .rsu_query_result_data import RSUQueryResultData
 from .rsu_tmp import RSUTMP
+from .service_type import ServiceType
 from .spat import Spat
 from .ssw import SSW
 from .system_config import SystemConfig

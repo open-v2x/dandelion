@@ -48,6 +48,7 @@ from .crud_rsu_query import rsu_query
 from .crud_rsu_query_result import rsu_query_result
 from .crud_rsu_query_result_data import rsu_query_result_data
 from .crud_rsu_tmp import rsu_tmp
+from .crud_service_type import service_type
 from .crud_spat import spat
 from .crud_ssw import ssw
 from .crud_system_config import system_config
@@ -91,5 +92,6 @@ __all__ = [
     "cgw",
     "rdw",
     "osw",
+    "service_type",
     "ssw",
 ]
