@@ -14,7 +14,7 @@
 
 from __future__ import annotations
 
-from sqlalchemy import Column, ForeignKey, Integer, String, Text, UniqueConstraint
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, Text, UniqueConstraint
 from sqlalchemy.orm import relationship
 
 from dandelion.db.base_class import Base, DandelionBase
@@ -76,27 +76,24 @@ class Service(Base, DandelionBase):
 class Endpoint(Base, DandelionBase):
     __tablename__ = "endpoint"
 
-    name = Column(String(64), nullable=False, unique=True)
     service_id = Column(Integer, ForeignKey("service.id"))
-    version = Column(String(64))
+    enabled = Column(Boolean, nullable=False)
     url = Column(String(256), nullable=False)
 
     matadatas = relationship("EndpointMetadata", backref="endpoint")
 
     def __repr__(self) -> str:
         return (
-            f"<endpoint(id='{self.id}', name='{self.name}', "
-            f"service_id='{self.service_id}', version='{self.version}, "
-            f"url='{self.url}')>"
+            f"<endpoint(id='{self.id}', enabled='{self.enabled}', "
+            f"service_id='{self.service_id}', url='{self.url}')>"
         )
 
     def to_dict(self):
         return {
             **dict(
                 id=self.id,
-                name=self.name,
                 service_id=self.service_id,
-                version=self.version,
+                enabled=self.enabled,
                 url=self.url,
             ),
         }

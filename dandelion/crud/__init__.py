@@ -23,6 +23,8 @@ from .crud_cgw import cgw
 from .crud_city import city
 from .crud_country import country
 from .crud_edge_site import edge_site
+from .crud_endpoint import endpoint
+from .crud_endpoint_metadata import endpoint_metadata
 from .crud_lidar import lidar
 from .crud_map import map
 from .crud_map_rsu import map_rsu
@@ -90,6 +92,8 @@ __all__ = [
     "cgw",
     "rdw",
     "osw",
+    "endpoint",
+    "endpoint_metadata",
     "service",
     "service_type",
     "ssw",
