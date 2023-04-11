@@ -20,7 +20,7 @@ from typing import Any, Dict
 from oslo_log import log
 
 from dandelion.mqtt import send_msg
-from dandelion.mqtt.topic.v2x_rsu import v2x_rsu_mng_down
+from dandelion.mqtt.topic import v2x_rsu_mng_down
 
 LOG: LoggerAdapter = log.getLogger(__name__)
 

@@ -14,7 +14,7 @@
 
 from __future__ import annotations
 
-from sqlalchemy import JSON, Column, ForeignKey, Integer, String
+from sqlalchemy import JSON, Column, Integer, String
 
 from dandelion.db.base_class import Base, DandelionBase
 
@@ -22,15 +22,21 @@ from dandelion.db.base_class import Base, DandelionBase
 class SystemConfig(Base, DandelionBase):
     __tablename__ = "system_config"
 
-    name = Column(String(length=255), nullable=True, default="")
-    node_id = Column(Integer, nullable=True, default=0)
+    edge_site_id = Column(Integer, nullable=True, default=0)
     mqtt_config = Column(JSON, nullable=True)
-    area_code = Column(String(64), ForeignKey("area.code", name="edge_fk_area"))
-    local_ip = Column(String(64), nullable=True)
+    edge_site_external_ip = Column(String(64), nullable=True)
+    center_dandelion_endpoint = Column(String(255), nullable=True)
 
     def __repr__(self) -> str:
         return (
-            f"<SystemConfig(name='{self.name}', "
-            f"node_id='{self.node_id}', "
-            f"mqtt_config='{self.mqtt_config}'>"
+            f"<SystemConfig edge_site_id'{self.edge_site_id}', mqtt_config='{self.mqtt_config}'>"
+        )
+
+    def to_dict(self):
+        return dict(
+            id=self.id,
+            edgeSiteID=self.edge_site_id,
+            mqttConfig=self.mqtt_config,
+            edgeSiteExternalIP=self.edge_site_external_ip,
+            centerDandelionEedpoint=self.center_dandelion_endpoint,
         )

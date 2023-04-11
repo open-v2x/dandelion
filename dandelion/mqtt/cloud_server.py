@@ -14,7 +14,6 @@
 
 from __future__ import annotations
 
-import json
 import uuid
 from logging import LoggerAdapter
 from typing import Any
@@ -25,8 +24,6 @@ from oslo_log import log
 from sqlalchemy.orm import Session
 
 from dandelion import conf, crud
-from dandelion.mqtt.service.cloud.edge_info_ack import EdgeInfoACKRouterHandler
-from dandelion.mqtt.topic import v2x_edge
 
 LOG: LoggerAdapter = log.getLogger(__name__)
 CONF: cfg = conf.CONF
@@ -68,16 +65,6 @@ def _on_connect(client: mqtt.Client, userdata: Any, flags: Any, rc: int) -> None
     global MQTT_CLIENT
     MQTT_CLIENT = client
 
-    key = uuid.uuid4().hex
-    subscribe_topic = v2x_edge.v2x_edge_key_info_up_ack(key)
-    client.message_callback_add(subscribe_topic, EdgeInfoACKRouterHandler().request)
-    client.subscribe(topic=subscribe_topic, qos=0)
-    client.publish(
-        topic=v2x_edge.V2X_EDGE_INFO_UP,
-        payload=json.dumps(dict(key=key, name=EDGE_NAME, ip=LOCAL_IP, area_code=AREA_CODE)),
-        qos=0,
-    )
-
 
 def _on_message(client: mqtt.Client, userdata: Any, msg: mqtt.MQTTMessage) -> None:
     LOG.info(msg.payload.decode("utf-8"))
@@ -94,13 +81,6 @@ def connect() -> None:
 
     db: Session = session.DB_SESSION_LOCAL()
     config = crud.system_config.get(db, 1)
-    if config:
-        global EDGE_NAME
-        EDGE_NAME = config.name
-        global AREA_CODE
-        AREA_CODE = config.area_code
-        global LOCAL_IP
-        LOCAL_IP = config.local_ip
 
     if config and config.mqtt_config:
         LOG.info("Starting Cloud MQTT...")

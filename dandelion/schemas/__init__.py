@@ -39,13 +39,7 @@ from .city import City, CityCreate, CityUpdate
 from .cloud_home import OnlineRate, RouteInfo, RouteInfoCreate
 from .country import Country, CountryCreate, CountryUpdate
 from .edge_node import EdgeNode, EdgeNodeCreate, EdgeNodes, EdgeNodeUpdate
-from .edge_node_rsu import (
-    EdgeNodeRSU,
-    EdgeNodeRSUCreate,
-    EdgeNodeRSUs,
-    EdgeNodeRSUUpdate,
-    Location,
-)
+from .edge_site import EdgeSite, EdgeSiteCreate, EdgeSites, EdgeSiteUpdate
 from .lidar import Lidar, LidarCreate, Lidars, LidarUpdate
 from .map import Map, MapCreate, Maps, MapUpdate
 from .map_rsu import MapRSU, MapRSUCreate, MapRSUs, MapRSUUpdate

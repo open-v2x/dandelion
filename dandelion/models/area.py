@@ -20,7 +20,7 @@ from sqlalchemy import Column, ForeignKey, String
 from sqlalchemy.orm import relationship
 
 from dandelion.db.base_class import Base, DandelionBase
-from dandelion.models.edge import EdgeNode
+from dandelion.models.edge_site import EdgeSite
 from dandelion.util import Optional as Optional_util
 
 
@@ -31,7 +31,7 @@ class Area(Base, DandelionBase):
     code = Column(String(64), unique=True, index=True, nullable=False)
     name = Column(String(64), nullable=False)
 
-    edge_nodes: List[EdgeNode] = relationship("EdgeNode", backref="area")
+    edge_sites: List[EdgeSite] = relationship("EdgeSite", backref="area")
 
     def __repr__(self) -> str:
         return f"<Area(code='{self.code}', name='{self.name}')>"

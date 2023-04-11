@@ -109,28 +109,9 @@ def update_rsu_online_status() -> None:
 
 
 @app.on_event("startup")
-@repeat_every(seconds=60)
-def delete_offline_edge() -> None:
-    periodic_tasks.delete_offline_edge()
-
-
-@app.on_event("startup")
-@repeat_every(seconds=10)
-def edge_heartbeat() -> None:
-    periodic_tasks.edge_heartbeat()
-
-
-@app.on_event("startup")
 @repeat_every(seconds=60 * 60 * 24)
 def delete_unused_bitmap() -> None:
     periodic_tasks.delete_unused_bitmap()
-
-
-# Shutdown
-@app.on_event("shutdown")
-def shutdown_event():
-    LOG.info("Shutting down...")
-    periodic_tasks.edge_delete()
 
 
 # Middleware

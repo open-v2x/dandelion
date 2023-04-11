@@ -22,8 +22,7 @@ from .crud_camera import camera
 from .crud_cgw import cgw
 from .crud_city import city
 from .crud_country import country
-from .crud_edge_node import edge_node
-from .crud_edge_node_rsu import edge_node_rsu
+from .crud_edge_site import edge_site
 from .crud_lidar import lidar
 from .crud_map import map
 from .crud_map_rsu import map_rsu
@@ -82,8 +81,6 @@ __all__ = [
     "rsi_cwm",
     "rsi_clc",
     "rsi_sds",
-    "edge_node",
-    "edge_node_rsu",
     "rsu_query_result_data",
     "spat",
     "algo_module",
@@ -94,4 +91,5 @@ __all__ = [
     "osw",
     "service_type",
     "ssw",
+    "edge_site",
 ]

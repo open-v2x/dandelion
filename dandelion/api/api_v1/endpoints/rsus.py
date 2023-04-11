@@ -18,18 +18,15 @@ import json
 from logging import LoggerAdapter
 from typing import List, Optional
 
-import requests
 from fastapi import APIRouter, Depends, Query, Response, status
 from oslo_log import log
 from redis import Redis
 from sqlalchemy import exc as sql_exc
 from sqlalchemy.orm import Session
 
-from dandelion import constants, crud, models, schemas
+from dandelion import crud, models, schemas
 from dandelion.api import deps
 from dandelion.api.deps import OpenV2XHTTPException as HTTPException, error_handle
-from dandelion.mqtt import cloud_server as mqtt_cloud_server
-from dandelion.mqtt.topic import v2x_edge
 from dandelion.util import Optional as Optional_util
 
 router = APIRouter()
@@ -73,24 +70,6 @@ def create(
     del rsu_in.tmp_id
     try:
         rsu_in_db = crud.rsu.create_rsu(db, obj_in=rsu_in, rsu_tmp_in_db=rsu_tmp)
-        if mqtt_cloud_server.MQTT_CLIENT is not None:
-            mqtt_cloud_server.get_mqtt_client().publish(
-                topic=v2x_edge.V2X_EDGE_RSU_ADD_UP,
-                payload=json.dumps(
-                    dict(
-                        id=mqtt_cloud_server.EDGE_ID,
-                        rsu=dict(
-                            edge_rsu_id=rsu_in_db.id,
-                            name=rsu_in.rsu_name,
-                            esn=rsu_in.rsu_esn,
-                            location=Optional_util.none(rsu_tmp)
-                            .map(lambda v: v.location)
-                            .orElse({}),
-                        ),
-                    )
-                ),
-                qos=0,
-            )
     except (sql_exc.IntegrityError, sql_exc.DataError) as ex:
         raise error_handle(ex, "rsu_esn", rsu_in.rsu_esn)
     return rsu_in_db.to_all_dict()
@@ -215,29 +194,9 @@ def update(
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> schemas.RSU:
-    rsu_tmp: Optional[models.RSUTMP] = None
     rsu_in_db = deps.crud_get(db=db, obj_id=rsu_id, crud_model=crud.rsu, detail="RSU")
     try:
         new_rsu_in_db = crud.rsu.update_with_location(db, db_obj=rsu_in_db, obj_in=rsu_in)
-        if mqtt_cloud_server.MQTT_CLIENT is not None:
-            system_config_db = crud.system_config.get(db, id=1)
-            host = system_config_db.mqtt_config.get("host") if system_config_db else None
-            token = deps.get_token(host)
-            update_url = (
-                f"http://"
-                f"{host}:28300"
-                f"{constants.API_V1_STR}/edge_node_rsus/"
-                f"{mqtt_cloud_server.EDGE_ID}/"
-            )
-            data = dict(
-                edgeRsuID=rsu_in_db.id,
-                name=rsu_in.rsu_name,
-                esn=rsu_in.rsu_esn,
-                location=Optional_util.none(rsu_tmp).map(lambda v: v.location).orElse({}),
-            )
-            requests.put(url=update_url, json=data, headers={"Authorization": token})
-            # if res.status_code != status.HTTP_200_OK:
-            #     raise HTTPException(status_code=res.status_code, detail=res.text)
     except (sql_exc.DataError, sql_exc.IntegrityError) as ex:
         raise error_handle(ex, "rsu_esn", rsu_in.rsu_esn)
     return new_rsu_in_db.to_all_dict()
@@ -272,14 +231,7 @@ def delete(
         crud.rsu_query_result_data.remove_by_result_id(db, result_id=result.id)
         crud.rsu_query_result.remove(db, id=result.id)
     crud.mng.remove_by_rsu_id(db, rsu_id=rsu_id)
-    rsu = crud.rsu.get(db, id=rsu_id)
     crud.rsu.remove(db, id=rsu_id)
-    if rsu is not None and mqtt_cloud_server.MQTT_CLIENT is not None:
-        mqtt_cloud_server.get_mqtt_client().publish(
-            topic=v2x_edge.V2X_EDGE_RSU_DELETE_UP,
-            payload=json.dumps(dict(id=mqtt_cloud_server.EDGE_ID, rsuEsn=rsu.rsu_esn)),
-            qos=0,
-        )
     return Response(content=None, status_code=status.HTTP_204_NO_CONTENT)
 
 

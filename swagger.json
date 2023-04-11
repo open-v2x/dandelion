@@ -7629,14 +7629,14 @@
                 ]
             }
         },
-        "/api/v1/edge_nodes": {
+        "/api/v1/edge_site": {
             "get": {
                 "tags": [
-                    "Edge Node"
+                    "Edge Site"
                 ],
-                "summary": "List Edge Nodes",
-                "description": "\nGet all Edge Nodes.\n",
-                "operationId": "get_all_api_v1_edge_nodes_get",
+                "summary": "List Edge Sites",
+                "description": "\nGet all Edge Sites.\n",
+                "operationId": "get_all_api_v1_edge_site_get",
                 "parameters": [
                     {
                         "required": false,
@@ -7689,7 +7689,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/EdgeNodes"
+                                    "$ref": "#/components/schemas/EdgeSites"
                                 }
                             }
                         }
@@ -7743,16 +7743,16 @@
             },
             "post": {
                 "tags": [
-                    "Edge Node"
+                    "Edge Site"
                 ],
                 "summary": "Create",
-                "description": "\nCreate a new edge node.\n",
-                "operationId": "create_api_v1_edge_nodes_post",
+                "description": "\nCreate a new edge site.\n",
+                "operationId": "create_api_v1_edge_site_post",
                 "requestBody": {
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/EdgeNodeCreate"
+                                "$ref": "#/components/schemas/EdgeSiteCreate"
                             }
                         }
                     },
@@ -7764,7 +7764,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/EdgeNode"
+                                    "$ref": "#/components/schemas/EdgeSite"
                                 }
                             }
                         }
@@ -7827,31 +7827,31 @@
                 ]
             }
         },
-        "/api/v1/edge_node_rsus": {
+        "/api/v1/edge_nodes": {
             "get": {
                 "tags": [
-                    "Edge Node RSU"
+                    "Edge Node"
                 ],
-                "summary": "List Edge Node RSUs",
-                "description": "\nGet all Edge Node RSUs.\n",
-                "operationId": "get_all_api_v1_edge_node_rsus_get",
+                "summary": "List Edge Nodes",
+                "description": "\nGet all Edge Nodes.\n",
+                "operationId": "get_all_api_v1_edge_nodes_get",
                 "parameters": [
                     {
                         "required": false,
                         "schema": {
-                            "title": "Nodeid",
-                            "type": "integer"
+                            "title": "Name",
+                            "type": "string"
                         },
-                        "name": "nodeId",
+                        "name": "name",
                         "in": "query"
                     },
                     {
                         "required": false,
                         "schema": {
-                            "title": "Intersectioncode",
+                            "title": "Areacode",
                             "type": "string"
                         },
-                        "name": "intersectionCode",
+                        "name": "areaCode",
                         "in": "query"
                     },
                     {
@@ -7887,95 +7887,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/EdgeNodeRSUs"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMessage"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "OAuth2PasswordBearer": []
-                    }
-                ]
-            }
-        },
-        "/api/v1/edge_node_rsus/{edge_node_id}": {
-            "put": {
-                "tags": [
-                    "Edge Node RSU"
-                ],
-                "summary": "Update",
-                "description": "\nUpdate a RSU.\n",
-                "operationId": "update_api_v1_edge_node_rsus__edge_node_id__put",
-                "parameters": [
-                    {
-                        "required": true,
-                        "schema": {
-                            "title": "Edge Node Id",
-                            "type": "integer"
-                        },
-                        "name": "edge_node_id",
-                        "in": "path"
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/EdgeNodeRSUCreate"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/EdgeNodeRSU"
+                                    "$ref": "#/components/schemas/EdgeNodes"
                                 }
                             }
                         }
@@ -8707,13 +8619,13 @@
                     }
                 ]
             },
-            "delete": {
+            "put": {
                 "tags": [
                     "Service"
                 ],
-                "summary": "Delete",
-                "description": "\nDelete a service type.\n",
-                "operationId": "delete_api_v1_service_types__service_type_id__delete",
+                "summary": "Update",
+                "description": "\nUpdate a service type.\n",
+                "operationId": "update_api_v1_service_types__service_type_id__put",
                 "parameters": [
                     {
                         "required": true,
@@ -8725,9 +8637,26 @@
                         "in": "path"
                     }
                 ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ServiceTypeUpdate"
+                            }
+                        }
+                    },
+                    "required": true
+                },
                 "responses": {
-                    "204": {
-                        "description": "No Content"
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceTypeGET"
+                                }
+                            }
+                        }
                     },
                     "401": {
                         "description": "Unauthorized",
@@ -8776,13 +8705,13 @@
                     }
                 ]
             },
-            "patch": {
+            "delete": {
                 "tags": [
                     "Service"
                 ],
-                "summary": "Update",
-                "description": "\nUpdate a service type.\n",
-                "operationId": "update_api_v1_service_types__service_type_id__patch",
+                "summary": "Delete",
+                "description": "\nDelete a service type.\n",
+                "operationId": "delete_api_v1_service_types__service_type_id__delete",
                 "parameters": [
                     {
                         "required": true,
@@ -8794,26 +8723,9 @@
                         "in": "path"
                     }
                 ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/ServiceTypeUpdate"
-                            }
-                        }
-                    },
-                    "required": true
-                },
                 "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ServiceTypeGET"
-                                }
-                            }
-                        }
+                    "204": {
+                        "description": "No Content"
                     },
                     "401": {
                         "description": "Unauthorized",
@@ -9702,124 +9614,6 @@
                     }
                 }
             },
-            "EdgeNodeCreate": {
-                "title": "EdgeNodeCreate",
-                "type": "object",
-                "properties": {
-                    "name": {
-                        "title": "Name",
-                        "type": "string",
-                        "description": "Edge Node Name"
-                    },
-                    "ip": {
-                        "title": "Ip",
-                        "type": "string",
-                        "description": "Edge Node ip"
-                    },
-                    "area_code": {
-                        "title": "Area Code",
-                        "type": "string",
-                        "description": "Area Code"
-                    }
-                }
-            },
-            "EdgeNodeRSU": {
-                "title": "EdgeNodeRSU",
-                "required": [
-                    "id",
-                    "edge_rsu_id"
-                ],
-                "type": "object",
-                "properties": {
-                    "name": {
-                        "title": "Name",
-                        "type": "string",
-                        "description": "RSU Name"
-                    },
-                    "esn": {
-                        "title": "Esn",
-                        "type": "string",
-                        "description": "RSU ESN"
-                    },
-                    "location": {
-                        "title": "Location",
-                        "allOf": [
-                            {
-                                "$ref": "#/components/schemas/Location"
-                            }
-                        ],
-                        "description": "Location"
-                    },
-                    "id": {
-                        "title": "Id",
-                        "type": "integer",
-                        "description": "RSU ID"
-                    },
-                    "edge_rsu_id": {
-                        "title": "Edge Rsu Id",
-                        "type": "integer",
-                        "description": "Edge Rsu ID"
-                    }
-                }
-            },
-            "EdgeNodeRSUCreate": {
-                "title": "EdgeNodeRSUCreate",
-                "type": "object",
-                "properties": {
-                    "name": {
-                        "title": "Name",
-                        "type": "string",
-                        "description": "RSU Name"
-                    },
-                    "esn": {
-                        "title": "Esn",
-                        "type": "string",
-                        "description": "RSU ESN"
-                    },
-                    "location": {
-                        "title": "Location",
-                        "allOf": [
-                            {
-                                "$ref": "#/components/schemas/Location"
-                            }
-                        ],
-                        "description": "Location"
-                    },
-                    "edgeNodeID": {
-                        "title": "Edgenodeid",
-                        "type": "integer",
-                        "description": "Edge Node ID"
-                    },
-                    "edgeRsuID": {
-                        "title": "Edgersuid",
-                        "type": "integer",
-                        "description": "Edge Rsu ID"
-                    }
-                }
-            },
-            "EdgeNodeRSUs": {
-                "title": "EdgeNodeRSUs",
-                "required": [
-                    "total",
-                    "data"
-                ],
-                "type": "object",
-                "properties": {
-                    "total": {
-                        "title": "Total",
-                        "type": "integer",
-                        "description": "Total"
-                    },
-                    "data": {
-                        "title": "Data",
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/EdgeNodeRSU"
-                        },
-                        "description": "Data"
-                    }
-                }
-            },
             "EdgeNodes": {
                 "title": "EdgeNodes",
                 "required": [
@@ -9838,6 +9632,110 @@
                         "type": "array",
                         "items": {
                             "$ref": "#/components/schemas/EdgeNode"
+                        },
+                        "description": "Data"
+                    }
+                }
+            },
+            "EdgeSite": {
+                "title": "EdgeSite",
+                "required": [
+                    "name",
+                    "edgeSiteDandelionEndpoint",
+                    "id"
+                ],
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "title": "Name",
+                        "type": "string",
+                        "description": "Edge Site Name"
+                    },
+                    "edgeSiteDandelionEndpoint": {
+                        "title": "Edgesitedandelionendpoint",
+                        "maxLength": 2083,
+                        "minLength": 1,
+                        "type": "string",
+                        "description": "Edge Site Dandelion Endpoint",
+                        "format": "uri"
+                    },
+                    "areaCode": {
+                        "title": "Areacode",
+                        "type": "string",
+                        "description": "Edge Site Area Code"
+                    },
+                    "desc": {
+                        "title": "Desc",
+                        "type": "string",
+                        "description": "Edge Site desc"
+                    },
+                    "id": {
+                        "title": "Id",
+                        "type": "integer",
+                        "description": "Edge Site ID"
+                    }
+                }
+            },
+            "EdgeSiteCreate": {
+                "title": "EdgeSiteCreate",
+                "required": [
+                    "name",
+                    "edgeSiteDandelionEndpoint",
+                    "centerDandelionEndpoint"
+                ],
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "title": "Name",
+                        "type": "string",
+                        "description": "Edge Site Name"
+                    },
+                    "edgeSiteDandelionEndpoint": {
+                        "title": "Edgesitedandelionendpoint",
+                        "maxLength": 2083,
+                        "minLength": 1,
+                        "type": "string",
+                        "description": "Edge Site Dandelion Endpoint",
+                        "format": "uri"
+                    },
+                    "areaCode": {
+                        "title": "Areacode",
+                        "type": "string",
+                        "description": "Edge Site Area Code"
+                    },
+                    "desc": {
+                        "title": "Desc",
+                        "type": "string",
+                        "description": "Edge Site desc"
+                    },
+                    "centerDandelionEndpoint": {
+                        "title": "Centerdandelionendpoint",
+                        "maxLength": 2083,
+                        "minLength": 1,
+                        "type": "string",
+                        "description": "Edge Site Dandelion Endpoint",
+                        "format": "uri"
+                    }
+                }
+            },
+            "EdgeSites": {
+                "title": "EdgeSites",
+                "required": [
+                    "total",
+                    "data"
+                ],
+                "type": "object",
+                "properties": {
+                    "total": {
+                        "title": "Total",
+                        "type": "integer",
+                        "description": "Total"
+                    },
+                    "data": {
+                        "title": "Data",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/EdgeSite"
                         },
                         "description": "Data"
                     }
@@ -10234,24 +10132,6 @@
                     }
                 }
             },
-            "Location": {
-                "title": "Location",
-                "type": "object",
-                "properties": {
-                    "lat": {
-                        "title": "Lat",
-                        "type": "number",
-                        "description": "Latitude",
-                        "default": 39.91
-                    },
-                    "lon": {
-                        "title": "Lon",
-                        "type": "number",
-                        "description": "Longitude",
-                        "default": 116.4
-                    }
-                }
-            },
             "LogLevel": {
                 "title": "LogLevel",
                 "enum": [
@@ -10461,6 +10341,12 @@
             },
             "MQTTConfig": {
                 "title": "MQTTConfig",
+                "required": [
+                    "host",
+                    "port",
+                    "username",
+                    "password"
+                ],
                 "type": "object",
                 "properties": {
                     "host": {
@@ -13952,28 +13838,19 @@
             "SystemConfig": {
                 "title": "SystemConfig",
                 "required": [
+                    "mqttConfig",
                     "id"
                 ],
                 "type": "object",
                 "properties": {
-                    "name": {
-                        "title": "Name",
-                        "type": "string",
-                        "description": "Site Name"
-                    },
-                    "mqtt_config": {
-                        "title": "Mqtt Config",
+                    "mqttConfig": {
+                        "title": "Mqttconfig",
                         "allOf": [
                             {
                                 "$ref": "#/components/schemas/MQTTConfig"
                             }
                         ],
                         "description": "MQTT Config"
-                    },
-                    "area_code": {
-                        "title": "Area Code",
-                        "type": "string",
-                        "description": "Area Code"
                     },
                     "id": {
                         "title": "Id",
@@ -13989,15 +13866,15 @@
             },
             "SystemConfigCreate": {
                 "title": "SystemConfigCreate",
+                "required": [
+                    "mqttConfig",
+                    "centerDandelionEndpoint",
+                    "edgeSiteID"
+                ],
                 "type": "object",
                 "properties": {
-                    "name": {
-                        "title": "Name",
-                        "type": "string",
-                        "description": "Site Name"
-                    },
-                    "mqtt_config": {
-                        "title": "Mqtt Config",
+                    "mqttConfig": {
+                        "title": "Mqttconfig",
                         "allOf": [
                             {
                                 "$ref": "#/components/schemas/MQTTConfig"
@@ -14005,15 +13882,20 @@
                         ],
                         "description": "MQTT Config"
                     },
-                    "area_code": {
-                        "title": "Area Code",
+                    "edgeSiteExternalIP": {
+                        "title": "Edgesiteexternalip",
                         "type": "string",
-                        "description": "Area Code"
+                        "description": "Edge Site External IP"
                     },
-                    "local_ip": {
-                        "title": "Local Ip",
+                    "centerDandelionEndpoint": {
+                        "title": "Centerdandelionendpoint",
                         "type": "string",
-                        "description": "Local IP"
+                        "description": "Center Dandelion Endpoint"
+                    },
+                    "edgeSiteID": {
+                        "title": "Edgesiteid",
+                        "type": "integer",
+                        "description": "Edge Site ID"
                     }
                 }
             },

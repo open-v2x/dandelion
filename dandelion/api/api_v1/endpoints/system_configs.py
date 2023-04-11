@@ -14,9 +14,6 @@
 
 from __future__ import annotations
 
-import json
-
-import redis
 from fastapi import APIRouter, Depends, status
 from oslo_config import cfg
 from sqlalchemy.orm import Session
@@ -25,7 +22,6 @@ from dandelion import crud, models, schemas
 from dandelion.api import deps
 from dandelion.api.deps import OpenV2XHTTPException as HTTPException
 from dandelion.mqtt import cloud_server as mqtt_cloud_server
-from dandelion.mqtt.topic import v2x_edge
 
 router = APIRouter()
 CONF: cfg = cfg.CONF
@@ -51,62 +47,22 @@ Get detailed info of System Config.
     },
 )
 def create(
-    user_in: schemas.SystemConfigCreate,
+    edge_in: schemas.SystemConfigCreate,
     *,
     db: Session = Depends(deps.get_db),
-    redis_conn: redis.Redis = Depends(deps.get_redis_conn),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> schemas.SystemConfig:
     """
     Set system configuration.
     """
-    # mq_host = (
-    #     Optional.none(user_in).map(lambda c: c.mqtt_config).map(lambda c: c.host).orElse(None)
-    # )
-    # mq_port = (
-    #     Optional.none(user_in).map(lambda c: c.mqtt_config).map(lambda c: c.port).orElse(None)
-    # )
-    # if "edge" == mode_conf.mode:
-    #     if (
-    #         mq_host is not None
-    #         and mqtt_conf.host == mq_host
-    #         and mq_port is not None
-    #         and mqtt_conf.port == mq_port
-    #     ):
-    #         raise HTTPException(
-    #             status_code=status.HTTP_403_FORBIDDEN,
-    #             detail="Coexist node configuration is the different as the node.",
-    #         )
-
-    # if "center" == mode_conf.mode:
-    #     raise HTTPException(
-    #         status_code=status.HTTP_403_FORBIDDEN,
-    #         detail="The current node does not support configuration.",
-    #     )
-    # if "coexist" == mode_conf.mode:
-    #     if (mq_host is not None and mqtt_conf.host != mq_host) or (
-    #         mq_port is not None and mqtt_conf.port != mq_port
-    #     ):
-    #         raise HTTPException(
-    #             status_code=status.HTTP_403_FORBIDDEN,
-    #             detail="Coexist node configuration is the same as the node.",
-    #         )
-    # System configuration is global, So use ID=1.
     system_config = crud.system_config.get(db, id=1)
-    if system_config:
-        system_config = crud.system_config.update(db, db_obj=system_config, obj_in=user_in)
-        if mqtt_cloud_server.MQTT_CLIENT:
-            # disconnect
-            if system_config.node_id is not None and system_config.node_id > 0:
-                mqtt_cloud_server.MQTT_CLIENT.publish(
-                    topic=v2x_edge.V2X_EDGE_DELETE_UP,
-                    payload=json.dumps(dict(edge_id=system_config.node_id)),
-                    qos=0,
-                )
-            mqtt_cloud_server.MQTT_CLIENT.disconnect()
-    else:
-        system_config = crud.system_config.create(db, obj_in=user_in)
-
+    system_config = (
+        crud.system_config.update(db, db_obj=system_config, obj_in=edge_in)
+        if system_config
+        else crud.system_config.create(db, obj_in=edge_in)
+    )
+    if mqtt_cloud_server.MQTT_CLIENT:
+        mqtt_cloud_server.MQTT_CLIENT.disconnect()
     mqtt_cloud_server.connect()
     while not mqtt_cloud_server.MQTT_CLIENT:
         if mqtt_cloud_server.ERROR_CONFIG:
@@ -115,7 +71,7 @@ def create(
                 status_code=status.HTTP_400_BAD_REQUEST, detail="Cloud MQTT Connection failed"
             )
 
-    return system_config
+    return system_config.to_dict()
 
 
 @router.get(
@@ -148,4 +104,4 @@ def get(
         detail="System config",
     )
     system_config.mode = mode_conf.mode
-    return system_config
+    return system_config.to_dict()
