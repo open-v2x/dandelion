@@ -47,6 +47,7 @@ from dandelion.api.api_v1.endpoints import (
     rsu_queries,
     rsu_tmps,
     rsus,
+    services,
     spats,
     ssw,
     system_configs,
@@ -108,3 +109,5 @@ api_router.include_router(edge_nodes.router, prefix="/edge_nodes", tags=["Edge N
 
 api_router.include_router(edge_node_rsus.router, prefix="/edge_node_rsus", tags=["Edge Node RSU"])
 api_router.include_router(algos.router, prefix="/algos", tags=["Algo"])
+
+api_router.include_router(services.router, prefix="/service_types", tags=["Service"])

@@ -96,6 +96,13 @@ from .rsu_query_result import (
 )
 from .rsu_query_result_data import RSUQueryResultData, RSUQueryResultDataCreate
 from .rsu_tmp import RSUTMP, RSUTMPCreate, RSUTMPs, RSUTMPUpdate
+from .service_type import (
+    ServiceTypeCreate,
+    ServiceTypeCreateAll,
+    ServiceTypeGET,
+    ServiceTypes,
+    ServiceTypeUpdate,
+)
 from .spat import Spat, SpatCreate, Spats, SpatUpdate
 from .ssw import SSW, SSWCreate, SSWs, SSWUpdate
 from .system_config import MQTTConfig, SystemConfig, SystemConfigCreate

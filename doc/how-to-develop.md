@@ -13,6 +13,7 @@
 3. 当然，我们可以在 `__init__.py` 中先引入此模块，后续直接 `from dandelion import models` 及 `models.XXX` 即可调用；
 4. 定义完成后，需要执行 `tox -e venv`, `source .tox/venv/bin/activate` 以及
    `alembic revision --autogenerate -m "xxxx"` 生成迁移脚本，脚本最终位于 `dandelion/alembic/versions` 目录下；
+5. 最后通过 `alembic upgrade head` 可以更新数据库表结构
 
 ## 想要操作 redis
 
