@@ -22,8 +22,7 @@ from oslo_log import log
 from sqlalchemy.orm import Session
 
 from dandelion import crud
-from dandelion.mqtt import cloud_server as mqtt_cloud_server
-from dandelion.mqtt.topic import v2x_rsu
+from dandelion.mqtt import cloud_server as mqtt_cloud_server, topic
 from dandelion.util import get_all_algo_config
 
 LOG: LoggerAdapter = log.getLogger(__name__)
@@ -49,9 +48,9 @@ def algo_publish(db: Session):
             redis_info[algo_name] = algo.get("inUse") if algo.get("enable") else "disable"
         payload = json.dumps({"yaml_info": yaml_info, "redis_info": redis_info})
         mqtt_cloud_server.get_mqtt_client().publish(
-            topic=v2x_rsu.V2X_RSU_PIP_CFG,
+            topic=topic.V2X_RSU_PIP_CFG,
             payload=payload,
             qos=0,
         )
 
-        LOG.info(f"publish to topic: {v2x_rsu.V2X_RSU_PIP_CFG},payload:{payload}")
+        LOG.info(f"publish to topic: {topic.V2X_RSU_PIP_CFG},payload:{payload}")

@@ -24,8 +24,8 @@ from dandelion.api.api_v1.endpoints import (
     cities,
     cloud_homes,
     countries,
-    edge_node_rsus,
     edge_nodes,
+    edge_site,
     lidars,
     login,
     map_rsus,
@@ -105,9 +105,9 @@ api_router.include_router(cgw.router, prefix="/cgw", tags=["CGW"])
 api_router.include_router(rdw.router, prefix="/rdw", tags=["RDW"])
 api_router.include_router(osw.router, prefix="/osw", tags=["OSW"])
 api_router.include_router(ssw.router, prefix="/ssw", tags=["SSW"])
+api_router.include_router(edge_site.router, prefix="/edge_site", tags=["Edge Site"])
 api_router.include_router(edge_nodes.router, prefix="/edge_nodes", tags=["Edge Node"])
 
-api_router.include_router(edge_node_rsus.router, prefix="/edge_node_rsus", tags=["Edge Node RSU"])
 api_router.include_router(algos.router, prefix="/algos", tags=["Algo"])
 
 api_router.include_router(services.router, prefix="/service_types", tags=["Service"])

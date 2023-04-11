@@ -89,8 +89,15 @@ def get_current_user(
         return check_token(db=db, token=token)
     except OpenV2XHTTPException as e:
         error = e
+    system_config = crud.system_config.get(db=db, id=1)
+    if not system_config:
+        raise error
     res = requests.get(
-        url=f"http://{os.getenv('OPENV2X_EXTERNAL_IP')}:28300/api/v1/login/check_token",
+        url=os.path.join(
+            system_config.center_dandelion_endpoint,
+            constants.API_V1_STR.strip("/"),
+            "login/check_token",
+        ),
         headers={"token": token},
     )
     if res.status_code != status.HTTP_200_OK:

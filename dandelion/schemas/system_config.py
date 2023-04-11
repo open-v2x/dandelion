@@ -20,26 +20,26 @@ from pydantic import BaseModel, Field
 
 
 class SystemConfigBase(BaseModel):
-    name: Optional[str] = Field(None, alias="name", description="Site Name")
-    mqtt_config: Optional[MQTTConfig] = Field(None, alias="mqtt_config", description="MQTT Config")
-    area_code: Optional[str] = Field(None, alias="area_code", description="Area Code")
+    mqtt_config: MQTTConfig = Field(..., alias="mqttConfig", description="MQTT Config")
 
 
 class MQTTConfig(BaseModel):
-    host: Optional[str] = Field(None, alias="host", description="MQTT Host")
-    port: Optional[int] = Field(None, alias="port", description="MQTT Port")
-    username: Optional[str] = Field(None, alias="username", description="Username")
-    password: Optional[str] = Field(None, alias="password", description="Password")
+    host: str = Field(..., alias="host", description="MQTT Host")
+    port: int = Field(..., alias="port", description="MQTT Port")
+    username: str = Field(..., alias="username", description="Username")
+    password: str = Field(..., alias="password", description="Password")
 
 
 class SystemConfigCreate(SystemConfigBase):
     """"""
 
-    local_ip: Optional[str] = Field(None, alias="local_ip", description="Local IP")
-
-
-class SystemConfigUpdateNodeId(BaseModel):
-    node_id: int = Field(..., alias="nodeID", description="Edge Node ID")
+    edge_site_external_ip: Optional[str] = Field(
+        None, alias="edgeSiteExternalIP", description="Edge Site External IP"
+    )
+    center_dandelion_endpoint: str = Field(
+        ..., alias="centerDandelionEndpoint", description="Center Dandelion Endpoint"
+    )
+    edge_site_id: int = Field(..., alias="edgeSiteID", description="Edge Site ID")
 
 
 class SystemConfigInDBBase(SystemConfigBase):

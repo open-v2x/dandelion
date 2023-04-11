@@ -16,15 +16,16 @@ from __future__ import annotations
 
 from typing import List, Optional, Tuple
 
+from fastapi.encoders import jsonable_encoder
 from sqlalchemy.orm import Session
 
 from dandelion.crud.base import CRUDBase
-from dandelion.models import EdgeNode
-from dandelion.schemas import EdgeNodeCreate, EdgeNodeUpdate
+from dandelion.models import EdgeSite
+from dandelion.schemas import EdgeSiteCreate, EdgeSiteUpdate
 
 
-class CRUDEdgeNode(CRUDBase[EdgeNode, EdgeNodeCreate, EdgeNodeUpdate]):
-    def get_by_name(self, db: Session, name: str) -> EdgeNode:
+class CRUDEdgeSite(CRUDBase[EdgeSite, EdgeSiteCreate, EdgeSiteUpdate]):
+    def get_by_name(self, db: Session, name: str) -> EdgeSite:
         return db.query(self.model).filter(self.model.name == name).first()
 
     def get_multi_with_total(
@@ -35,7 +36,7 @@ class CRUDEdgeNode(CRUDBase[EdgeNode, EdgeNodeCreate, EdgeNodeUpdate]):
         limit: int = -1,
         name: Optional[str] = None,
         area_code: Optional[str] = None,
-    ) -> Tuple[int, List[EdgeNode]]:
+    ) -> Tuple[int, List[EdgeSite]]:
         query_ = db.query(self.model)
         if name is not None:
             query_ = self.fuzz_filter(query_, self.model.name, name)
@@ -47,5 +48,13 @@ class CRUDEdgeNode(CRUDBase[EdgeNode, EdgeNodeCreate, EdgeNodeUpdate]):
         data = query_.all()
         return total, data
 
+    def create(self, db: Session, *, obj_in: EdgeSiteCreate) -> EdgeSite:
+        obj_in_data = jsonable_encoder(obj_in, by_alias=False)
+        db_obj = self.model(**obj_in_data)
+        db.add(db_obj)
+        db.commit()
+        db.refresh(db_obj)
+        return db_obj
 
-edge_node = CRUDEdgeNode(EdgeNode)
+
+edge_site = CRUDEdgeSite(EdgeSite)

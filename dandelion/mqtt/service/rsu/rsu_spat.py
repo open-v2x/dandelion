@@ -26,9 +26,8 @@ from sqlalchemy.orm import Session
 
 from dandelion import crud
 from dandelion.db import session
-from dandelion.mqtt import server as mqtt_server
+from dandelion.mqtt import server as mqtt_server, topic
 from dandelion.mqtt.service import RouterHandler
-from dandelion.mqtt.topic import v2x_rsu
 
 LOG: LoggerAdapter = log.getLogger(__name__)
 
@@ -56,11 +55,11 @@ def spat_publish(spat_in_db):
             )
         )
         mqtt_server.get_mqtt_client().publish(
-            topic=v2x_rsu.RSU_SPAT_DOWN,
+            topic=topic.RSU_SPAT_DOWN,
             payload=payload,
             qos=0,
         )
-        LOG.info(f"publish to topic: {v2x_rsu.RSU_SPAT_DOWN},payload:{payload}")
+        LOG.info(f"publish to topic: {topic.RSU_SPAT_DOWN},payload:{payload}")
 
 
 class RSUSpatHandler(RouterHandler):

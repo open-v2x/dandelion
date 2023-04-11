@@ -16,6 +16,7 @@ from __future__ import annotations
 
 from typing import Any
 
+from fastapi.encoders import jsonable_encoder
 from sqlalchemy.orm import Session
 
 from dandelion.crud.base import CRUDBase
@@ -32,6 +33,14 @@ class CRUDSystemConfig(CRUDBase[SystemConfig, SystemConfigCreate, SystemConfigCr
             db.commit()
             db.refresh(_system_config)
         return _system_config
+
+    def create(self, db: Session, *, obj_in: SystemConfigCreate) -> SystemConfig:
+        obj_in_data = jsonable_encoder(obj_in, by_alias=False)
+        db_obj = self.model(**obj_in_data)
+        db.add(db_obj)
+        db.commit()
+        db.refresh(db_obj)
+        return db_obj
 
 
 system_config = CRUDSystemConfig(SystemConfig)

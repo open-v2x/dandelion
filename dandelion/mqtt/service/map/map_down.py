@@ -26,7 +26,7 @@ from dandelion import crud
 from dandelion.db import session
 from dandelion.mqtt import server
 from dandelion.mqtt.service import RouterHandler
-from dandelion.mqtt.topic.v2x_rsu import V2X_RSU_MAP_DOWN, v2x_rsu_map_down
+from dandelion.mqtt.topic import V2X_RSU_MAP_DOWN, v2x_rsu_map_down
 
 LOG: LoggerAdapter = log.getLogger(__name__)
 

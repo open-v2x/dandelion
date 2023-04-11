@@ -24,8 +24,7 @@ from .camera import Camera
 from .cgw import CGW
 from .city import City
 from .country import Country
-from .edge import EdgeNode
-from .edge_rsu import EdgeNodeRSU
+from .edge_site import EdgeSite
 from .lidar import Lidar
 from .map import Map
 from .map_rsu import MapRSU

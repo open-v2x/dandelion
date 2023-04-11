@@ -18,7 +18,7 @@ import json
 import time
 
 from dandelion.mqtt import server
-from dandelion.mqtt.topic.v2x_rsu import info_query
+from dandelion.mqtt.topic import info_query
 
 
 def down_query(
