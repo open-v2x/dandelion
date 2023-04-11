@@ -14,25 +14,23 @@
 
 from __future__ import annotations
 
-from sqlalchemy import Column, String, Text
+from typing import List
 
-from dandelion.db.base_class import Base, DandelionBase
+from sqlalchemy.orm import Session
+
+from dandelion.crud.base import CRUDBase
+from dandelion.models import Service
+from dandelion.schemas.service import ServiceCreate, ServiceUpdate
 
 
-class ServiceType(Base, DandelionBase):
-    __tablename__ = "service_type"
+class CRUDService(CRUDBase[Service, ServiceCreate, ServiceUpdate]):
+    """"""
 
-    name = Column(String(64), nullable=False, unique=True)
-    description = Column(Text)
+    def get_by_name(self, db: Session, name: str) -> Service:
+        return db.query(self.model).filter(self.model.name == name).first()
 
-    def __repr__(self) -> str:
-        return f"<service_type(name='{self.name}', description='{self.description}')>"
+    def get_all(self, db: Session) -> List[Service]:
+        return db.query(self.model).all()
 
-    def to_dict(self):
-        return {
-            **dict(
-                id=self.id,
-                name=self.name,
-                description=self.description,
-            ),
-        }
+
+service = CRUDService(Service)

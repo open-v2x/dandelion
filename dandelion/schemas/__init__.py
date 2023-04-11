@@ -90,6 +90,7 @@ from .rsu_query_result import (
 )
 from .rsu_query_result_data import RSUQueryResultData, RSUQueryResultDataCreate
 from .rsu_tmp import RSUTMP, RSUTMPCreate, RSUTMPs, RSUTMPUpdate
+from .service import ServiceCreate, ServiceCreateAll, ServiceGET, Services, ServiceUpdate
 from .service_type import (
     ServiceTypeCreate,
     ServiceTypeCreateAll,
