@@ -64,54 +64,64 @@ tests:
       $.vendor: "vendor_A"
       $.description: "service_A_description"
 
-  - name: service_get
-    url: /api/v1/services/$HISTORY['create_service'].$RESPONSE['$.id']
-    method: GET
-    request_headers:
-      Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
-    status: 200
-    response_json_paths:
-      $.name: "service_A"
-      $.type_id: $HISTORY['create_service_type'].$RESPONSE['$.id']
-      $.vendor: "vendor_A"
-      $.description: "service_A_description"
+  # - name: create_endpoint
+  #   url: /api/v1/endpoints
+  #   method: POST
+  #   request_headers:
+  #     Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
+  #   data:
+  #     name: "name_A"
+  #     service_id: $HISTORY['create_service'].$RESPONSE['$.id']
+  #     version: "version_A"
+  #     url: "url_A"
+  #     metadatas:
+  #       - key: "key_A"
+  #         value: "value_A"
+  #       - key: "key_B"
+  #         value: "value_B"
+  #   status: 201
+  #   response_json_paths:
+  #     $.name: "name_A"
+  #     $.service_id: $HISTORY['create_service'].$RESPONSE['$.id']
+  #     $.version: "version_A"
+  #     $.url: "url_A"
 
-  - name: service_list
-    url: /api/v1/services
-    method: GET
-    request_headers:
-      Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
-    status: 200
-    response_json_paths:
-      $.total: 1
-      $.data[0].name: "service_A"
-      $.data[0].type_id: $HISTORY['create_service_type'].$RESPONSE['$.id']
-      $.data[0].vendor: "vendor_A"
-      $.data[0].description: "service_A_description"
+  # - name: endpoint_get
+  #   url: /api/v1/endpoints/$HISTORY['create_endpoint'].$RESPONSE['$.id']
+  #   method: GET
+  #   request_headers:
+  #     Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
+  #   status: 200
+  #   response_json_paths:
+  #     $.name: "name_A"
+  #     $.service_id: $HISTORY['create_service'].$RESPONSE['$.id']
+  #     $.version: "version_A"
+  #     $.url: "url_A"
+  #     $.metadatas.len: 2
+  #     $.metadatas[0].key: "key_A"
+  #     $.metadatas[0].value: "value_A"
+  #     $.metadatas[1].key: "key_B"
+  #     $.metadatas[1].value: "value_B"
 
-  - name: service_update
-    url: /api/v1/services/$HISTORY['create_service'].$RESPONSE['$.id']
-    method: PUT
-    request_headers:
-      Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
-    data:
-      name: "service_B"
-      type_id: $HISTORY['create_service_type'].$RESPONSE['$.id']
-      vendor: "vendor_B"
-      description: "service_B_description"
-    status: 200
+  # - name: endpoint_list
+  #   url: /api/v1/endpoints
+  #   method: GET
+  #   request_headers:
+  #     Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
+  #   status: 200
+  #   response_json_paths:
+  #     $.total: 1
+  #     $.data[0].name: "name_A"
+  #     $.data[0].service_id: $HISTORY['create_service'].$RESPONSE['$.id']
+  #     $.data[0].version: "version_A"
+  #     $.data[0].url: "url_A"
 
-  - name: service_get
-    url: /api/v1/services/$HISTORY['create_service'].$RESPONSE['$.id']
-    method: GET
-    request_headers:
-      Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
-    status: 200
-    response_json_paths:
-      $.name: "service_B"
-      $.type_id: $HISTORY['create_service_type'].$RESPONSE['$.id']
-      $.vendor: "vendor_B"
-      $.description: "service_B_description"
+  # - name: delete_endpoint
+  #   url: /api/v1/endpoints/$HISTORY['create_endpoint'].$RESPONSE['$.id']
+  #   method: DELETE
+  #   request_headers:
+  #     Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
+  #   status: 204
 
   - name: delete_service
     url: /api/v1/services/$HISTORY['create_service'].$RESPONSE['$.id']

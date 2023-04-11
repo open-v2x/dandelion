@@ -47,78 +47,46 @@ tests:
       $.name: "service_type_A"
       $.description: "service_type_A_description"
 
-  - name: create_service
-    url: /api/v1/services
-    method: POST
-    request_headers:
-      Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
-    data:
-      name: "service_A"
-      type_id: $HISTORY['create_service_type'].$RESPONSE['$.id']
-      vendor: "vendor_A"
-      description: "service_A_description"
-    status: 201
-    response_json_paths:
-      $.name: "service_A"
-      $.type_id: $HISTORY['create_service_type'].$RESPONSE['$.id']
-      $.vendor: "vendor_A"
-      $.description: "service_A_description"
-
-  - name: service_get
-    url: /api/v1/services/$HISTORY['create_service'].$RESPONSE['$.id']
+  - name: service_type_get
+    url: /api/v1/service_types/$HISTORY['create_service_type'].$RESPONSE['$.id']
     method: GET
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
     status: 200
     response_json_paths:
-      $.name: "service_A"
-      $.type_id: $HISTORY['create_service_type'].$RESPONSE['$.id']
-      $.vendor: "vendor_A"
-      $.description: "service_A_description"
+      $.name: "service_type_A"
+      $.description: "service_type_A_description"
 
-  - name: service_list
-    url: /api/v1/services
+  - name: service_type_list
+    url: /api/v1/service_types
     method: GET
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
     status: 200
     response_json_paths:
       $.total: 1
-      $.data[0].name: "service_A"
-      $.data[0].type_id: $HISTORY['create_service_type'].$RESPONSE['$.id']
-      $.data[0].vendor: "vendor_A"
-      $.data[0].description: "service_A_description"
+      $.data[0].name: "service_type_A"
+      $.data[0].description: "service_type_A_description"
 
-  - name: service_update
-    url: /api/v1/services/$HISTORY['create_service'].$RESPONSE['$.id']
+  - name: service_type_update
+    url: /api/v1/service_types/$HISTORY['create_service_type'].$RESPONSE['$.id']
     method: PUT
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
     data:
-      name: "service_B"
-      type_id: $HISTORY['create_service_type'].$RESPONSE['$.id']
-      vendor: "vendor_B"
-      description: "service_B_description"
+      name: "service_type_B"
+      description: "service_type_B_description"
     status: 200
 
-  - name: service_get
-    url: /api/v1/services/$HISTORY['create_service'].$RESPONSE['$.id']
+  - name: service_type_get
+    url: /api/v1/service_types/$HISTORY['create_service_type'].$RESPONSE['$.id']
     method: GET
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
     status: 200
     response_json_paths:
-      $.name: "service_B"
-      $.type_id: $HISTORY['create_service_type'].$RESPONSE['$.id']
-      $.vendor: "vendor_B"
-      $.description: "service_B_description"
-
-  - name: delete_service
-    url: /api/v1/services/$HISTORY['create_service'].$RESPONSE['$.id']
-    method: DELETE
-    request_headers:
-      Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
-    status: 204
+      $.name: "service_type_B"
+      $.description: "service_type_B_description"
 
   - name: delete_service_type
     url: /api/v1/service_types/$HISTORY['create_service_type'].$RESPONSE['$.id']

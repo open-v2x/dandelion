@@ -31,16 +31,16 @@ LOG: LoggerAdapter = log.getLogger(__name__)
 
 @router.post(
     "",
-    response_model=schemas.ServiceCreateAll,
+    response_model=schemas.ServiceTypeCreateAll,
     status_code=status.HTTP_201_CREATED,
     description="""
-Create a new service.
+Create a new service type.
 
-A service defines service name & description.
-A group of endpoints (deferent versions or metadatas) belong to a service.
+A service type defines service protocol & interface description.
+A group of services belong to (share) a pre-defined service type.
 """,
     responses={
-        status.HTTP_201_CREATED: {"model": schemas.ServiceCreateAll, "description": "Created"},
+        status.HTTP_201_CREATED: {"model": schemas.ServiceTypeCreateAll, "description": "Created"},
         status.HTTP_400_BAD_REQUEST: {"model": schemas.ErrorMessage, "description": "Bad Request"},
         status.HTTP_401_UNAUTHORIZED: {
             "model": schemas.ErrorMessage,
@@ -51,19 +51,16 @@ A group of endpoints (deferent versions or metadatas) belong to a service.
     },
 )
 def create(
-    service_in: schemas.ServiceCreate,
+    service_type_in: schemas.ServiceTypeCreate,
     *,
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
-) -> schemas.ServiceCreateAll:
+) -> schemas.ServiceTypeCreateAll:
     try:
-        new_service_in_db = crud.service.create(
+        new_service_type_in_db = crud.service_type.create(
             db,
-            obj_in=schemas.ServiceCreate(
-                name=service_in.name,
-                type_id=service_in.type_id,
-                vendor=service_in.vendor,
-                description=service_in.description,
+            obj_in=schemas.ServiceTypeCreate(
+                name=service_type_in.name, description=service_type_in.description
             ),
         )
     except sql_exc.IntegrityError as ex:
@@ -76,14 +73,14 @@ def create(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail={"msg": ex.args[0]},
         )
-    return new_service_in_db.to_dict()
+    return new_service_type_in_db.to_dict()
 
 
 @router.delete(
-    "/{service_id}",
+    "/{service_type_id}",
     status_code=status.HTTP_204_NO_CONTENT,
     description="""
-Delete a service.
+Delete a service type.
 """,
     responses={
         status.HTTP_401_UNAUTHORIZED: {
@@ -97,20 +94,20 @@ Delete a service.
     response_description="No Content",
 )
 def delete(
-    service_id: int,
+    service_type_id: int,
     *,
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> Response:
-    crud.service.remove(db, id=service_id)
+    crud.service_type.remove(db, id=service_type_id)
     return Response(content=None, status_code=status.HTTP_204_NO_CONTENT)
 
 
 @router.get(
-    "/{service_id}",
+    "/{service_type_id}",
     status_code=status.HTTP_200_OK,
     description="""
-get a service by ID.
+get a service type by ID.
 """,
     responses={
         status.HTTP_401_UNAUTHORIZED: {
@@ -120,30 +117,30 @@ get a service by ID.
         status.HTTP_403_FORBIDDEN: {"model": schemas.ErrorMessage, "description": "Forbidden"},
         status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
     },
-    response_model=schemas.ServiceGET,
+    response_model=schemas.ServiceTypeGET,
     response_description="OK",
 )
 def get(
-    service_id: int,
+    service_type_id: int,
     *,
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
-) -> schemas.ServiceGET:
-    service = crud.service.get(db, id=service_id)
-    if not service:
+) -> schemas.ServiceTypeGET:
+    service_type = crud.service_type.get(db, id=service_type_id)
+    if not service_type:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="not found")
-    return service.to_dict()
+    return service_type.to_dict()
 
 
 @router.put(
-    "/{service_id}",
-    response_model=schemas.ServiceGET,
+    "/{service_type_id}",
+    response_model=schemas.ServiceTypeGET,
     status_code=status.HTTP_200_OK,
     description="""
-Update a service.
+Update a service type.
 """,
     responses={
-        status.HTTP_200_OK: {"model": schemas.ServiceGET, "description": "OK"},
+        status.HTTP_200_OK: {"model": schemas.ServiceTypeGET, "description": "OK"},
         status.HTTP_401_UNAUTHORIZED: {
             "model": schemas.ErrorMessage,
             "description": "Unauthorized",
@@ -153,32 +150,34 @@ Update a service.
     },
 )
 def update(
-    service_id: int,
-    service_in: schemas.ServiceUpdate,
+    service_type_id: int,
+    service_type_in: schemas.ServiceTypeUpdate,
     *,
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
-) -> schemas.ServiceGET:
-    service_in_db = deps.crud_get(
-        db=db, obj_id=service_id, crud_model=crud.service, detail="Service"
+) -> schemas.ServiceTypeGET:
+    service_type_in_db = deps.crud_get(
+        db=db, obj_id=service_type_id, crud_model=crud.service_type, detail="Service type"
     )
     try:
-        new_service_in_db = crud.service.update(db, db_obj=service_in_db, obj_in=service_in)
+        new_service_type_in_db = crud.service_type.update(
+            db, db_obj=service_type_in_db, obj_in=service_type_in
+        )
     except (sql_exc.DataError, sql_exc.IntegrityError) as ex:
-        raise error_handle(ex, "name", service_in.name)
-    return new_service_in_db.to_dict()
+        raise error_handle(ex, "name", service_type_in.name)
+    return new_service_type_in_db.to_dict()
 
 
 @router.get(
     "",
-    response_model=schemas.Services,
+    response_model=schemas.ServiceTypes,
     status_code=status.HTTP_200_OK,
-    summary="List services",
+    summary="List service types",
     description="""
-List services.
+List service types.
 """,
     responses={
-        status.HTTP_200_OK: {"model": schemas.Services, "description": "OK"},
+        status.HTTP_200_OK: {"model": schemas.ServiceTypes, "description": "OK"},
         status.HTTP_401_UNAUTHORIZED: {
             "model": schemas.ErrorMessage,
             "description": "Unauthorized",
@@ -191,6 +190,6 @@ def get_all(
     *,
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
-) -> schemas.Services:
-    services = crud.service.get_all(db)
-    return schemas.Services(total=len(services), data=services)
+) -> schemas.ServiceTypes:
+    service_types = crud.service_type.get_all(db)
+    return schemas.ServiceTypes(total=len(service_types), data=service_types)

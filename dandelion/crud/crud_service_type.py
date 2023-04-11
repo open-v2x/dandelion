@@ -23,7 +23,7 @@ from dandelion.models import ServiceType
 from dandelion.schemas.service_type import ServiceTypeCreate, ServiceTypeUpdate
 
 
-class CRUDService(CRUDBase[ServiceType, ServiceTypeCreate, ServiceTypeUpdate]):
+class CRUDServiceType(CRUDBase[ServiceType, ServiceTypeCreate, ServiceTypeUpdate]):
     """"""
 
     def get_by_name(self, db: Session, name: str) -> ServiceType:
@@ -33,4 +33,4 @@ class CRUDService(CRUDBase[ServiceType, ServiceTypeCreate, ServiceTypeUpdate]):
         return db.query(self.model).all()
 
 
-service_type = CRUDService(ServiceType)
+service_type = CRUDServiceType(ServiceType)

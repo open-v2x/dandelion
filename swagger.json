@@ -8400,6 +8400,381 @@
                 ]
             }
         },
+        "/api/v1/services": {
+            "get": {
+                "tags": [
+                    "Service"
+                ],
+                "summary": "List services",
+                "description": "\nList services.\n",
+                "operationId": "get_all_api_v1_services_get",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Services"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Service"
+                ],
+                "summary": "Create",
+                "description": "\nCreate a new service.\n\nA service defines service name & description.\nA group of endpoints (deferent versions or metadatas) belong to a service.\n",
+                "operationId": "create_api_v1_services_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ServiceCreate"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceCreateAll"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/services/{service_id}": {
+            "get": {
+                "tags": [
+                    "Service"
+                ],
+                "summary": "Get",
+                "description": "\nget a service by ID.\n",
+                "operationId": "get_api_v1_services__service_id__get",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Service Id",
+                            "type": "integer"
+                        },
+                        "name": "service_id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceGET"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Service"
+                ],
+                "summary": "Update",
+                "description": "\nUpdate a service.\n",
+                "operationId": "update_api_v1_services__service_id__put",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Service Id",
+                            "type": "integer"
+                        },
+                        "name": "service_id",
+                        "in": "path"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ServiceUpdate"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceGET"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Service"
+                ],
+                "summary": "Delete",
+                "description": "\nDelete a service.\n",
+                "operationId": "delete_api_v1_services__service_id__delete",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Service Id",
+                            "type": "integer"
+                        },
+                        "name": "service_id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            }
+        },
         "/api/v1/service_types": {
             "get": {
                 "tags": [
@@ -13466,6 +13841,113 @@
                 "type": "string",
                 "description": "An enumeration."
             },
+            "ServiceCreate": {
+                "title": "ServiceCreate",
+                "required": [
+                    "name",
+                    "type_id",
+                    "vendor",
+                    "description"
+                ],
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "title": "Name",
+                        "type": "string",
+                        "description": "Service name"
+                    },
+                    "type_id": {
+                        "title": "Type Id",
+                        "type": "integer",
+                        "description": "Service type ID"
+                    },
+                    "vendor": {
+                        "title": "Vendor",
+                        "type": "string",
+                        "description": "Service vendor"
+                    },
+                    "description": {
+                        "title": "Description",
+                        "type": "string",
+                        "description": "Service description"
+                    }
+                }
+            },
+            "ServiceCreateAll": {
+                "title": "ServiceCreateAll",
+                "required": [
+                    "id",
+                    "name",
+                    "type_id",
+                    "vendor",
+                    "description"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "title": "Id",
+                        "type": "integer",
+                        "description": "Service ID"
+                    },
+                    "name": {
+                        "title": "Name",
+                        "type": "string",
+                        "description": "Service name"
+                    },
+                    "type_id": {
+                        "title": "Type Id",
+                        "type": "integer",
+                        "description": "Service type ID"
+                    },
+                    "vendor": {
+                        "title": "Vendor",
+                        "type": "string",
+                        "description": "Service vendor"
+                    },
+                    "description": {
+                        "title": "Description",
+                        "type": "string",
+                        "description": "Service description"
+                    }
+                }
+            },
+            "ServiceGET": {
+                "title": "ServiceGET",
+                "required": [
+                    "name",
+                    "type_id",
+                    "vendor",
+                    "description"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "title": "Id",
+                        "type": "integer",
+                        "description": "Service id"
+                    },
+                    "name": {
+                        "title": "Name",
+                        "type": "string",
+                        "description": "Service name"
+                    },
+                    "type_id": {
+                        "title": "Type Id",
+                        "type": "integer",
+                        "description": "Service type ID"
+                    },
+                    "vendor": {
+                        "title": "Vendor",
+                        "type": "string",
+                        "description": "Service vendor"
+                    },
+                    "description": {
+                        "title": "Description",
+                        "type": "string",
+                        "description": "Service description"
+                    }
+                }
+            },
             "ServiceTypeCreate": {
                 "title": "ServiceTypeCreate",
                 "required": [
@@ -13575,6 +14057,61 @@
                         "type": "array",
                         "items": {
                             "$ref": "#/components/schemas/ServiceTypeCreateAll"
+                        },
+                        "description": "Data"
+                    }
+                }
+            },
+            "ServiceUpdate": {
+                "title": "ServiceUpdate",
+                "required": [
+                    "name",
+                    "type_id",
+                    "vendor",
+                    "description"
+                ],
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "title": "Name",
+                        "type": "string",
+                        "description": "Service name"
+                    },
+                    "type_id": {
+                        "title": "Type Id",
+                        "type": "integer",
+                        "description": "Service type ID"
+                    },
+                    "vendor": {
+                        "title": "Vendor",
+                        "type": "string",
+                        "description": "Service vendor"
+                    },
+                    "description": {
+                        "title": "Description",
+                        "type": "string",
+                        "description": "Service description"
+                    }
+                }
+            },
+            "Services": {
+                "title": "Services",
+                "required": [
+                    "total",
+                    "data"
+                ],
+                "type": "object",
+                "properties": {
+                    "total": {
+                        "title": "Total",
+                        "type": "integer",
+                        "description": "Total"
+                    },
+                    "data": {
+                        "title": "Data",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ServiceCreateAll"
                         },
                         "description": "Data"
                     }
