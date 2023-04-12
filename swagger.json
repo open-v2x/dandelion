@@ -8400,6 +8400,756 @@
                 ]
             }
         },
+        "/api/v1/endpoints": {
+            "get": {
+                "tags": [
+                    "Service"
+                ],
+                "summary": "List endpoints",
+                "description": "\nList endpoints.\n",
+                "operationId": "get_all_api_v1_endpoints_get",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Endpoints"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Service"
+                ],
+                "summary": "Create",
+                "description": "\nCreate a new endpoint.\n\nA endpoint defines endpoint url.\nA group of endpoints (deferent url & metadatas) belong to a service.\n",
+                "operationId": "create_api_v1_endpoints_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/EndpointCreate"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EndpointCreateAll"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/endpoints/{endpoint_id}": {
+            "get": {
+                "tags": [
+                    "Service"
+                ],
+                "summary": "Get",
+                "description": "\nget a endpoint by ID.\n",
+                "operationId": "get_api_v1_endpoints__endpoint_id__get",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Endpoint Id",
+                            "type": "integer"
+                        },
+                        "name": "endpoint_id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EndpointGET"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Service"
+                ],
+                "summary": "Update",
+                "description": "\nUpdate a endpoint.\n",
+                "operationId": "update_api_v1_endpoints__endpoint_id__put",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Endpoint Id",
+                            "type": "integer"
+                        },
+                        "name": "endpoint_id",
+                        "in": "path"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/EndpointUpdate"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EndpointGET"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Service"
+                ],
+                "summary": "Delete",
+                "description": "\nDelete a endpoint.\n",
+                "operationId": "delete_api_v1_endpoints__endpoint_id__delete",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Endpoint Id",
+                            "type": "integer"
+                        },
+                        "name": "endpoint_id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/endpoint_metadatas": {
+            "get": {
+                "tags": [
+                    "Service"
+                ],
+                "summary": "List endpoint metadatas",
+                "description": "\nList endpoint_metadatas.\n",
+                "operationId": "get_all_api_v1_endpoint_metadatas_get",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EndpointMetadatas"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Service"
+                ],
+                "summary": "Create",
+                "description": "\nCreate a new endpoint_metadata.\n\nA endpoint_metadata defines endpoint key-value pairs.\nA group of endpoint metadatas key-value pairs belong to a endpoint.\n",
+                "operationId": "create_api_v1_endpoint_metadatas_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/EndpointMetadataCreate"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EndpointMetadataCreateAll"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/endpoint_metadatas/{endpoint_metadata_id}": {
+            "get": {
+                "tags": [
+                    "Service"
+                ],
+                "summary": "Get",
+                "description": "\nget a endpoint_metadata by ID.\n",
+                "operationId": "get_api_v1_endpoint_metadatas__endpoint_metadata_id__get",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Endpoint Metadata Id",
+                            "type": "integer"
+                        },
+                        "name": "endpoint_metadata_id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EndpointMetadataGET"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Service"
+                ],
+                "summary": "Update",
+                "description": "\nUpdate a endpoint_metadata.\n",
+                "operationId": "update_api_v1_endpoint_metadatas__endpoint_metadata_id__put",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Endpoint Metadata Id",
+                            "type": "integer"
+                        },
+                        "name": "endpoint_metadata_id",
+                        "in": "path"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/EndpointMetadataUpdate"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EndpointMetadataGET"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Service"
+                ],
+                "summary": "Delete",
+                "description": "\nDelete a endpoint_metadata.\n",
+                "operationId": "delete_api_v1_endpoint_metadatas__endpoint_metadata_id__delete",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Endpoint Metadata Id",
+                            "type": "integer"
+                        },
+                        "name": "endpoint_metadata_id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            }
+        },
         "/api/v1/services": {
             "get": {
                 "tags": [
@@ -10111,6 +10861,282 @@
                         "type": "array",
                         "items": {
                             "$ref": "#/components/schemas/EdgeSite"
+                        },
+                        "description": "Data"
+                    }
+                }
+            },
+            "EndpointCreate": {
+                "title": "EndpointCreate",
+                "required": [
+                    "service_id",
+                    "enabled",
+                    "url"
+                ],
+                "type": "object",
+                "properties": {
+                    "service_id": {
+                        "title": "Service Id",
+                        "type": "integer",
+                        "description": "Service ID"
+                    },
+                    "enabled": {
+                        "title": "Enabled",
+                        "type": "boolean",
+                        "description": "Endpoint enabled flag"
+                    },
+                    "url": {
+                        "title": "Url",
+                        "type": "string",
+                        "description": "Endpoint url"
+                    }
+                }
+            },
+            "EndpointCreateAll": {
+                "title": "EndpointCreateAll",
+                "required": [
+                    "id",
+                    "service_id",
+                    "enabled",
+                    "url"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "title": "Id",
+                        "type": "integer",
+                        "description": "Endpoint ID"
+                    },
+                    "service_id": {
+                        "title": "Service Id",
+                        "type": "integer",
+                        "description": "Service ID"
+                    },
+                    "enabled": {
+                        "title": "Enabled",
+                        "type": "boolean",
+                        "description": "Endpoint enabled flag"
+                    },
+                    "url": {
+                        "title": "Url",
+                        "type": "string",
+                        "description": "Endpoint url"
+                    }
+                }
+            },
+            "EndpointGET": {
+                "title": "EndpointGET",
+                "required": [
+                    "service_id",
+                    "enabled",
+                    "url"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "title": "Id",
+                        "type": "integer",
+                        "description": "Endpoint id"
+                    },
+                    "service_id": {
+                        "title": "Service Id",
+                        "type": "integer",
+                        "description": "Service ID"
+                    },
+                    "enabled": {
+                        "title": "Enabled",
+                        "type": "boolean",
+                        "description": "Endpoint enabled flag"
+                    },
+                    "url": {
+                        "title": "Url",
+                        "type": "string",
+                        "description": "Endpoint url"
+                    }
+                }
+            },
+            "EndpointMetadataCreate": {
+                "title": "EndpointMetadataCreate",
+                "required": [
+                    "endpoint_id",
+                    "key",
+                    "value"
+                ],
+                "type": "object",
+                "properties": {
+                    "endpoint_id": {
+                        "title": "Endpoint Id",
+                        "type": "integer",
+                        "description": "Endpoint ID"
+                    },
+                    "key": {
+                        "title": "Key",
+                        "type": "string",
+                        "description": "EndpointMetadata key"
+                    },
+                    "value": {
+                        "title": "Value",
+                        "type": "string",
+                        "description": "EndpointMetadata value"
+                    }
+                }
+            },
+            "EndpointMetadataCreateAll": {
+                "title": "EndpointMetadataCreateAll",
+                "required": [
+                    "id",
+                    "endpoint_id",
+                    "key",
+                    "value"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "title": "Id",
+                        "type": "integer",
+                        "description": "EndpointMetadata ID"
+                    },
+                    "endpoint_id": {
+                        "title": "Endpoint Id",
+                        "type": "integer",
+                        "description": "Endpoint ID"
+                    },
+                    "key": {
+                        "title": "Key",
+                        "type": "string",
+                        "description": "EndpointMetadata key"
+                    },
+                    "value": {
+                        "title": "Value",
+                        "type": "string",
+                        "description": "EndpointMetadata value"
+                    }
+                }
+            },
+            "EndpointMetadataGET": {
+                "title": "EndpointMetadataGET",
+                "required": [
+                    "endpoint_id",
+                    "key",
+                    "value"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "title": "Id",
+                        "type": "integer",
+                        "description": "EndpointMetadata id"
+                    },
+                    "endpoint_id": {
+                        "title": "Endpoint Id",
+                        "type": "integer",
+                        "description": "Endpoint ID"
+                    },
+                    "key": {
+                        "title": "Key",
+                        "type": "string",
+                        "description": "EndpointMetadata key"
+                    },
+                    "value": {
+                        "title": "Value",
+                        "type": "string",
+                        "description": "EndpointMetadata value"
+                    }
+                }
+            },
+            "EndpointMetadataUpdate": {
+                "title": "EndpointMetadataUpdate",
+                "required": [
+                    "endpoint_id",
+                    "key",
+                    "value"
+                ],
+                "type": "object",
+                "properties": {
+                    "endpoint_id": {
+                        "title": "Endpoint Id",
+                        "type": "integer",
+                        "description": "Endpoint ID"
+                    },
+                    "key": {
+                        "title": "Key",
+                        "type": "string",
+                        "description": "EndpointMetadata key"
+                    },
+                    "value": {
+                        "title": "Value",
+                        "type": "string",
+                        "description": "EndpointMetadata value"
+                    }
+                }
+            },
+            "EndpointMetadatas": {
+                "title": "EndpointMetadatas",
+                "required": [
+                    "total",
+                    "data"
+                ],
+                "type": "object",
+                "properties": {
+                    "total": {
+                        "title": "Total",
+                        "type": "integer",
+                        "description": "Total"
+                    },
+                    "data": {
+                        "title": "Data",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/EndpointMetadataCreateAll"
+                        },
+                        "description": "Data"
+                    }
+                }
+            },
+            "EndpointUpdate": {
+                "title": "EndpointUpdate",
+                "required": [
+                    "service_id",
+                    "enabled",
+                    "url"
+                ],
+                "type": "object",
+                "properties": {
+                    "service_id": {
+                        "title": "Service Id",
+                        "type": "integer",
+                        "description": "Service ID"
+                    },
+                    "enabled": {
+                        "title": "Enabled",
+                        "type": "boolean",
+                        "description": "Endpoint enabled flag"
+                    },
+                    "url": {
+                        "title": "Url",
+                        "type": "string",
+                        "description": "Endpoint url"
+                    }
+                }
+            },
+            "Endpoints": {
+                "title": "Endpoints",
+                "required": [
+                    "total",
+                    "data"
+                ],
+                "type": "object",
+                "properties": {
+                    "total": {
+                        "title": "Total",
+                        "type": "integer",
+                        "description": "Total"
+                    },
+                    "data": {
+                        "title": "Data",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/EndpointCreateAll"
                         },
                         "description": "Data"
                     }

@@ -79,50 +79,72 @@ tests:
       $.enabled: true
       $.url: "url_A"
 
-  - name: endpoint_get
-    url: /api/v1/endpoints/$HISTORY['create_endpoint'].$RESPONSE['$.id']
+  - name: create_endpoint_metadata
+    url: /api/v1/endpoint_metadatas
+    method: POST
+    request_headers:
+      Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
+    data:
+      endpoint_id: $HISTORY['create_endpoint'].$RESPONSE['$.id']
+      key: "key_A"
+      value: "value_A"
+    status: 201
+    response_json_paths:
+      $.endpoint_id: $HISTORY['create_endpoint'].$RESPONSE['$.id']
+      $.key: "key_A"
+      $.value: "value_A"
+
+  - name: endpoint_metadata_get
+    url: /api/v1/endpoint_metadatas/$HISTORY['create_endpoint_metadata'].$RESPONSE['$.id']
     method: GET
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
     status: 200
     response_json_paths:
-      $.service_id: $HISTORY['create_service'].$RESPONSE['$.id']
-      $.enabled: true
-      $.url: "url_A"
+      $.endpoint_id: $HISTORY['create_endpoint'].$RESPONSE['$.id']
+      $.key: "key_A"
+      $.value: "value_A"
 
-  - name: endpoint_list
-    url: /api/v1/endpoints
+  - name: endpoint_metadata_list
+    url: /api/v1/endpoint_metadatas
     method: GET
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
     status: 200
     response_json_paths:
       $.total: 1
-      $.data[0].service_id: $HISTORY['create_service'].$RESPONSE['$.id']
-      $.data[0].enabled: true
-      $.data[0].url: "url_A"
+      $.data[0].endpoint_id: $HISTORY['create_endpoint'].$RESPONSE['$.id']
+      $.data[0].key: "key_A"
+      $.data[0].value: "value_A"
 
-  - name: endpoint_update
-    url: /api/v1/endpoints/$HISTORY['create_endpoint'].$RESPONSE['$.id']
+  - name: endpoint_metadata_update
+    url: /api/v1/endpoint_metadatas/$HISTORY['create_endpoint_metadata'].$RESPONSE['$.id']
     method: PUT
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
     data:
-      service_id: $HISTORY['create_service'].$RESPONSE['$.id']
-      enabled: false
-      url: "url_B"
+      endpoint_id: $HISTORY['create_endpoint'].$RESPONSE['$.id']
+      key: "key_B"
+      value: "value_B"
     status: 200
 
   - name: endpoint_get
-    url: /api/v1/endpoints/$HISTORY['create_endpoint'].$RESPONSE['$.id']
+    url: /api/v1/endpoint_metadatas/$HISTORY['create_endpoint_metadata'].$RESPONSE['$.id']
     method: GET
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
     status: 200
     response_json_paths:
-      $.service_id: $HISTORY['create_service'].$RESPONSE['$.id']
-      $.enabled: false
-      $.url: "url_B"
+      $.endpoint_id: $HISTORY['create_endpoint'].$RESPONSE['$.id']
+      $.key: "key_B"
+      $.value: "value_B"
+
+  - name: delete_endpoint_metadata
+    url: /api/v1/endpoint_metadatas/$HISTORY['create_endpoint_metadata'].$RESPONSE['$.id']
+    method: DELETE
+    request_headers:
+      Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
+    status: 204
 
   - name: delete_endpoint
     url: /api/v1/endpoints/$HISTORY['create_endpoint'].$RESPONSE['$.id']

@@ -40,6 +40,14 @@ from .cloud_home import OnlineRate, RouteInfo, RouteInfoCreate
 from .country import Country, CountryCreate, CountryUpdate
 from .edge_node import EdgeNode, EdgeNodeCreate, EdgeNodes, EdgeNodeUpdate
 from .edge_site import EdgeSite, EdgeSiteCreate, EdgeSites, EdgeSiteUpdate
+from .endpoint import EndpointCreate, EndpointCreateAll, EndpointGET, Endpoints, EndpointUpdate
+from .endpoint_metadata import (
+    EndpointMetadataCreate,
+    EndpointMetadataCreateAll,
+    EndpointMetadataGET,
+    EndpointMetadatas,
+    EndpointMetadataUpdate,
+)
 from .lidar import Lidar, LidarCreate, Lidars, LidarUpdate
 from .map import Map, MapCreate, Maps, MapUpdate
 from .map_rsu import MapRSU, MapRSUCreate, MapRSUs, MapRSUUpdate
