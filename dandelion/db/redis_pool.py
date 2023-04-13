@@ -16,6 +16,7 @@ from __future__ import annotations
 
 import urllib
 from logging import LoggerAdapter
+from typing import List
 
 import redis
 from oslo_config import cfg
@@ -94,7 +95,7 @@ def setup_redis() -> None:
     # sentinel arg.
     global REDIS_CONN
     if "sentinel" in kwargs:
-        sentinel_hosts = [
+        sentinel_hosts: List = [
             tuple(fallback.split(":")) for fallback in kwargs.get("sentinel_fallback", [])
         ]
         sentinel_hosts.insert(0, (kwargs["host"], kwargs["port"]))

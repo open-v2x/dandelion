@@ -56,14 +56,23 @@ def get_all(
     total, data = crud.edge_site.get_multi_with_total(
         db, skip=skip, limit=page_size, name=name, area_code=area_code
     )
-    return schemas.EdgeNodes(
-        total=total,
-        data=[
+    system_config = crud.system_config.get(db=db, id=1)
+    data_all = (
+        [
             dict(
-                ip=urlparse(node.edge_site_dandelion_endpoint).netloc.split(":")[0],
-                name=node.name,
-                id=node.id,
+                ip=urlparse(site.edge_site_dandelion_endpoint).netloc.split(":")[0],
+                name=site.name,
+                id=site.id,
             )
-            for node in data
-        ],
+            for site in data
+        ]
+        if data
+        else [
+            dict(
+                ip="127.0.0.1",
+                name="无边缘连接-默认自身站点",
+                id=system_config.edge_site_id if system_config else 1,
+            )
+        ]
     )
+    return schemas.EdgeNodes(total=total, data=data_all)
