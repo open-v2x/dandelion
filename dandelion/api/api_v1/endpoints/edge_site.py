@@ -17,14 +17,14 @@ from __future__ import annotations
 import os
 
 import requests
-from fastapi import APIRouter, Depends, Query, status
+from fastapi import APIRouter, Depends, Query, Response, status
 from oslo_config import cfg
 from sqlalchemy import exc as sql_exc
 from sqlalchemy.orm import Session
 
 from dandelion import constants, crud, models, schemas
 from dandelion.api import deps
-from dandelion.api.deps import OpenV2XHTTPException as HTTPException
+from dandelion.api.deps import OpenV2XHTTPException as HTTPException, error_handle
 
 router = APIRouter()
 CONF: cfg = cfg.CONF
@@ -115,3 +115,67 @@ def create(
         crud.edge_site.remove(db=db, id=edge_node_in_db.id)
         raise HTTPException(status_code=edge_create_res.status_code, detail=edge_create_res.json())
     return edge_node_in_db.to_all_dict()
+
+
+@router.patch(
+    "/{edge_site_id}",
+    response_model=schemas.EdgeSite,
+    status_code=status.HTTP_200_OK,
+    description="""
+Update a edge site.
+""",
+    responses={
+        status.HTTP_200_OK: {"model": schemas.EdgeSite, "description": "OK"},
+        status.HTTP_401_UNAUTHORIZED: {
+            "model": schemas.ErrorMessage,
+            "description": "Unauthorized",
+        },
+        status.HTTP_403_FORBIDDEN: {"model": schemas.ErrorMessage, "description": "Forbidden"},
+        status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
+    },
+)
+def update(
+    edge_site_id: int,
+    edge_site_in: schemas.EdgeSiteUpdate,
+    *,
+    db: Session = Depends(deps.get_db),
+    current_user: models.User = Depends(deps.get_current_user),
+) -> schemas.EdgeSite:
+    edge_site_in_db = deps.crud_get(
+        db=db, obj_id=edge_site_id, crud_model=crud.edge_site, detail="Edge Site"
+    )
+    try:
+        new_edge_site_in_db = crud.edge_site.update(
+            db, db_obj=edge_site_in_db, obj_in=edge_site_in
+        )
+    except (sql_exc.DataError, sql_exc.IntegrityError) as ex:
+        raise error_handle(ex, "name", edge_site_in.name)
+    return new_edge_site_in_db.to_all_dict()
+
+
+@router.delete(
+    "/{edge_site_id}",
+    status_code=status.HTTP_204_NO_CONTENT,
+    description="""
+Delete a Edge Site.
+""",
+    responses={
+        status.HTTP_401_UNAUTHORIZED: {
+            "model": schemas.ErrorMessage,
+            "description": "Unauthorized",
+        },
+        status.HTTP_403_FORBIDDEN: {"model": schemas.ErrorMessage, "description": "Forbidden"},
+        status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
+    },
+    response_class=Response,
+    response_description="No Content",
+)
+def delete(
+    edge_site_id: int,
+    *,
+    db: Session = Depends(deps.get_db),
+    current_user: models.User = Depends(deps.get_current_user),
+) -> Response:
+    deps.crud_get(db=db, obj_id=edge_site_id, crud_model=crud.edge_site, detail="Edge Site")
+    crud.edge_site.remove(db, id=edge_site_id)
+    return Response(content=None, status_code=status.HTTP_204_NO_CONTENT)

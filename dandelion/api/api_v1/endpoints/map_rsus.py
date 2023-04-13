@@ -16,9 +16,9 @@ from __future__ import annotations
 
 from datetime import datetime
 from logging import LoggerAdapter
-from typing import Dict, List, Optional, Union
+from typing import Dict, List, Union
 
-from fastapi import APIRouter, Depends, Query, Response, status
+from fastapi import APIRouter, Depends, Path, Query, Response, status
 from oslo_log import log
 from sqlalchemy.orm import Session
 
@@ -49,9 +49,9 @@ Create a new rsu map.
     },
 )
 def create(
-    map_id: int,
     map_rsu_in: schemas.MapRSUCreate,
     *,
+    map_id: int = Path(),
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> schemas.MapRSU:
@@ -98,9 +98,9 @@ Delete a Map RSU.
     response_description="No Content",
 )
 def delete(
-    map_id: int,
-    map_rsu_id: int,
     *,
+    map_id: int = Path(),
+    map_rsu_id: int = Path(),
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> Response:
@@ -130,7 +130,7 @@ Get all Map RSUs.
     },
 )
 def get_all(
-    map_id: Optional[int] = Query(None, alias="mapId", description="Filter by mapId"),
+    map_id: int = Path(),
     page_num: int = Query(1, alias="pageNum", ge=1, description="Page number"),
     page_size: int = Query(10, alias="pageSize", ge=-1, description="Page size"),
     db: Session = Depends(deps.get_db),

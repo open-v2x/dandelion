@@ -51,4 +51,5 @@ class SystemConfigInDBBase(SystemConfigBase):
 
 # Additional properties to return via API
 class SystemConfig(SystemConfigInDBBase):
+    edge_site_id: Optional[int] = Field(None, alias="edgeSiteID", description="Edge Site ID")
     mode: Optional[str] = Field(None, alias="mode", description="Node Mode")

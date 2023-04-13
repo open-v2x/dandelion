@@ -11,7 +11,7 @@
                     "User"
                 ],
                 "summary": "Login",
-                "description": "\nUser login with username and password.\n",
+                "description": "User login with username and password.",
                 "operationId": "login_api_v1_login_post",
                 "requestBody": {
                     "content": {
@@ -63,7 +63,7 @@
                     "User"
                 ],
                 "summary": "Login Access Token(DO NOT USE IN PRODUCTION)",
-                "description": "\n- `DO NOT USE IN PRODUCTION !!!`\n- `JUST FOR TESTING PURPOSE !!!`\n",
+                "description": "- `DO NOT USE IN PRODUCTION !!!`\n- `JUST FOR TESTING PURPOSE !!!`",
                 "operationId": "access_token_api_v1_login_access_token_post",
                 "requestBody": {
                     "content": {
@@ -115,7 +115,7 @@
                     "User"
                 ],
                 "summary": "Iam Login",
-                "description": "\nUser login with iam token.\n",
+                "description": "User login with iam token.",
                 "operationId": "iam_login_api_v1_login_iam_post",
                 "parameters": [
                     {
@@ -170,7 +170,7 @@
                     "User"
                 ],
                 "summary": "Check Token",
-                "description": "\ncheck token\n",
+                "description": "check token",
                 "operationId": "check_token_api_v1_login_check_token_get",
                 "parameters": [
                     {
@@ -267,7 +267,7 @@
                     "User"
                 ],
                 "summary": "Get",
-                "description": "\nGet detailed info of me(current login user).\n",
+                "description": "Get detailed info of me(current login user).",
                 "operationId": "get_api_v1_users_me_get",
                 "responses": {
                     "200": {
@@ -324,7 +324,7 @@
                     "User"
                 ],
                 "summary": "Delete",
-                "description": "\nDelete a User.\n",
+                "description": "Delete a User.",
                 "operationId": "delete_api_v1_users__user_id__delete",
                 "parameters": [
                     {
@@ -395,7 +395,7 @@
                     "Area"
                 ],
                 "summary": "List Countries",
-                "description": "\nGet all countries.\n",
+                "description": "Get all countries.",
                 "operationId": "get_all_api_v1_countries_get",
                 "parameters": [
                     {
@@ -479,7 +479,7 @@
                     "Area"
                 ],
                 "summary": "List Provinces",
-                "description": "\nSearch province by country.\n",
+                "description": "Search province by country.",
                 "operationId": "get_all_api_v1_provinces_get",
                 "parameters": [
                     {
@@ -563,7 +563,7 @@
                     "Area"
                 ],
                 "summary": "List Cities",
-                "description": "\nSearch city by province.\n",
+                "description": "Search city by province.",
                 "operationId": "get_all_api_v1_cities_get",
                 "parameters": [
                     {
@@ -647,7 +647,7 @@
                     "Area"
                 ],
                 "summary": "List Areas",
-                "description": "\nSearch area by city.\n",
+                "description": "Search area by city.",
                 "operationId": "get_all_api_v1_areas_get",
                 "parameters": [
                     {
@@ -731,7 +731,7 @@
                     "Camera"
                 ],
                 "summary": "List Cameras",
-                "description": "\nGet all Cameras.\n",
+                "description": "Get all Cameras.",
                 "operationId": "get_all_api_v1_cameras_get",
                 "parameters": [
                     {
@@ -857,7 +857,7 @@
                     "Camera"
                 ],
                 "summary": "Create",
-                "description": "\nCreate a new Camera.\n",
+                "description": "Create a new Camera.",
                 "operationId": "create_api_v1_cameras_post",
                 "requestBody": {
                     "content": {
@@ -944,7 +944,7 @@
                     "Camera"
                 ],
                 "summary": "Get",
-                "description": "\nGet a Camera.\n",
+                "description": "Get a Camera.",
                 "operationId": "get_api_v1_cameras__camera_id__get",
                 "parameters": [
                     {
@@ -1020,7 +1020,7 @@
                     "Camera"
                 ],
                 "summary": "Delete",
-                "description": "\nDelete a Camera.\n",
+                "description": "Delete a Camera.",
                 "operationId": "delete_api_v1_cameras__camera_id__delete",
                 "parameters": [
                     {
@@ -1089,7 +1089,7 @@
                     "Camera"
                 ],
                 "summary": "Update",
-                "description": "\nUpdate a Camera.\n",
+                "description": "Update a Camera.",
                 "operationId": "update_api_v1_cameras__camera_id__patch",
                 "parameters": [
                     {
@@ -1177,7 +1177,7 @@
                     "Cloud Control Home"
                 ],
                 "summary": "Online Rate",
-                "description": "\nGet online rate of all devices.\n",
+                "description": "Get online rate of all devices.",
                 "operationId": "online_rate_api_v1_homes_online_rate_get",
                 "parameters": [
                     {
@@ -1257,7 +1257,7 @@
                     "Cloud Control Home"
                 ],
                 "summary": "Route Info",
-                "description": "\nGet traffic situation.\n",
+                "description": "Get traffic situation.",
                 "operationId": "route_info_api_v1_homes_route_info_get",
                 "responses": {
                     "200": {
@@ -1314,7 +1314,7 @@
                     "Cloud Control Home"
                 ],
                 "summary": "Route Info Push",
-                "description": "\nPush traffic situation.\n",
+                "description": "Push traffic situation.",
                 "operationId": "route_info_push_api_v1_homes_route_info_push_post",
                 "requestBody": {
                     "content": {
@@ -1362,7 +1362,7 @@
                     "MNG"
                 ],
                 "summary": "List MNGs",
-                "description": "\nGet all MNGs.\n",
+                "description": "Get all MNGs.",
                 "operationId": "get_all_api_v1_mngs_get",
                 "parameters": [
                     {
@@ -1479,7 +1479,7 @@
                     "MNG"
                 ],
                 "summary": "Update",
-                "description": "\nUpdate a MNG.\n",
+                "description": "Update a MNG.",
                 "operationId": "update_api_v1_mngs__mng_id__put",
                 "parameters": [
                     {
@@ -1567,7 +1567,7 @@
                     "MNG"
                 ],
                 "summary": "Down",
-                "description": "\nDown a MNG.\n",
+                "description": "Down a MNG.",
                 "operationId": "down_api_v1_mngs__mng_id__down_post",
                 "parameters": [
                     {
@@ -1645,7 +1645,7 @@
                     "MNG"
                 ],
                 "summary": "Copy",
-                "description": "\nCopy a MNG.\n",
+                "description": "Copy a MNG.",
                 "operationId": "copy_api_v1_mngs__mng_id__copy_post",
                 "parameters": [
                     {
@@ -1739,7 +1739,7 @@
                     "Map"
                 ],
                 "summary": "List Map RSUs",
-                "description": "\nGet all Map RSUs.\n",
+                "description": "Get all Map RSUs.",
                 "operationId": "get_all_api_v1_maps__map_id__rsus_get",
                 "parameters": [
                     {
@@ -1841,7 +1841,7 @@
                     "Map"
                 ],
                 "summary": "Create",
-                "description": "\nCreate a new rsu map.\n",
+                "description": "Create a new rsu map.",
                 "operationId": "create_api_v1_maps__map_id__rsus_post",
                 "parameters": [
                     {
@@ -1939,7 +1939,7 @@
                     "Map"
                 ],
                 "summary": "Delete",
-                "description": "\nDelete a Map RSU.\n",
+                "description": "Delete a Map RSU.",
                 "operationId": "delete_api_v1_maps__map_id__rsus__map_rsu_id__delete",
                 "parameters": [
                     {
@@ -2019,7 +2019,7 @@
                     "Map"
                 ],
                 "summary": "Get",
-                "description": "\nGet a Map.\n",
+                "description": "Get a Map.",
                 "operationId": "get_api_v1_maps__map_id__get",
                 "parameters": [
                     {
@@ -2095,7 +2095,7 @@
                     "Map"
                 ],
                 "summary": "Update",
-                "description": "\nUpdate a Map.\n",
+                "description": "Update a Map.",
                 "operationId": "update_api_v1_maps__map_id__patch",
                 "parameters": [
                     {
@@ -2183,7 +2183,7 @@
                     "Map"
                 ],
                 "summary": "List Maps",
-                "description": "\nGet all Maps.\n",
+                "description": "Get all Maps.",
                 "operationId": "get_all_api_v1_maps_get",
                 "parameters": [
                     {
@@ -2289,7 +2289,7 @@
                     "Map"
                 ],
                 "summary": "Data",
-                "description": "\nGet a Map data.\n",
+                "description": "Get a Map data.",
                 "operationId": "data_api_v1_maps__map_id__data_get",
                 "parameters": [
                     {
@@ -2368,7 +2368,7 @@
                     "Map"
                 ],
                 "summary": "Add Bitmap",
-                "description": "\nadd map bitmap.\n",
+                "description": "add map bitmap.",
                 "operationId": "add_bitmap_api_v1_maps_bitmap_post",
                 "requestBody": {
                     "content": {
@@ -2385,7 +2385,10 @@
                         "description": "OK",
                         "content": {
                             "application/json": {
-                                "schema": {}
+                                "schema": {
+                                    "title": "Response Add Bitmap Api V1 Maps Bitmap Post",
+                                    "type": "object"
+                                }
                             }
                         }
                     },
@@ -2443,7 +2446,7 @@
                     "Map"
                 ],
                 "summary": "Get Bitmap",
-                "description": "\nGet a bitmap data.\n",
+                "description": "Get a bitmap data.",
                 "operationId": "get_bitmap_api_v1_maps__map_id__bitmap_get",
                 "parameters": [
                     {
@@ -2514,7 +2517,7 @@
                     "Radar"
                 ],
                 "summary": "List Radars",
-                "description": "\nGet all Radars.\n",
+                "description": "Get all Radars.",
                 "operationId": "get_all_api_v1_radars_get",
                 "parameters": [
                     {
@@ -2640,7 +2643,7 @@
                     "Radar"
                 ],
                 "summary": "Create",
-                "description": "\nCreate a new Radar.\n",
+                "description": "Create a new Radar.",
                 "operationId": "create_api_v1_radars_post",
                 "requestBody": {
                     "content": {
@@ -2727,7 +2730,7 @@
                     "Radar"
                 ],
                 "summary": "Get",
-                "description": "\nGet a Radar.\n",
+                "description": "Get a Radar.",
                 "operationId": "get_api_v1_radars__radar_id__get",
                 "parameters": [
                     {
@@ -2803,7 +2806,7 @@
                     "Radar"
                 ],
                 "summary": "Delete",
-                "description": "\nDelete a Radar.\n",
+                "description": "Delete a Radar.",
                 "operationId": "delete_api_v1_radars__radar_id__delete",
                 "parameters": [
                     {
@@ -2872,7 +2875,7 @@
                     "Radar"
                 ],
                 "summary": "Update",
-                "description": "\nUpdate a Radar.\n",
+                "description": "Update a Radar.",
                 "operationId": "update_api_v1_radars__radar_id__patch",
                 "parameters": [
                     {
@@ -2960,7 +2963,7 @@
                     "Spat"
                 ],
                 "summary": "List Spats",
-                "description": "\nGet all Spats.\n",
+                "description": "Get all Spats.",
                 "operationId": "get_all_api_v1_spats_get",
                 "parameters": [
                     {
@@ -3086,7 +3089,7 @@
                     "Spat"
                 ],
                 "summary": "Create",
-                "description": "\nCreate a new Spat.\n",
+                "description": "Create a new Spat.",
                 "operationId": "create_api_v1_spats_post",
                 "requestBody": {
                     "content": {
@@ -3173,7 +3176,7 @@
                     "Spat"
                 ],
                 "summary": "Get",
-                "description": "\nGet a Spat.\n",
+                "description": "Get a Spat.",
                 "operationId": "get_api_v1_spats__spat_id__get",
                 "parameters": [
                     {
@@ -3249,7 +3252,7 @@
                     "Spat"
                 ],
                 "summary": "Delete",
-                "description": "\nDelete a Spat.\n",
+                "description": "Delete a Spat.",
                 "operationId": "delete_api_v1_spats__spat_id__delete",
                 "parameters": [
                     {
@@ -3318,7 +3321,7 @@
                     "Spat"
                 ],
                 "summary": "Update",
-                "description": "\nUpdate a Spat.\n",
+                "description": "Update a Spat.",
                 "operationId": "update_api_v1_spats__spat_id__patch",
                 "parameters": [
                     {
@@ -3406,7 +3409,7 @@
                     "Lidar"
                 ],
                 "summary": "List Lidars",
-                "description": "\nGet all Lidars.\n",
+                "description": "Get all Lidars.",
                 "operationId": "get_all_api_v1_lidars_get",
                 "parameters": [
                     {
@@ -3532,7 +3535,7 @@
                     "Lidar"
                 ],
                 "summary": "Create",
-                "description": "\nCreate a new Lidar.\n",
+                "description": "Create a new Lidar.",
                 "operationId": "create_api_v1_lidars_post",
                 "requestBody": {
                     "content": {
@@ -3619,7 +3622,7 @@
                     "Lidar"
                 ],
                 "summary": "Get",
-                "description": "\nGet a Lidar.\n",
+                "description": "Get a Lidar.",
                 "operationId": "get_api_v1_lidars__lidar_id__get",
                 "parameters": [
                     {
@@ -3695,7 +3698,7 @@
                     "Lidar"
                 ],
                 "summary": "Delete",
-                "description": "\nDelete a Lidar.\n",
+                "description": "Delete a Lidar.",
                 "operationId": "delete_api_v1_lidars__lidar_id__delete",
                 "parameters": [
                     {
@@ -3764,7 +3767,7 @@
                     "Lidar"
                 ],
                 "summary": "Update",
-                "description": "\nUpdate a Lidar.\n",
+                "description": "Update a Lidar.",
                 "operationId": "update_api_v1_lidars__lidar_id__patch",
                 "parameters": [
                     {
@@ -3852,7 +3855,7 @@
                     "Event"
                 ],
                 "summary": "Get",
-                "description": "\nGet a RSIEvent.\n",
+                "description": "Get a RSIEvent.",
                 "operationId": "get_api_v1_events__event_id__get",
                 "parameters": [
                     {
@@ -3930,7 +3933,7 @@
                     "Event"
                 ],
                 "summary": "List RSI Events",
-                "description": "\nGet all RSI Events.\n",
+                "description": "Get all RSI Events.",
                 "operationId": "get_all_api_v1_events_get",
                 "parameters": [
                     {
@@ -4051,7 +4054,7 @@
                     "RSM"
                 ],
                 "summary": "List RSMs",
-                "description": "\nGet all RSMs.\n",
+                "description": "Get all RSMs.",
                 "operationId": "get_all_api_v1_rsms_get",
                 "parameters": [
                     {
@@ -4172,7 +4175,7 @@
                     "RSU Config"
                 ],
                 "summary": "List RSU Configs",
-                "description": "\nGet all RSUConfigs.\n",
+                "description": "Get all RSUConfigs.",
                 "operationId": "get_all_api_v1_rsu_configs_get",
                 "parameters": [
                     {
@@ -4276,7 +4279,7 @@
                     "RSU Config"
                 ],
                 "summary": "Create",
-                "description": "\nCreate a new RSU Config.\n",
+                "description": "Create a new RSU Config.",
                 "operationId": "create_api_v1_rsu_configs_post",
                 "requestBody": {
                     "content": {
@@ -4363,7 +4366,7 @@
                     "RSU Config"
                 ],
                 "summary": "Get",
-                "description": "\nGet a RSUConfig.\n",
+                "description": "Get a RSUConfig.",
                 "operationId": "get_api_v1_rsu_configs__rsu_config_id__get",
                 "parameters": [
                     {
@@ -4439,7 +4442,7 @@
                     "RSU Config"
                 ],
                 "summary": "Update",
-                "description": "\nUpdate a Radar.\n",
+                "description": "Update a Radar.",
                 "operationId": "update_api_v1_rsu_configs__rsu_config_id__put",
                 "parameters": [
                     {
@@ -4525,7 +4528,7 @@
                     "RSU Config"
                 ],
                 "summary": "Delete",
-                "description": "\nDelete a RSUConfig.\n",
+                "description": "Delete a RSUConfig.",
                 "operationId": "delete_api_v1_rsu_configs__rsu_config_id__delete",
                 "parameters": [
                     {
@@ -4596,7 +4599,7 @@
                     "RSU Log"
                 ],
                 "summary": "List RSU Logs",
-                "description": "\nGet all RSULogs.\n",
+                "description": "Get all RSULogs.",
                 "operationId": "get_all_api_v1_rsu_logs_get",
                 "parameters": [
                     {
@@ -4689,7 +4692,7 @@
                     "RSU Log"
                 ],
                 "summary": "Create",
-                "description": "\nCreate a new RSU log.\n",
+                "description": "Create a new RSU log.",
                 "operationId": "create_api_v1_rsu_logs_post",
                 "requestBody": {
                     "content": {
@@ -4776,7 +4779,7 @@
                     "RSU Log"
                 ],
                 "summary": "Get",
-                "description": "\nGet a RSULog.\n",
+                "description": "Get a RSULog.",
                 "operationId": "get_api_v1_rsu_logs__rsu_log_id__get",
                 "parameters": [
                     {
@@ -4852,7 +4855,7 @@
                     "RSU Log"
                 ],
                 "summary": "Update",
-                "description": "\nUpdate a RSULog.\n",
+                "description": "Update a RSULog.",
                 "operationId": "update_api_v1_rsu_logs__rsu_log_id__put",
                 "parameters": [
                     {
@@ -4938,7 +4941,7 @@
                     "RSU Log"
                 ],
                 "summary": "Delete",
-                "description": "\nDelete a RSULog.\n",
+                "description": "Delete a RSULog.",
                 "operationId": "delete_api_v1_rsu_logs__rsu_log_id__delete",
                 "parameters": [
                     {
@@ -5009,7 +5012,7 @@
                     "RSU Model"
                 ],
                 "summary": "List RSU Models",
-                "description": "\nGet all RSU Models.\n",
+                "description": "Get all RSU Models.",
                 "operationId": "get_all_api_v1_rsu_models_get",
                 "parameters": [
                     {
@@ -5124,7 +5127,7 @@
                     "RSU Model"
                 ],
                 "summary": "Create",
-                "description": "\nCreate a new RSU Model.\n",
+                "description": "Create a new RSU Model.",
                 "operationId": "create_api_v1_rsu_models_post",
                 "requestBody": {
                     "content": {
@@ -5211,7 +5214,7 @@
                     "RSU Model"
                 ],
                 "summary": "Get",
-                "description": "\nGet a RSU Model.\n",
+                "description": "Get a RSU Model.",
                 "operationId": "get_api_v1_rsu_models__rsu_model_id__get",
                 "parameters": [
                     {
@@ -5287,7 +5290,7 @@
                     "RSU Model"
                 ],
                 "summary": "Update",
-                "description": "\nUpdate a RSU Model.\n",
+                "description": "Update a RSU Model.",
                 "operationId": "update_api_v1_rsu_models__rsu_model_id__put",
                 "parameters": [
                     {
@@ -5373,7 +5376,7 @@
                     "RSU Model"
                 ],
                 "summary": "Delete",
-                "description": "\nDelete a RSU Model.\n",
+                "description": "Delete a RSU Model.",
                 "operationId": "delete_api_v1_rsu_models__rsu_model_id__delete",
                 "parameters": [
                     {
@@ -5444,7 +5447,7 @@
                     "RSU Query"
                 ],
                 "summary": "List RSU Queries",
-                "description": "\nGet all RSUQueries.\n",
+                "description": "Get all RSUQueries.",
                 "operationId": "get_all_api_v1_rsu_queries_get",
                 "parameters": [
                     {
@@ -5548,7 +5551,7 @@
                     "RSU Query"
                 ],
                 "summary": "Create",
-                "description": "\nCreate a new RSU Query.\n",
+                "description": "Create a new RSU Query.",
                 "operationId": "create_api_v1_rsu_queries_post",
                 "requestBody": {
                     "content": {
@@ -5635,7 +5638,7 @@
                     "RSU Query"
                 ],
                 "summary": "Get",
-                "description": "\nGet a RSU Query.\n",
+                "description": "Get a RSU Query.",
                 "operationId": "get_api_v1_rsu_queries__rsu_query_id__get",
                 "parameters": [
                     {
@@ -5711,7 +5714,7 @@
                     "RSU Query"
                 ],
                 "summary": "Delete",
-                "description": "\nDelete a RSU Query.\n",
+                "description": "Delete a RSU Query.",
                 "operationId": "delete_api_v1_rsu_queries__rsu_query_id__delete",
                 "parameters": [
                     {
@@ -5782,7 +5785,7 @@
                     "RSU TMP"
                 ],
                 "summary": "List TMP RSUs",
-                "description": "\nGet all TMP RSUs.\n",
+                "description": "Get all TMP RSUs.",
                 "operationId": "get_all_api_v1_rsu_tmps_get",
                 "parameters": [
                     {
@@ -5899,7 +5902,7 @@
                     "RSU TMP"
                 ],
                 "summary": "Delete",
-                "description": "\nDelete a TMP RSU.\n",
+                "description": "Delete a TMP RSU.",
                 "operationId": "delete_api_v1_rsu_tmps__rsu_id__delete",
                 "parameters": [
                     {
@@ -5970,7 +5973,7 @@
                     "RSU"
                 ],
                 "summary": "List RSUs",
-                "description": "\nGet all RSUs.\n",
+                "description": "Get all RSUs.",
                 "operationId": "get_all_api_v1_rsus_get",
                 "parameters": [
                     {
@@ -6118,7 +6121,7 @@
                     "RSU"
                 ],
                 "summary": "Create",
-                "description": "\nCreate a new RSU.\n",
+                "description": "Create a new RSU.",
                 "operationId": "create_api_v1_rsus_post",
                 "requestBody": {
                     "content": {
@@ -6205,7 +6208,7 @@
                     "RSU"
                 ],
                 "summary": "Get",
-                "description": "\nGet a RSU.\n",
+                "description": "Get a RSU.",
                 "operationId": "get_api_v1_rsus__rsu_id__get",
                 "parameters": [
                     {
@@ -6281,7 +6284,7 @@
                     "RSU"
                 ],
                 "summary": "Delete",
-                "description": "\nDelete a RSU.\n",
+                "description": "Delete a RSU.",
                 "operationId": "delete_api_v1_rsus__rsu_id__delete",
                 "parameters": [
                     {
@@ -6350,7 +6353,7 @@
                     "RSU"
                 ],
                 "summary": "Update",
-                "description": "\nUpdate a RSU.\n",
+                "description": "Update a RSU.",
                 "operationId": "update_api_v1_rsus__rsu_id__patch",
                 "parameters": [
                     {
@@ -6438,7 +6441,7 @@
                     "RSU"
                 ],
                 "summary": "Get Location",
-                "description": "\nGet a RSU Location.\n",
+                "description": "Get a RSU Location.",
                 "operationId": "get_location_api_v1_rsus__rsu_esn__location_get",
                 "parameters": [
                     {
@@ -6516,7 +6519,7 @@
                     "RSU"
                 ],
                 "summary": "Get Running",
-                "description": "\nGet a RSU Running Info.\n",
+                "description": "Get a RSU Running Info.",
                 "operationId": "get_running_api_v1_rsus__rsu_id__running_get",
                 "parameters": [
                     {
@@ -6594,7 +6597,7 @@
                     "System Config"
                 ],
                 "summary": "Create",
-                "description": "\nGet detailed info of System Config.\n",
+                "description": "Get detailed info of System Config.",
                 "operationId": "create_api_v1_system_configs_post",
                 "requestBody": {
                     "content": {
@@ -6671,7 +6674,7 @@
                     "System Config"
                 ],
                 "summary": "Get",
-                "description": "\nGet detailed info of System Config.\n",
+                "description": "Get detailed info of System Config.",
                 "operationId": "get_api_v1_system_configs__system_config_id__get",
                 "parameters": [
                     {
@@ -6749,7 +6752,7 @@
                     "RSI DNP"
                 ],
                 "summary": "List RSI DNPs",
-                "description": "\nGet all RSI DNPs.\n",
+                "description": "Get all RSI DNPs.",
                 "operationId": "get_all_api_v1_rsi_dnps_get",
                 "parameters": [
                     {
@@ -6870,7 +6873,7 @@
                     "RSI CWM"
                 ],
                 "summary": "List RSI CWMs",
-                "description": "\nGet all RSI CWMs.\n",
+                "description": "Get all RSI CWMs.",
                 "operationId": "get_all_api_v1_rsi_cwms_get",
                 "parameters": [
                     {
@@ -7002,7 +7005,7 @@
                     "RSI CLC"
                 ],
                 "summary": "List RSI CLCs",
-                "description": "\nGet all RSI CLCs.\n",
+                "description": "Get all RSI CLCs.",
                 "operationId": "get_all_api_v1_rsi_clcs_get",
                 "parameters": [
                     {
@@ -7123,7 +7126,7 @@
                     "RSI SDS"
                 ],
                 "summary": "List RSI SDSs",
-                "description": "\nGet all RSI SDSs.\n",
+                "description": "Get all RSI SDSs.",
                 "operationId": "get_all_api_v1_rsi_sdss_get",
                 "parameters": [
                     {
@@ -7244,7 +7247,7 @@
                     "CGW"
                 ],
                 "summary": "List CGWs",
-                "description": "\nGet all CGW.\n",
+                "description": "Get all CGW.",
                 "operationId": "get_all_api_v1_cgw_get",
                 "parameters": [
                     {
@@ -7350,7 +7353,7 @@
                     "RDW"
                 ],
                 "summary": "List RDWs",
-                "description": "\nGet all RDW.\n",
+                "description": "Get all RDW.",
                 "operationId": "get_all_api_v1_rdw_get",
                 "parameters": [
                     {
@@ -7445,7 +7448,7 @@
                     "OSW"
                 ],
                 "summary": "List OSWs",
-                "description": "\nGet all OSW.\n",
+                "description": "Get all OSW.",
                 "operationId": "get_all_api_v1_osw_get",
                 "parameters": [
                     {
@@ -7540,7 +7543,7 @@
                     "SSW"
                 ],
                 "summary": "List SSWs",
-                "description": "\nGet all SSW.\n",
+                "description": "Get all SSW.",
                 "operationId": "get_all_api_v1_ssw_get",
                 "parameters": [
                     {
@@ -7635,7 +7638,7 @@
                     "Edge Site"
                 ],
                 "summary": "List Edge Sites",
-                "description": "\nGet all Edge Sites.\n",
+                "description": "Get all Edge Sites.",
                 "operationId": "get_all_api_v1_edge_site_get",
                 "parameters": [
                     {
@@ -7746,7 +7749,7 @@
                     "Edge Site"
                 ],
                 "summary": "Create",
-                "description": "\nCreate a new edge site.\n",
+                "description": "Create a new edge site.",
                 "operationId": "create_api_v1_edge_site_post",
                 "requestBody": {
                     "content": {
@@ -7827,13 +7830,170 @@
                 ]
             }
         },
+        "/api/v1/edge_site/{edge_site_id}": {
+            "delete": {
+                "tags": [
+                    "Edge Site"
+                ],
+                "summary": "Delete",
+                "description": "Delete a Edge Site.",
+                "operationId": "delete_api_v1_edge_site__edge_site_id__delete",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Edge Site Id",
+                            "type": "integer"
+                        },
+                        "name": "edge_site_id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Edge Site"
+                ],
+                "summary": "Update",
+                "description": "Update a edge site.",
+                "operationId": "update_api_v1_edge_site__edge_site_id__patch",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Edge Site Id",
+                            "type": "integer"
+                        },
+                        "name": "edge_site_id",
+                        "in": "path"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/EdgeSiteUpdate"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EdgeSite"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            }
+        },
         "/api/v1/edge_nodes": {
             "get": {
                 "tags": [
                     "Edge Node"
                 ],
                 "summary": "List Edge Nodes",
-                "description": "\nGet all Edge Nodes.\n",
+                "description": "Get all Edge Nodes.",
                 "operationId": "get_all_api_v1_edge_nodes_get",
                 "parameters": [
                     {
@@ -7946,7 +8106,7 @@
                     "Algo"
                 ],
                 "summary": "List version",
-                "description": "\nSearch version by name.\n",
+                "description": "Search version by name.",
                 "operationId": "get_all_version_api_v1_algos_version_get",
                 "parameters": [
                     {
@@ -8024,7 +8184,7 @@
                     "Algo"
                 ],
                 "summary": "Create",
-                "description": "\nCreate a new version.\n",
+                "description": "Create a new version.",
                 "operationId": "create_api_v1_algos_version_post",
                 "requestBody": {
                     "content": {
@@ -8111,7 +8271,7 @@
                     "Algo"
                 ],
                 "summary": "Delete",
-                "description": "\nDelete a version.\n",
+                "description": "Delete a version.",
                 "operationId": "delete_api_v1_algos_version__version_id__delete",
                 "parameters": [
                     {
@@ -8182,7 +8342,7 @@
                     "Algo"
                 ],
                 "summary": "List Algo",
-                "description": "\nSearch algo by name.\n",
+                "description": "Search algo by name.",
                 "operationId": "get_all_api_v1_algos_get",
                 "parameters": [
                     {
@@ -8260,7 +8420,7 @@
                     "Algo"
                 ],
                 "summary": "Update",
-                "description": "\nupdate algos.\n",
+                "description": "update algos.",
                 "operationId": "update_api_v1_algos_post",
                 "requestBody": {
                     "content": {
@@ -8345,7 +8505,7 @@
                     "Algo"
                 ],
                 "summary": "List module algo",
-                "description": "\nGet module algo.\n",
+                "description": "Get module algo.",
                 "operationId": "get_all_module_algo_api_v1_algos_module_get",
                 "responses": {
                     "200": {
@@ -8406,7 +8566,7 @@
                     "Service"
                 ],
                 "summary": "List endpoints",
-                "description": "\nList endpoints.\n",
+                "description": "List endpoints.",
                 "operationId": "get_all_api_v1_endpoints_get",
                 "responses": {
                     "200": {
@@ -8461,7 +8621,7 @@
                     "Service"
                 ],
                 "summary": "Create",
-                "description": "\nCreate a new endpoint.\n\nA endpoint defines endpoint url.\nA group of endpoints (deferent url & metadatas) belong to a service.\n",
+                "description": "Create a new endpoint.\n\nA endpoint defines endpoint url.\nA group of endpoints (deferent url & metadatas) belong to a service.",
                 "operationId": "create_api_v1_endpoints_post",
                 "requestBody": {
                     "content": {
@@ -8548,7 +8708,7 @@
                     "Service"
                 ],
                 "summary": "Get",
-                "description": "\nget a endpoint by ID.\n",
+                "description": "get a endpoint by ID.",
                 "operationId": "get_api_v1_endpoints__endpoint_id__get",
                 "parameters": [
                     {
@@ -8624,7 +8784,7 @@
                     "Service"
                 ],
                 "summary": "Update",
-                "description": "\nUpdate a endpoint.\n",
+                "description": "Update a endpoint.",
                 "operationId": "update_api_v1_endpoints__endpoint_id__put",
                 "parameters": [
                     {
@@ -8710,7 +8870,7 @@
                     "Service"
                 ],
                 "summary": "Delete",
-                "description": "\nDelete a endpoint.\n",
+                "description": "Delete a endpoint.",
                 "operationId": "delete_api_v1_endpoints__endpoint_id__delete",
                 "parameters": [
                     {
@@ -8781,7 +8941,7 @@
                     "Service"
                 ],
                 "summary": "List endpoint metadatas",
-                "description": "\nList endpoint_metadatas.\n",
+                "description": "List endpoint_metadatas.",
                 "operationId": "get_all_api_v1_endpoint_metadatas_get",
                 "responses": {
                     "200": {
@@ -8836,7 +8996,7 @@
                     "Service"
                 ],
                 "summary": "Create",
-                "description": "\nCreate a new endpoint_metadata.\n\nA endpoint_metadata defines endpoint key-value pairs.\nA group of endpoint metadatas key-value pairs belong to a endpoint.\n",
+                "description": "Create a new endpoint_metadata.\n\nA endpoint_metadata defines endpoint key-value pairs.\nA group of endpoint metadatas key-value pairs belong to a endpoint.",
                 "operationId": "create_api_v1_endpoint_metadatas_post",
                 "requestBody": {
                     "content": {
@@ -8923,7 +9083,7 @@
                     "Service"
                 ],
                 "summary": "Get",
-                "description": "\nget a endpoint_metadata by ID.\n",
+                "description": "get a endpoint_metadata by ID.",
                 "operationId": "get_api_v1_endpoint_metadatas__endpoint_metadata_id__get",
                 "parameters": [
                     {
@@ -8999,7 +9159,7 @@
                     "Service"
                 ],
                 "summary": "Update",
-                "description": "\nUpdate a endpoint_metadata.\n",
+                "description": "Update a endpoint_metadata.",
                 "operationId": "update_api_v1_endpoint_metadatas__endpoint_metadata_id__put",
                 "parameters": [
                     {
@@ -9085,7 +9245,7 @@
                     "Service"
                 ],
                 "summary": "Delete",
-                "description": "\nDelete a endpoint_metadata.\n",
+                "description": "Delete a endpoint_metadata.",
                 "operationId": "delete_api_v1_endpoint_metadatas__endpoint_metadata_id__delete",
                 "parameters": [
                     {
@@ -9156,7 +9316,7 @@
                     "Service"
                 ],
                 "summary": "List services",
-                "description": "\nList services.\n",
+                "description": "List services.",
                 "operationId": "get_all_api_v1_services_get",
                 "responses": {
                     "200": {
@@ -9211,7 +9371,7 @@
                     "Service"
                 ],
                 "summary": "Create",
-                "description": "\nCreate a new service.\n\nA service defines service name & description.\nA group of endpoints (deferent versions or metadatas) belong to a service.\n",
+                "description": "Create a new service.\n\nA service defines service name & description.\nA group of endpoints (deferent versions or metadatas) belong to a service.",
                 "operationId": "create_api_v1_services_post",
                 "requestBody": {
                     "content": {
@@ -9298,7 +9458,7 @@
                     "Service"
                 ],
                 "summary": "Get",
-                "description": "\nget a service by ID.\n",
+                "description": "get a service by ID.",
                 "operationId": "get_api_v1_services__service_id__get",
                 "parameters": [
                     {
@@ -9374,7 +9534,7 @@
                     "Service"
                 ],
                 "summary": "Update",
-                "description": "\nUpdate a service.\n",
+                "description": "Update a service.",
                 "operationId": "update_api_v1_services__service_id__put",
                 "parameters": [
                     {
@@ -9460,7 +9620,7 @@
                     "Service"
                 ],
                 "summary": "Delete",
-                "description": "\nDelete a service.\n",
+                "description": "Delete a service.",
                 "operationId": "delete_api_v1_services__service_id__delete",
                 "parameters": [
                     {
@@ -9531,7 +9691,7 @@
                     "Service"
                 ],
                 "summary": "List service types",
-                "description": "\nList service types.\n",
+                "description": "List service types.",
                 "operationId": "get_all_api_v1_service_types_get",
                 "responses": {
                     "200": {
@@ -9586,7 +9746,7 @@
                     "Service"
                 ],
                 "summary": "Create",
-                "description": "\nCreate a new service type.\n\nA service type defines service protocol & interface description.\nA group of services belong to (share) a pre-defined service type.\n",
+                "description": "Create a new service type.\n\nA service type defines service protocol & interface description.\nA group of services belong to (share) a pre-defined service type.",
                 "operationId": "create_api_v1_service_types_post",
                 "requestBody": {
                     "content": {
@@ -9673,7 +9833,7 @@
                     "Service"
                 ],
                 "summary": "Get",
-                "description": "\nget a service type by ID.\n",
+                "description": "get a service type by ID.",
                 "operationId": "get_api_v1_service_types__service_type_id__get",
                 "parameters": [
                     {
@@ -9749,7 +9909,7 @@
                     "Service"
                 ],
                 "summary": "Update",
-                "description": "\nUpdate a service type.\n",
+                "description": "Update a service type.",
                 "operationId": "update_api_v1_service_types__service_type_id__put",
                 "parameters": [
                     {
@@ -9835,7 +9995,7 @@
                     "Service"
                 ],
                 "summary": "Delete",
-                "description": "\nDelete a service type.\n",
+                "description": "Delete a service type.",
                 "operationId": "delete_api_v1_service_types__service_type_id__delete",
                 "parameters": [
                     {
@@ -10718,6 +10878,8 @@
             "EdgeNode": {
                 "title": "EdgeNode",
                 "required": [
+                    "name",
+                    "ip",
                     "id"
                 ],
                 "type": "object",
@@ -10840,6 +11002,27 @@
                         "type": "string",
                         "description": "Edge Site Dandelion Endpoint",
                         "format": "uri"
+                    }
+                }
+            },
+            "EdgeSiteUpdate": {
+                "title": "EdgeSiteUpdate",
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "title": "Name",
+                        "type": "string",
+                        "description": "Edge Site Name"
+                    },
+                    "areaCode": {
+                        "title": "Areacode",
+                        "type": "string",
+                        "description": "Edge Site Area Code"
+                    },
+                    "desc": {
+                        "title": "Desc",
+                        "type": "string",
+                        "description": "Edge Site desc"
                     }
                 }
             },
@@ -15419,6 +15602,11 @@
                         "title": "Id",
                         "type": "integer",
                         "description": "Config ID"
+                    },
+                    "edgeSiteID": {
+                        "title": "Edgesiteid",
+                        "type": "integer",
+                        "description": "Edge Site ID"
                     },
                     "mode": {
                         "title": "Mode",

@@ -113,7 +113,6 @@ def route_info(
     redis_conn: Redis = Depends(deps.get_redis_conn),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> schemas.RouteInfo:
-
     key = "ROUTE_INFO"
     vehicle_total = (
         Optional_util.none(redis_conn.hget(key, "vehicleTotal")).map(lambda v: int(v)).orElse(0)

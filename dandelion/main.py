@@ -43,6 +43,15 @@ app = FastAPI(
 
 mode_conf = CONF.mode
 
+if CONF.cors.origins:
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=CONF.cors.origins,
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+
 
 # Startup
 @app.on_event("startup")
@@ -75,19 +84,6 @@ def setup_cloud_mqtt() -> None:
 @app.on_event("startup")
 def setup_redis() -> None:
     redis_pool.setup_redis()
-
-
-@app.on_event("startup")
-def setup_app():
-    # Set all CORS enabled origins
-    if CONF.cors.origins:
-        app.add_middleware(
-            CORSMiddleware,
-            allow_origins=CONF.cors.origins,
-            allow_credentials=True,
-            allow_methods=["*"],
-            allow_headers=["*"],
-        )
 
 
 @app.on_event("startup")

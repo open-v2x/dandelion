@@ -43,6 +43,8 @@ class EdgeSiteUpdate(BaseModel):
     """"""
 
     name: Optional[str] = Field(None, alias="name", description="Edge Site Name")
+    area_code: Optional[str] = Field(None, alias="areaCode", description="Edge Site Area Code")
+    desc: Optional[str] = Field(None, alias="desc", description="Edge Site desc")
 
 
 class EdgeSiteInDBBase(EdgeSiteBase):

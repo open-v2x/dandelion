@@ -18,7 +18,7 @@ import time
 from logging import LoggerAdapter
 from typing import List, Optional
 
-from fastapi import APIRouter, Body, Depends, Query, status
+from fastapi import APIRouter, Body, Depends, Path, Query, status
 from oslo_log import log
 from sqlalchemy import exc as sql_exc
 from sqlalchemy.orm import Session
@@ -118,7 +118,7 @@ Down a MNG.
     },
 )
 def down(
-    mng_id: int = Query(..., alias="mng_id", gt=0, description="MNG id"),
+    mng_id: int = Path(),
     *,
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
@@ -150,7 +150,7 @@ Copy a MNG.
     },
 )
 def copy(
-    mng_id: int = Query(..., alias="mng_id", gt=0, description="MNG id"),
+    mng_id: int = Path(),
     mng_copy_in: schemas.MNGCopy = Body(..., alias="mng_copy_in", description="MNG copy"),
     *,
     db: Session = Depends(deps.get_db),

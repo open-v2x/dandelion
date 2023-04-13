@@ -46,8 +46,8 @@ class EdgeNodeInDBBase(EdgeNodeBase):
 
 # Additional properties to return via API
 class EdgeNode(EdgeNodeInDBBase):
-    name: str = Field(None, alias="name", description="Edge Node Name")
-    ip: str = Field(None, alias="ip", description="Edge Node ip")
+    name: str = Field(..., alias="name", description="Edge Node Name")
+    ip: str = Field(..., alias="ip", description="Edge Node ip")
 
 
 class EdgeNodes(BaseModel):
