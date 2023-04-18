@@ -39,6 +39,17 @@ CONF: cfg = conf.CONF
 reusable_oauth2 = OAuth2PasswordBearer(tokenUrl=f"{constants.API_V1_STR}/login/access-token")
 
 
+RESPONSE_ERROR: Dict = {
+    status.HTTP_400_BAD_REQUEST: {"model": schemas.ErrorMessage, "description": "Bad Request"},
+    status.HTTP_401_UNAUTHORIZED: {
+        "model": schemas.ErrorMessage,
+        "description": "Unauthorized",
+    },
+    status.HTTP_403_FORBIDDEN: {"model": schemas.ErrorMessage, "description": "Forbidden"},
+    status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
+}
+
+
 class OpenV2XHTTPException(HTTPException):
     def __init__(
         self,

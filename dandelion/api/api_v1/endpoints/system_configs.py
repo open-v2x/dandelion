@@ -14,6 +14,8 @@
 
 from __future__ import annotations
 
+from typing import Dict
+
 from fastapi import APIRouter, Depends, status
 from oslo_config import cfg
 from sqlalchemy.orm import Session
@@ -38,12 +40,7 @@ Get detailed info of System Config.
 """,
     responses={
         status.HTTP_200_OK: {"model": schemas.SystemConfig, "description": "OK"},
-        status.HTTP_401_UNAUTHORIZED: {
-            "model": schemas.ErrorMessage,
-            "description": "Unauthorized",
-        },
-        status.HTTP_403_FORBIDDEN: {"model": schemas.ErrorMessage, "description": "Forbidden"},
-        status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
+        **deps.RESPONSE_ERROR,
     },
 )
 def create(
@@ -83,12 +80,7 @@ Get detailed info of System Config.
 """,
     responses={
         status.HTTP_200_OK: {"model": schemas.SystemConfig, "description": "OK"},
-        status.HTTP_401_UNAUTHORIZED: {
-            "model": schemas.ErrorMessage,
-            "description": "Unauthorized",
-        },
-        status.HTTP_403_FORBIDDEN: {"model": schemas.ErrorMessage, "description": "Forbidden"},
-        status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
+        **deps.RESPONSE_ERROR,
     },
 )
 def get(
@@ -105,3 +97,20 @@ def get(
     )
     system_config.mode = mode_conf.mode
     return system_config.to_dict()
+
+
+@router.get(
+    "/edge/mqtt_config",
+    response_model=Dict,
+    status_code=status.HTTP_200_OK,
+    description="""
+Get edge site mqtt config.
+""",
+)
+def get_edge_mqtt_config(
+    current_user: models.User = Depends(deps.get_current_user),
+) -> Dict:
+    return {
+        "username": CONF.mqtt.username,
+        "password": CONF.mqtt.password,
+    }

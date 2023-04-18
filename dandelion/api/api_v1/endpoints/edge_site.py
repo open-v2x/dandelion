@@ -40,12 +40,7 @@ Get all Edge Sites.
 """,
     responses={
         status.HTTP_200_OK: {"model": schemas.EdgeSites, "description": "OK"},
-        status.HTTP_401_UNAUTHORIZED: {
-            "model": schemas.ErrorMessage,
-            "description": "Unauthorized",
-        },
-        status.HTTP_403_FORBIDDEN: {"model": schemas.ErrorMessage, "description": "Forbidden"},
-        status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
+        **deps.RESPONSE_ERROR,
     },
 )
 def get_all(
@@ -73,13 +68,7 @@ Create a new edge site.
 """,
     responses={
         status.HTTP_201_CREATED: {"model": schemas.EdgeSite, "description": "Created"},
-        status.HTTP_400_BAD_REQUEST: {"model": schemas.ErrorMessage, "description": "Bad Request"},
-        status.HTTP_401_UNAUTHORIZED: {
-            "model": schemas.ErrorMessage,
-            "description": "Unauthorized",
-        },
-        status.HTTP_403_FORBIDDEN: {"model": schemas.ErrorMessage, "description": "Forbidden"},
-        status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
+        **deps.RESPONSE_ERROR,
     },
 )
 def create(
@@ -126,12 +115,7 @@ Update a edge site.
 """,
     responses={
         status.HTTP_200_OK: {"model": schemas.EdgeSite, "description": "OK"},
-        status.HTTP_401_UNAUTHORIZED: {
-            "model": schemas.ErrorMessage,
-            "description": "Unauthorized",
-        },
-        status.HTTP_403_FORBIDDEN: {"model": schemas.ErrorMessage, "description": "Forbidden"},
-        status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
+        **deps.RESPONSE_ERROR,
     },
 )
 def update(
@@ -159,14 +143,7 @@ def update(
     description="""
 Delete a Edge Site.
 """,
-    responses={
-        status.HTTP_401_UNAUTHORIZED: {
-            "model": schemas.ErrorMessage,
-            "description": "Unauthorized",
-        },
-        status.HTTP_403_FORBIDDEN: {"model": schemas.ErrorMessage, "description": "Forbidden"},
-        status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
-    },
+    responses=deps.RESPONSE_ERROR,
     response_class=Response,
     response_description="No Content",
 )

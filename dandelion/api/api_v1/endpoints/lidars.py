@@ -39,13 +39,7 @@ Create a new Lidar.
 """,
     responses={
         status.HTTP_201_CREATED: {"model": schemas.Lidar, "description": "Created"},
-        status.HTTP_400_BAD_REQUEST: {"model": schemas.ErrorMessage, "description": "Bad Request"},
-        status.HTTP_401_UNAUTHORIZED: {
-            "model": schemas.ErrorMessage,
-            "description": "Unauthorized",
-        },
-        status.HTTP_403_FORBIDDEN: {"model": schemas.ErrorMessage, "description": "Forbidden"},
-        status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
+        **deps.RESPONSE_ERROR,
     },
 )
 def create(
@@ -67,14 +61,7 @@ def create(
     description="""
 Delete a Lidar.
 """,
-    responses={
-        status.HTTP_401_UNAUTHORIZED: {
-            "model": schemas.ErrorMessage,
-            "description": "Unauthorized",
-        },
-        status.HTTP_403_FORBIDDEN: {"model": schemas.ErrorMessage, "description": "Forbidden"},
-        status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
-    },
+    responses=deps.RESPONSE_ERROR,
     response_class=Response,
     response_description="No Content",
 )
@@ -98,12 +85,7 @@ Get a Lidar.
 """,
     responses={
         status.HTTP_200_OK: {"model": schemas.Lidar, "description": "OK"},
-        status.HTTP_401_UNAUTHORIZED: {
-            "model": schemas.ErrorMessage,
-            "description": "Unauthorized",
-        },
-        status.HTTP_403_FORBIDDEN: {"model": schemas.ErrorMessage, "description": "Forbidden"},
-        status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
+        **deps.RESPONSE_ERROR,
     },
 )
 def get(
@@ -126,12 +108,7 @@ Get all Lidars.
 """,
     responses={
         status.HTTP_200_OK: {"model": schemas.Lidars, "description": "OK"},
-        status.HTTP_401_UNAUTHORIZED: {
-            "model": schemas.ErrorMessage,
-            "description": "Unauthorized",
-        },
-        status.HTTP_403_FORBIDDEN: {"model": schemas.ErrorMessage, "description": "Forbidden"},
-        status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
+        **deps.RESPONSE_ERROR,
     },
 )
 def get_all(
@@ -168,12 +145,7 @@ Update a Lidar.
 """,
     responses={
         status.HTTP_200_OK: {"model": schemas.Lidar, "description": "OK"},
-        status.HTTP_401_UNAUTHORIZED: {
-            "model": schemas.ErrorMessage,
-            "description": "Unauthorized",
-        },
-        status.HTTP_403_FORBIDDEN: {"model": schemas.ErrorMessage, "description": "Forbidden"},
-        status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
+        **deps.RESPONSE_ERROR,
     },
 )
 def update(

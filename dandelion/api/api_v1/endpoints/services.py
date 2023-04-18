@@ -41,13 +41,7 @@ A group of endpoints (deferent versions or metadatas) belong to a service.
 """,
     responses={
         status.HTTP_201_CREATED: {"model": schemas.ServiceCreateAll, "description": "Created"},
-        status.HTTP_400_BAD_REQUEST: {"model": schemas.ErrorMessage, "description": "Bad Request"},
-        status.HTTP_401_UNAUTHORIZED: {
-            "model": schemas.ErrorMessage,
-            "description": "Unauthorized",
-        },
-        status.HTTP_403_FORBIDDEN: {"model": schemas.ErrorMessage, "description": "Forbidden"},
-        status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
+        **deps.RESPONSE_ERROR,
     },
 )
 def create(
@@ -85,14 +79,7 @@ def create(
     description="""
 Delete a service.
 """,
-    responses={
-        status.HTTP_401_UNAUTHORIZED: {
-            "model": schemas.ErrorMessage,
-            "description": "Unauthorized",
-        },
-        status.HTTP_403_FORBIDDEN: {"model": schemas.ErrorMessage, "description": "Forbidden"},
-        status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
-    },
+    responses=deps.RESPONSE_ERROR,
     response_class=Response,
     response_description="No Content",
 )
@@ -112,14 +99,7 @@ def delete(
     description="""
 get a service by ID.
 """,
-    responses={
-        status.HTTP_401_UNAUTHORIZED: {
-            "model": schemas.ErrorMessage,
-            "description": "Unauthorized",
-        },
-        status.HTTP_403_FORBIDDEN: {"model": schemas.ErrorMessage, "description": "Forbidden"},
-        status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
-    },
+    responses=deps.RESPONSE_ERROR,
     response_model=schemas.ServiceGET,
     response_description="OK",
 )
@@ -144,12 +124,7 @@ Update a service.
 """,
     responses={
         status.HTTP_200_OK: {"model": schemas.ServiceGET, "description": "OK"},
-        status.HTTP_401_UNAUTHORIZED: {
-            "model": schemas.ErrorMessage,
-            "description": "Unauthorized",
-        },
-        status.HTTP_403_FORBIDDEN: {"model": schemas.ErrorMessage, "description": "Forbidden"},
-        status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
+        **deps.RESPONSE_ERROR,
     },
 )
 def update(
@@ -179,12 +154,7 @@ List services.
 """,
     responses={
         status.HTTP_200_OK: {"model": schemas.Services, "description": "OK"},
-        status.HTTP_401_UNAUTHORIZED: {
-            "model": schemas.ErrorMessage,
-            "description": "Unauthorized",
-        },
-        status.HTTP_403_FORBIDDEN: {"model": schemas.ErrorMessage, "description": "Forbidden"},
-        status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
+        **deps.RESPONSE_ERROR,
     },
 )
 def get_all(

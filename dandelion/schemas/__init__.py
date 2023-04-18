@@ -56,6 +56,7 @@ from .mng import MNG, MNGCopy, MNGCreate, MNGs, MNGUpdate
 from .osw import OSW, OSWCreate, OSWs, OSWUpdate
 from .province import Province, ProvinceCreate, ProvinceUpdate
 from .radar import Radar, RadarCreate, Radars, RadarUpdate
+from .radar_camera import RadarCamera, RadarCameraCreate, RadarCameras, RadarCameraUpdate
 from .rdw import RDW, RDWCreate, RDWs, RDWUpdate
 from .rsi_clc import RSICLCCreate, RSICLCs
 from .rsi_cwm import RSICWMCreate, RSICWMs
