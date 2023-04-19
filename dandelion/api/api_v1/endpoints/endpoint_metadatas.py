@@ -44,13 +44,7 @@ A group of endpoint metadatas key-value pairs belong to a endpoint.
             "model": schemas.EndpointMetadataCreateAll,
             "description": "Created",
         },
-        status.HTTP_400_BAD_REQUEST: {"model": schemas.ErrorMessage, "description": "Bad Request"},
-        status.HTTP_401_UNAUTHORIZED: {
-            "model": schemas.ErrorMessage,
-            "description": "Unauthorized",
-        },
-        status.HTTP_403_FORBIDDEN: {"model": schemas.ErrorMessage, "description": "Forbidden"},
-        status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
+        **deps.RESPONSE_ERROR,
     },
 )
 def create(
@@ -87,14 +81,7 @@ def create(
     description="""
 Delete a endpoint_metadata.
 """,
-    responses={
-        status.HTTP_401_UNAUTHORIZED: {
-            "model": schemas.ErrorMessage,
-            "description": "Unauthorized",
-        },
-        status.HTTP_403_FORBIDDEN: {"model": schemas.ErrorMessage, "description": "Forbidden"},
-        status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
-    },
+    responses=deps.RESPONSE_ERROR,
     response_class=Response,
     response_description="No Content",
 )
@@ -114,14 +101,7 @@ def delete(
     description="""
 get a endpoint_metadata by ID.
 """,
-    responses={
-        status.HTTP_401_UNAUTHORIZED: {
-            "model": schemas.ErrorMessage,
-            "description": "Unauthorized",
-        },
-        status.HTTP_403_FORBIDDEN: {"model": schemas.ErrorMessage, "description": "Forbidden"},
-        status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
-    },
+    responses=deps.RESPONSE_ERROR,
     response_model=schemas.EndpointMetadataGET,
     response_description="OK",
 )
@@ -146,12 +126,7 @@ Update a endpoint_metadata.
 """,
     responses={
         status.HTTP_200_OK: {"model": schemas.EndpointMetadataGET, "description": "OK"},
-        status.HTTP_401_UNAUTHORIZED: {
-            "model": schemas.ErrorMessage,
-            "description": "Unauthorized",
-        },
-        status.HTTP_403_FORBIDDEN: {"model": schemas.ErrorMessage, "description": "Forbidden"},
-        status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
+        **deps.RESPONSE_ERROR,
     },
 )
 def update(
@@ -186,12 +161,7 @@ List endpoint_metadatas.
 """,
     responses={
         status.HTTP_200_OK: {"model": schemas.EndpointMetadatas, "description": "OK"},
-        status.HTTP_401_UNAUTHORIZED: {
-            "model": schemas.ErrorMessage,
-            "description": "Unauthorized",
-        },
-        status.HTTP_403_FORBIDDEN: {"model": schemas.ErrorMessage, "description": "Forbidden"},
-        status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
+        **deps.RESPONSE_ERROR,
     },
 )
 def get_all(

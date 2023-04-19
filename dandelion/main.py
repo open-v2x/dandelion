@@ -18,6 +18,7 @@ import time
 import uuid
 from logging import LoggerAdapter
 
+import uvicorn
 from apscheduler.executors.pool import ThreadPoolExecutor
 from apscheduler.jobstores.memory import MemoryJobStore
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -130,3 +131,6 @@ async def add_request_id_header(request: Request, call_next):
 
 
 app.include_router(api_router, prefix=constants.API_V1_STR)
+
+if __name__ == "__main__":
+    uvicorn.run(app=app, port=28300, host="0.0.0.0")

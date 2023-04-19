@@ -32,6 +32,7 @@ from .crud_mng import mng
 from .crud_osw import osw
 from .crud_province import province
 from .crud_radar import radar
+from .crud_radar_camera import radar_camera
 from .crud_rdw import rdw
 from .crud_rsi_clc import rsi_clc
 from .crud_rsi_cwm import rsi_cwm
@@ -98,4 +99,5 @@ __all__ = [
     "service_type",
     "ssw",
     "edge_site",
+    "radar_camera",
 ]

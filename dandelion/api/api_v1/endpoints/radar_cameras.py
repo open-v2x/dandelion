@@ -32,145 +32,139 @@ LOG: LoggerAdapter = log.getLogger(__name__)
 
 @router.post(
     "",
-    response_model=schemas.RSUModel,
+    response_model=schemas.RadarCamera,
     status_code=status.HTTP_201_CREATED,
     description="""
-Create a new RSU Model.
+Create a new RadarCamera.
 """,
     responses={
-        status.HTTP_201_CREATED: {"model": schemas.RSUModel, "description": "Created"},
+        status.HTTP_201_CREATED: {"model": schemas.RadarCamera, "description": "Created"},
         **deps.RESPONSE_ERROR,
     },
 )
 def create(
-    rsu_model_in: schemas.RSUModelCreate,
+    radar_camera_in: schemas.RadarCameraCreate,
     *,
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
-) -> schemas.RSUModel:
+) -> schemas.RadarCamera:
     try:
-        rsu_model_in_db = crud.rsu_model.create(db, obj_in=rsu_model_in)
+        radar_in_db = crud.radar_camera.create(db, obj_in=radar_camera_in)
     except (sql_exc.IntegrityError, sql_exc.DataError) as ex:
-        raise error_handle(ex, "name", rsu_model_in.name)
-    return rsu_model_in_db.to_dict()
+        raise error_handle(ex, "sn or name", f"{radar_camera_in.sn} or {radar_camera_in.name}")
+    return radar_in_db.to_all_dict()
 
 
 @router.delete(
-    "/{rsu_model_id}",
+    "/{radar_camera_id}",
     status_code=status.HTTP_204_NO_CONTENT,
     description="""
-Delete a RSU Model.
+Delete a RadarCamera.
 """,
     responses=deps.RESPONSE_ERROR,
     response_class=Response,
     response_description="No Content",
 )
 def delete(
-    rsu_model_id: int,
+    radar_camera_id: int,
     *,
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> Response:
-    deps.crud_get(
-        db=db,
-        obj_id=rsu_model_id,
-        crud_model=crud.rsu_model,
-        detail="RSU Model",
-    )
-    crud.rsu_model.remove(db, id=rsu_model_id)
+    crud.radar_camera.remove(db, id=radar_camera_id)
     return Response(content=None, status_code=status.HTTP_204_NO_CONTENT)
 
 
 @router.get(
-    "/{rsu_model_id}",
-    response_model=schemas.RSUModel,
+    "/{radar_camera_id}",
+    response_model=schemas.RadarCamera,
     status_code=status.HTTP_200_OK,
     description="""
-Get a RSU Model.
+Get a RadarCamera.
 """,
     responses={
-        status.HTTP_200_OK: {"model": schemas.RSUModel, "description": "OK"},
+        status.HTTP_200_OK: {"model": schemas.RadarCamera, "description": "OK"},
         **deps.RESPONSE_ERROR,
     },
 )
 def get(
-    rsu_model_id: int,
+    radar_camera_id: int,
     *,
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
-) -> schemas.RSUModel:
-    rsu_model_in_db = deps.crud_get(
-        db=db,
-        obj_id=rsu_model_id,
-        crud_model=crud.rsu_model,
-        detail="RSU Model",
+) -> schemas.RadarCamera:
+    radar_in_db = deps.crud_get(
+        db=db, obj_id=radar_camera_id, crud_model=crud.radar_camera, detail="RadarCamera"
     )
-    return rsu_model_in_db.to_dict()
+    return radar_in_db.to_all_dict()
 
 
 @router.get(
     "",
-    response_model=schemas.RSUModels,
+    response_model=schemas.RadarCameras,
     status_code=status.HTTP_200_OK,
-    summary="List RSU Models",
+    summary="List RadarCamera",
     description="""
-Get all RSU Models.
+Get all RadarCameras.
 """,
     responses={
-        status.HTTP_200_OK: {"model": schemas.RSUModels, "description": "OK"},
+        status.HTTP_200_OK: {"model": schemas.RadarCameras, "description": "OK"},
         **deps.RESPONSE_ERROR,
     },
 )
 def get_all(
+    sn: Optional[str] = Query(
+        None, alias="sn", description="Filter by sn. Fuzzy prefix query is supported"
+    ),
     name: Optional[str] = Query(
         None, alias="name", description="Filter by name. Fuzzy prefix query is supported"
     ),
-    manufacturer: Optional[str] = Query(
-        None,
-        alias="manufacturer",
-        description="Filter by manufacturer. Fuzzy prefix query is supported",
-    ),
+    rsu_id: Optional[int] = Query(None, alias="rsuID", description="Filter by rsuID"),
     page_num: int = Query(1, alias="pageNum", ge=1, description="Page number"),
     page_size: int = Query(10, alias="pageSize", ge=-1, description="Page size"),
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
-) -> schemas.RSUModels:
+) -> schemas.RadarCameras:
     skip = page_size * (page_num - 1)
-    total, data = crud.rsu_model.get_multi_with_total(
-        db, skip=skip, limit=page_size, name=name, manufacturer=manufacturer
+    total, data = crud.radar_camera.get_multi_with_total(
+        db,
+        skip=skip,
+        limit=page_size,
+        sn=sn,
+        name=name,
+        rsu_id=rsu_id,
     )
-    return schemas.RSUModels(total=total, data=[rsu_model.to_dict() for rsu_model in data])
+    return schemas.RadarCameras(
+        total=total, data=[radar_camera.to_all_dict() for radar_camera in data]
+    )
 
 
-@router.put(
-    "/{rsu_model_id}",
-    response_model=schemas.RSUModel,
+@router.patch(
+    "/{radar_camera_id}",
+    response_model=schemas.RadarCamera,
     status_code=status.HTTP_200_OK,
     description="""
-Update a RSU Model.
+Update a RadarCamera.
 """,
     responses={
-        status.HTTP_200_OK: {"model": schemas.RSUModel, "description": "OK"},
+        status.HTTP_200_OK: {"model": schemas.RadarCamera, "description": "OK"},
         **deps.RESPONSE_ERROR,
     },
 )
 def update(
-    rsu_model_id: int,
-    rsu_model_in: schemas.RSUModelUpdate,
+    radar_camera_id: int,
+    radar_camera_in: schemas.RadarCameraUpdate,
     *,
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
-) -> schemas.RSUModel:
-    rsu_model_in_db = deps.crud_get(
-        db=db,
-        obj_id=rsu_model_id,
-        crud_model=crud.rsu_model,
-        detail="RSU Model",
+) -> schemas.RadarCamera:
+    radar_camera_in_db = deps.crud_get(
+        db=db, obj_id=radar_camera_id, crud_model=crud.radar_camera, detail="RadarCamera"
     )
     try:
-        new_rsu_model_in_db = crud.rsu_model.update(
-            db, db_obj=rsu_model_in_db, obj_in=rsu_model_in
+        new_radar_camera_in_db = crud.radar_camera.update(
+            db, db_obj=radar_camera_in_db, obj_in=radar_camera_in
         )
     except (sql_exc.DataError, sql_exc.IntegrityError) as ex:
-        raise error_handle(ex, "name", rsu_model_in.name)
-    return new_rsu_model_in_db.to_dict()
+        raise error_handle(ex, "sn or name", f"{radar_camera_in.sn} or {radar_camera_in.name}")
+    return new_radar_camera_in_db.to_all_dict()

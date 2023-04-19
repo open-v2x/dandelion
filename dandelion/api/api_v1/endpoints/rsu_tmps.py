@@ -38,12 +38,7 @@ Get all TMP RSUs.
 """,
     responses={
         status.HTTP_200_OK: {"model": schemas.RSUTMPs, "description": "OK"},
-        status.HTTP_401_UNAUTHORIZED: {
-            "model": schemas.ErrorMessage,
-            "description": "Unauthorized",
-        },
-        status.HTTP_403_FORBIDDEN: {"model": schemas.ErrorMessage, "description": "Forbidden"},
-        status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
+        **deps.RESPONSE_ERROR,
     },
 )
 def get_all(
@@ -69,14 +64,7 @@ def get_all(
     description="""
 Delete a TMP RSU.
 """,
-    responses={
-        status.HTTP_401_UNAUTHORIZED: {
-            "model": schemas.ErrorMessage,
-            "description": "Unauthorized",
-        },
-        status.HTTP_403_FORBIDDEN: {"model": schemas.ErrorMessage, "description": "Forbidden"},
-        status.HTTP_404_NOT_FOUND: {"model": schemas.ErrorMessage, "description": "Not Found"},
-    },
+    responses=deps.RESPONSE_ERROR,
     response_class=Response,
     response_description="No Content",
 )

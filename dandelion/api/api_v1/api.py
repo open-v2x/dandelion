@@ -35,6 +35,7 @@ from dandelion.api.api_v1.endpoints import (
     mngs,
     osw,
     provinces,
+    radar_cameras,
     radars,
     rdw,
     rsi_clcs,
@@ -75,6 +76,7 @@ api_router.include_router(mngs.router, prefix="/mngs", tags=["MNG"])
 api_router.include_router(map_rsus.router, prefix="/maps", tags=["Map"])
 api_router.include_router(maps.router, prefix="/maps", tags=["Map"])
 api_router.include_router(radars.router, prefix="/radars", tags=["Radar"])
+api_router.include_router(radar_cameras.router, prefix="/radar_cameras", tags=["RadarCamera"])
 api_router.include_router(spats.router, prefix="/spats", tags=["Spat"])
 
 api_router.include_router(lidars.router, prefix="/lidars", tags=["Lidar"])

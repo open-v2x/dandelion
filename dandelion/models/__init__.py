@@ -32,6 +32,7 @@ from .mng import MNG
 from .osw import OSW
 from .province import Province
 from .radar import Radar
+from .radar_camera import RadarCamera
 from .rdw import RDW
 from .rsi_clc import RSICLC
 from .rsi_cwm import RSICWM
