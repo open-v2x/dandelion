@@ -23,7 +23,7 @@ from sqlalchemy.orm import Session
 from dandelion import crud, models, schemas
 from dandelion.api import deps
 from dandelion.api.deps import OpenV2XHTTPException as HTTPException
-from dandelion.mqtt import cloud_server as mqtt_cloud_server
+from dandelion.mqtt import cloud_server as mqtt_cloud_server, topic
 
 router = APIRouter()
 CONF: cfg = cfg.CONF
@@ -67,6 +67,7 @@ def create(
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST, detail="Cloud MQTT Connection failed"
             )
+    mqtt_cloud_server.MQTT_CLIENT.publish(topic=topic.V2X_EDGE_SITE_CHANGE)
 
     return system_config.to_dict()
 
