@@ -15,6 +15,7 @@
 from __future__ import annotations
 
 import os
+from typing import Optional
 
 import requests
 from fastapi import APIRouter, Depends, Query, Response, status
@@ -28,6 +29,9 @@ from dandelion.api.deps import OpenV2XHTTPException as HTTPException, error_hand
 
 router = APIRouter()
 CONF: cfg = cfg.CONF
+
+
+PORT = deps.get_gunicorn_port()
 
 
 @router.get(
@@ -80,8 +84,13 @@ def create(
 ) -> schemas.EdgeSite:
     try:
         edge_node_in_db = crud.edge_site.create(db, obj_in=edge_node_in)
-    except sql_exc.DataError as ex:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=ex.args[0])
+    except sql_exc.IntegrityError as ex:
+        raise error_handle(
+            ex,
+            ["name", "edge_site_dandelion_endpoint"],
+            [edge_node_in.name, edge_node_in.edge_site_dandelion_endpoint],
+        )
+
     body_data = {
         "edgeSiteID": edge_node_in_db.id,
         "mqttConfig": {
@@ -90,19 +99,25 @@ def create(
             "username": CONF.mqtt.username,
             "password": CONF.mqtt.password,
         },
-        "centerDandelionEndpoint": edge_node_in.center_dandelion_endpoint,
+        "centerDandelionEndpoint": f"http://{CONF.mqtt.host}:{PORT}/",
     }
     url = os.path.join(
         edge_node_in_db.edge_site_dandelion_endpoint,
         constants.API_V1_STR.strip("/"),
         "system_configs",
     )
-    edge_create_res = requests.post(
-        url=url, json=body_data, headers={"Authorization": f"bearer {token}"}
-    )
-    if edge_create_res.status_code != status.HTTP_200_OK:
+    code: Optional[int] = None
+    try:
+        edge_create_res = requests.post(
+            url=url, json=body_data, headers={"Authorization": f"bearer {token}"}
+        )
+        code = edge_create_res.status_code
+        edge_create_res.raise_for_status()
+    except (requests.exceptions.ConnectionError, requests.exceptions.HTTPError) as e:
         crud.edge_site.remove(db=db, id=edge_node_in_db.id)
-        raise HTTPException(status_code=edge_create_res.status_code, detail=edge_create_res.json())
+        code = code if code else status.HTTP_400_BAD_REQUEST
+        raise HTTPException(status_code=code, detail=str(e))
+
     return edge_node_in_db.to_all_dict()
 
 
@@ -135,6 +150,30 @@ def update(
     except (sql_exc.DataError, sql_exc.IntegrityError) as ex:
         raise error_handle(ex, "name", edge_site_in.name)
     return new_edge_site_in_db.to_all_dict()
+
+
+@router.get(
+    "/{edge_site_id}",
+    response_model=schemas.EdgeSite,
+    status_code=status.HTTP_200_OK,
+    description="""
+get a edge site.
+""",
+    responses={
+        status.HTTP_200_OK: {"model": schemas.EdgeSite, "description": "OK"},
+        **deps.RESPONSE_ERROR,
+    },
+)
+def get_edge_site_detail(
+    edge_site_id: int,
+    *,
+    db: Session = Depends(deps.get_db),
+    current_user: models.User = Depends(deps.get_current_user),
+) -> schemas.EdgeSite:
+    edge_site_in_db = deps.crud_get(
+        db=db, obj_id=edge_site_id, crud_model=crud.edge_site, detail="Edge Site"
+    )
+    return edge_site_in_db.to_all_dict()
 
 
 @router.delete(

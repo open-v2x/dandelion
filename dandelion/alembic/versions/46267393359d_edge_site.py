@@ -27,10 +27,10 @@ def upgrade():
         sa.Column("edge_site_dandelion_endpoint", sa.String(length=64), nullable=False),
         sa.Column("area_code", sa.String(length=64), nullable=True),
         sa.Column("desc", sa.String(length=255), nullable=True),
-        sa.Column("center_dandelion_endpoint", sa.String(length=64), nullable=False),
         sa.ForeignKeyConstraint(["area_code"], ["area.code"], name="edgesite_fk_area"),
         sa.PrimaryKeyConstraint("id"),
         sa.UniqueConstraint("name"),
+        sa.UniqueConstraint("edge_site_dandelion_endpoint"),
     )
     op.create_index(op.f("ix_edge_site_id"), "edge_site", ["id"], unique=False)
     op.drop_index("ix_edge_node_rsu_esn", table_name="edge_node_rsu")
