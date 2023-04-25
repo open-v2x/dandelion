@@ -14,10 +14,12 @@
 
 from __future__ import annotations
 
+import importlib.util
 import os
 import re
+from importlib._bootstrap import ModuleSpec
 from logging import LoggerAdapter
-from typing import Any, Dict, Generator, Optional
+from typing import Any, Dict, Generator, Optional, Union
 
 import requests
 import sqlalchemy.exc
@@ -133,16 +135,25 @@ def get_token(host: str) -> str:
     return f"{res.get('token_type')} {res.get('access_token')}"
 
 
-def error_handle(err: sqlalchemy.exc.DatabaseError, field: str, field_data: Optional[str]):
+def error_handle(
+    err: sqlalchemy.exc.DatabaseError,
+    field: Union[str, list],
+    field_data: Union[str, list, None] = None,
+):
     err_msg = err.args[0]
     LOG.error(err_msg)
     if isinstance(err, sqlalchemy.exc.IntegrityError):
         detail = {
             "code": eval(re.findall(r"\(pymysql.err.IntegrityError\) (.*)", err_msg)[0])[0],
             "msg": err_msg,
+            "detail": {},
         }
         if detail["code"] == 1062:  # 重复
-            detail["detail"] = {field: field_data}
+            if isinstance(field, list) and isinstance(field_data, list):
+                for index, value in enumerate(field):
+                    detail["detail"][value] = field_data[index]
+            else:
+                detail["detail"][field] = field_data
         return OpenV2XHTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=detail,
@@ -158,3 +169,17 @@ def crud_get(db, obj_id, crud_model, detail):
             detail=f"{detail}  [id: {obj_id}] not found",
         )
     return data
+
+
+def get_gunicorn_port():
+    spec: ModuleSpec = importlib.util.spec_from_file_location(
+        "gunicorn_config", "/etc/dandelion/gunicorn.py"
+    )
+    try:
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        bind_str = module.bind[0]
+        port = bind_str.split(":")[-1]
+        return port
+    except (AttributeError, ImportError, IndexError, ValueError):
+        return "28300"

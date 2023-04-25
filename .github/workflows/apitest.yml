@@ -49,6 +49,7 @@ jobs:
           tox -e venv
           source .tox/venv/bin/activate
           sudo chmod -R 777 /var/log/
+          sudo cp etc/dandelion/gunicorn.py /etc/dandelion/gunicorn.py
           uvicorn --reload --reload-dir dandelion --port 28300 --log-level debug dandelion.main:app --host 0.0.0.0 &
       - name: Run apitest
         shell: bash

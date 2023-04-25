@@ -23,10 +23,9 @@ class EdgeSite(Base, DandelionBase):
     __tablename__ = "edge_site"
 
     name = Column(String(64), nullable=False, unique=True)
-    edge_site_dandelion_endpoint = Column(String(64), nullable=False)
+    edge_site_dandelion_endpoint = Column(String(64), nullable=False, unique=True)
     area_code = Column(String(64), ForeignKey("area.code", name="edgesite_fk_area"))
     desc = Column(String(255), nullable=True)
-    center_dandelion_endpoint = Column(String(64), nullable=False)
 
     def to_all_dict(self):
         return dict(
@@ -36,7 +35,6 @@ class EdgeSite(Base, DandelionBase):
             edgeSiteDandelionEndpoint=self.edge_site_dandelion_endpoint,
             areaCode=self.area_code,
             desc=self.desc,
-            centerDandelionEndpoint=self.center_dandelion_endpoint,
         )
 
     def __repr__(self) -> str:

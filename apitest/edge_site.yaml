@@ -44,7 +44,6 @@ tests:
       edgeSiteDandelionEndpoint: "http://127.0.0.1:28300/"
       areaCode: "320115"
       desc: "test create"
-      centerDandelionEndpoint: "http://127.0.0.1:28300/"
     status: 201
     response_json_paths:
       $.name: "test create"
@@ -55,6 +54,17 @@ tests:
     request_headers:
       Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
     status: 200
+
+  - name: edge_site_detail
+    url: /api/v1/edge_site/$HISTORY['create_edge_site'].$RESPONSE['$.id']
+    method: GET
+    request_headers:
+      Authorization: Bearer $HISTORY['user_login'].$RESPONSE['$.access_token']
+    status: 200
+    response_json_paths:
+      $.name: "test create"
+      $.areaCode: "320115"
+      $.desc: "test create"
 
   - name: edge_site_update
     url: /api/v1/edge_site/$HISTORY['create_edge_site'].$RESPONSE['$.id']

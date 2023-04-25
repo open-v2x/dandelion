@@ -14,6 +14,7 @@
 
 from __future__ import annotations
 
+from datetime import datetime
 from typing import List, Optional
 
 from pydantic import BaseModel, Field, HttpUrl
@@ -21,7 +22,11 @@ from pydantic import BaseModel, Field, HttpUrl
 
 # Shared properties
 class EdgeSiteBase(BaseModel):
-    name: str = Field(..., alias="name", description="Edge Site Name")
+    name: str = Field(
+        ...,
+        alias="name",
+        description="Edge Site Name",
+    )
     edge_site_dandelion_endpoint: HttpUrl = Field(
         ..., alias="edgeSiteDandelionEndpoint", description="Edge Site Dandelion Endpoint"
     )
@@ -32,10 +37,6 @@ class EdgeSiteBase(BaseModel):
 # Properties to receive via API on creation
 class EdgeSiteCreate(EdgeSiteBase):
     """"""
-
-    center_dandelion_endpoint: HttpUrl = Field(
-        ..., alias="centerDandelionEndpoint", description="Edge Site Dandelion Endpoint"
-    )
 
 
 # Properties to receive via API on update
@@ -57,6 +58,8 @@ class EdgeSiteInDBBase(EdgeSiteBase):
 # Additional properties to return via API
 class EdgeSite(EdgeSiteInDBBase):
     """"""
+
+    create_time: datetime = Field(..., alias="createTime", description="Create Time")
 
 
 class EdgeSites(BaseModel):
