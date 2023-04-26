@@ -28,11 +28,9 @@ class AlgoVersionBase(BaseModel):
 class AlgoVersionCreate(AlgoVersionBase):
     """"""
 
-    algo: str = Field(..., alias="algo", description="Algo algo name")
+    algo_id: int = Field(..., alias="algo_id", description="Algo algo id")
     version: str = Field(..., alias="version", description="Algo version")
-    version_path: Optional[str] = Field(
-        None, alias="version_path", description="Algo version path"
-    )
+    endpoint_id: int = Field(..., alias="endpoint_id", description="Endpoint ID")
 
 
 class AlgoVersionCreateAll(BaseModel):
@@ -44,7 +42,7 @@ class AlgoVersionCreateAll(BaseModel):
     in_use: Optional[str] = Field(None, alias="inUse", description="Algo in use")
     module_path: Optional[str] = Field(None, alias="modulePath", description="Algo module path")
     version: str = Field(..., alias="version", description="Algo Version")
-    version_path: Optional[str] = Field(None, alias="versionPath", description="Algo version path")
+    endpoint_id: int = Field(..., alias="endpointID", description="Endpoint ID")
 
 
 # Properties to receive via API on update
@@ -65,7 +63,6 @@ class AlgoVersion(AlgoVersionInDBBase):
 
     algo: str = Field(..., alias="algo", description="Algo name")
     version: str = Field(..., alias="version", description="Algo Version")
-    versionPath: Optional[str] = Field(None, alias="version_path", description="Algo version path")
 
 
 class AlgoVersionGET(AlgoVersionBase):
@@ -75,7 +72,6 @@ class AlgoVersionGET(AlgoVersionBase):
     module: str = Field(..., alias="module", description="Algo module")
     algo: str = Field(..., alias="algo", description="Algo name")
     version: str = Field(..., alias="version", description="Algo version list")
-    versionPath: Optional[str] = Field(None, alias="version_path", description="Algo version path")
 
 
 class AlgoVersions(BaseModel):

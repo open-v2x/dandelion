@@ -24,7 +24,6 @@ from dandelion.api.api_v1.endpoints import (
     cities,
     cloud_homes,
     countries,
-    edge_nodes,
     edge_site,
     endpoint_metadatas,
     endpoints,
@@ -111,7 +110,6 @@ api_router.include_router(rdw.router, prefix="/rdw", tags=["RDW"])
 api_router.include_router(osw.router, prefix="/osw", tags=["OSW"])
 api_router.include_router(ssw.router, prefix="/ssw", tags=["SSW"])
 api_router.include_router(edge_site.router, prefix="/edge_site", tags=["Edge Site"])
-api_router.include_router(edge_nodes.router, prefix="/edge_nodes", tags=["Edge Node"])
 
 api_router.include_router(algos.router, prefix="/algos", tags=["Algo"])
 

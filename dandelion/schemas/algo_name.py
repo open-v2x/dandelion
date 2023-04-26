@@ -15,7 +15,7 @@
 from __future__ import annotations
 
 from datetime import datetime
-from typing import List, Optional
+from typing import Any, Dict, List, Optional
 
 from pydantic import BaseModel, Field
 
@@ -29,7 +29,7 @@ class AlgoNameBase(BaseModel):
 class AlgoNameCreate(AlgoNameBase):
     """"""
 
-    module: str = Field(..., alias="module", description="Algo module")
+    module_id: int = Field(..., alias="module_id", description="Algo module id")
     name: str = Field(..., alias="name", description="Algo name")
     enable: bool = Field(..., alias="enable", description="Algo enable")
     module_path: str = Field(..., alias="module_path", description="Algo path")
@@ -60,6 +60,13 @@ class AlgoName(AlgoNameInDBBase):
     module_path: str = Field(..., alias="modulePath", description="Algo path")
     in_use: str = Field(..., alias="inUse", description="Algo in use")
     version: List = Field(..., alias="version", description="Algo version list")
+    external_bool: Optional[bool] = Field(False, alias="externalBool", description="external_bool")
+    endpoint_config: Optional[Dict[str, Any]] = Field(
+        dict(), alias="endpointConfig", description="endpoint config"
+    )
+    endpoint_types: Optional[List[Any]] = Field(
+        list(), alias="endpointTypes", description="endpoint typess"
+    )
     update_time: Optional[datetime] = Field(None, alias="updateTime", description="Update Time")
 
 

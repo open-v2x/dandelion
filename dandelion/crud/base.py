@@ -19,8 +19,11 @@ from typing import Any, Dict, Generic, List, Optional, Type, TypeVar, Union
 
 from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
+from starlette import status
 
+from dandelion.api.deps import OpenV2XHTTPException
 from dandelion.db.base_class import Base
 
 ModelType = TypeVar("ModelType", bound=Base)
@@ -74,8 +77,13 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
     def remove(self, db: Session, *, id: int) -> ModelType:
         obj = db.query(self.model).get(id)
         if obj:  # TODO(Wu.Wenxiang) query.delete or select
-            db.delete(obj)
-            db.commit()
+            try:
+                db.delete(obj)
+                db.commit()
+            except IntegrityError as e:
+                raise OpenV2XHTTPException(
+                    status_code=status.HTTP_400_BAD_REQUEST, detail=e.args[0]
+                )
         return obj
 
     @staticmethod

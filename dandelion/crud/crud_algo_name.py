@@ -26,10 +26,10 @@ from dandelion.schemas.algo_name import AlgoNameCreate, AlgoNameUpdate
 class CRUDAlgo(CRUDBase[AlgoName, AlgoNameCreate, AlgoNameUpdate]):
     """"""
 
-    def get_by_name_and_module(self, db: Session, algo: str, module: str) -> AlgoName:
+    def get_by_name_and_module(self, db: Session, algo: str, module_id: int) -> AlgoName:
         return (
             db.query(self.model)
-            .filter(self.model.name == algo, self.model.module == module)
+            .filter(self.model.name == algo, self.model.module_id == module_id)
             .first()
         )
 

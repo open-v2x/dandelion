@@ -14,7 +14,7 @@
 
 from __future__ import annotations
 
-from sqlalchemy import Column, ForeignKey, String, UniqueConstraint
+from sqlalchemy import Column, ForeignKey, Integer, String, UniqueConstraint
 
 from dandelion.db.base_class import Base, DandelionBase
 
@@ -22,31 +22,23 @@ from dandelion.db.base_class import Base, DandelionBase
 class AlgoVersion(Base, DandelionBase):
     __tablename__ = "algo_version"
 
-    algo = Column(String(64), ForeignKey("algo_name.name"))
+    algo_id = Column(Integer, ForeignKey("algo_name.id"))
     version = Column(String(64), nullable=False)
-    version_path = Column(String(64), nullable=True)
+    endpoint_id = Column(Integer, ForeignKey("endpoint.id"))
 
-    __table_args__ = (UniqueConstraint("algo", "version"),)
+    __table_args__ = (UniqueConstraint("algo_id", "version"),)
 
     def __repr__(self) -> str:
         return f"<algo_version(version='{self.version}')>"
 
     def to_dict(self):
-        return {
-            **dict(
-                id=self.id,
-                version=self.version,
-                versionPath=self.version_path,
-            ),
-        }
+        return dict(id=self.id, version=self.version, endpoint_id=self.endpoint_id)
 
     def to_all_dict(self):
-        return {
-            **dict(
-                id=self.id,
-                version=self.version,
-                version_path=self.version_path,
-                algo=self.algo,
-                module=self.algo_name.module,
-            ),
-        }
+        return dict(
+            id=self.id,
+            version=self.version,
+            algo=self.algo_name.name,
+            module=self.algo_name.algo_module.module,
+            endpoint_id=self.endpoint_id,
+        )

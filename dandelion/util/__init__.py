@@ -83,6 +83,7 @@ def get_algo_config():
                 "modulePath": algo.get("module"),
                 "inUse": algo.get("algo"),
                 "version": algo.get("version"),
+                "serviceTypes": algo.get("service_types", list()),
             }
             i += 1
     return data
@@ -94,16 +95,20 @@ ALGO_CONFIG = get_algo_config()
 def get_all_algo_config(data: List[AlgoName]):
     response_data = copy.deepcopy(ALGO_CONFIG)
     for algo_name_in_db in data:
-        key = f"{algo_name_in_db.module}_{algo_name_in_db.name}"
+        key = f"{algo_name_in_db.algo_module.module}_{algo_name_in_db.name}"
         if response_data.get(key):
-            version = {
-                version.version: version.version_path for version in algo_name_in_db.algo_versions
-            }
-            response_data.get(key)["version"].extend(version.keys())
-            response_data.get(key)["enable"] = algo_name_in_db.enable
+            version = {version.version: version for version in algo_name_in_db.algo_versions}
+            response_data[key]["version"].extend(version.keys())
+            response_data[key]["enable"] = algo_name_in_db.enable
             if algo_name_in_db.in_use:
-                response_data.get(key)["inUse"] = algo_name_in_db.in_use
-            response_data.get(key)["updateTime"] = algo_name_in_db.update_time
-            if algo_name_in_db.in_use in version.keys() and version.get(algo_name_in_db.in_use):
-                response_data.get(key)["modulePath"] = version.get(algo_name_in_db.in_use)
+                response_data[key]["inUse"] = algo_name_in_db.in_use
+            response_data[key]["updateTime"] = algo_name_in_db.update_time
+            version_in_use = version.get(algo_name_in_db.in_use)
+            if algo_name_in_db.in_use in version.keys() and version_in_use:
+                response_data[key]["endpointConfig"] = dict(
+                    endpoint_url=version_in_use.endpoint.url,
+                    service_type=version_in_use.endpoint.service.service_type.name,
+                    metadata=version_in_use.endpoint.matadatas,
+                )
+                response_data[key]["externalBool"] = True
     return response_data

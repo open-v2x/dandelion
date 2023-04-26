@@ -25,6 +25,7 @@ from sqlalchemy.orm import Session
 from dandelion import crud, models, schemas
 from dandelion.api import deps
 from dandelion.api.deps import OpenV2XHTTPException as HTTPException
+from dandelion.crud import utils
 from dandelion.mqtt.service.rsu.rsu_algo import algo_publish
 from dandelion.util import ALGO_CONFIG, get_all_algo_config
 
@@ -51,38 +52,35 @@ def create(
     current_user: models.User = Depends(deps.get_current_user),
 ) -> schemas.AlgoVersion:
     module = algo_version_in.module
-    if not crud.algo_module.get_by_name(db=db, module=module):
-        crud.algo_module.create(db=db, obj_in=schemas.AlgoModuleCreate(module=module))
     algo = algo_version_in.algo
-    if not crud.algo_name.get_by_name_and_module(db=db, algo=algo, module=module):
-        crud.algo_name.create(
-            db=db,
-            obj_in=schemas.AlgoNameCreate(
-                module=module,
-                name=algo,
-                enable=algo_version_in.enable
-                if algo_version_in.enable is not None
-                else ALGO_CONFIG.get(f"{module}_{algo}").get("enable"),
-                in_use=algo_version_in.in_use
-                if algo_version_in.in_use is not None
-                else ALGO_CONFIG.get(f"{module}_{algo}").get("inUse"),
-                module_path=algo_version_in.module_path
-                if algo_version_in.module_path is not None
-                else ALGO_CONFIG.get(f"{module}_{algo}").get("modulePath"),
-            ),
-        )
     if algo_version_in.version in ALGO_CONFIG.get(f"{module}_{algo}").get("version"):
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=f"Version {algo_version_in.version} already exist",
         )
+    algo_name_in_db = utils.algo_module_name(db=db, algo_version_in=algo_version_in)
+    endpoint_in_db = deps.crud_get(
+        db=db, obj_id=algo_version_in.endpoint_id, crud_model=crud.endpoint, detail="Endpoint"
+    )
+    if endpoint_in_db.service.service_type.name not in ALGO_CONFIG.get(f"{module}_{algo}").get(
+        "serviceTypes"
+    ):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"service type [{endpoint_in_db.service.service_type.name}] not supported",
+        )
+    if not endpoint_in_db.enabled:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"endpoint [{algo_version_in.endpoint_id}] not supported",
+        )
     try:
         new_algo_version_in_db = crud.algo_version.create(
             db,
             obj_in=schemas.AlgoVersionCreate(
-                algo=algo,
+                algo_id=algo_name_in_db.id,
                 version=algo_version_in.version,
-                version_path=algo_version_in.version_path,
+                endpoint_id=algo_version_in.endpoint_id,
             ),
         )
     except sql_exc.IntegrityError as ex:
@@ -147,7 +145,7 @@ def get_all(
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> schemas.AlgoNames:
-    total, data = crud.algo_name.get_multi_by_algo_name(db, algo=algo)
+    _, data = crud.algo_name.get_multi_by_algo_name(db, algo=algo)
     response_data = get_all_algo_config(data=data)
     data_list = (
         list(response_data.values())
@@ -211,35 +209,14 @@ def update(
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> List[schemas.AlgoNameEdit]:
-    default_algo = ALGO_CONFIG
     response_data = []
     for algo_obj in algo_in:
-        module = algo_obj.module
-        if not crud.algo_module.get_by_name(db=db, module=module):
-            crud.algo_module.create(db=db, obj_in=schemas.AlgoModuleCreate(module=module))
-        algo = algo_obj.algo
-        algo_in_db = crud.algo_name.get_by_name_and_module(db=db, algo=algo, module=module)
-        if not algo_in_db:
-            new_algo_in_db = crud.algo_name.create(
-                db=db,
-                obj_in=schemas.AlgoNameCreate(
-                    module=module,
-                    name=algo,
-                    enable=algo_obj.enable
-                    if algo_obj.enable is not None
-                    else default_algo.get(f"{module}_{algo}").get("enable"),
-                    in_use=algo_obj.in_use
-                    if algo_obj.in_use is not None
-                    else default_algo.get(f"{module}_{algo}").get("inUse"),
-                    module_path=default_algo.get(f"{module}_{algo}").get("modulePath"),
-                ),
-            )
-        else:
-            new_algo_in_db = crud.algo_name.update(
-                db=db,
-                db_obj=algo_in_db,
-                obj_in=schemas.AlgoNameUpdate(**algo_obj.dict(exclude_unset=True)),
-            )
+        lgo_name_in_db = utils.algo_module_name(db=db, algo_version_in=algo_obj, update=True)
+        new_algo_in_db = crud.algo_name.update(
+            db=db,
+            db_obj=lgo_name_in_db,
+            obj_in=schemas.AlgoNameUpdate(**algo_obj.dict(exclude_unset=True)),
+        )
         response_data.append(new_algo_in_db.to_dict())
     algo_publish(db=db)
     return response_data
