@@ -101,6 +101,10 @@ scenario_algo:
       algo: "overspeed_warning"
       version:
       - overspeed_warning
+      service_types:
+      - algo/scenario_algo/overspeed_warning/http
+      - algo/scenario_algo/overspeed_warning/websocket
+      - algo/scenario_algo/overspeed_warning/grpc
     slowspeed_warning:
       enable: true
       module: "scenario_algo.algo_lib.slowspeed_warning"

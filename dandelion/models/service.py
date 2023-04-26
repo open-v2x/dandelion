@@ -26,7 +26,7 @@ class ServiceType(Base, DandelionBase):
     name = Column(String(64), nullable=False, unique=True)
     description = Column(Text)
 
-    services = relationship("Service", backref="service_type")
+    services = relationship("Service", backref="service_type", passive_deletes="all")
 
     def __repr__(self) -> str:
         return (
@@ -35,13 +35,11 @@ class ServiceType(Base, DandelionBase):
         )
 
     def to_dict(self):
-        return {
-            **dict(
-                id=self.id,
-                name=self.name,
-                description=self.description,
-            ),
-        }
+        return dict(
+            id=self.id,
+            name=self.name,
+            description=self.description,
+        )
 
 
 class Service(Base, DandelionBase):
@@ -52,7 +50,7 @@ class Service(Base, DandelionBase):
     vendor = Column(String(64))
     description = Column(Text)
 
-    endpoints = relationship("Endpoint", backref="service")
+    endpoints = relationship("Endpoint", backref="service", passive_deletes="all")
 
     def __repr__(self) -> str:
         return (
@@ -62,15 +60,13 @@ class Service(Base, DandelionBase):
         )
 
     def to_dict(self):
-        return {
-            **dict(
-                id=self.id,
-                name=self.name,
-                type_id=self.type_id,
-                vendor=self.vendor,
-                description=self.description,
-            ),
-        }
+        return dict(
+            id=self.id,
+            name=self.name,
+            type_id=self.type_id,
+            vendor=self.vendor,
+            description=self.description,
+        )
 
 
 class Endpoint(Base, DandelionBase):
@@ -80,7 +76,8 @@ class Endpoint(Base, DandelionBase):
     enabled = Column(Boolean, nullable=False)
     url = Column(String(256), nullable=False)
 
-    matadatas = relationship("EndpointMetadata", backref="endpoint")
+    matadatas = relationship("EndpointMetadata", backref="endpoint", passive_deletes="all")
+    algo_versions = relationship("AlgoVersion", backref="endpoint", passive_deletes="all")
 
     def __repr__(self) -> str:
         return (
@@ -89,14 +86,12 @@ class Endpoint(Base, DandelionBase):
         )
 
     def to_dict(self):
-        return {
-            **dict(
-                id=self.id,
-                service_id=self.service_id,
-                enabled=self.enabled,
-                url=self.url,
-            ),
-        }
+        return dict(
+            id=self.id,
+            service_id=self.service_id,
+            enabled=self.enabled,
+            url=self.url,
+        )
 
 
 class EndpointMetadata(Base, DandelionBase):
@@ -115,11 +110,9 @@ class EndpointMetadata(Base, DandelionBase):
         )
 
     def to_dict(self):
-        return {
-            **dict(
-                id=self.id,
-                endpoint_id=self.endpoint_id,
-                key=self.key,
-                value=self.value,
-            ),
-        }
+        return dict(
+            id=self.id,
+            endpoint_id=self.endpoint_id,
+            key=self.key,
+            value=self.value,
+        )

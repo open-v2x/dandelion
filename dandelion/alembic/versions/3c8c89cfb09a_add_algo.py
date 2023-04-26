@@ -32,17 +32,17 @@ def upgrade():
         sa.Column("id", sa.Integer(), autoincrement=True, nullable=False),
         sa.Column("create_time", sa.DateTime(), nullable=False),
         sa.Column("update_time", sa.DateTime(), nullable=True),
-        sa.Column("module", sa.String(length=64), nullable=True),
+        sa.Column("module_id", sa.Integer(), nullable=True),
         sa.Column("name", sa.String(length=64), nullable=False),
         sa.Column("enable", sa.Boolean(), nullable=False),
         sa.Column("module_path", sa.String(length=64), nullable=False),
         sa.Column("in_use", sa.String(length=64), nullable=True),
         sa.ForeignKeyConstraint(
-            ["module"],
-            ["algo_module.module"],
+            ["module_id"],
+            ["algo_module.id"],
         ),
         sa.PrimaryKeyConstraint("id"),
-        sa.UniqueConstraint("name", "module"),
+        sa.UniqueConstraint("name", "module_id"),
     )
     op.create_index(op.f("ix_algo_name_id"), "algo_name", ["id"], unique=False)
     op.create_index(op.f("ix_algo_name_name"), "algo_name", ["name"], unique=False)
@@ -51,15 +51,15 @@ def upgrade():
         sa.Column("id", sa.Integer(), autoincrement=True, nullable=False),
         sa.Column("create_time", sa.DateTime(), nullable=False),
         sa.Column("update_time", sa.DateTime(), nullable=False),
-        sa.Column("algo", sa.String(length=64), nullable=True),
+        sa.Column("algo_id", sa.Integer(), nullable=True),
         sa.Column("version", sa.String(length=64), nullable=False),
         sa.Column("version_path", sa.String(length=64), nullable=True),
         sa.ForeignKeyConstraint(
-            ["algo"],
-            ["algo_name.name"],
+            ["algo_id"],
+            ["algo_name.id"],
         ),
         sa.PrimaryKeyConstraint("id"),
-        sa.UniqueConstraint("algo", "version"),
+        sa.UniqueConstraint("algo_id", "version"),
     )
     op.create_index(op.f("ix_algo_version_id"), "algo_version", ["id"], unique=False)
     # ### end Alembic commands ###

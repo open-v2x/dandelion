@@ -30,27 +30,16 @@ LOG: LoggerAdapter = log.getLogger(__name__)
 
 def algo_publish(db: Session):
     if mqtt_cloud_server.MQTT_CLIENT is not None:
-        yaml_info: Dict = {}
         redis_info: Dict = {}
         algo_in_db = crud.algo_name.get_multi_all(db=db)
         response_data = get_all_algo_config(data=algo_in_db)
         for algo in response_data.values():
-            module = algo.get("module")
             algo_name = algo.get("algo")
-            if module not in yaml_info:
-                yaml_info[module] = {"algos": {}}
-            yaml_info[module]["algos"][algo_name] = {
-                "enable": algo.get("enable"),
-                "module": algo.get("modulePath"),
-                "algo": algo.get("inUse"),
-                "algo_version": algo.get("version"),
-            }
             redis_info[algo_name] = algo.get("inUse") if algo.get("enable") else "disable"
-        payload = json.dumps({"yaml_info": yaml_info, "redis_info": redis_info})
+        payload = json.dumps({"redis_info": redis_info})
         mqtt_cloud_server.get_mqtt_client().publish(
             topic=topic.V2X_RSU_PIP_CFG,
             payload=payload,
             qos=0,
         )
-
         LOG.info(f"publish to topic: {topic.V2X_RSU_PIP_CFG},payload:{payload}")

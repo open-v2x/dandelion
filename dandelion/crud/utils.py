@@ -18,11 +18,13 @@ import json
 from typing import Dict
 
 from sqlalchemy.orm import Session
+from starlette import status
 
-from dandelion import crud
-from dandelion.api.deps import get_redis_conn
+from dandelion import crud, schemas
+from dandelion.api.deps import OpenV2XHTTPException as HTTPException, get_redis_conn
 from dandelion.models import MNG
 from dandelion.models.mng import Reboot
+from dandelion.util import ALGO_CONFIG
 
 
 def get_mng_default() -> MNG:
@@ -72,3 +74,45 @@ def pca_data(db: Session):
         redis_conn.set("PCD_DATA", redis_data)
 
     return json.loads(redis_data)
+
+
+def algo_module_name(db, algo_version_in, update=False):
+    """"""
+    module = algo_version_in.module
+    algo = algo_version_in.algo
+    module_in_db = crud.algo_module.get_by_name(db=db, module=module)
+    if not module_in_db:
+        module_in_db = crud.algo_module.create(
+            db=db, obj_in=schemas.AlgoModuleCreate(module=module)
+        )
+    algo_name_in_db = crud.algo_name.get_by_name_and_module(
+        db=db, algo=algo, module_id=module_in_db.id
+    )
+    if not algo_name_in_db:
+        in_use = (
+            algo_version_in.in_use
+            if algo_version_in.in_use is not None
+            else ALGO_CONFIG.get(f"{module}_{algo}").get("inUse")
+        )
+
+        if update and not crud.algo_version.get_by_version(db=db, version=in_use):
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST, detail=f"version {in_use} does not exist"
+            )
+        algo_name_in_db = crud.algo_name.create(
+            db=db,
+            obj_in=schemas.AlgoNameCreate(
+                module_id=module_in_db.id,
+                name=algo,
+                enable=algo_version_in.enable
+                if algo_version_in.enable is not None
+                else ALGO_CONFIG.get(f"{module}_{algo}").get("enable"),
+                in_use=algo_version_in.in_use
+                if algo_version_in.in_use is not None
+                else ALGO_CONFIG.get(f"{module}_{algo}").get("inUse"),
+                module_path=algo_version_in.module_path
+                if algo_version_in.module_path is not None
+                else ALGO_CONFIG.get(f"{module}_{algo}").get("modulePath"),
+            ),
+        )
+    return algo_name_in_db

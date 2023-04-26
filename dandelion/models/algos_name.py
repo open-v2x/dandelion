@@ -17,7 +17,7 @@ from __future__ import annotations
 from datetime import datetime
 from typing import List
 
-from sqlalchemy import Boolean, Column, DateTime, ForeignKey, String, UniqueConstraint
+from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, String, UniqueConstraint
 from sqlalchemy.orm import relationship
 
 from dandelion.db.base_class import Base, DandelionBase
@@ -27,7 +27,7 @@ from dandelion.models.algos_version import AlgoVersion
 class AlgoName(Base, DandelionBase):
     __tablename__ = "algo_name"
 
-    module = Column(String(64), ForeignKey("algo_module.module"))
+    module_id = Column(Integer, ForeignKey("algo_module.id"))
     name = Column(String(64), nullable=False, index=True)
     enable = Column(Boolean, nullable=False, default=False)
     module_path = Column(String(64), nullable=False)
@@ -40,24 +40,19 @@ class AlgoName(Base, DandelionBase):
         default=None,
         onupdate=lambda: datetime.utcnow(),
     )
-    __table_args__ = (UniqueConstraint("name", "module"),)
+    __table_args__ = (UniqueConstraint("name", "module_id"),)
 
     def __repr__(self) -> str:
         return f"<algo_name(algo_name='{self.name}')>"
 
     def to_dict(self):
-        version = {version.version: version.version_path for version in self.algo_versions}
-        return {
-            **dict(
-                id=self.id,
-                module=self.module,
-                algo=self.name,
-                enable=self.enable,
-                modulePath=version.get(self.in_use)
-                if self.in_use in version.keys() and version.get(self.in_use)
-                else self.module_path,
-                inUse=self.in_use,
-                version=[v.to_dict() for v in self.algo_versions],
-                updateTime=self.update_time,
-            ),
-        }
+        return dict(
+            id=self.id,
+            module=self.algo_module.module,
+            algo=self.name,
+            enable=self.enable,
+            modulePath=self.module_path,
+            inUse=self.in_use,
+            version=[v.to_dict() for v in self.algo_versions],
+            updateTime=self.update_time,
+        )
