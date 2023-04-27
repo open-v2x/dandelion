@@ -60,6 +60,21 @@ class EdgeSite(EdgeSiteInDBBase):
     """"""
 
     create_time: datetime = Field(..., alias="createTime", description="Create Time")
+    area_name: Optional[str] = Field(None, alias="areaName", description="Edge Site Area Name")
+    city_code: Optional[str] = Field(None, alias="cityCode", description="Edge Site City Code")
+    city_name: Optional[str] = Field(None, alias="cityName", description="Edge Site City Name")
+    province_code: Optional[str] = Field(
+        None, alias="provinceCode", description="Edge Site Province Code"
+    )
+    province_name: Optional[str] = Field(
+        None, alias="provinceName", description="Edge Site Province Name"
+    )
+    country_code: Optional[str] = Field(
+        None, alias="countryCode", description="Edge Site Country Code"
+    )
+    country_name: Optional[str] = Field(
+        None, alias="countryName", description="Edge Site Country Name"
+    )
 
 
 class EdgeSites(BaseModel):

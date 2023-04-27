@@ -12342,6 +12342,41 @@
                         "type": "string",
                         "description": "Create Time",
                         "format": "date-time"
+                    },
+                    "areaName": {
+                        "title": "Areaname",
+                        "type": "string",
+                        "description": "Edge Site Area Name"
+                    },
+                    "cityCode": {
+                        "title": "Citycode",
+                        "type": "string",
+                        "description": "Edge Site City Code"
+                    },
+                    "cityName": {
+                        "title": "Cityname",
+                        "type": "string",
+                        "description": "Edge Site City Name"
+                    },
+                    "provinceCode": {
+                        "title": "Provincecode",
+                        "type": "string",
+                        "description": "Edge Site Province Code"
+                    },
+                    "provinceName": {
+                        "title": "Provincename",
+                        "type": "string",
+                        "description": "Edge Site Province Name"
+                    },
+                    "countryCode": {
+                        "title": "Countrycode",
+                        "type": "string",
+                        "description": "Edge Site Country Code"
+                    },
+                    "countryName": {
+                        "title": "Countryname",
+                        "type": "string",
+                        "description": "Edge Site Country Name"
                     }
                 }
             },
