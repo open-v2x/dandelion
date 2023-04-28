@@ -34,7 +34,14 @@ class EdgeSite(Base, DandelionBase):
             createTime=self.create_time,
             edgeSiteDandelionEndpoint=self.edge_site_dandelion_endpoint,
             areaCode=self.area_code,
+            areaName=self.area.name if self.area else None,
             desc=self.desc,
+            cityCode=self.area.city.code if self.area else None,
+            cityName=self.area.city.name if self.area else None,
+            provinceCode=self.area.city.province.code if self.area else None,
+            provinceName=self.area.city.province.name if self.area else None,
+            countryCode=self.area.city.province.country.code if self.area else None,
+            countryName=self.area.city.province.country.name if self.area else None,
         )
 
     def __repr__(self) -> str:
