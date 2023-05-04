@@ -13715,7 +13715,8 @@
                     "camera",
                     "radar",
                     "lidar",
-                    "spat"
+                    "spat",
+                    "radarCamera"
                 ],
                 "type": "object",
                 "properties": {
@@ -13763,6 +13764,15 @@
                             }
                         ],
                         "description": "Spat Online Rate"
+                    },
+                    "radarCamera": {
+                        "title": "Radarcamera",
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/RSUOnlineRateBase"
+                            }
+                        ],
+                        "description": "Radar Camera Online Rate"
                     }
                 }
             },

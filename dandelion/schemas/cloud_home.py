@@ -47,6 +47,9 @@ class OnlineRateBase(BaseModel):
     radar: RadarOnlineRateBase = Field(..., alias="radar", description="Radar Online Rate")
     lidar: LidarOnlineRateBase = Field(..., alias="lidar", description="Lidar Online Rate")
     spat: SpatOnlineRateBase = Field(..., alias="spat", description="Spat Online Rate")
+    radar_camera: RSUOnlineRateBase = Field(
+        ..., alias="radarCamera", description="Radar Camera Online Rate"
+    )
 
 
 class OnlineRate(BaseModel):
