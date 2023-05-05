@@ -211,10 +211,10 @@ def update(
 ) -> List[schemas.AlgoNameEdit]:
     response_data = []
     for algo_obj in algo_in:
-        lgo_name_in_db = utils.algo_module_name(db=db, algo_version_in=algo_obj, update=True)
+        algo_name_in_db = utils.algo_module_name(db=db, algo_version_in=algo_obj, update=True)
         new_algo_in_db = crud.algo_name.update(
             db=db,
-            db_obj=lgo_name_in_db,
+            db_obj=algo_name_in_db,
             obj_in=schemas.AlgoNameUpdate(**algo_obj.dict(exclude_unset=True)),
         )
         response_data.append(new_algo_in_db.to_dict())

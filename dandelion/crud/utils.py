@@ -88,17 +88,21 @@ def algo_module_name(db, algo_version_in, update=False):
     algo_name_in_db = crud.algo_name.get_by_name_and_module(
         db=db, algo=algo, module_id=module_in_db.id
     )
-    if not algo_name_in_db:
-        in_use = (
-            algo_version_in.in_use
-            if algo_version_in.in_use is not None
-            else ALGO_CONFIG.get(f"{module}_{algo}").get("inUse")
-        )
+    in_use = (
+        algo_version_in.in_use
+        if algo_version_in.in_use is not None
+        else ALGO_CONFIG.get(f"{module}_{algo}").get("inUse")
+    )
 
-        if update and not crud.algo_version.get_by_version(db=db, version=in_use):
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST, detail=f"version {in_use} does not exist"
-            )
+    if (
+        update
+        and not crud.algo_version.get_by_version(db=db, version=in_use)
+        and in_use != ALGO_CONFIG.get(f"{module}_{algo}").get("inUse")
+    ):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail=f"version {in_use} does not exist"
+        )
+    if not algo_name_in_db:
         algo_name_in_db = crud.algo_name.create(
             db=db,
             obj_in=schemas.AlgoNameCreate(

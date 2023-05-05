@@ -91,3 +91,4 @@ class AlgoNameUpdateAll(AlgoNameBase):
     algo: str = Field(..., alias="algo", description="Algo name")
     enable: Optional[bool] = Field(None, alias="enable", description="Algo enable")
     in_use: Optional[str] = Field(None, alias="inUse", description="Algo in use")
+    module_path: Optional[str] = Field(None, alias="modulePath", description="Algo module path")
