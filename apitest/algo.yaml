@@ -129,7 +129,7 @@ tests:
           "module": "scenario_algo",
           "algo": "overspeed_warning",
           "enable": false,
-          "inUse": "over_speed_service_http_test"
+          "inUse": "overspeed_warning"
         }
       ]
     status: 200
