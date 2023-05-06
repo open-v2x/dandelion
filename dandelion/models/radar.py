@@ -24,7 +24,7 @@ class Radar(Base, DandelionBase):
     __tablename__ = "radar"
 
     sn = Column(String(64), nullable=False, index=True, unique=True)
-    name = Column(String(64), nullable=False, index=True, default="")
+    name = Column(String(64), nullable=False, index=True, unique=True, default="")
     radar_ip = Column(String(15), nullable=False, default="")
     lng = Column(Float, nullable=False)
     lat = Column(Float, nullable=False)

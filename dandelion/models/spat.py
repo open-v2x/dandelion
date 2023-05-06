@@ -26,7 +26,7 @@ class Spat(Base, DandelionBase):
     __tablename__ = "spat"
 
     intersection_id = Column(String(64), nullable=False, index=True)
-    name = Column(String(64), nullable=False, index=True, default="")
+    name = Column(String(64), nullable=False, index=True, unique=True, default="")
     spat_ip = Column(String(15), nullable=False, default="")
     point = Column(String(15), nullable=False, default="")
     online_status = Column(Boolean, nullable=False, default=False)

@@ -51,7 +51,7 @@ def create(
     try:
         radar_in_db = crud.radar.create(db, obj_in=radar_in)
     except (sql_exc.IntegrityError, sql_exc.DataError) as ex:
-        raise error_handle(ex, "sn", radar_in.sn)
+        raise error_handle(ex, ["sn", "name"], [radar_in.sn, radar_in.name])
     return radar_in_db.to_dict()
 
 
@@ -159,5 +159,5 @@ def update(
     try:
         new_radar_in_db = crud.radar.update(db, db_obj=radar_in_db, obj_in=radar_in)
     except (sql_exc.DataError, sql_exc.IntegrityError) as ex:
-        raise error_handle(ex, "sn", radar_in.sn)
+        raise error_handle(ex, ["sn", "name"], [radar_in.sn, radar_in.name])
     return new_radar_in_db.to_dict()

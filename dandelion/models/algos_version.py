@@ -41,4 +41,5 @@ class AlgoVersion(Base, DandelionBase):
             algo=self.algo_name.name,
             module=self.algo_name.algo_module.module,
             endpoint_id=self.endpoint_id,
+            endpoint_url=self.endpoint.url,
         )

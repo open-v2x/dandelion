@@ -40,7 +40,6 @@ CONF: cfg = conf.CONF
 
 reusable_oauth2 = OAuth2PasswordBearer(tokenUrl=f"{constants.API_V1_STR}/login/access-token")
 
-
 RESPONSE_ERROR: Dict = {
     status.HTTP_400_BAD_REQUEST: {"model": schemas.ErrorMessage, "description": "Bad Request"},
     status.HTTP_401_UNAUTHORIZED: {
@@ -143,12 +142,13 @@ def error_handle(
     err_msg = err.args[0]
     LOG.error(err_msg)
     if isinstance(err, sqlalchemy.exc.IntegrityError):
+        code = err.orig.args[0]
         detail = {
-            "code": eval(re.findall(r"\(pymysql.err.IntegrityError\) (.*)", err_msg)[0])[0],
+            "code": code,
             "msg": err_msg,
             "detail": {},
         }
-        if detail["code"] == 1062:  # 重复
+        if code == 1062:  # 重复
             if isinstance(field, list) and isinstance(field_data, list):
                 for index, value in enumerate(field):
                     detail["detail"][value] = field_data[index]
@@ -183,3 +183,23 @@ def get_gunicorn_port():
         return port
     except (AttributeError, ImportError, IndexError, ValueError):
         return "28300"
+
+
+def spat_intersection_phase_unique(
+    ex: sqlalchemy.exc.DatabaseError, spat_in: Union[schemas.SpatCreate, schemas.SpatUpdate]
+):
+    match = re.search(r"Duplicate entry '.*' for key '(.*?)'", ex.orig.args[1])
+    if match and match.group(1) != "ix_spat_name":
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail={
+                "code": 1063,
+                "msg": ex.args[0],
+                "detail": {
+                    "intersection_id": spat_in.intersection_id,
+                    "phase_id": spat_in.phase_id,
+                },
+            },
+        )
+    else:
+        raise error_handle(ex, "name", spat_in.name)

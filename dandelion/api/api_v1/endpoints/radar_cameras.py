@@ -51,7 +51,7 @@ def create(
     try:
         radar_in_db = crud.radar_camera.create(db, obj_in=radar_camera_in)
     except (sql_exc.IntegrityError, sql_exc.DataError) as ex:
-        raise error_handle(ex, "sn or name", f"{radar_camera_in.sn} or {radar_camera_in.name}")
+        raise error_handle(ex, ["sn", "name"], [radar_camera_in.sn, radar_camera_in.name])
     return radar_in_db.to_all_dict()
 
 
@@ -166,5 +166,5 @@ def update(
             db, db_obj=radar_camera_in_db, obj_in=radar_camera_in
         )
     except (sql_exc.DataError, sql_exc.IntegrityError) as ex:
-        raise error_handle(ex, "sn or name", f"{radar_camera_in.sn} or {radar_camera_in.name}")
+        raise error_handle(ex, ["sn", "name"], [radar_camera_in.sn, radar_camera_in.name])
     return new_radar_camera_in_db.to_all_dict()

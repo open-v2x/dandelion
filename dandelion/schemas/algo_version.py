@@ -71,7 +71,8 @@ class AlgoVersionGET(AlgoVersionBase):
     id: Optional[int] = Field(None, alias="id", description="Algo id")
     module: str = Field(..., alias="module", description="Algo module")
     algo: str = Field(..., alias="algo", description="Algo name")
-    version: str = Field(..., alias="version", description="Algo version list")
+    version: str = Field(..., alias="version", description="Algo version ")
+    endpoint_url: Optional[str] = Field(None, alias="endpointUrl", description="Algo endpoint url")
 
 
 class AlgoVersions(BaseModel):

@@ -51,7 +51,7 @@ def create(
     try:
         camera_in_db = crud.camera.create(db, obj_in=camera_in)
     except (sql_exc.IntegrityError, sql_exc.DataError) as ex:
-        raise error_handle(ex, "sn", camera_in.sn)
+        raise error_handle(ex, ["sn", "name"], [camera_in.sn, camera_in.name])
     return camera_in_db.to_dict()
 
 
@@ -159,5 +159,5 @@ def update(
     try:
         new_camera_in_db = crud.camera.update(db, db_obj=camera_in_db, obj_in=camera_in)
     except (sql_exc.DataError, sql_exc.IntegrityError) as ex:
-        raise error_handle(ex, "sn", camera_in.sn)
+        raise error_handle(ex, ["sn", "name"], [camera_in.sn, camera_in.name])
     return new_camera_in_db.to_dict()
