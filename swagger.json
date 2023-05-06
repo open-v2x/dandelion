@@ -11644,6 +11644,11 @@
                         "title": "Inuse",
                         "type": "string",
                         "description": "Algo in use"
+                    },
+                    "modulePath": {
+                        "title": "Modulepath",
+                        "type": "string",
+                        "description": "Algo module path"
                     }
                 }
             },
@@ -11770,7 +11775,12 @@
                     "version": {
                         "title": "Version",
                         "type": "string",
-                        "description": "Algo version list"
+                        "description": "Algo version "
+                    },
+                    "endpointUrl": {
+                        "title": "Endpointurl",
+                        "type": "string",
+                        "description": "Algo endpoint url"
                     }
                 }
             },

@@ -65,7 +65,7 @@ def create(
     try:
         rsu_in_db = crud.rsu.create_rsu(db, obj_in=rsu_in, rsu_tmp_in_db=rsu_tmp)
     except (sql_exc.IntegrityError, sql_exc.DataError) as ex:
-        raise error_handle(ex, "rsu_esn", rsu_in.rsu_esn)
+        raise error_handle(ex, ["rsu_esn", "rsu_name"], [rsu_in.rsu_esn, rsu_in.rsu_name])
     return rsu_in_db.to_all_dict()
 
 
@@ -177,7 +177,7 @@ def update(
     try:
         new_rsu_in_db = crud.rsu.update_with_location(db, db_obj=rsu_in_db, obj_in=rsu_in)
     except (sql_exc.DataError, sql_exc.IntegrityError) as ex:
-        raise error_handle(ex, "rsu_esn", rsu_in.rsu_esn)
+        raise error_handle(ex, ["rsu_esn", "rsu_name"], [rsu_in.rsu_esn, rsu_in.rsu_name])
     return new_rsu_in_db.to_all_dict()
 
 

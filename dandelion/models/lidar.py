@@ -24,7 +24,7 @@ class Lidar(Base, DandelionBase):
     __tablename__ = "lidar"
 
     sn = Column(String(64), nullable=False, index=True, unique=True)
-    name = Column(String(64), nullable=False, index=True, default="")
+    name = Column(String(64), nullable=False, index=True, unique=True, default="")
     lidar_ip = Column(String(15), nullable=False, default="")
     lng = Column(Float, nullable=False)
     lat = Column(Float, nullable=False)

@@ -24,7 +24,7 @@ class Camera(Base, DandelionBase):
     __tablename__ = "camera"
 
     sn = Column(String(64), nullable=False, index=True, unique=True)
-    name = Column(String(64), nullable=False, index=True, default="")
+    name = Column(String(64), nullable=False, index=True, unique=True, default="")
     stream_url = Column(String(1024), nullable=False, default="")
     lng = Column(Float, nullable=False)
     lat = Column(Float, nullable=False)

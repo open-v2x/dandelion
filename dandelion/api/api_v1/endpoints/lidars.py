@@ -51,7 +51,7 @@ def create(
     try:
         lidar_in_db = crud.lidar.create(db, obj_in=lidar_in)
     except (sql_exc.IntegrityError, sql_exc.DataError) as ex:
-        raise error_handle(ex, "sn", lidar_in.sn)
+        raise error_handle(ex, ["sn", "name"], [lidar_in.sn, lidar_in.name])
     return lidar_in_db.to_dict()
 
 
@@ -159,5 +159,5 @@ def update(
     try:
         new_lidar_in_db = crud.lidar.update(db, db_obj=lidar_in_db, obj_in=lidar_in)
     except (sql_exc.DataError, sql_exc.IntegrityError) as ex:
-        raise error_handle(ex, "sn", lidar_in.sn)
+        raise error_handle(ex, ["sn", "name"], [lidar_in.sn, lidar_in.name])
     return new_lidar_in_db.to_dict()
