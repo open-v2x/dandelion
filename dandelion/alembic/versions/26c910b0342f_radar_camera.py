@@ -35,6 +35,7 @@ def upgrade():
         sa.Column("rsu_id", sa.Integer(), nullable=True),
         sa.Column("status", sa.Boolean(), nullable=False),
         sa.Column("desc", sa.String(length=255), nullable=False),
+        sa.Column("enabled", sa.Boolean(), nullable=True),
         sa.ForeignKeyConstraint(
             ["rsu_id"],
             ["rsu.id"],

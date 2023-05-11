@@ -63,6 +63,7 @@ class RadarCameraUpdate(BaseModel):
     )
     rsu_id: Optional[int] = Field(None, alias="rsuID", description="RSU ID")
     desc: Optional[str] = Field("", alias="desc", description="Description")
+    enabled: Optional[bool] = Field(None, alias="enabled", description="enabled")
 
 
 class RadarCameraInDBBase(RadarCameraBase):
@@ -77,6 +78,7 @@ class RadarCamera(RadarCameraInDBBase):
     status: bool = Field(..., alias="status", description="Status")
     rsu_name: Optional[str] = Field(None, alias="rsuName", description="RSU Name")
     create_time: datetime = Field(..., alias="createTime", description="Create Time")
+    enabled: bool = Field(..., alias="enabled", description="Enabled radar camera or not")
 
 
 class RadarCameras(BaseModel):

@@ -16044,7 +16044,8 @@
                     "videoStreamAddress",
                     "id",
                     "status",
-                    "createTime"
+                    "createTime",
+                    "enabled"
                 ],
                 "type": "object",
                 "properties": {
@@ -16129,6 +16130,11 @@
                         "type": "string",
                         "description": "Create Time",
                         "format": "date-time"
+                    },
+                    "enabled": {
+                        "title": "Enabled",
+                        "type": "boolean",
+                        "description": "Enabled radar camera or not"
                     }
                 }
             },
@@ -16275,6 +16281,11 @@
                         "type": "string",
                         "description": "Description",
                         "default": ""
+                    },
+                    "enabled": {
+                        "title": "Enabled",
+                        "type": "boolean",
+                        "description": "enabled"
                     }
                 }
             },

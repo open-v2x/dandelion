@@ -37,6 +37,7 @@ class RadarCamera(Base, DandelionBase):
 
     status = Column(Boolean, nullable=False, default=False)
     desc = Column(String(255), nullable=False, default="")
+    enabled = Column(Boolean, nullable=True, default=True)
 
     def __repr__(self) -> str:
         return f"<RadarCamera(sn='{self.sn}', name='{self.name}')>"
@@ -59,4 +60,5 @@ class RadarCamera(Base, DandelionBase):
             rsuName=Optional_util.none(self.rsu).map(lambda v: v.rsu_name).get(),
             desc=self.desc,
             createTime=self.create_time,
+            enabled=self.enabled,
         )
