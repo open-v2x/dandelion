@@ -54,5 +54,5 @@ jobs:
       - name: Run apitest
         shell: bash
         run: |
-          pip install gabbi
+          pip install -r test-requirements.txt
           ls apitest/*.yaml | grep -v multi_node.yaml | xargs gabbi-run localhost:28300 --
