@@ -8,3 +8,4 @@ black==22.3.0 # MIT
 mypy==0.991 # MIT
 lxml==4.9.0 # BSD
 pytest==7.1.2 # MIT
+gabbi==2.8.0 # apitest workflow action
