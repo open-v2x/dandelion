@@ -63,6 +63,7 @@ class AlgoVersion(AlgoVersionInDBBase):
 
     algo: str = Field(..., alias="algo", description="Algo name")
     version: str = Field(..., alias="version", description="Algo Version")
+    endpoint_url: Optional[str] = Field(None, alias="endpointUrl", description="Algo endpoint url")
 
 
 class AlgoVersionGET(AlgoVersionBase):
@@ -72,7 +73,7 @@ class AlgoVersionGET(AlgoVersionBase):
     module: str = Field(..., alias="module", description="Algo module")
     algo: str = Field(..., alias="algo", description="Algo name")
     version: str = Field(..., alias="version", description="Algo version ")
-    endpoint_url: Optional[str] = Field(None, alias="endpointUrl", description="Algo endpoint url")
+    endpointUrl: Optional[str] = Field(None, alias="endpoint_url", description="Algo endpoint url")
 
 
 class AlgoVersions(BaseModel):
