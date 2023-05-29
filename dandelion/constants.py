@@ -89,6 +89,10 @@ scenario_algo:
       algo: "reverse_driving_warning"
       version:
       - reverse_driving_warning
+      service_types:
+      - algo/scenario_algo/reverse_driving_warning/http
+      - algo/scenario_algo/reverse_driving_warning/websocket
+      - algo/scenario_algo/reverse_driving_warning/grpc
     congestion_warning:
       enable: true
       module: "scenario_algo.algo_lib.congestion_warning"
