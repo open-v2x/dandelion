@@ -66,7 +66,7 @@ jobs:
           port: ${{ secrets.AIO_ALBANY_PORT }}
           script: |
             set -e
-            rm -rf openv2x-aio-columbia.tar.gz && wget https://openv2x.oss-ap-southeast-1.aliyuncs.com/deploy/master/openv2x-aio-columbia.tar.gz
+            rm -rf openv2x-aio-columbia.tar.gz && wget https://openv2x.oss-ap-southeast-1.aliyuncs.com/deploy/columbia/openv2x-aio-columbia.tar.gz
             rm -rf src && tar zxvf openv2x-aio-columbia.tar.gz
             cd src
             sh install.sh
