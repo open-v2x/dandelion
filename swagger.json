@@ -9822,6 +9822,19 @@
                 "summary": "List endpoints",
                 "description": "\nList endpoints.\n",
                 "operationId": "get_all_api_v1_endpoints_get",
+                "parameters": [
+                    {
+                        "description": "enabled",
+                        "required": false,
+                        "schema": {
+                            "title": "Enabled",
+                            "type": "boolean",
+                            "description": "enabled"
+                        },
+                        "name": "enabled",
+                        "in": "query"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -9869,6 +9882,16 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
                                 }
                             }
                         }
@@ -11579,7 +11602,6 @@
                     "module",
                     "algo",
                     "enable",
-                    "modulePath",
                     "inUse"
                 ],
                 "type": "object",
@@ -11598,11 +11620,6 @@
                         "title": "Enable",
                         "type": "boolean",
                         "description": "Algo enable"
-                    },
-                    "modulePath": {
-                        "title": "Modulepath",
-                        "type": "string",
-                        "description": "Algo path"
                     },
                     "inUse": {
                         "title": "Inuse",
@@ -11644,11 +11661,6 @@
                         "title": "Inuse",
                         "type": "string",
                         "description": "Algo in use"
-                    },
-                    "modulePath": {
-                        "title": "Modulepath",
-                        "type": "string",
-                        "description": "Algo module path"
                     }
                 }
             },
@@ -11698,6 +11710,11 @@
                         "title": "Version",
                         "type": "string",
                         "description": "Algo Version"
+                    },
+                    "endpoint_url": {
+                        "title": "Endpoint Url",
+                        "type": "string",
+                        "description": "Algo endpoint url"
                     }
                 }
             },
@@ -11720,21 +11737,6 @@
                         "title": "Algo",
                         "type": "string",
                         "description": "Algo Name"
-                    },
-                    "enable": {
-                        "title": "Enable",
-                        "type": "boolean",
-                        "description": "Algo enable"
-                    },
-                    "inUse": {
-                        "title": "Inuse",
-                        "type": "string",
-                        "description": "Algo in use"
-                    },
-                    "modulePath": {
-                        "title": "Modulepath",
-                        "type": "string",
-                        "description": "Algo module path"
                     },
                     "version": {
                         "title": "Version",
@@ -11777,8 +11779,8 @@
                         "type": "string",
                         "description": "Algo version "
                     },
-                    "endpointUrl": {
-                        "title": "Endpointurl",
+                    "endpoint_url": {
+                        "title": "Endpoint Url",
                         "type": "string",
                         "description": "Algo endpoint url"
                     }

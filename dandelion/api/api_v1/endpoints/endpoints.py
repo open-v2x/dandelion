@@ -15,8 +15,9 @@
 from __future__ import annotations
 
 from logging import LoggerAdapter
+from typing import Optional
 
-from fastapi import APIRouter, Depends, Response, status
+from fastapi import APIRouter, Depends, Query, Response, status
 from oslo_log import log
 from sqlalchemy import exc as sql_exc
 from sqlalchemy.orm import Session
@@ -157,9 +158,10 @@ List endpoints.
     },
 )
 def get_all(
+    enabled: Optional[bool] = Query(None, alias="enabled", description="enabled"),
     *,
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> schemas.Endpoints:
-    endpoints = crud.endpoint.get_all(db)
+    endpoints = crud.endpoint.get_all(db, enabled)
     return schemas.Endpoints(total=len(endpoints), data=endpoints)

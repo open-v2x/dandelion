@@ -14,7 +14,7 @@
 
 from __future__ import annotations
 
-from typing import List
+from typing import List, Optional
 
 from sqlalchemy.orm import Session
 
@@ -26,8 +26,11 @@ from dandelion.schemas.endpoint import EndpointCreate, EndpointUpdate
 class CRUDEndpoint(CRUDBase[Endpoint, EndpointCreate, EndpointUpdate]):
     """"""
 
-    def get_all(self, db: Session) -> List[Endpoint]:
-        return db.query(self.model).all()
+    def get_all(self, db: Session, enabled: Optional[bool]) -> List[Endpoint]:
+        query_ = db.query(self.model)
+        if enabled is not None:
+            query_ = query_.filter(self.model.enabled == enabled)
+        return query_.all()
 
 
 endpoint = CRUDEndpoint(Endpoint)

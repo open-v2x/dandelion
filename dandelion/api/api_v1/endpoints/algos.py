@@ -24,10 +24,10 @@ from sqlalchemy.orm import Session
 
 from dandelion import crud, models, schemas
 from dandelion.api import deps
-from dandelion.api.deps import OpenV2XHTTPException as HTTPException
+from dandelion.api.deps import OpenV2XHTTPException as HTTPException, error_handle
 from dandelion.crud import utils
 from dandelion.mqtt.service.rsu.rsu_algo import algo_publish
-from dandelion.util import ALGO_CONFIG, get_all_algo_config
+from dandelion.util import ALGO_CONFIG, DEFAULT_VERSION_DATA, get_all_algo_config
 
 router = APIRouter()
 LOG: LoggerAdapter = log.getLogger(__name__)
@@ -84,16 +84,8 @@ def create(
             ),
         )
     except sql_exc.IntegrityError as ex:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail={
-                "code": 1062,
-                "msg": ex.args[0],
-                "detail": {
-                    "version": algo_version_in.version,
-                    "algo": algo,
-                },
-            },
+        raise error_handle(
+            ex, ["algo", "version"], [algo_version_in.algo, algo_version_in.version]
         )
     return new_algo_version_in_db.to_all_dict()
 
@@ -176,17 +168,9 @@ def get_all_version(
 ) -> schemas.AlgoVersions:
     total, data = crud.algo_version.get_multi_by_version(db, version=version)
     data_list = [obj_in.to_all_dict() for obj_in in data]
-    default_data = ALGO_CONFIG.values()
-    for default_obj in default_data:
-        for default_version in default_obj.get("version"):
-            if not version or default_version.find(version) != -1:
-                data_list.append(
-                    {
-                        "module": default_obj.get("module"),
-                        "algo": default_obj.get("algo"),
-                        "version": default_version,
-                    }
-                )
+    data_list.extend(DEFAULT_VERSION_DATA)
+    if version:
+        data_list = [d for d in data_list if version in d["version"]]
     data_list.sort(key=lambda x: (x.get("module"), x.get("algo")))
     return schemas.AlgoVersions(total=len(data_list), data=data_list)
 
@@ -212,12 +196,13 @@ def update(
     response_data = []
     for algo_obj in algo_in:
         algo_name_in_db = utils.algo_module_name(db=db, algo_version_in=algo_obj, update=True)
-        new_algo_in_db = crud.algo_name.update(
-            db=db,
-            db_obj=algo_name_in_db,
-            obj_in=schemas.AlgoNameUpdate(**algo_obj.dict(exclude_unset=True)),
-        )
-        response_data.append(new_algo_in_db.to_dict())
+        if algo_name_in_db:
+            new_algo_in_db = crud.algo_name.update(
+                db=db,
+                db_obj=algo_name_in_db,
+                obj_in=schemas.AlgoNameUpdate(**algo_obj.dict(exclude_unset=True)),
+            )
+            response_data.append(new_algo_in_db.to_dict())
     algo_publish(db=db)
     return response_data
 
