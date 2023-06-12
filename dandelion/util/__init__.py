@@ -92,6 +92,17 @@ def get_algo_config():
 ALGO_CONFIG = get_algo_config()
 
 
+def get_version_config():
+    return [
+        {"module": item["module"], "algo": item["algo"], "version": v}
+        for item in ALGO_CONFIG.values()
+        for v in item["version"]
+    ]
+
+
+DEFAULT_VERSION_DATA = get_version_config()
+
+
 def get_all_algo_config(data: List[AlgoName]):
     response_data = copy.deepcopy(ALGO_CONFIG)
     for algo_name_in_db in data:

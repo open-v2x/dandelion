@@ -30,7 +30,6 @@ class AlgoName(Base, DandelionBase):
     module_id = Column(Integer, ForeignKey("algo_module.id"))
     name = Column(String(64), nullable=False, index=True)
     enable = Column(Boolean, nullable=False, default=False)
-    module_path = Column(String(64), nullable=False)
     in_use = Column(String(64), nullable=True)
     algo_versions: List[AlgoVersion] = relationship("AlgoVersion", backref="algo_name")
 
@@ -51,7 +50,6 @@ class AlgoName(Base, DandelionBase):
             module=self.algo_module.module,
             algo=self.name,
             enable=self.enable,
-            modulePath=self.module_path,
             inUse=self.in_use,
             version=[v.to_dict() for v in self.algo_versions],
             updateTime=self.update_time,
