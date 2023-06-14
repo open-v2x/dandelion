@@ -37,9 +37,9 @@ class EndpointCreate(EndpointBase):
 class EndpointUpdate(EndpointBase):
     """"""
 
-    service_id: int = Field(..., alias="service_id", description="Service ID")
+    service_id: Optional[int] = Field(None, alias="service_id", description="Service ID")
     enabled: bool = Field(..., alias="enabled", description="Endpoint enabled flag")
-    url: str = Field(..., alias="url", description="Endpoint url")
+    url: Optional[str] = Field(None, alias="url", description="Endpoint url")
 
 
 class EndpointInDBBase(EndpointBase):
