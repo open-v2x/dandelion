@@ -12699,9 +12699,7 @@
             "EndpointUpdate": {
                 "title": "EndpointUpdate",
                 "required": [
-                    "service_id",
-                    "enabled",
-                    "url"
+                    "enabled"
                 ],
                 "type": "object",
                 "properties": {
