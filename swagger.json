@@ -15131,12 +15131,12 @@
                     },
                     "lat": {
                         "title": "Lat",
-                        "type": "string",
+                        "type": "number",
                         "description": "Latitude"
                     },
                     "lon": {
                         "title": "Lon",
-                        "type": "string",
+                        "type": "number",
                         "description": "Longitude"
                     }
                 }
@@ -15972,12 +15972,12 @@
                     },
                     "lat": {
                         "title": "Lat",
-                        "type": "string",
+                        "type": "number",
                         "description": "Latitude"
                     },
                     "lon": {
                         "title": "Lon",
-                        "type": "string",
+                        "type": "number",
                         "description": "Longitude"
                     }
                 }

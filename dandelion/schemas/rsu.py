@@ -67,8 +67,8 @@ class RSUCreate(RSUOffsetConfig):
     rsu_ip: str = Field(..., alias="rsuIP", description="RSU IP")
     rsu_model_id: Optional[int] = Field(None, alias="rsuModelId", description="RSU Model ID")
     desc: Optional[str] = Field(None, alias="desc", description="Description")
-    lat: str = Field(..., alias="lat", description="Latitude")
-    lon: str = Field(..., alias="lon", description="Longitude")
+    lat: float = Field(..., alias="lat", description="Latitude")
+    lon: float = Field(..., alias="lon", description="Longitude")
 
 
 # Properties to receive via API on update
@@ -81,8 +81,8 @@ class RSUUpdate(RSUOffsetConfig):
     desc: Optional[str] = Field(None, alias="desc", description="Description")
     rsu_status: Optional[str] = Field(None, alias="rsuStatus", description="RSU Status")
     enabled: Optional[bool] = Field(None, alias="enabled", description="Enable RSU or not")
-    lat: Optional[str] = Field(None, alias="lat", description="Latitude")
-    lon: Optional[str] = Field(None, alias="lon", description="Longitude")
+    lat: Optional[float] = Field(None, alias="lat", description="Latitude")
+    lon: Optional[float] = Field(None, alias="lon", description="Longitude")
 
 
 class RSUUpdateWithVersion(BaseModel):
