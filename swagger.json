@@ -14625,6 +14625,31 @@
                 ],
                 "type": "object",
                 "properties": {
+                    "biasX": {
+                        "title": "Biasx",
+                        "type": "number",
+                        "description": "RSU Bias X"
+                    },
+                    "biasY": {
+                        "title": "Biasy",
+                        "type": "number",
+                        "description": "RSU Bias Y"
+                    },
+                    "rotation": {
+                        "title": "Rotation",
+                        "type": "number",
+                        "description": "RSU Rotation"
+                    },
+                    "reverse": {
+                        "title": "Reverse",
+                        "type": "boolean",
+                        "description": "RSU Reverse"
+                    },
+                    "scale": {
+                        "title": "Scale",
+                        "type": "number",
+                        "description": "RSU Scale"
+                    },
                     "rsuId": {
                         "title": "Rsuid",
                         "type": "string",
@@ -15043,6 +15068,31 @@
                 ],
                 "type": "object",
                 "properties": {
+                    "biasX": {
+                        "title": "Biasx",
+                        "type": "number",
+                        "description": "RSU Bias X"
+                    },
+                    "biasY": {
+                        "title": "Biasy",
+                        "type": "number",
+                        "description": "RSU Bias Y"
+                    },
+                    "rotation": {
+                        "title": "Rotation",
+                        "type": "number",
+                        "description": "RSU Rotation"
+                    },
+                    "reverse": {
+                        "title": "Reverse",
+                        "type": "boolean",
+                        "description": "RSU Reverse"
+                    },
+                    "scale": {
+                        "title": "Scale",
+                        "type": "number",
+                        "description": "RSU Scale"
+                    },
                     "tmpId": {
                         "title": "Tmpid",
                         "type": "integer",
@@ -15106,6 +15156,31 @@
                 ],
                 "type": "object",
                 "properties": {
+                    "biasX": {
+                        "title": "Biasx",
+                        "type": "number",
+                        "description": "RSU Bias X"
+                    },
+                    "biasY": {
+                        "title": "Biasy",
+                        "type": "number",
+                        "description": "RSU Bias Y"
+                    },
+                    "rotation": {
+                        "title": "Rotation",
+                        "type": "number",
+                        "description": "RSU Rotation"
+                    },
+                    "reverse": {
+                        "title": "Reverse",
+                        "type": "boolean",
+                        "description": "RSU Reverse"
+                    },
+                    "scale": {
+                        "title": "Scale",
+                        "type": "number",
+                        "description": "RSU Scale"
+                    },
                     "rsuId": {
                         "title": "Rsuid",
                         "type": "string",
@@ -15830,6 +15905,31 @@
                 "title": "RSUUpdate",
                 "type": "object",
                 "properties": {
+                    "biasX": {
+                        "title": "Biasx",
+                        "type": "number",
+                        "description": "RSU Bias X"
+                    },
+                    "biasY": {
+                        "title": "Biasy",
+                        "type": "number",
+                        "description": "RSU Bias Y"
+                    },
+                    "rotation": {
+                        "title": "Rotation",
+                        "type": "number",
+                        "description": "RSU Rotation"
+                    },
+                    "reverse": {
+                        "title": "Reverse",
+                        "type": "boolean",
+                        "description": "RSU Reverse"
+                    },
+                    "scale": {
+                        "title": "Scale",
+                        "type": "number",
+                        "description": "RSU Scale"
+                    },
                     "rsuId": {
                         "title": "Rsuid",
                         "type": "string",

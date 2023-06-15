@@ -23,9 +23,19 @@ from sqlalchemy.orm import Session
 
 from dandelion import crud, schemas
 from dandelion.db import session
+from dandelion.mqtt import server, topic
 from dandelion.mqtt.service import RouterHandler
 
 LOG: LoggerAdapter = log.getLogger(__name__)
+
+
+def rsu_info_publish():
+    server.get_mqtt_client().publish(
+        topic=topic.V2X_RSU_REG_TICE,
+        payload=None,
+        qos=0,
+    )
+    LOG.info(f"publish to topic: {topic.V2X_RSU_PIP_CFG}")
 
 
 class RSUInfoRouterHandler(RouterHandler):
