@@ -50,7 +50,7 @@ class RSU(Base, DandelionBase):
     bias_y = Column(Float, nullable=True, default=0.0)
     rotation = Column(Float, nullable=True, default=0.0)
     reverse = Column(Boolean, nullable=True, default=False)
-    scale = Column(Float, nullable=True, default=0.0)
+    scale = Column(Float, nullable=True, default=0.09)
     lane_info = Column(JSON, nullable=True)
 
     cameras = relationship("Camera", backref="rsu")
@@ -78,6 +78,11 @@ class RSU(Base, DandelionBase):
             desc=self.desc,
             location=self.location,
             config=self.config,
+            biasX=self.bias_x,
+            biasY=self.bias_y,
+            rotation=self.rotation,
+            reverse=self.reverse,
+            scale=self.scale,
             createTime=self.create_time,
             updateTime=self.update_time,
         )

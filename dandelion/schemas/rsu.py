@@ -33,8 +33,16 @@ class RSUConfigRSUInRSU(BaseModel):
     create_time: datetime = Field(..., alias="create_time", description="Create Time")
 
 
+class RSUOffsetConfig(BaseModel):
+    bias_x: Optional[float] = Field(None, alias="biasX", description="RSU Bias X")
+    bias_y: Optional[float] = Field(None, alias="biasY", description="RSU Bias Y")
+    rotation: Optional[float] = Field(None, alias="rotation", description="RSU Rotation")
+    reverse: Optional[bool] = Field(None, alias="reverse", description="RSU Reverse")
+    scale: Optional[float] = Field(None, alias="scale", description="RSU Scale")
+
+
 # Shared properties
-class RSUBase(BaseModel):
+class RSUBase(RSUOffsetConfig):
     rsu_id: str = Field(..., alias="rsuId", description="RSU ID")
     rsu_name: str = Field(..., alias="rsuName", description="RSU Name")
     rsu_esn: str = Field(..., alias="rsuEsn", description="RSU ESN")
@@ -51,7 +59,7 @@ class RSUBase(BaseModel):
 
 
 # Properties to receive via API on creation
-class RSUCreate(BaseModel):
+class RSUCreate(RSUOffsetConfig):
     tmp_id: Optional[int] = Field(0, alias="tmpId", description="Temporary RSU ID")
     rsu_id: str = Field(..., alias="rsuId", description="RSU ID")
     rsu_name: str = Field(..., alias="rsuName", description="RSU Name")
@@ -64,7 +72,7 @@ class RSUCreate(BaseModel):
 
 
 # Properties to receive via API on update
-class RSUUpdate(BaseModel):
+class RSUUpdate(RSUOffsetConfig):
     rsu_id: Optional[str] = Field(None, alias="rsuId", description="RSU ID")
     rsu_name: Optional[str] = Field(None, alias="rsuName", description="RSU Name")
     rsu_esn: Optional[str] = Field(None, alias="rsuEsn", description="RSU ESN")

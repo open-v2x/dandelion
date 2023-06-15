@@ -27,6 +27,7 @@ from sqlalchemy.orm import Session
 from dandelion import crud, models, schemas
 from dandelion.api import deps
 from dandelion.api.deps import OpenV2XHTTPException as HTTPException, error_handle
+from dandelion.mqtt.service.rsu.rsu_info import rsu_info_publish
 from dandelion.util import Optional as Optional_util
 
 router = APIRouter()
@@ -66,6 +67,7 @@ def create(
         rsu_in_db = crud.rsu.create_rsu(db, obj_in=rsu_in, rsu_tmp_in_db=rsu_tmp)
     except (sql_exc.IntegrityError, sql_exc.DataError) as ex:
         raise error_handle(ex, ["rsu_esn", "rsu_name"], [rsu_in.rsu_esn, rsu_in.rsu_name])
+    rsu_info_publish()
     return rsu_in_db.to_all_dict()
 
 
@@ -178,6 +180,7 @@ def update(
         new_rsu_in_db = crud.rsu.update_with_location(db, db_obj=rsu_in_db, obj_in=rsu_in)
     except (sql_exc.DataError, sql_exc.IntegrityError) as ex:
         raise error_handle(ex, ["rsu_esn", "rsu_name"], [rsu_in.rsu_esn, rsu_in.rsu_name])
+    rsu_info_publish()
     return new_rsu_in_db.to_all_dict()
 
 
@@ -204,6 +207,7 @@ def delete(
         crud.rsu_query_result.remove(db, id=result.id)
     crud.mng.remove_by_rsu_id(db, rsu_id=rsu_id)
     crud.rsu.remove(db, id=rsu_id)
+    rsu_info_publish()
     return Response(content=None, status_code=status.HTTP_204_NO_CONTENT)
 
 
