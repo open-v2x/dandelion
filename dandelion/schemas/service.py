@@ -30,8 +30,10 @@ class ServiceCreate(ServiceBase):
 
     name: str = Field(..., alias="name", description="Service name")
     type_id: int = Field(..., alias="type_id", description="Service type ID")
-    vendor: str = Field(..., alias="vendor", description="Service vendor")
-    description: str = Field(..., alias="description", description="Service description")
+    vendor: Optional[str] = Field(None, alias="vendor", description="Service vendor")
+    description: Optional[str] = Field(
+        None, alias="description", description="Service description"
+    )
 
 
 # Properties to receive via API on update
@@ -40,8 +42,10 @@ class ServiceUpdate(ServiceBase):
 
     name: str = Field(..., alias="name", description="Service name")
     type_id: int = Field(..., alias="type_id", description="Service type ID")
-    vendor: str = Field(..., alias="vendor", description="Service vendor")
-    description: str = Field(..., alias="description", description="Service description")
+    vendor: Optional[str] = Field(None, alias="vendor", description="Service vendor")
+    description: Optional[str] = Field(
+        None, alias="description", description="Service description"
+    )
 
 
 class ServiceInDBBase(ServiceBase):
@@ -54,8 +58,10 @@ class ServiceInDBBase(ServiceBase):
 class ServiceCreateAll(ServiceInDBBase):
     name: str = Field(..., alias="name", description="Service name")
     type_id: int = Field(..., alias="type_id", description="Service type ID")
-    vendor: str = Field(..., alias="vendor", description="Service vendor")
-    description: str = Field(..., alias="description", description="Service description")
+    vendor: Optional[str] = Field(None, alias="vendor", description="Service vendor")
+    description: Optional[str] = Field(
+        None, alias="description", description="Service description"
+    )
 
 
 class ServiceGET(ServiceBase):
@@ -64,8 +70,10 @@ class ServiceGET(ServiceBase):
     id: Optional[int] = Field(None, alias="id", description="Service id")
     name: str = Field(..., alias="name", description="Service name")
     type_id: int = Field(..., alias="type_id", description="Service type ID")
-    vendor: str = Field(..., alias="vendor", description="Service vendor")
-    description: str = Field(..., alias="description", description="Service description")
+    vendor: Optional[str] = Field(None, alias="vendor", description="Service vendor")
+    description: Optional[str] = Field(
+        None, alias="description", description="Service description"
+    )
 
 
 class Services(BaseModel):
