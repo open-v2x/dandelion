@@ -29,7 +29,9 @@ class ServiceTypeCreate(ServiceTypeBase):
     """"""
 
     name: str = Field(..., alias="name", description="Service type name")
-    description: str = Field(..., alias="description", description="Service type description")
+    description: Optional[str] = Field(
+        None, alias="description", description="Service type description"
+    )
 
 
 # Properties to receive via API on update
@@ -37,7 +39,9 @@ class ServiceTypeUpdate(ServiceTypeBase):
     """"""
 
     name: str = Field(..., alias="name", description="Service type name")
-    description: str = Field(..., alias="description", description="Service type description")
+    description: Optional[str] = Field(
+        None, alias="description", description="Service type description"
+    )
 
 
 class ServiceTypeInDBBase(ServiceTypeBase):
@@ -49,7 +53,9 @@ class ServiceTypeInDBBase(ServiceTypeBase):
 
 class ServiceTypeCreateAll(ServiceTypeInDBBase):
     name: str = Field(..., alias="name", description="Service type name")
-    description: str = Field(..., alias="description", description="Service type description")
+    description: Optional[str] = Field(
+        None, alias="description", description="Service type description"
+    )
 
 
 class ServiceTypeGET(ServiceTypeBase):
@@ -57,7 +63,9 @@ class ServiceTypeGET(ServiceTypeBase):
 
     id: Optional[int] = Field(None, alias="id", description="Service type id")
     name: str = Field(..., alias="name", description="Service type name")
-    description: str = Field(..., alias="description", description="Service type description")
+    description: Optional[str] = Field(
+        None, alias="description", description="Service type description"
+    )
 
 
 class ServiceTypes(BaseModel):

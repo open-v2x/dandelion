@@ -16865,9 +16865,7 @@
                 "title": "ServiceCreate",
                 "required": [
                     "name",
-                    "type_id",
-                    "vendor",
-                    "description"
+                    "type_id"
                 ],
                 "type": "object",
                 "properties": {
@@ -16898,9 +16896,7 @@
                 "required": [
                     "id",
                     "name",
-                    "type_id",
-                    "vendor",
-                    "description"
+                    "type_id"
                 ],
                 "type": "object",
                 "properties": {
@@ -16935,9 +16931,7 @@
                 "title": "ServiceGET",
                 "required": [
                     "name",
-                    "type_id",
-                    "vendor",
-                    "description"
+                    "type_id"
                 ],
                 "type": "object",
                 "properties": {
@@ -16971,8 +16965,7 @@
             "ServiceTypeCreate": {
                 "title": "ServiceTypeCreate",
                 "required": [
-                    "name",
-                    "description"
+                    "name"
                 ],
                 "type": "object",
                 "properties": {
@@ -16992,8 +16985,7 @@
                 "title": "ServiceTypeCreateAll",
                 "required": [
                     "id",
-                    "name",
-                    "description"
+                    "name"
                 ],
                 "type": "object",
                 "properties": {
@@ -17017,8 +17009,7 @@
             "ServiceTypeGET": {
                 "title": "ServiceTypeGET",
                 "required": [
-                    "name",
-                    "description"
+                    "name"
                 ],
                 "type": "object",
                 "properties": {
@@ -17042,8 +17033,7 @@
             "ServiceTypeUpdate": {
                 "title": "ServiceTypeUpdate",
                 "required": [
-                    "name",
-                    "description"
+                    "name"
                 ],
                 "type": "object",
                 "properties": {
@@ -17086,9 +17076,7 @@
                 "title": "ServiceUpdate",
                 "required": [
                     "name",
-                    "type_id",
-                    "vendor",
-                    "description"
+                    "type_id"
                 ],
                 "type": "object",
                 "properties": {
