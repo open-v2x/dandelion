@@ -14,7 +14,7 @@
 
 from __future__ import annotations
 
-from typing import List
+from typing import List, Optional
 
 from sqlalchemy.orm import Session
 
@@ -29,8 +29,15 @@ class CRUDServiceType(CRUDBase[ServiceType, ServiceTypeCreate, ServiceTypeUpdate
     def get_by_name(self, db: Session, name: str) -> ServiceType:
         return db.query(self.model).filter(self.model.name == name).first()
 
-    def get_all(self, db: Session) -> List[ServiceType]:
-        return db.query(self.model).all()
+    def get_all(
+        self,
+        db: Session,
+        name: Optional[str] = None,
+    ) -> List[ServiceType]:
+        query_ = db.query(self.model)
+        if name is not None:
+            query_ = self.fuzz_filter(query_, self.model.name, name)
+        return query_.all()
 
 
 service_type = CRUDServiceType(ServiceType)

@@ -137,6 +137,12 @@ def update(
     endpoint_in_db = deps.crud_get(
         db=db, obj_id=endpoint_id, crud_model=crud.endpoint, detail="Endpoint"
     )
+    if endpoint_in.enabled is False and endpoint_in_db.enabled != endpoint_in.enabled:
+        if endpoint_in_db.algo_versions:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Endpoint is currently in use, Please unbind and try again",
+            )
     try:
         new_endpoint_in_db = crud.endpoint.update(db, db_obj=endpoint_in_db, obj_in=endpoint_in)
     except (sql_exc.DataError, sql_exc.IntegrityError) as ex:
@@ -159,9 +165,10 @@ List endpoints.
 )
 def get_all(
     enabled: Optional[bool] = Query(None, alias="enabled", description="enabled"),
+    url: Optional[str] = Query(None, alias="url", description="url"),
     *,
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> schemas.Endpoints:
-    endpoints = crud.endpoint.get_all(db, enabled)
+    endpoints = crud.endpoint.get_all(db, enabled, url)
     return schemas.Endpoints(total=len(endpoints), data=endpoints)

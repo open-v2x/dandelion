@@ -9833,6 +9833,17 @@
                         },
                         "name": "enabled",
                         "in": "query"
+                    },
+                    {
+                        "description": "url",
+                        "required": false,
+                        "schema": {
+                            "title": "Url",
+                            "type": "string",
+                            "description": "url"
+                        },
+                        "name": "url",
+                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -10675,6 +10686,19 @@
                 "summary": "List services",
                 "description": "\nList services.\n",
                 "operationId": "get_all_api_v1_services_get",
+                "parameters": [
+                    {
+                        "description": "Filter by name. Fuzzy prefix query is supported",
+                        "required": false,
+                        "schema": {
+                            "title": "Name",
+                            "type": "string",
+                            "description": "Filter by name. Fuzzy prefix query is supported"
+                        },
+                        "name": "name",
+                        "in": "query"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -10722,6 +10746,16 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
                                 }
                             }
                         }
@@ -11090,6 +11124,19 @@
                 "summary": "List service types",
                 "description": "\nList service types.\n",
                 "operationId": "get_all_api_v1_service_types_get",
+                "parameters": [
+                    {
+                        "description": "Filter by name. Fuzzy prefix query is supported",
+                        "required": false,
+                        "schema": {
+                            "title": "Name",
+                            "type": "string",
+                            "description": "Filter by name. Fuzzy prefix query is supported"
+                        },
+                        "name": "name",
+                        "in": "query"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -11137,6 +11184,16 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ErrorMessage"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
                                 }
                             }
                         }
@@ -12698,9 +12755,6 @@
             },
             "EndpointUpdate": {
                 "title": "EndpointUpdate",
-                "required": [
-                    "enabled"
-                ],
                 "type": "object",
                 "properties": {
                     "service_id": {
