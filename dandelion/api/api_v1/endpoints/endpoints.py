@@ -61,10 +61,7 @@ def create(
             ),
         )
     except sql_exc.IntegrityError as ex:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail={"code": 1062, "msg": ex.args[0]},
-        )
+        raise error_handle(ex, "url", endpoint_in.url)
     except Exception as ex:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
