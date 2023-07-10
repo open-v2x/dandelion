@@ -74,7 +74,7 @@ class Endpoint(Base, DandelionBase):
 
     service_id = Column(Integer, ForeignKey("service.id"))
     enabled = Column(Boolean, nullable=False)
-    url = Column(String(256), nullable=False)
+    url = Column(String(256), nullable=False, unique=True)
 
     matadatas = relationship("EndpointMetadata", backref="endpoint", passive_deletes="all")
     algo_versions = relationship("AlgoVersion", backref="endpoint", passive_deletes="all")

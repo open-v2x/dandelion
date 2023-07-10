@@ -15,8 +15,9 @@
 from __future__ import annotations
 
 from logging import LoggerAdapter
+from typing import Optional
 
-from fastapi import APIRouter, Depends, Response, status
+from fastapi import APIRouter, Depends, Query, Response, status
 from oslo_log import log
 from sqlalchemy import exc as sql_exc
 from sqlalchemy.orm import Session
@@ -158,9 +159,12 @@ List services.
     },
 )
 def get_all(
+    name: Optional[str] = Query(
+        None, alias="name", description="Filter by name. Fuzzy prefix query is supported"
+    ),
     *,
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> schemas.Services:
-    services = crud.service.get_all(db)
+    services = crud.service.get_all(db, name)
     return schemas.Services(total=len(services), data=services)

@@ -26,10 +26,17 @@ from dandelion.schemas.endpoint import EndpointCreate, EndpointUpdate
 class CRUDEndpoint(CRUDBase[Endpoint, EndpointCreate, EndpointUpdate]):
     """"""
 
-    def get_all(self, db: Session, enabled: Optional[bool]) -> List[Endpoint]:
+    def get_all(
+        self,
+        db: Session,
+        enabled: Optional[bool],
+        url: Optional[str],
+    ) -> List[Endpoint]:
         query_ = db.query(self.model)
         if enabled is not None:
             query_ = query_.filter(self.model.enabled == enabled)
+        if url is not None:
+            query_ = self.fuzz_filter(query_, self.model.url, url)
         return query_.all()
 
 
