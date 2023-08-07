@@ -65,24 +65,40 @@ scenario_algo:
       algo: "collision_warning"
       version:
       - collision_warning
+      service_types:
+      - algo/scenario_algo/collision_warning/http
+      - algo/scenario_algo/collision_warning/websocket
+      - algo/scenario_algo/collision_warning/grpc
     cooperative_lane_change:
       enable: true
       module: "scenario_algo.algo_lib.cooperative_lane_change"
       algo: "cooperative_lane_change"
       version:
       - cooperative_lane_change
+      service_types:
+      - algo/scenario_algo/cooperative_lane_change/http
+      - algo/scenario_algo/cooperative_lane_change/websocket
+      - algo/scenario_algo/cooperative_lane_change/grpc
     do_not_pass_warning:
       enable: true
       module: "scenario_algo.algo_lib.do_not_pass_warning"
       algo: "do_not_pass_warning"
       version:
       - do_not_pass_warning
+      service_types:
+      - algo/scenario_algo/do_not_pass_warning/http
+      - algo/scenario_algo/do_not_pass_warning/websocket
+      - algo/scenario_algo/do_not_pass_warning/grpc
     sensor_data_sharing:
       enable: true
       module: "scenario_algo.algo_lib.sensor_data_sharing"
       algo: "sensor_data_sharing"
       version:
       - sensor_data_sharing
+      service_types:
+      - algo/scenario_algo/sensor_data_sharing/http
+      - algo/scenario_algo/sensor_data_sharing/websocket
+      - algo/scenario_algo/sensor_data_sharing/grpc
     reverse_driving_warning:
       enable: true
       module: "scenario_algo.algo_lib.reverse_driving_warning"
@@ -99,6 +115,10 @@ scenario_algo:
       algo: "congestion_warning"
       version:
       - congestion_warning
+      service_types:
+      - algo/scenario_algo/congestion_warning/http
+      - algo/scenario_algo/congestion_warning/websocket
+      - algo/scenario_algo/congestion_warning/grpc
     overspeed_warning:
       enable: true
       module: "scenario_algo.algo_lib.overspeed_warning"
@@ -115,6 +135,10 @@ scenario_algo:
       algo: "slowspeed_warning"
       version:
       - slowspeed_warning
+      service_types:
+      - algo/scenario_algo/slowspeed_warning/http
+      - algo/scenario_algo/slowspeed_warning/websocket
+      - algo/scenario_algo/slowspeed_warning/grpc
 post_process_algo:
   algos:
     post_process:
